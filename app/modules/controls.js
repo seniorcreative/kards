@@ -13,18 +13,22 @@ function(joint) {
         var formView = Backbone.View.extend(
             {
                 events: {
-                    'click .clickable': 'handleClick'
+                    'click .addQuestion': 'addQuestion',
+                    'click .logGraph': 'saveGraph'
                 },
                 render: function () {
-                    this.$el.html('<form><input type="button" id="btnAdd" name="btnAdd" class="clickable" value="Add Question"></form>');
+                    this.$el.html('<form>' +
+                    '<input type="button" id="btnAdd" name="btnAdd" class="addQuestion" value="Add Question">' +
+                    '<input type="button" id="btnLog" name="btnLog" class="logGraph" value="Log Graph">' +
+                    '</form>');
                     return this;
                 },
-                handleClick: function () {
+                addQuestion: function () {
                     console.log('clicked', graph);
 
                     var rect = new joint.shapes.basic.Rect({
-                        position: { x: 150, y: 400 },
-                        size: { width: 200, height: 100 },
+                        position: { x: 1000 * Math.random(), y: 800 * Math.random() },
+                        size: { width: 50 + (200 * Math.random()), height: 25 + (100 * Math.random())  },
                         attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 4, ry: 4 }, text: { text: 'my box', fill: 'black' } }
                     });
 
@@ -36,6 +40,9 @@ function(joint) {
                     graph.addCells([
                         rect
                     ]);
+                },
+                saveGraph: function () {
+                    console.log(JSON.stringify(graph.toJSON()));
                 }
             }
         );
