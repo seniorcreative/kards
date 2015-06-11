@@ -1,0 +1,12 @@
+.rectangle {
+  position: absolute;
+  border: 4px solid black;
+}
+
+div#navigator {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/*# sourceMappingURL=test.css.map */

@@ -1,0 +1,16 @@
+
+$borderStyle: 4px solid black;
+
+.rectangle
+{
+    position: absolute;
+    border: $borderStyle;
+}
+
+
+div#navigator
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
