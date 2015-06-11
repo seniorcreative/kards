@@ -12,13 +12,23 @@ function(joint, controls) {
         width: 2400,
         height: 2000,
         model: graph,
-        gridSize: 1
+        gridSize: 1,
+        defaultLink: new joint.dia.Link({
+            smooth: true,
+            attrs: {
+                '.connection' : { 'stroke-width': '5px', 'stroke-linecap': 'round', opacity:.5 }
+            }
+        })
+    });
+
+    paper.on('cell:pointerdown', function(cellView, evt, x, y) {
+        console.log('cell view clicked ' , cellView.model.id);
     });
 
     // smaller paper
     var paperSmall = new joint.dia.Paper({
         el: $('#navigator'),
-        width: 200,
+        width: 1200,
         height: 500,
         model: graph,
         gridSize: 1
@@ -26,13 +36,102 @@ function(joint, controls) {
     paperSmall.scale(0.25);
     paperSmall.$el.css('pointer-events', 'none');
 
-    graph.fromJSON({"cells":[{"type":"basic.Rect","position":{"x":300,"y":100},"size":{"width":120,"height":60},"angle":0,"id":"e370cf54-e0a3-4dce-8dd5-8363cf201bef","z":1,"attrs":{"rect":{"fill":"white","stroke":"rgb(0,0,0)","stroke-width":2,"rx":4,"ry":4},"text":{"text":"my box"}}},{"type":"basic.Rect","position":{"x":100,"y":200},"size":{"width":120,"height":60},"angle":0,"id":"5446778f-8064-4e3b-b461-48b95241d4d3","embeds":"","z":2,"attrs":{"rect":{"fill":"white","stroke":"rgb(0,0,0)","stroke-width":2,"rx":4,"ry":4},"text":{"text":"my first box"}}},{"type":"basic.Rect","position":{"x":300,"y":200},"size":{"width":120,"height":60},"angle":0,"id":"4c04aac2-dea6-47bf-8f7e-e11e35ebc0f5","embeds":"","z":3,"attrs":{"rect":{"fill":"white","stroke":"rgb(0,0,0)","stroke-width":2,"rx":4,"ry":4},"text":{"text":"my second box"}}},{"type":"basic.Rect","position":{"x":500,"y":200},"size":{"width":120,"height":60},"angle":0,"id":"2c42cde9-445a-435a-b4cd-305712711c4f","embeds":"","z":4,"attrs":{"rect":{"fill":"white","stroke":"rgb(0,0,0)","stroke-width":2,"rx":4,"ry":4},"text":{"text":"my box"}}},{"type":"link","source":{"id":"e370cf54-e0a3-4dce-8dd5-8363cf201bef"},"target":{"id":"5446778f-8064-4e3b-b461-48b95241d4d3"},"id":"8e49825a-736f-49ee-9776-58a9da06d069","z":5,"attrs":{}},{"type":"link","source":{"id":"e370cf54-e0a3-4dce-8dd5-8363cf201bef"},"target":{"id":"4c04aac2-dea6-47bf-8f7e-e11e35ebc0f5"},"id":"dd548036-f563-4294-8aa1-6e54bbbed545","z":6,"attrs":{}},{"type":"link","source":{"id":"e370cf54-e0a3-4dce-8dd5-8363cf201bef"},"target":{"id":"2c42cde9-445a-435a-b4cd-305712711c4f"},"id":"92b26211-c945-4ee4-a3a9-8a5c06252c36","z":7,"attrs":{}}]});
+    //wherever you need to do the ajax
+    Backbone.ajax({
+        dataType: "json",
+        url: "data/json.php",
+        data: "",
+        success: function(val){
+
+            //graph.fromJSON(val);
+
+            var basicQuestionJSON = val;
+
+            $('body').prepend('<em>Data ready</em>');
+
+            controls.init(graph, paper);
+
+            var logicWrapper = new joint.shapes.devs.Model({
+                position: { x: 275, y: 50 },
+                size: { width: 450, height: 300 },
+                inPorts: ['logic-in1'],
+                outPorts: ['logic-out1'],
+                attrs: {
+                    '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
+                    rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)','stroke-dasharray':'5,5', rx: 5, ry: 10 },
+                    '.inPorts circle': { fill: 'white' },
+                    '.outPorts circle': { fill: 'white' }
+                }
+            });
+
+            //logicWrapper.on('batch:start', function(args, args2){ console.log(arguments)});
+
+            var question = new joint.shapes.basic.Rect({
+                position: { x: 450, y: 150 },
+                size: { width: 100, height: 30 },
+                attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'Q1', fill: 'black' } }
+            });
+
+            var answer1 = new joint.shapes.basic.Rect({
+                position: { x: 350, y: 200 },
+                size: { width: 100, height: 30 },
+                attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'a1 - true', fill: 'black' } }
+            });
+
+            var answer2 = new joint.shapes.basic.Rect({
+                position: { x: 550, y: 200 },
+                size: { width: 100, height: 30 },
+                attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'a2 - false', fill: 'black' } }
+            });
+
+            var link = new joint.dia.Link({
+                smooth: true,
+                source: { id: answer1.id },
+                target: { id: question.id }
+            });
+
+            var link2 = new joint.dia.Link({
+                smooth: true,
+                source: { id: answer2.id },
+                target: { id: question.id }
+            });
+
+            logicWrapper.embed(question);
+            logicWrapper.embed(answer1);
+            logicWrapper.embed(answer2);
+
+            graph.addCells([
+                    logicWrapper,
+                    question,
+                    answer1,
+                    answer2,
+                    link,
+                    link2
+            ]);
+
+            //graph.on('batch:start', function(eventName, cell) {
+            //    console.log(arguments);
+            //});
+
+            //
+            //
+
+            //rectDotted.embed(graph.getElements()[1]);
+            //rectDotted.embed(graph.getElements()[2]);
+            //rectDotted.embed(graph.getElements()[3]);
 
 
-    //var rect = new joint.shapes.basic.Rect({
+        }
+    });
+
+    //$.get('../data/json')
+    //;
+
+
+    //var rectDotted = new joint.shapes.basic.Rect({
     //    position: { x: 300, y: 100 },
-    //    size: { width: 120, height: 60 },
-    //    attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 4, ry: 4 }, text: { text: 'my box', fill: 'black' } }
+    //    size: { width: 400, height: 500 },
+    //    attrs: { rect: { fill: 'none', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 4, ry: 4, 'stroke-dasharray':'5,5' } }
     //});
     //
     //var rect2 = rect.clone();
@@ -65,7 +164,7 @@ function(joint, controls) {
     //});
     //
     //graph.addCells([
-    //    rect,
+    //    rectDotted
     //    rect2,
     //    rect3,
     //    rect4,
@@ -83,13 +182,8 @@ function(joint, controls) {
 
     //var controls = require(['controls']);
 
-    console.log('controls', controls);
 
-    controls.init(graph, paper);
 
-    //console.log('graph', graph);
-
-    console.log('stringified chart', JSON.stringify(graph.toJSON()));
 
 
 });

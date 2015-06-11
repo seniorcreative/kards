@@ -7,7 +7,7 @@ require.config({
     "template": "../bower_components/lodash-template-loader/loader",
     "jquery": "../bower_components/jquery/dist/jquery",
     "backbone": "../bower_components/backbone/backbone",
-    "joint": "../bower_components/jointjs/dist/joint.clean.min",
+    "joint": "../bower_components/jointjs/dist/joint.all.clean.min",
   },
 
     shim: {
@@ -17,8 +17,11 @@ require.config({
             //Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
+        lodash: {
+            exports: '_'
+        },
         joint: {
-            deps: ['geometry', 'vectorizer', 'jquery', 'lodash', 'backbone'],
+            deps: ['geometry', 'vectorizer', 'lodash', 'jquery', 'backbone'],
             exports: 'joint',
             init: function(geometry, vectorizer) {
                 // JointJS must export geometry and vectorizer otheriwse
@@ -28,9 +31,6 @@ require.config({
                 this.V = vectorizer;
             }
         },
-        lodash: {
-            exports: '_'
-        }
     },
 
   deps: ["main"]
