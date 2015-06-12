@@ -7,7 +7,7 @@ require.config({
     "template": "../bower_components/lodash-template-loader/loader",
     "jquery": "../bower_components/jquery/dist/jquery",
     "backbone": "../bower_components/backbone/backbone",
-    "joint": "../bower_components/jointjs/dist/joint.all.clean.min",
+    "joint": "../bower_components/jointjs/dist/joint.all.clean",
   },
 
     shim: {
