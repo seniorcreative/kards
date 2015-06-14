@@ -130,11 +130,8 @@ function(joint) {
                         }
                     });
 
-
-
                     logicWrapper.set('inPorts', ['l-i-1']);
-                    logicWrapper.set('outPorts', ['l-o-1', 'l-o-2']);
-
+                    logicWrapper.set('outPorts', ['l-o-1']);
 
                     var question = new joint.shapes.basic.Rect({
                         ktype: 'question',
@@ -203,11 +200,11 @@ function(joint) {
 
                     var link4 = new joint.shapes.devs.Link({
                         source: {
-                            id: answer1.id
-                        },
-                        target: {
                             id: logicWrapper.id,
                             port: 'l-o-1'
+                        },
+                        target: {
+                            id: answer1.id
                         }
                     });
 
@@ -220,58 +217,17 @@ function(joint) {
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    // let's add another answer by cloning the first answr in this questions child neighbours.
-
-                    //var neighbours      = graph.getNeighbors(selectedQuestion);
-                    //var n1              = neighbours[neighbours.length-1];
-                    //var newAnswer       = n1.clone();
-                    //var pos             = newAnswer.get('position');
-                    //var attrs           = newAnswer.get('attrs');
-                    //attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?';
-                    //pos.x               += 120;
-                    //
-                    //newAnswer.set('position', pos);
-                    //
-                    //graph.addCell(newAnswer);
-                    //
-                    //// Set a new link
-                    //
-                    //var linkNew = new joint.dia.Link({
-                    //    smooth: true,
-                    //    source: { id: selectedQuestion.id },
-                    //    target: { id: newAnswer.id }
-                    //});
-                    //
-                    //graph.addCell(linkNew);
-                    //
-                    //// embed this answer under the question (which is embedded into the logic wrapper)
-
-
                     var parentLogicWrapper = graph.getCell(selectedAnswer.get('parent'));
 
-                    console.log(parentLogicWrapper);
+                    var newOutports = parentLogicWrapper.attributes.outPorts;
+                    var ar = [];
+                    for(lo in newOutports)
+                    {
+                        ar[lo] = newOutports[lo];
+                    }
 
-                    var outports = parentLogicWrapper.attributes.outPorts;
-
-                    console.log(' out ports ', outports);
-
-                    outports.push('l-o-2');
-
-                    console.log(outports);
-
-                    parentLogicWrapper.set('outPorts', outports);
-
-
-                    var ports = parentLogicWrapper.ports;
-
-                    console.log(ports['l-o-1']);
-
-                    ports['l-o-2'] = {};
-
-
-
-                    //parentLogicWrapper.update();
-
+                    ar.push("l-0-" + (newOutports.length+1));
+                    parentLogicWrapper.set('outPorts', ar);
 
                 },
                 saveGraph: function () {

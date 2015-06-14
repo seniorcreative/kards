@@ -16,7 +16,7 @@ function(joint, controls) {
         defaultLink: new joint.dia.Link({
             smooth: true,
             attrs: {
-                '.connection' : { 'stroke-width': '5px', 'stroke-linecap': 'round', opacity:.5 }
+                '.connection' : { 'stroke-width': 5, 'stroke-linecap': 'round', opacity:.5 }
             }
         })
     });
@@ -51,8 +51,6 @@ function(joint, controls) {
                 ktype: 'logicwrapper',
                 position: { x: 275, y: 250 },
                 size: { width: 450, height: 300 },
-                inPorts: ['l-i-1'],
-                outPorts: ['l-o-1'],
                 attrs: {
                     '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
                     rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)','stroke-dasharray':'5,5', rx: 5, ry: 10 },
@@ -61,7 +59,8 @@ function(joint, controls) {
                 }
             });
 
-
+            logicWrapper.set('inPorts', ['l-i-1']);
+            logicWrapper.set('outPorts', ['l-o-1']);
 
             var question = new joint.shapes.basic.Rect({
                 ktype: 'question',
@@ -127,11 +126,11 @@ function(joint, controls) {
 
             var link4 = new joint.shapes.devs.Link({
                 source: {
-                    id: answer1.id
-                },
-                target: {
                     id: logicWrapper.id,
                     port: 'l-o-1'
+                },
+                target: {
+                    id: answer1.id
                 }
             });
 
