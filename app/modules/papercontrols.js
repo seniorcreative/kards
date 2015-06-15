@@ -252,11 +252,11 @@ function(joint) {
             paper.setOrigin(parseInt($ox.val(), 10), parseInt(this.value, 10));
         });
         $sx.on('input change', function() {
-            paper.scale(parseFloat(this.value), parseFloat($sy.val()));
+            paper.scale(parseFloat(this.value), parseFloat(this.value));
         });
-        $sy.on('input change', function() {
-            paper.scale(parseFloat($sx.val()), parseFloat(this.value));
-        });
+        //$sy.on('input change', function() {
+        //    paper.scale(parseFloat($sx.val()), parseFloat(this.value));
+        //});
         $w.on('input change', function() {
             paper.setDimensions(parseInt(this.value, 10), parseInt($h.val(),10));
         });

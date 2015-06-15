@@ -285,8 +285,8 @@ form.formQuestionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 20px;
-  left: 5px;
+  top: 260px;
+  left: 20px;
   background: #ddd;
 }
 form.formQuestionOptions input {

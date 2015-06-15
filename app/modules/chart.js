@@ -64,7 +64,7 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
             controls.init(graph, paper, questionLayout);
 
             // If you want paper controls.
-            //paperControls.init(graph, paper);
+            paperControls.init(graph, paper);
 
             // If you want bounding box expansion on logic wrappers.
             boundingLogicExpansion.init(graph, paper);
