@@ -30,7 +30,7 @@ require.config({
                 this.g = geometry;
                 this.V = vectorizer;
             }
-        },
+        }
     },
 
   deps: ["main"]

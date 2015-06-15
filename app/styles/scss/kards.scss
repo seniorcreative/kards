@@ -30,6 +30,16 @@ form
             padding: 3px 2px;
         }
 
+        button
+        {
+
+            &.button-add
+            {
+                padding: 5px;
+                float: right;
+            }
+        }
+
         div.form-controls
         {
 

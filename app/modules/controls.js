@@ -75,21 +75,20 @@ function(joint) {
 
         var formView = Backbone.View.extend(
             {
+                el: '.formQuestionOptions',
+                initialize: function () {
+                    this.template = _.template($('.formQuestionOptions').html());
+                    this.render();
+                },
                 events: {
-                    'click .addQuestionBoolean': 'addQuestionBoolean',
-                    'click .addAnswer': 'addAnswer',
-                    'click .addLogicOutPoint': 'addLogicOutPoint',
-                    'click .addContent': 'addContent',
-                    'click .logGraph': 'saveGraph'
+                        'click #btnQuestionAdd': 'addQuestion',
+                        'click .addAnswer': 'addAnswer',
+                        'click .addLogicOutPoint': 'addLogicOutPoint',
+                        'click .addContent': 'addContent',
+                        'click .logGraph': 'saveGraph'
                 },
                 render: function () {
-                    this.$el.html('<form class="jointTestControls">' +
-                    '<input type="button" id="" name="" class="addQuestionBoolean" value="Add BooleanQuestion"><br>' +
-                    '<input type="button" id="" name="" class="addAnswer" value="Add Answer"><br>' +
-                    '<input type="button" id="" name="" class="addLogicOutPoint" value="Add Logic Out Point"><br>' +
-                    '<input type="button" id="" name="" class="addContent" value="Add Content"><br>' +
-                    '<input type="button" id="" name="" class="logGraph" value="Log Graph JSON">' +
-                    '</form>');
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
                     return this;
                 },
                 addAnswer: function()
@@ -132,7 +131,11 @@ function(joint) {
 
 
                 },
-                addQuestionBoolean: function () {
+                addQuestion: function (e) {
+
+
+                    console.log('e', e);
+
 
                     // Add the structure for a basic question.
 
@@ -189,12 +192,16 @@ function(joint) {
                         target: { id: answer2.id }
                     });
 
-                    // Embed answers in questions.
-                    question.embed(answer1);
-                    question.embed(answer2);
 
                     // Embed question in logic wrapper.
                     logicWrapper.embed(question);
+
+                    // Embed answers in questions ?
+                    logicWrapper.embed(answer1);
+                    logicWrapper.embed(answer2);
+
+                    //question.embed(answer1);
+                    //question.embed(answer2);
 
                     graph.addCells([
                         logicWrapper,
