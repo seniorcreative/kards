@@ -82,10 +82,10 @@ function(joint) {
                 },
                 events: {
                         'click #btnQuestionAdd': 'addQuestion',
-                        'click .addAnswer': 'addAnswer',
-                        'click .addLogicOutPoint': 'addLogicOutPoint',
-                        'click .addContent': 'addContent',
-                        'click .logGraph': 'saveGraph'
+                        'click #btnAddAnswer': 'addAnswer',
+                        'click #btnAddLogicOutPoint': 'addLogicOutPoint',
+                        'click #btnAddContent': 'addContent',
+                        'click #btnLogGraph': 'saveGraph'
                 },
                 render: function () {
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
