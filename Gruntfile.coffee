@@ -19,5 +19,6 @@ module.exports = ->
 #    "requirejs"
 #    "styles"
 #    "cssmin"
-    "sass"
+    "sass",
+    "watch"
   ]

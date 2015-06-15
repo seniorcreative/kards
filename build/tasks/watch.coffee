@@ -8,8 +8,8 @@ module.exports = ->
     sass:
       files: '<%= sass.compile.files[0].src %>'
       tasks: ['sass']
-    coffee:
-      files: '<%= coffee.compile.src %>'
-      tasks: ['coffee']
+#    coffee:
+#      files: '<%= coffee.compile.src %>'
+#      tasks: ['coffee']
     options:
-      livereload: true
+      livereload: false

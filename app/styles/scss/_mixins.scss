@@ -1,0 +1,117 @@
+
+/*------------------------------------*\
+    $MIXINS
+\*------------------------------------*/
+
+
+/**
+ * Create vendor-prefixed CSS in one go, e.g.
+ *
+   `@include vendor(border-radius, 4px);`
+ *
+ */
+@mixin vendor($property, $value...){
+    -webkit-#{$property}:$value;
+       -moz-#{$property}:$value;
+        -ms-#{$property}:$value;
+         -o-#{$property}:$value;
+            #{$property}:$value;
+}
+
+
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+        @content;
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+
+
+/**
+* Mixin for inline-block that is backwards compatible up to ie7
+**/
+@mixin inline-block(){
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+
+
+/**
+* Clearfix Mixin off Nicolas Gallagher supporting all the way down to ie6
+**/
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+
+    *zoom: 1;
+
+}
+
+
+/**
+* Setting a font-family stack so that you only have to include the font that you want, with the fallback fonts already defined.
+**/
+@mixin font-family-stack ($fontFamily) {
+    font-family: $fontFamily, 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+/**
+* Border Radius when all borders are equal
+**/
+@mixin border-radius ($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius:    $radius;
+    border-radius:         $radius;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+
+/**
+* Targeting individual border radiuses for when different radiuses are needed.
+**/
+@mixin border-radiuses ($topright, $bottomright, $bottomleft, $topleft) {
+    -webkit-border-top-right-radius:    $topright;
+    -webkit-border-bottom-right-radius: $bottomright;
+    -webkit-border-bottom-left-radius:  $bottomleft;
+    -webkit-border-top-left-radius:     $topleft;
+
+    -moz-border-radius-topright:        $topright;
+    -moz-border-radius-bottomright:     $bottomright;
+    -moz-border-radius-bottomleft:      $bottomleft;
+    -moz-border-radius-topleft:         $topleft;
+
+    border-top-right-radius:            $topright;
+    border-bottom-right-radius:         $bottomright;
+    border-bottom-left-radius:          $bottomleft;
+    border-top-left-radius:             $topleft;
+
+    -moz-background-clip:    padding; 
+    -webkit-background-clip: padding-box; 
+    background-clip:         padding-box; 
+}

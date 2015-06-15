@@ -1,0 +1,102 @@
+@import "variables";
+@import "mixins";
+@import "helper";
+@import "reset";
+@import "html-element";
+
+
+.rectangle
+{
+    position: absolute;
+    border: $borderStyle;
+}
+
+form
+{
+    position: absolute;
+
+    &.formQuestionOptions
+    {
+
+        display: block;
+        padding: 5px;
+        width: 275px;
+        top: 20px;
+        left: 5px;
+        background: #ddd;
+
+        input
+        {
+            padding: 3px 2px;
+        }
+
+        div.form-controls
+        {
+
+            @include clearfix();
+            padding: 5px 0;
+        }
+
+        select
+        {
+            width: 200px;
+        }
+
+        div.form-controls--width-half
+        {
+            width: 50%;
+            @include inline-block();
+
+            box-sizing: border-box;
+            padding-right: 30px;
+
+            input
+            {
+                width: 75px;
+            }
+        }
+
+        .pull-left
+        {
+            float: left;
+        }
+
+        .pull-right
+        {
+            float: right;
+        }
+
+
+    }
+
+    &.jointTestControls
+    {
+        position: absolute;
+        top: 800px;
+    }
+}
+
+
+
+div#navigator {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+input[type='button']
+{
+    padding: 10px;
+    margin: 10px;
+}
+
+div.alert
+{
+    position : absolute;
+    top: 0;
+    left: 0;
+    padding: 5px;
+}
+
+
+@import "paper";

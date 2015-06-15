@@ -10,7 +10,7 @@
   <!-- Application styles. -->
   <!-- build:[href] /styles.min.css -->
   <link rel="stylesheet" href="app/styles/index.css">
-  <link rel="stylesheet" href="app/styles/test.css">
+  <link rel="stylesheet" href="app/styles/kards.css">
   <link rel="stylesheet" href="bower_components/jointjs/dist/joint.min.css">
   <!-- /build -->
 </head>
@@ -18,9 +18,167 @@
 <body>
   <!-- Application container. -->
   <main role="main" id="main">
-      <!--<h1>Rectangles</h1>-->
-      <div id="canvas"></div>
-      <div id="navigator"></div>
+
+
+      <div id="canvas"><!-- Kards elements main paper --></div>
+      <div id="navigator visuallyhidden"><!-- Kards navigation scaled down paper --></div>
+
+      <div>
+          <h3>Questions</h3>
+
+          <p>Add a new question</p>
+          <button type="button" class="" id="btnNewQuestion">New question</button>
+
+          <form id="" method="" action="" class="formQuestionOptions">
+
+              <h4>Question settings</h4>
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <label for="questionCategory">Question category</label>
+
+                  <select class="" id="questionCategory" name="questionCategory" size="1">
+                      <!-- populate this with JSON -->
+                      <option value="">Constant</option>
+                      <option value="">Constant</option>
+                      <option value="">Constant</option>
+                      <option value="">Constant</option>
+                  </select>
+
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <label for="questionType">Question type</label>
+
+                  <select class="" id="questionType" name="questionType" size="1">
+                      <!-- populate this with JSON -->
+                      <option value="1">Boolean (true or false)</option>
+                      <option value="2">Multiple choice</option>
+                      <option value="3">Numeric</option>
+                      <option value="4">True, false, not-sure</option>
+                  </select>
+
+              </div>
+
+              <div class="form-controls-dynamic">
+
+                  <div class="form-controls  form-controls--width-half  pull-left">
+
+                      <label for="questionNumAnswers">Number of answers</label>
+                      <input type="number" value="3" id="questionNumAnswers" name="questionNumAnswers">
+
+                  </div>
+
+                  <div class="form-controls  form-controls--width-half  pull-right">
+
+                      <label for="questionNumStep">Numeric step value</label>
+                      <input type="number" value="50" id="questionNumStep" name="questionNumStep">
+
+                  </div>
+
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <label for="questionDataPoint">Data point</label>
+
+                  <select class="" id="questionDataPoint" name="questionDataPoint" size="10">
+                      <!-- populate this with JSON -->
+                      <optgroup label="EHR Data">
+                          <option value="1">Age</option>
+                          <option value="2">Gender</option>
+                          <option value="3">Smoker</option>
+                      </optgroup>
+                  </select>
+
+              </div>
+
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <label for="questionUnknownAnswerAllowed">Allow unknown as one of the answers</label>
+
+                  <input type="checkbox" value="" name="questionUnknownAnswerAllowed" id="questionUnknownAnswerAllowed">
+
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <label for="btnQuestionAdd" class="visuallyhidden">Click the buttont to add the question</label>
+
+                  <button type="submit" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
+
+              </div>
+
+
+
+          </div>
+
+      </div>
+
+      <!--
+
+      // Controls for paper scale and grid scale etc.
+
+      <div class="left  visuallyhidden">
+          <div class="panel panel-primary">
+              <div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="form-group">
+                          <label for="ox" data-tooltip="Position of zero x-coordinate of the paper in pixels">Origin x</label>
+                          <input id="ox" name="ox" type="range" value="0" min="-200" max="200" autocomplete="off">
+                          <output for="ox">0</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="oy" data-tooltip="Position of zero y-coordinate of the paper in pixels">Origin y</label>
+                          <input id="oy" type="range" value="0" min="-200" max="200" autocomplete="off">
+                          <output for="oy">0</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="sx" data-tooltip="Scale factor for x axis">Scale x</label>
+                          <input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+                          <output for="sx">1.00</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="sy" data-tooltip="Scale factor for y axis">Scale y</label>
+                          <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+                          <output for="sy">1.00</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="width" data-tooltip="Width of the paper in pixels">Width</label>
+                          <input id="width" class="form-control" type="range" value="650" min="100" max="1200" autocomplete="off">
+                          <output for="width">650</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="height" data-tooltip="Height of the paper in pixels">Height</label>
+                          <input id="height" class="form-control" type="range" value="400" min="100" max="1200" autocomplete="off">
+                          <output for="height">400</output>
+                      </div>
+                      <div class="form-group">
+                          <label for="grid" data-tooltip="Size of the grid in pixels">Grid size</label>
+                          <input id="grid" class="range" type="range" value="1" min="1" max="50" autocomplete="off">
+                          <output for="grid">1</output>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="panel panel-primary">
+              <div class="panel-heading"><a href="/api#joint.dia.Paper:getContentBBox">Content bounding box</a></div>
+              <div class="panel-body">
+                  <label for="bbox-x">x</label>
+                  <span class="output" id="bbox-x">100</span>
+                  <label for="bbox-y">y</label>
+                  <span class="output" id="bbox-y">50</span>
+                  <label for="bbox-width">width</label>
+                  <span class="output" id="bbox-width">475</span>
+                  <label for="bbox-height">height</label>
+                  <span class="output" id="bbox-height">290</span>
+              </div>
+          </div>
+      </div>-->
 
       <!--<div id="app"></div>-->
   </main>

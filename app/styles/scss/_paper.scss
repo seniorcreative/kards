@@ -1,0 +1,82 @@
+/* jointjs elements */
+
+div.left
+{
+    position: absolute;
+    top: 50px;
+    left: 20px;
+}
+
+.element.Path path {
+    fill: #ecf0f1;
+    stroke: #333333;
+    stroke-width: 1px;
+}
+
+.element.Path:hover path {
+    fill: #effff1;
+}
+
+.element.Path text {
+    fill: #333333;
+    font-weight: 800;
+}
+
+//.link .connection {
+//    stroke: #2c3e50;
+//    stroke-opacity: 0.2;
+//    stroke-width: 3px;
+//}
+
+.link * {
+    pointer-events: none;
+}
+
+/* svg */
+
+.bbox {
+    stroke: #16a085;
+    stroke-width: 2;
+    stroke-opacity: 0;
+    fill: none;
+    transition-property: stroke-opacity;
+    transition-duration: 0.5s;
+    pointer-events: none;
+}
+
+.axis {
+    stroke: #95a5a6;
+    stroke-dasharray: 2,4;
+    stroke-width: 1;
+    pointer-events: none;
+}
+
+.padding {
+    stroke: #1abc9c;
+    stroke-opacity: 0;
+    transition-property: stroke-opacity;
+    transition-duration: 1s;
+    pointer-events: none;
+}
+
+.grid {
+    stroke: #16a085;
+    stroke-width: 0.5;
+    stroke-opacity: 0;
+    transition-property: stroke-opacity;
+    transition-duration: 1s;
+    pointer-events: none;
+}
+
+.active {
+    stroke-opacity: 0.5;
+}
+
+.padding.active, .bbox.active {
+    stroke-opacity: 0.2;
+}
+
+/* IE can't handle paths without the `d` attribute for bounding box calculation */
+.marker-source, .marker-target {
+    display:none;
+}
