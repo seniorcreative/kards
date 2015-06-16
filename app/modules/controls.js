@@ -13,45 +13,63 @@ function(joint) {
         var selectedQuestion;
         var selectedAnswer;
 
+
+        var formModel = new Backbone.Model(
+            {
+                questionValue: ''
+            }
+        );
+
+
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
             console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'));
 
             if (cellView.model.attributes.ktype == 'question')
             {
-                selectedQuestion = cellView.model;
+
+
+
+                selectedQuestion = cellView;
 
                 // adjust style of clicked element
-                var attrs           = selectedQuestion.get('attrs');
+                var attrs           = selectedQuestion.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '5,5';
-                cellView.model.set('attrs', attrs);
-                cellView.render().el;
+                selectedQuestion.model.set('attrs', attrs);
+                selectedQuestion.render().el;
+
+
+                formModel.set({questionValue: attrs.text.text});
+
+                console.log('set the model val to ', attrs.text.text); // , formModel.get('questionValue'));
+
+                formModel.trigger('change');
 
             }
 
 
             if (cellView.model.attributes.ktype == 'answer')
             {
-                selectedAnswer = cellView.model;
+                selectedAnswer = cellView;
 
                 // adjust style of clicked element
-                var attrs           = selectedAnswer.get('attrs');
+                var attrs           = selectedAnswer.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '2,3';
-                cellView.model.set('attrs', attrs);
-                cellView.render().el;
+                selectedAnswer.model.set('attrs', attrs);
+                selectedAnswer.render().el;
 
             }
 
 
             if (cellView.model.attributes.ktype == 'content')
             {
-                selectedAnswer = cellView.model;
+                selectedAnswer = cellView;
 
                 // adjust style of clicked element
-                var attrs           = selectedAnswer.get('attrs');
+                var attrs           = selectedAnswer.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '5,1';
-                cellView.model.set('attrs', attrs);
-                cellView.render().el;
+                selectedAnswer.model.set('attrs', attrs);
+                selectedAnswer.render().el;
 
             }
 
@@ -72,23 +90,39 @@ function(joint) {
         });
 
 
-
         var formView = Backbone.View.extend(
             {
-                el: '.formQuestionOptions',
                 initialize: function () {
+
+
                     this.template = _.template($('.formQuestionOptions').html());
-                    this.render();
+                    //this.render();
+
+                    this.model.on('change', function(){
+
+                        console.log('the formView model changed');
+
+                        this.render()
+
+                    }, this);
+
+
                 },
                 events: {
-                        'click #btnQuestionAdd': 'addQuestion',
-                        'click #btnAddAnswer': 'addAnswer',
-                        'click #btnAddLogicOutPoint': 'addLogicOutPoint',
-                        'click #btnAddContent': 'addContent',
-                        'click #btnLogGraph': 'saveGraph'
+                    'click #btnQuestionAdd': 'addQuestion',
+                    'click #btnAddAnswer': 'addAnswer',
+                    'click #btnAddLogicOutPoint': 'addLogicOutPoint',
+                    'click #btnAddContent': 'addContent',
+                    'click #btnLogGraph': 'saveGraph',
+                    'keyup #questionValue': 'changeQuestion'
                 },
                 render: function () {
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    console.log('this q val', this.model.get('questionValue') );
+
+                    this.$el.find('#questionValue').val(this.model.get('questionValue'));
+
                     return this;
                 },
                 addAnswer: function()
@@ -146,7 +180,7 @@ function(joint) {
                         size: questionLayout.boolean.lwSize,
                         attrs: {
                             '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
-                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)','stroke-dasharray':'5,5', rx: 5, ry: 10 },
+                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0, 0.75)', rx: 5, ry: 10 },
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
                         }
@@ -203,14 +237,6 @@ function(joint) {
                     //question.embed(answer1);
                     //question.embed(answer2);
 
-                    graph.addCells([
-                        logicWrapper,
-                        question,
-                        answer1,
-                        answer2,
-                        link,
-                        link2
-                    ]);
 
                     logicWrapper.toBack();
 
@@ -238,10 +264,35 @@ function(joint) {
                         }
                     });
 
-                    graph.addCells([link3, link4]);
+                    graph.addCells([
+                        logicWrapper,
+                        question,
+                        answer1,
+                        answer2,
+                        link,
+                        link2,
+                        link3, link4
+                    ]);
+
+                    this.model.trigger('change');
 
 
+                },
+                changeQuestion: function(e)
+                {
+                    //console.log('question value is changing', e, this.$(e.target).val());
 
+                    if (selectedQuestion)
+                    {
+
+                        // adjust text of clicked element
+                        var attrs           = selectedQuestion.model.get('attrs');
+                        attrs.text.text = this.$(e.target).val();
+                        selectedQuestion.model.set('attrs', attrs);
+                        selectedQuestion.render().el;
+
+
+                    }
                 },
                 addLogicOutPoint: function() {
 
@@ -301,7 +352,19 @@ function(joint) {
             }
         );
 
-        var fv = new formView();
+
+
+        formModel.on('change', function(){
+            console.log('formModel change event');
+        });
+
+        var fv = new formView(
+            {
+                model: formModel,
+                el: '.formQuestionOptions'
+            }
+        );
+
         $('body').prepend(fv.render().el);
 
     };

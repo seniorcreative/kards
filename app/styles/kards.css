@@ -292,6 +292,11 @@ form.formQuestionOptions {
 form.formQuestionOptions input {
   padding: 3px 2px;
 }
+form.formQuestionOptions textarea {
+  padding: 3px 2px;
+  width: 100%;
+  height: 100px;
+}
 form.formQuestionOptions button.button-add {
   padding: 5px;
   float: right;

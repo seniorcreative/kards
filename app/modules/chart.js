@@ -75,7 +75,7 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
                 size:  questionLayout.boolean.lwSize,
                 attrs: {
                     '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
-                    rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)','stroke-dasharray':'5,5', rx: 5, ry: 10 },
+                    rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0,0.75)', rx: 5, ry: 10 },
                     '.inPorts circle': { fill: '#cccccc' },
                     '.outPorts circle': { fill: '#cccccc' }
                 }

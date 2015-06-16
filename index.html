@@ -24,14 +24,21 @@
       <div id="navigator visuallyhidden"><!-- Kards navigation scaled down paper --></div>
 
       <div>
-          <h3>Questions</h3>
 
-          <p>Add a new question</p>
-          <button type="button" class="" id="btnNewQuestion">New question</button>
 
           <form id="" method="" action="" class="formQuestionOptions">
 
-              <h4>Question settings</h4>
+              <h2>Questions</h2>
+
+              <p>Add a new question</p>
+              <button type="button" class="" id="btnNewQuestion">New question</button>
+
+              <h3>Question settings</h3>
+
+              <div class="form-controls  form-controls--width-full">
+                  <label for="questionValue">Question text</label>
+                  <textarea id="questionValue" name="questionValue"></textarea>
+              </div>
 
               <div class="form-controls  form-controls--width-full">
 
@@ -83,7 +90,7 @@
 
                   <label for="questionDataPoint">Data point</label>
 
-                  <select class="" id="questionDataPoint" name="questionDataPoint" size="5">
+                  <select class="" id="questionDataPoint" name="questionDataPoint" size="4">
                       <!-- populate this with JSON -->
                       <optgroup label="EHR Data">
                           <option value="1">Age</option>
