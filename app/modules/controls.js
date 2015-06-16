@@ -28,8 +28,6 @@ function(joint) {
             if (cellView.model.attributes.ktype == 'question')
             {
 
-
-
                 selectedQuestion = cellView;
 
                 // adjust style of clicked element
@@ -114,12 +112,10 @@ function(joint) {
                     'click #btnAddLogicOutPoint': 'addLogicOutPoint',
                     'click #btnAddContent': 'addContent',
                     'click #btnLogGraph': 'saveGraph',
-                    'keyup #questionValue': 'changeQuestion'
+                    'keyup #questionValue': 'questionUpdate'
                 },
                 render: function () {
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    console.log('this q val', this.model.get('questionValue') );
 
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
@@ -133,7 +129,7 @@ function(joint) {
 
                     // let's add another answer by cloning the first answr in this questions child neighbours.
 
-                    var neighbours      = graph.getNeighbors(selectedQuestion);
+                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
                     var n1              = neighbours[neighbours.length-1];
                     var newAnswer       = n1.clone();
                     var pos             = newAnswer.get('position');
@@ -150,7 +146,7 @@ function(joint) {
 
                     var linkNew = new joint.dia.Link({
                         smooth: true,
-                        source: { id: selectedQuestion.id },
+                        source: { id: selectedQuestion.model.id },
                         target: { id: newAnswer.id }
                     });
 
@@ -158,7 +154,7 @@ function(joint) {
 
                     // embed this answer under the question (which is embedded into the logic wrapper)
 
-                    graph.getCell(selectedQuestion.get('parent')).embed(newAnswer);
+                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
 
                     graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
 
@@ -167,20 +163,29 @@ function(joint) {
                 },
                 addQuestion: function (e) {
 
+                    //console.log('e', e);
 
-                    console.log('e', e);
+                    var newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
+
+                    console.log('newQuestionType ', newQuestionType);
 
 
-                    // Add the structure for a basic question.
+                    //{
+                    //
+                    //    case 1:
+                    //
+                    //
+                    //        brea
+                    //}
 
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: questionLayout.boolean.lwPos,
-                        size: questionLayout.boolean.lwSize,
+                        position: questionLayout[newQuestionType].lwPos,
+                        size:  questionLayout[newQuestionType].lwSize,
                         attrs: {
                             '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
-                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0, 0.75)', rx: 5, ry: 10 },
+                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0,0.25)'},
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
                         }
@@ -189,96 +194,83 @@ function(joint) {
                     logicWrapper.set('inPorts', ['l-i-1']);
                     logicWrapper.set('outPorts', ['l-o-1']);
 
-                    var question = new joint.shapes.html.Element({
+                    var questionObject = {
                         ktype: 'question',
-                        position: questionLayout.boolean.qPos,
-                        size: questionLayout.boolean.qSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'Q1', fill: 'black' } },
-                        input: 'Q1 text',
-                        skipParentHandler: true
-                    });
-
-                    var answer1 = new joint.shapes.html.Element({
-                        ktype: 'answer',
-                        position: questionLayout.boolean.aPos[0],
-                        size: questionLayout.boolean.aSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'a1 - true', fill: 'black' } },
-                        input: 'A1 text'
-                    });
-
-                    var answer2 = new joint.shapes.html.Element({
-                        ktype: 'answer',
-                        position: questionLayout.boolean.aPos[1],
-                        size: questionLayout.boolean.aSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'a2 - false', fill: 'black' } },
-                        input: 'A2 text'
-                    });
-
-                    var link = new joint.dia.Link({
-                        smooth: true,
-                        source: { id: question.id },
-                        target: { id: answer1.id }
-                    });
-
-                    var link2 = new joint.dia.Link({
-                        smooth: true,
-                        source: { id: question.id },
-                        target: { id: answer2.id }
-                    });
+                        position: questionLayout[newQuestionType].qPos,
+                        size: questionLayout[newQuestionType].qSize,
+                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'New question', fill: 'black' }},
+                        label: '',
+                        input: '',
+                        select: ''
+                    };
 
 
-                    // Embed question in logic wrapper.
-                    logicWrapper.embed(question);
+                    // Bind to db model
 
-                    // Embed answers in questions ?
-                    logicWrapper.embed(answer1);
-                    logicWrapper.embed(answer2);
+                    questionObject.question_type_id = this.$('#questionType option:selected').val();
 
-                    //question.embed(answer1);
-                    //question.embed(answer2);
+                    //
 
-
-                    logicWrapper.toBack();
-
-                    question.toFront();
-
-                    // Add special links from answers to logic out points;
-
-                    var link3 = new joint.shapes.devs.Link({
-                        source: {
-                            id: logicWrapper.id,
-                            port: 'l-o-1'
-                        },
-                        target: {
-                            id: answer2.id
-                        }
-                    });
-
-                    var link4 = new joint.shapes.devs.Link({
-                        source: {
-                            id: logicWrapper.id,
-                            port: 'l-o-1'
-                        },
-                        target: {
-                            id: answer1.id
-                        }
-                    });
+                    var question = new joint.shapes.html.Element( questionObject );
 
                     graph.addCells([
                         logicWrapper,
-                        question,
-                        answer1,
-                        answer2,
-                        link,
-                        link2,
-                        link3, link4
+                        question
                     ]);
+
+                    logicWrapper.embed(question);
+
+                    // Loop over answers
+
+                    for (var a=0; a < questionLayout[newQuestionType].aPos.length; a++) {
+
+                        var answer = new joint.shapes.html.Element({
+                            ktype: 'answer',
+                            position: questionLayout[newQuestionType].aPos[a],
+                            size: questionLayout[newQuestionType].aSize,
+                            attrs: {
+                                rect: {fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
+                                text: {text: 'Answer ' + (a+1), fill: 'black'}
+                            },
+                            label: '',
+                            input: '',
+                            select: ''
+                        });
+
+                        graph.addCells(
+                            [answer]
+                        );
+
+                        var link = new joint.dia.Link({
+                            smooth: true,
+                            source: { id: question.id },
+                            target: { id: answer.id }
+                        });
+
+                        var lolink = new joint.shapes.devs.Link({
+                            source: {
+                                id: logicWrapper.id,
+                                port: 'l-o-1'
+                            },
+                            target: {
+                                id: answer.id
+                            }
+                        });
+
+                        graph.addCells(
+                            [link,
+                                lolink]
+                        );
+
+                        logicWrapper.embed(answer);
+
+                    }
 
                     this.model.trigger('change');
 
 
                 },
-                changeQuestion: function(e)
+                questionUpdate: function(e)
                 {
                     //console.log('question value is changing', e, this.$(e.target).val());
 
@@ -287,7 +279,13 @@ function(joint) {
 
                         // adjust text of clicked element
                         var attrs           = selectedQuestion.model.get('attrs');
-                        attrs.text.text = this.$(e.target).val();
+
+                        var wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: questionLayout.boolean.qSize.width,
+                            height: questionLayout.boolean.qSize.height
+                        });
+
+                        attrs.text.text = wraptext;
                         selectedQuestion.model.set('attrs', attrs);
                         selectedQuestion.render().el;
 
@@ -298,17 +296,20 @@ function(joint) {
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    var parentLogicWrapper = graph.getCell(selectedAnswer.get('parent'));
+                    if (selectedAnswer) {
 
-                    var newOutports = parentLogicWrapper.attributes.outPorts;
-                    var ar = [];
-                    for(lo in newOutports)
-                    {
-                        ar[lo] = newOutports[lo];
+                        var parentLogicWrapper = graph.getCell(selectedAnswer.model.get('parent'));
+
+                        var newOutports = parentLogicWrapper.attributes.outPorts;
+                        var ar = [];
+                        for (lo in newOutports) {
+                            ar[lo] = newOutports[lo];
+                        }
+
+                        ar.push("l-0-" + (newOutports.length + 1));
+                        parentLogicWrapper.set('outPorts', ar);
+
                     }
-
-                    ar.push("l-0-" + (newOutports.length+1));
-                    parentLogicWrapper.set('outPorts', ar);
 
                 },
                 addContent: function()
@@ -323,21 +324,29 @@ function(joint) {
                             rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
-                        }
+                        },
+                        interactive: false,
+                        skipParentHandler: true
                     });
 
                     contentWrapper.set('inPorts', ['c-i-1']);
                     contentWrapper.set('outPorts', ['c-o-1']);
 
+                    var wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
+                        width: 320,
+                        height: 130
+                    });
+
                     var content = new joint.shapes.html.Element({
                         ktype: 'content',
                         position: { x: 505, y: 505 },
                         size: { width: 340, height: 140 },
-                        attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: '', fill: 'black' }},
+                        attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
                         label: '',
-                        textarea: 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.',
-                        select: 'one',
-                        interactive: false
+                        textarea: '',
+                        select: '',
+                        interactive: false,
+                        skipParentHandler: true
                     });
 
                     graph.addCells([contentWrapper, content]);
