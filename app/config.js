@@ -1,28 +1,25 @@
 require.config({
   paths: {
     "underscore": "../bower_components/lodash/dist/lodash.underscore",
-    "lodash": "../bower_components/lodash/dist/lodash",
     "geometry": "../bower_components/jointjs/src/geometry",
     "vectorizer": "../bower_components/jointjs/src/vectorizer",
-    "template": "../bower_components/lodash-template-loader/loader",
+    //"template": "../bower_components/lodash-template-loader/loader",
     "jquery": "../bower_components/jquery/dist/jquery",
+    "lodash": "../bower_components/lodash/dist/lodash",
     "backbone": "../bower_components/backbone/backbone",
     "joint": "../bower_components/jointjs/dist/joint.all.clean.kards",
-    "handlebars.runtime": "../bower_components/handlebars/handlebars.runtime"
+    "handlebars.runtime": "../bower_components/handlebars/handlebars.runtime" // Compile templates using handlebars --amd app/templates/*.hbs -f app/compiled-templates.js
   },
 
     shim: {
         backbone: {
             //These script dependencies should be loaded before loading backbone.js.
-            deps: ['lodash', 'underscore',  'jquery'],
+            deps: ['underscore', 'lodash', 'jquery'],
             //Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
-        lodash: {
-            exports: '_'
-        },
         joint: {
-            deps: ['geometry', 'vectorizer', 'lodash', 'jquery', 'backbone'],
+            deps: ['geometry', 'vectorizer', 'jquery', 'underscore', 'lodash', 'backbone'],
             exports: 'joint',
             init: function(geometry, vectorizer) {
                 // JointJS must export geometry and vectorizer otheriwse
@@ -31,6 +28,9 @@ require.config({
                 this.g = geometry;
                 this.V = vectorizer;
             }
+        },
+        lodash: {
+            exports: '_'
         }
     },
 
