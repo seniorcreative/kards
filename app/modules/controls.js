@@ -1,9 +1,11 @@
 // Controls
 
 define(
-    ['joint'],
+    ['joint',
+    'handlebars.runtime',
+    'compiled-templates'],
 
-function(joint) {
+function(joint, HRT) {
 
 
     var init = function(graph, paper, questionLayout) {
@@ -16,7 +18,8 @@ function(joint) {
 
         var formModel = new Backbone.Model(
             {
-                questionValue: ''
+                questionValue: '',
+                questionTypeTemplate: '' // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
             }
         );
 
@@ -94,11 +97,16 @@ function(joint) {
 
 
                     this.template = _.template($('.formQuestionOptions').html());
+
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#questionTypeTemplate').html(this.model.get('questionTypeTemplate'));
+
                     //this.render();
 
                     this.model.on('change', function(){
 
-                        console.log('the formView model changed');
+                        //console.log('the formView model changed');
 
                         this.render()
 
@@ -115,9 +123,10 @@ function(joint) {
                     'keyup #questionValue': 'questionUpdate'
                 },
                 render: function () {
-                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
+
 
                     return this;
                 },
@@ -159,25 +168,12 @@ function(joint) {
                     graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
 
 
-
                 },
                 addQuestion: function (e) {
-
-                    //console.log('e', e);
 
                     var newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
 
                     console.log('newQuestionType ', newQuestionType);
-
-
-                    //{
-                    //
-                    //    case 1:
-                    //
-                    //
-                    //        brea
-                    //}
-
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
@@ -364,17 +360,35 @@ function(joint) {
 
 
         formModel.on('change', function(){
-            console.log('formModel change event');
+            //console.log('formModel change event');
         });
 
-        var fv = new formView(
-            {
-                model: formModel,
-                el: '.formQuestionOptions'
-            }
-        );
+        //wherever you need to do the ajax
+        Backbone.ajax({
+            dataType: "json",
+            url: "data/questionTypes.php",
+            data: "",
+            success: function (jsonData) {
 
-        $('body').prepend(fv.render().el);
+                $('body').prepend('<div class="alert"><em>Data ready</em></div>');
+
+                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                var renderedQuestionTypeSelect = HRT.templates['questionTypes.hbs'](jsonData);
+                formModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
+
+                // Don't initalise the form view til we got data.
+                var fv = new formView(
+                    {
+                        model: formModel,
+                        el: '.formQuestionOptions'
+                    }
+                );
+
+                $('body').prepend(fv.render().el);
+
+            }
+        });
+
 
     };
 

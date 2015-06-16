@@ -3,10 +3,10 @@ define(
     ['joint',
     'modules/controls',
     'modules/papercontrols',
-    'modules/boundinglogicexpansion'],
+    'modules/boundinglogicexpansion',
+    ],
 
 function(joint, controls, paperControls, boundingLogicExpansion) {
-
 
 
     var questionLayout = {
@@ -54,17 +54,6 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
     });
     paperSmall.scale(0.25);
     paperSmall.$el.css('pointer-events', 'none');*/
-
-    //wherever you need to do the ajax
-    Backbone.ajax({
-        dataType: "json",
-        url: "data/json.php",
-        data: "",
-        success: function (val) {
-            var basicQuestionJSON = val;
-            $('body').prepend('<div class="alert"><em>Data ready</em></div>');
-        }
-    });
 
     //graph.fromJSON(val);
 

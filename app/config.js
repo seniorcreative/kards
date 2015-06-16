@@ -8,6 +8,7 @@ require.config({
     "jquery": "../bower_components/jquery/dist/jquery",
     "backbone": "../bower_components/backbone/backbone",
     "joint": "../bower_components/jointjs/dist/joint.all.clean.kards",
+    "handlebars.runtime": "../bower_components/handlebars/handlebars.runtime"
   },
 
     shim: {
