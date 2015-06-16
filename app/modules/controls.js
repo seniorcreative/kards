@@ -14,12 +14,15 @@ function(joint, HRT) {
 
         var selectedQuestion;
         var selectedAnswer;
+        var newQuestionType;
 
 
+        // Need to set defaults....
         var formModel = new Backbone.Model(
             {
                 questionValue: '',
-                questionTypeTemplate: '' // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
+                questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
+                questionTypeID: '1'
             }
         );
 
@@ -33,16 +36,24 @@ function(joint, HRT) {
 
                 selectedQuestion = cellView;
 
-                // adjust style of clicked element
+
+
                 var attrs           = selectedQuestion.model.get('attrs');
+                var questionTypeID  = selectedQuestion.model.get('question_type_id');
+
+                // adjust style of clicked element
                 attrs.rect['stroke-dasharray'] = '5,5';
                 selectedQuestion.model.set('attrs', attrs);
                 selectedQuestion.render().el;
 
 
-                formModel.set({questionValue: attrs.text.text});
+                formModel.set(
+                    {
+                        questionValue: attrs.text.text,
+                        questionTypeID: questionTypeID
+                    });
 
-                console.log('set the model val to ', attrs.text.text); // , formModel.get('questionValue'));
+                //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , formModel.get('questionValue'));
 
                 formModel.trigger('change');
 
@@ -128,6 +139,13 @@ function(joint, HRT) {
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
 
+
+                    if (this.model.get('questionTypeID') != '') {
+                        console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        this.$el.find('#questionType').val(this.model.get('questionTypeID'));
+                    }
+
+
                     return this;
                 },
                 addAnswer: function()
@@ -171,7 +189,7 @@ function(joint, HRT) {
                 },
                 addQuestion: function (e) {
 
-                    var newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
+                    newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
 
                     console.log('newQuestionType ', newQuestionType);
 
@@ -203,7 +221,7 @@ function(joint, HRT) {
 
                     // Bind to db model
 
-                    questionObject.question_type_id = this.$('#questionType option:selected').val();
+                    questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
 
                     //
 
@@ -213,6 +231,25 @@ function(joint, HRT) {
                         logicWrapper,
                         question
                     ]);
+
+                    /*
+
+                    Trying to override new question with it's ID in the name... scope issue
+
+                    console.log('new question', question.id);
+
+                    var attrs = question.get('attrs');
+                    var qtext = attrs.text.text;
+
+                    var wraptext = joint.util.breakText(qtext + ' ' + question.id, {
+                        width: questionLayout[newQuestionType].qSize.width,
+                        height: questionLayout[newQuestionType].qSize.height
+                    });
+
+                    attrs.text.text = wraptext;
+
+                    question.set({'attrs': attrs});
+                    question.model.render().el;*/
 
                     logicWrapper.embed(question);
 
@@ -254,8 +291,7 @@ function(joint, HRT) {
                         });
 
                         graph.addCells(
-                            [link,
-                                lolink]
+                            [link, lolink]
                         );
 
                         logicWrapper.embed(answer);
@@ -277,8 +313,8 @@ function(joint, HRT) {
                         var attrs           = selectedQuestion.model.get('attrs');
 
                         var wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: questionLayout.boolean.qSize.width,
-                            height: questionLayout.boolean.qSize.height
+                            width: questionLayout[newQuestionType].qSize.width,
+                            height: questionLayout[newQuestionType].qSize.height
                         });
 
                         attrs.text.text = wraptext;
@@ -356,7 +392,6 @@ function(joint, HRT) {
                 }
             }
         );
-
 
 
         formModel.on('change', function(){
