@@ -22,38 +22,40 @@ function(joint, HRT) {
 
         var stageCenterX = (window.innerWidth / 2);
         var stageCenterY = (window.innerHeight / 2);
-        var answerMargin = 25;
-        var questionMarginBottom = 130;
+        var answerMargin = 20;
         var newQuestionX, newQuestionY, numAnswers;
+        var logicWrapperPadding = 40;
+        var logicCenterHeight = 20;
+        var totalWidthOfAnswers, startX;
+
+        var answerDataTypesProvider = [];
+        var answerValueProvider = [];
+        var answerLabelProvider = [];
 
         var questionLayout = {
             boolean: {
-                lwPos: {x: 485, y: 250},
-                lwSize: {width: 450, height: 300},
-                //qPos: {x: 620, y: 280},
-                qSize: {width: 175, height: 100},
-                aSize: {width: 175, height: 100},
-                answers: [
-                   /* {
-                        position: {x: 520, y: 410},
-                        value: [1],
-                        label: 'true'
-                    },
-                    {
-                        position: {x: 720, y: 410},
-                        value: [0],
-                        label: 'false'
-                    }*/
-                ]
+                qSize: {width: 120, height: 75},
+                aSize: {width: 120, height: 50},
+                answers: []
             },
             'multiple choice': {
-                lwPos: {x: 450, y: 250},
-                lwSize: {width: 820, height: 300},
-                //qPos: {x: 770, y: 280},
-                qSize: {width: 175, height: 100},
-                aSize: {width: 175, height: 100},
+                qSize: {width: 120, height: 75},
+                aSize: {width: 120, height: 50},
+                answers: []
+            },
+            'numeric': {
+                qSize: {width: 120, height: 75},
+                aSize: {width: 120, height: 50},
                 answers: []
             }
+        };
+
+        // Setter functions
+
+        var setTotalWidthAnswers = function ( numAnswers, answerWidth )
+        {
+            totalWidthOfAnswers = (numAnswers * answerWidth) + ((numAnswers-1) * answerMargin);
+            startX = stageCenterX - (totalWidthOfAnswers/2);
         };
 
 
@@ -69,6 +71,7 @@ function(joint, HRT) {
         );
 
 
+        
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
             console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'));
@@ -132,17 +135,8 @@ function(joint, HRT) {
         });
 
         paper.on('cell:pointerup', function(cellView, evt, x, y) {
-
-            /*if (cellView.model.attributes.type == 'basic.Rect') {
-                // turn clicked element back.
-                var attrs = cellView.model.get('attrs');
-                attrs.rect.fill = 'rgba(0,0,0,0)';
-                cellView.model.set('attrs', attrs);
-                cellView.render().el;
-            }*/
-
+            //
         });
-
 
         var formView = Backbone.View.extend(
             {
@@ -183,13 +177,10 @@ function(joint, HRT) {
 
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
-
-
                     if (this.model.get('questionTypeID') != '') {
-                        console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionType').val(this.model.get('questionTypeID'));
                     }
-
 
                     return this;
                 },
@@ -197,12 +188,134 @@ function(joint, HRT) {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
 
-                    //console.log('newQuestionType ', newQuestionType);
+                    newQuestionX = stageCenterX - ((questionLayout[newQuestionType].qSize.width)/2);
+                    newQuestionY = stageCenterY - questionLayout[newQuestionType].qSize.height - (logicCenterHeight / 2);
+
+                    //console.log('newQuestionY ', newQuestionY);
+
+                    var wraptext = joint.util.breakText(newQuestionType + ' question *', {
+                        width: questionLayout[newQuestionType].qSize.width,
+                        height: questionLayout[newQuestionType].qSize.height
+                    });
+
+                    var questionObject = {
+                        ktype: 'question',
+                        position: {x: newQuestionX, y: newQuestionY},
+                        size: questionLayout[newQuestionType].qSize,
+                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: wraptext, fill: 'black' }}
+                    };
+
+
+                    // Add to db model
+
+                    questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
+
+
+                    // Set up answers and positions.
+
+                    var newX;
+                    var mca;
+                    var newY =  stageCenterY + (logicCenterHeight / 2);
+                    var answerWidth = questionLayout[newQuestionType].aSize.width;
+
+
+                    switch(newQuestionType)
+                    {
+                        case 'boolean':
+
+
+                            questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
+                            numAnswers = 2;
+
+                            // calculate the answer positions.
+                            setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
+                            answerDataTypesProvider = [valueDataTypes['boolean'], valueDataTypes['boolean']]; // boolean (can also use newQuestionType switch case here)
+                            answerValueProvider     =  [1, 0];
+                            answerLabelProvider     =  ['true', 'false'];
+
+                            for (mca = 0; mca < numAnswers; mca++)
+                            {
+                                 newX = startX + (mca * (answerWidth + answerMargin));
+                                questionLayout[newQuestionType].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+                            }
+
+                        break;
+
+                        case 'multiple choice':
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+
+                            numAnswers = parseInt(this.$('#questionNumAnswers').val());
+                            setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            for (mca = 0; mca < numAnswers; mca++)
+                            {
+
+                                answerDataTypesProvider[mca]  = valueDataTypes['string']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca]        = '';
+                                answerLabelProvider[mca]        = 'Answer ' + (mca+1) + ' *';
+
+                                newX = startX + (mca * (answerWidth + answerMargin));
+                                questionLayout[newQuestionType].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+                            }
+
+                        break;
+
+
+                        case 'numeric':
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+
+                            var numericStep = parseInt(this.$('#questionNumStep').val());
+
+                            numAnswers = parseInt(this.$('#questionNumAnswers').val());
+                            setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            for (mca = 0; mca < numAnswers; mca++)
+                            {
+
+                                answerDataTypesProvider[mca]  = valueDataTypes['numeric']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca]        = numericStep;
+                                answerLabelProvider[mca]        = numericStep + ' *';
+
+                                numericStep += numericStep; // increment the step by itself (prob need a start value from the form)
+
+                                newX = startX + (mca * (answerWidth + answerMargin));
+                                questionLayout[newQuestionType].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+                            }
+
+                        break;
+
+                    }
+
+                    // But I will need access to the answer datatypes object.
+
+
+                    var question = new joint.shapes.html.Element( questionObject );
+
+                    var logicWrapperWidth = totalWidthOfAnswers + (logicWrapperPadding * 2);
+                    var logicWrapperHeight = questionLayout[newQuestionType].qSize.height  + questionLayout[newQuestionType].aSize.height + logicCenterHeight +  (logicWrapperPadding * 2);
+
+                    //console.log(stageCenterY, logicWrapperHeight, (stageCenterY - (logicWrapperHeight / 2)));
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: questionLayout[newQuestionType].lwPos,
-                        size:  questionLayout[newQuestionType].lwSize,
+                        position: {x: stageCenterX - (logicWrapperWidth/2), y: stageCenterY - (logicWrapperHeight / 2)},
+                        size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
                             '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
                             rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0,0.25)'},
@@ -214,123 +327,17 @@ function(joint, HRT) {
                     logicWrapper.set('inPorts', ['l-i-1']);
                     logicWrapper.set('outPorts', ['l-o-1']);
 
-                    newQuestionX = stageCenterX - ((questionLayout[newQuestionType].qSize.width + answerMargin)/2);
-                    newQuestionY = stageCenterY - questionLayout[newQuestionType].qSize.height - (questionMarginBottom / 2);
-
-                    var questionObject = {
-                        ktype: 'question',
-                        position: {x: newQuestionX, y: newQuestionY},
-                        size: questionLayout[newQuestionType].qSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'New question', fill: 'black' }}
-                    };
-
-
-                    // Bind to db model
-
-                    questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
-
-
-                    // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
-                    answer_value_datatypes = [];
-
-
-
-                    // Set up answers and positions.
-
-                    var newY =  newQuestionY + questionMarginBottom;
-                    var answerWidth = questionLayout[newQuestionType].aSize.width;
-
-
-                    switch(newQuestionType)
-                    {
-                        case 'boolean':
-
-                            answer_value_datatypes[0] = valueDataTypes[newQuestionType]; // boolean
-                            answer_value_datatypes[1] = valueDataTypes[newQuestionType]; // boolean
-
-                            questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
-                            numAnswers = 2;
-
-
-                            // calculate the answer positions.
-
-                            var totalWidthOfAnswers = numAnswers * (answerWidth + answerMargin);
-                            var startX = stageCenterX - (totalWidthOfAnswers/2);
-
-                            var answerValueProvider =  [1, 0];
-                            var answerLabelProvider =  ['true', 'false'];
-
-                            for (var mca = 0; mca < numAnswers; mca++)
-                            {
-                                var newX = startX + (mca * (answerWidth + answerMargin));
-                                questionLayout[newQuestionType].answers[mca] = {
-                                    position: {x: newX, y: newY},
-                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
-                                    label: answerLabelProvider[mca]
-                                };
-                            }
-
-
-                        break;
-
-                        case 'multiple choice':
-
-                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
-
-                            // calculate the answer positions.
-
-                            numAnswers = parseInt(this.$('#questionNumAnswers').val());
-
-                            var totalWidthOfAnswers = numAnswers * (answerWidth + answerMargin);
-                            var startX = stageCenterX - (totalWidthOfAnswers/2);
-
-                            for (var mca = 0; mca < numAnswers; mca++)
-                            {
-                                var newX = startX + (mca * (answerWidth + answerMargin));
-                                questionLayout[newQuestionType].answers[mca] = {
-                                    position: {x: newX, y: newY},
-                                    value: '', // Blank string for now. Style the answer to indicate it needs an answer value to be set.
-                                    label: 'Answer ' + (mca+1)
-                                };
-                            }
-
-                            //console.log('added your answers into the data', questionLayout[newQuestionType]);
-
-
-                        break;
-
-                    }
-
-
-                    // But I will need access to the answer datatypes object.
-
-                    //
-
-                    var question = new joint.shapes.html.Element( questionObject );
-
                     graph.addCells([
                         logicWrapper,
                         question
                     ]);
 
-                    /*
+                    logicWrapper.embed(question);
 
-                    Trying to override new question with it's ID in the name... scope issue
-
-                    console.log('new question', question.id);
-
-                    var attrs = question.get('attrs');
-                    var qtext = attrs.text.text;
-
-                    var wraptext = joint.util.breakText(qtext + ' ' + question.id, {
-                        width: questionLayout[newQuestionType].qSize.width,
-                        height: questionLayout[newQuestionType].qSize.height
-                    });
-
-                    attrs.text.text = wraptext;
-
-                    question.set({'attrs': attrs});
-                    question.model.render().el;*/
+                    graph.addCells([
+                        logicWrapper,
+                        question
+                    ]);
 
                     logicWrapper.embed(question);
 
@@ -351,7 +358,7 @@ function(joint, HRT) {
                                 rect: {fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
                                 text: {text: wraptext, fill: 'black'}
                             },
-                            answer_value_datatype_id: answer_value_datatypes[a],
+                            answer_value_datatype_id: answerDataTypesProvider[a],
                             answer_value: questionLayout[newQuestionType].answers[a].value[0],
                             answer_value2: questionLayout[newQuestionType].answers[a].value[1]
                         });
@@ -414,8 +421,7 @@ function(joint, HRT) {
                 {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
-
-                    console.log(' q type ', newQuestionType);
+                    //console.log(' q type ', newQuestionType);
 
                     switch(newQuestionType)
                     {
@@ -426,6 +432,7 @@ function(joint, HRT) {
                         break;
 
                         case 'multiple choice':
+                        case 'numeric':
 
                             this.$('#questionControlsMultiple').slideDown('slow');
 
@@ -536,6 +543,9 @@ function(joint, HRT) {
                 }
             }
         );
+
+
+
 
 
         formModel.on('change', function(){

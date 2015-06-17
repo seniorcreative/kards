@@ -23,10 +23,8 @@
       <div id="canvas"><!-- Kards elements main paper --></div>
       <div id="navigator visuallyhidden"><!-- Kards navigation scaled down paper --></div>
 
-      <div>
 
-
-          <form id="" method="" action="" class="formQuestionOptions">
+          <form method="" action="" class="formQuestionOptions">
 
               <h2>Questions</h2>
 
@@ -80,7 +78,7 @@
                   <div class="form-controls  form-controls--width-full">
 
                       <label for="questionNumStep">Numeric step value</label>
-                      <input type="number" value="50" id="questionNumStep" name="questionNumStep"  >
+                      <input type="number" value="1" id="questionNumStep" name="questionNumStep"  >
 
                   </div>
 
@@ -110,12 +108,11 @@
 
               </div>
 
-              <div class="form-controls  form-controls--width-full" id="viewButtons">
+              <div class="form-controls  form-controls--width-full" >
 
                   <label for="btnQuestionAdd" class="visuallyhidden">Click the button to add the question</label>
 
                   <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
-                  <button type="button" id="btnAddAnswer" class="button-add">Add answer</button>
                   <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
                   <button type="button" id="btnAddContent" class="button-add">Add content</button>
                   <button type="button" id="btnLogGraph" class="button-add">Console log graph</button>
@@ -123,10 +120,32 @@
               </div>
 
 
+          </form>
 
-          </div>
 
-      </div>
+          <form method="" action="" class="formAnswerOptions">
+
+              <h2>Answers</h2>
+
+              <p>Add a new answer</p>
+              <button type="button" class="" id="btnNewAnswer">New answer</button>
+
+              <h3>Answer settings</h3>
+
+              <div class="form-controls  form-controls--width-full">
+                  <label for="answerValue">Answer text</label>
+                  <textarea id="answerValue" name="answerValue"></textarea>
+              </div>
+
+              <div class="form-controls  form-controls--width-full" >
+
+                  <label for="btnAddAnswer" class="visuallyhidden">Click the button to add the answer</label>
+                  <button type="button" id="btnAddAnswer" class="button-add">Add answer</button>
+
+              </div>
+
+
+          </form>
 
 
 

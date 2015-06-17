@@ -289,35 +289,43 @@ form.formQuestionOptions {
   left: 20px;
   background: #ddd;
 }
-form.formQuestionOptions input {
+form.formAnswerOptions {
+  display: block;
+  padding: 5px;
+  width: 275px;
+  top: 260px;
+  right: 20px;
+  background: #ddd;
+}
+form input {
   padding: 3px 2px;
 }
-form.formQuestionOptions textarea {
+form textarea {
   padding: 3px 2px;
   width: 100%;
   height: 100px;
 }
-form.formQuestionOptions button.button-add {
+form button.button-add {
   padding: 5px;
   float: right;
   clear: right;
   margin: 3px 0 0 0;
 }
-form.formQuestionOptions div.form-controls {
+form div.form-controls {
   *zoom: 1;
   padding: 5px 0;
 }
-form.formQuestionOptions div.form-controls:before, form.formQuestionOptions div.form-controls:after {
+form div.form-controls:before, form div.form-controls:after {
   content: " ";
   display: table;
 }
-form.formQuestionOptions div.form-controls:after {
+form div.form-controls:after {
   clear: both;
 }
-form.formQuestionOptions select {
+form select {
   width: 200px;
 }
-form.formQuestionOptions div.form-controls--width-half {
+form div.form-controls--width-half {
   width: 50%;
   display: -moz-inline-stack;
   display: inline-block;
@@ -327,13 +335,13 @@ form.formQuestionOptions div.form-controls--width-half {
   box-sizing: border-box;
   padding-right: 30px;
 }
-form.formQuestionOptions div.form-controls--width-half input {
+form div.form-controls--width-half input {
   width: 75px;
 }
-form.formQuestionOptions .pull-left {
+form .pull-left {
   float: left;
 }
-form.formQuestionOptions .pull-right {
+form .pull-right {
   float: right;
 }
 form.jointTestControls {

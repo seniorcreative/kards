@@ -15,8 +15,7 @@ form
 {
     position: absolute;
 
-    &.formQuestionOptions
-    {
+    &.formQuestionOptions {
 
         display: block;
         padding: 5px;
@@ -25,68 +24,79 @@ form
         left: 20px;
         background: #ddd;
 
-        input
-        {
-            padding: 3px 2px;
-        }
+    }
 
-        textarea
-        {
-            padding: 3px 2px;
-            width: 100%;
-            height: 100px;
-        }
+    &.formAnswerOptions {
 
-        button
-        {
-
-            &.button-add
-            {
-                padding: 5px;
-                float: right;
-                clear: right;
-                margin: 3px 0 0 0;
-            }
-        }
-
-        div.form-controls
-        {
-
-            @include clearfix();
-            padding: 5px 0;
-        }
-
-        select
-        {
-            width: 200px;
-        }
-
-        div.form-controls--width-half
-        {
-            width: 50%;
-            @include inline-block();
-
-            box-sizing: border-box;
-            padding-right: 30px;
-
-            input
-            {
-                width: 75px;
-            }
-        }
-
-        .pull-left
-        {
-            float: left;
-        }
-
-        .pull-right
-        {
-            float: right;
-        }
-
+        display: block;
+        padding: 5px;
+        width: 275px;
+        top: 260px;
+        right: 20px;
+        background: #ddd;
 
     }
+
+    input
+    {
+        padding: 3px 2px;
+    }
+
+    textarea
+    {
+        padding: 3px 2px;
+        width: 100%;
+        height: 100px;
+    }
+
+    button
+    {
+
+        &.button-add
+        {
+            padding: 5px;
+            float: right;
+            clear: right;
+            margin: 3px 0 0 0;
+        }
+    }
+
+    div.form-controls
+    {
+
+        @include clearfix();
+        padding: 5px 0;
+    }
+
+    select
+    {
+        width: 200px;
+    }
+
+    div.form-controls--width-half
+    {
+        width: 50%;
+        @include inline-block();
+
+        box-sizing: border-box;
+        padding-right: 30px;
+
+        input
+        {
+            width: 75px;
+        }
+    }
+
+    .pull-left
+    {
+        float: left;
+    }
+
+    .pull-right
+    {
+        float: right;
+    }
+
 
     &.jointTestControls
     {
