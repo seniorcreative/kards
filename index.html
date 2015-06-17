@@ -26,10 +26,10 @@
 
           <form method="" action="" class="formQuestionOptions">
 
-              <h2>Questions</h2>
+              <!--<h2>Questions</h2>-->
 
-              <p>Add a new question</p>
-              <button type="button" class="" id="btnNewQuestion">New question</button>
+              <!--<p>Add a new question</p>-->
+              <!--<button type="button" class="" id="btnNewQuestion">New question</button>-->
 
               <h3>Question settings</h3>
 
@@ -125,16 +125,32 @@
 
           <form method="" action="" class="formAnswerOptions">
 
-              <h2>Answers</h2>
+              <!--<h2>Answers</h2>-->
 
-              <p>Add a new answer</p>
-              <button type="button" class="" id="btnNewAnswer">New answer</button>
+              <!--<p>Add a new answer</p>-->
+              <!--<button type="button" class="" id="btnNewAnswer">New answer</button>-->
 
               <h3>Answer settings</h3>
 
               <div class="form-controls  form-controls--width-full">
-                  <label for="answerValue">Answer text</label>
-                  <textarea id="answerValue" name="answerValue"></textarea>
+                  <label for="answerLabel">Answer text</label>
+                  <textarea id="answerLabel" name="answerLabel"></textarea>
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+
+                  <div id="valueDataTypeTemplate"><!-- Template will be written here --></div>
+
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+                  <label for="answerValue">Answer value 1</label>
+                  <input type="text" id="answerValue" name="answerValue">
+              </div>
+
+              <div class="form-controls  form-controls--width-full">
+                  <label for="answerValue2">Answer value 2 (for range)</label>
+                  <input type="text" id="answerValue2" name="answerValue2">
               </div>
 
               <div class="form-controls  form-controls--width-full" >
@@ -151,40 +167,42 @@
 
       <!--// Controls for paper scale and grid scale etc.-->
 
-      <div class="left">
+      <div class="left  formPanelControls">
+          <h3>Chart settings</h3>
+
           <div class="panel panel-primary">
-              <div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>
+              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>-->
               <div class="panel-body">
                   <div class="row">
                       <div class="form-group">
                           <label for="ox" data-tooltip="Position of zero x-coordinate of the paper in pixels">Origin x</label>
-                          <input id="ox" name="ox" type="range" value="0" min="-200" max="200" autocomplete="off">
-                          <output for="ox">0</output>
+                          <input id="ox" name="ox" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+                          <output for="ox"></output>
                       </div>
                       <div class="form-group">
                           <label for="oy" data-tooltip="Position of zero y-coordinate of the paper in pixels">Origin y</label>
-                          <input id="oy" type="range" value="0" min="-200" max="200" autocomplete="off">
-                          <output for="oy">0</output>
+                          <input id="oy" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+                          <output for="oy"></output>
                       </div>
                       <div class="form-group">
                           <label for="sx" data-tooltip="Scale factor">Scale</label>
                           <input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
-                          <output for="sx">1.00</output>
+                          <output for="sx"></output>
                       </div>
                       <div class="form-group  visuallyhidden">
                           <label for="sy" data-tooltip="Scale factor for y axis">Scale y</label>
                           <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
-                          <output for="sy">1.00</output>
+                          <output for="sy"></output>
                       </div>
                       <div class="form-group">
                           <label for="width" data-tooltip="Width of the paper in pixels">Width</label>
-                          <input id="width" class="form-control" type="range" value="650" min="100" max="6000" autocomplete="off">
-                          <output for="width">650</output>
+                          <input id="width" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
+                          <output for="width"></output>
                       </div>
                       <div class="form-group">
                           <label for="height" data-tooltip="Height of the paper in pixels">Height</label>
-                          <input id="height" class="form-control" type="range" value="400" min="100" max="6000" autocomplete="off">
-                          <output for="height">400</output>
+                          <input id="height" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
+                          <output for="height"></output>
                       </div>
                       <div class="form-group">
                           <label for="grid" data-tooltip="Size of the grid in pixels">Grid size</label>
@@ -196,7 +214,7 @@
           </div>
 
           <div class="panel  panel-primary">
-              <div class="panel-heading"><a href="/api#joint.dia.Paper:getContentBBox">Content bounding box</a></div>
+              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:getContentBBox">Content bounding box</a></div>-->
               <div class="panel-body">
                   <label for="bbox-x">x</label>
                   <span class="output" id="bbox-x">100</span>

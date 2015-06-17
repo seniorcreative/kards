@@ -64,7 +64,7 @@ function(joint, HRT) {
         var questionModel = new Backbone.Model(
             {
                 questionValue: '',
-                questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
+                questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars
                 questionTypeID: '1',
                 choicesAccepted: 1
             }
@@ -72,8 +72,10 @@ function(joint, HRT) {
 
         var answerModel = new Backbone.Model(
             {
-                answerValue: ''
-                //questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
+                answerLabel: '',
+                answerValue: '',
+                valueDataTypeTemplate: '',
+                answerValueDataTypeID: 1
                 //questionTypeID: '1',
                 //choicesAccepted: 1
             }
@@ -98,10 +100,10 @@ function(joint, HRT) {
                 selectedQuestion.render().el;
 
                 questionModel.set(
-                    {
-                        questionValue: attrs.text.text,
-                        questionTypeID: questionTypeID
-                    });
+                {
+                    questionValue: attrs.text.text,
+                    questionTypeID: questionTypeID
+                });
 
                 //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
                 questionModel.trigger('change');
@@ -111,11 +113,28 @@ function(joint, HRT) {
             {
                 selectedAnswer = cellView;
 
+                // Also set the parent question (both need to be set if we're editing answer controls)
+                selectedQuestion = graph.getCell(selectedAnswer.model.get('answer_parent_question'));
+
+                var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
+
                 // adjust style of clicked element
                 var attrs           = selectedAnswer.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '2,3';
                 selectedAnswer.model.set('attrs', attrs);
                 selectedAnswer.render().el;
+
+                answerModel.set(
+                {
+                    answerLabel: attrs.text.text,
+                    answerValue: selectedAnswer.model.get('answer_value'),
+                    answerValue2: selectedAnswer.model.get('answer_value2'),
+                    answerValueDataTypeID: answerValueDataTypeID
+                });
+
+                console.log('set the answer model val to ', selectedAnswer.model.get('answer_value')); // , questionModel.get('questionValue'));
+
+                answerModel.trigger('change');
             }
 
             if (cellView.model.attributes.ktype == 'content')
@@ -223,7 +242,7 @@ function(joint, HRT) {
 
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
                             answerDataTypesProvider = [valueDataTypes['boolean'], valueDataTypes['boolean']]; // boolean (can also use newQuestionType switch case here)
-                            answerValueProvider     =  [1, 0];
+                            answerValueProvider     =  [[1], [0]]; // Note that the answer value can expect an array of 2 values
                             answerLabelProvider     =  ['true', 'false'];
 
                             for (mca = 0; mca < numAnswers; mca++)
@@ -249,7 +268,7 @@ function(joint, HRT) {
                             {
 
                                 answerDataTypesProvider[mca]  = valueDataTypes['string']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca]        = '';
+                                answerValueProvider[mca]        = [''];
                                 answerLabelProvider[mca]        = 'Answer ' + (mca+1) + ' *';
 
                                 newX = startX + (mca * (answerWidth + answerMargin));
@@ -268,18 +287,18 @@ function(joint, HRT) {
                             questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
 
                             var numericStep = parseInt(this.$('#questionNumStep').val());
-
+                            var step = numericStep
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
                             setTotalWidthAnswers(numAnswers, answerWidth);
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
 
-                                answerDataTypesProvider[mca]  = valueDataTypes['numeric']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca]        = numericStep;
-                                answerLabelProvider[mca]        = numericStep + ' *';
+                                answerDataTypesProvider[mca]    = valueDataTypes['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca]        = [step];
+                                answerLabelProvider[mca]        = step + ' *';
 
-                                numericStep += numericStep; // increment the step by itself (prob need a start value from the form)
+                                step += numericStep; // increment the step by itself (prob need a start value from the form)
 
                                 newX = startX + (mca * (answerWidth + answerMargin));
                                 questionLayout[newQuestionType].answers[mca] = {
@@ -330,7 +349,7 @@ function(joint, HRT) {
                         question
                     ]);
 
-                    logicWrapper.embed(question);
+
 
                     // Loop over answers
 
@@ -350,8 +369,9 @@ function(joint, HRT) {
                                 text: {text: wraptext, fill: 'black'}
                             },
                             answer_value_datatype_id: answerDataTypesProvider[a],
-                            answer_value: questionLayout[newQuestionType].answers[a].value[0],
-                            answer_value2: questionLayout[newQuestionType].answers[a].value[1]
+                            answer_value: answerValueProvider[a][0],
+                            answer_value2: answerValueProvider[a][1],
+                            answer_parent_question: question.id
                         });
 
                         graph.addCells(
@@ -382,7 +402,9 @@ function(joint, HRT) {
 
                     }
 
-                    this.model.trigger('change');
+                    logicWrapper.embed(question);
+
+                    this.model.trigger('change'); // Why are we calling this - write a note?
 
 
                 },
@@ -404,7 +426,6 @@ function(joint, HRT) {
                         attrs.text.text = wraptext;
                         selectedQuestion.model.set('attrs', attrs);
                         selectedQuestion.render().el;
-
 
                     }
                 },
@@ -486,7 +507,6 @@ function(joint, HRT) {
 
                     graph.addCells([contentWrapper, content]);
 
-
                     contentWrapper.embed(content);
 
                 },
@@ -500,10 +520,11 @@ function(joint, HRT) {
             {
                 initialize: function () {
 
-                    console.log('answer controls view inited');
+                    //console.log('answer controls view inited');
 
                     this.template = _.template($('.formAnswerOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+                    this.$el.find('#valueDataTypeTemplate').html(this.model.get('valueDataTypeTemplate'));
 
                     this.model.on('change', function(){
 
@@ -513,16 +534,19 @@ function(joint, HRT) {
 
                 },
                 events: {
+                    'keyup #answerLabel': 'answerUpdate',
+                    'keyup #answerValue': 'answerValueUpdate',
                     'click #btnAddAnswer': 'addAnswer'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
-                    //this.$el.find('#questionValue').val(this.model.get('questionValue'));
+                    this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
+                    this.$el.find('#answerValue').val(this.model.get('answerValue'));
 
-                    if (this.model.get('questionTypeID') != '') {
-                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
-                        //this.$el.find('#questionType').val(this.model.get('questionTypeID'));
+                    if (this.model.get('answerValueDataTypeID') != '') {
+                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
+                        this.$el.find('#valueDataType').val(this.model.get('answerValueDataTypeID'));
                     }
 
                     return this;
@@ -559,12 +583,42 @@ function(joint, HRT) {
                     graph.addCell(linkNew);
 
                     // embed this answer under the question (which is embedded into the logic wrapper)
-
                     graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
 
-                    graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
+                    graph.trigger('change:position', newAnswer, pos);
 
 
+                },
+                answerUpdate: function(e)
+                {
+                    //console.log('answer value is changing', e, this.$(e.target).val());
+
+                    if (selectedQuestion && selectedAnswer)
+                    {
+                        // adjust text of clicked element
+                        var attrs           = selectedAnswer.model.get('attrs');
+
+                        var wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: questionLayout[newQuestionType].qSize.width,
+                            height: questionLayout[newQuestionType].qSize.height
+                        });
+
+                        attrs.text.text = wraptext;
+                        selectedAnswer.model.set('attrs', attrs);
+                        selectedAnswer.render().el;
+
+                    }
+                },
+                answerValueUpdate: function(e)
+                {
+                    //console.log('answer value is changing', e, this.$(e.target).val());
+                    if (selectedQuestion && selectedAnswer)
+                    {
+                        // adjust value of selected answer
+                        selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+                        selectedAnswer.render().el;
+
+                    }
                 }
             }
         );
@@ -575,48 +629,60 @@ function(joint, HRT) {
             dataType: "json",
             url: "data/questionTypes.php",
             data: "",
-            success: function (questionTypeData) {
+            success: function (data) {
 
+                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                var renderedTemplate = HRT.templates['questionTypes.hbs'](data);
+                questionModel.set({'questionTypeTemplate': renderedTemplate});
 
-                Backbone.ajax({
-                    dataType: "json",
-                    url: "data/valueDataTypes.php",
-                    data: "",
-                    success: function (valueDataTypeData) {
+            }
+        });
 
-                        valueDataTypes = valueDataTypeData;
+        Backbone.ajax({
+            dataType: "json",
+            url: "data/valueDataTypesDropdown.php",
+            data: "",
+            success: function (data) {
 
-                        $('body').prepend('<div class="alert"><em>Data ready</em></div>');
+                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                var renderedTemplate = HRT.templates['valueDataTypes.hbs'](data);
+                answerModel.set({'valueDataTypeTemplate': renderedTemplate});
 
-                        // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                        var renderedQuestionTypeSelect = HRT.templates['questionTypes.hbs'](questionTypeData);
-                        questionModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
+            }
+        });
 
-                        // Don't initalise the question and answer controls views til we got data.
-                        var questionControls = new questionControlsView(
-                            {
-                                model: questionModel,
-                                el: '.formQuestionOptions'
-                            }
-                        );
+        Backbone.ajax({
+            dataType: "json",
+            url: "data/valueDataTypes.php",
+            data: "",
+            success: function (valueDataTypeData) {
 
-                        var answerControls = new answerControlsView(
-                            {
-                                model: answerModel,
-                                el: '.formAnswerOptions'
-                            }
-                        );
+                $('body').prepend('<div class="alert"><em>Data ready</em></div>');
 
-                        //$('body').prepend(questionControls.render().el);
+                valueDataTypes = valueDataTypeData;
 
-
+                // Don't initalise the question and answer controls views til we got data.
+                var questionControls = new questionControlsView(
+                    {
+                        model: questionModel,
+                        el: '.formQuestionOptions'
                     }
+                );
 
-                });
+                var answerControls = new answerControlsView(
+                    {
+                        model: answerModel,
+                        el: '.formAnswerOptions'
+                    }
+                );
+
+                //$('body').prepend(questionControls.render().el);
+
 
             }
 
         });
+
 
 
     };
