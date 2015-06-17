@@ -61,7 +61,7 @@ function(joint, HRT) {
 
 
         // Need to set defaults....
-        var formModel = new Backbone.Model(
+        var questionModel = new Backbone.Model(
             {
                 questionValue: '',
                 questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
@@ -70,18 +70,24 @@ function(joint, HRT) {
             }
         );
 
+        var answerModel = new Backbone.Model(
+            {
+                answerValue: ''
+                //questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
+                //questionTypeID: '1',
+                //choicesAccepted: 1
+            }
+        );
 
-        
+
+
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
             console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'));
 
             if (cellView.model.attributes.ktype == 'question')
             {
-
                 selectedQuestion = cellView;
-
-
 
                 var attrs           = selectedQuestion.model.get('attrs');
                 var questionTypeID  = selectedQuestion.model.get('question_type_id');
@@ -91,19 +97,15 @@ function(joint, HRT) {
                 selectedQuestion.model.set('attrs', attrs);
                 selectedQuestion.render().el;
 
-
-                formModel.set(
+                questionModel.set(
                     {
                         questionValue: attrs.text.text,
                         questionTypeID: questionTypeID
                     });
 
-                //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , formModel.get('questionValue'));
-
-                formModel.trigger('change');
-
+                //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
+                questionModel.trigger('change');
             }
-
 
             if (cellView.model.attributes.ktype == 'answer')
             {
@@ -114,9 +116,7 @@ function(joint, HRT) {
                 attrs.rect['stroke-dasharray'] = '2,3';
                 selectedAnswer.model.set('attrs', attrs);
                 selectedAnswer.render().el;
-
             }
-
 
             if (cellView.model.attributes.ktype == 'content')
             {
@@ -127,40 +127,31 @@ function(joint, HRT) {
                 attrs.rect['stroke-dasharray'] = '5,1';
                 selectedAnswer.model.set('attrs', attrs);
                 selectedAnswer.render().el;
-
             }
 
-
-
         });
+
 
         paper.on('cell:pointerup', function(cellView, evt, x, y) {
             //
         });
 
-        var formView = Backbone.View.extend(
+
+
+        var questionControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-
                     this.template = _.template($('.formQuestionOptions').html());
-
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
                     this.$el.find('#questionTypeTemplate').html(this.model.get('questionTypeTemplate'));
-
                     this.$el.find('#questionControlsMultiple').slideUp(0);
 
-                    //this.render();
-
                     this.model.on('change', function(){
-
-                        //console.log('the formView model changed');
 
                         this.render()
 
                     }, this);
-
 
                 },
                 events: {
@@ -170,7 +161,7 @@ function(joint, HRT) {
                     'click #btnAddContent': 'addContent',
                     'click #btnLogGraph': 'saveGraph',
                     'keyup #questionValue': 'questionUpdate',
-                    'change #questionType': 'changeQuestionType'
+                    'change #questionType': 'changeQuestionTypeDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -307,7 +298,7 @@ function(joint, HRT) {
 
                     var question = new joint.shapes.html.Element( questionObject );
 
-                    var logicWrapperWidth = totalWidthOfAnswers + (logicWrapperPadding * 2);
+                    var logicWrapperWidth = totalWidthOfAnswers + (logicWrapperPadding * 1);
                     var logicWrapperHeight = questionLayout[newQuestionType].qSize.height  + questionLayout[newQuestionType].aSize.height + logicCenterHeight +  (logicWrapperPadding * 2);
 
                     //console.log(stageCenterY, logicWrapperHeight, (stageCenterY - (logicWrapperHeight / 2)));
@@ -417,7 +408,7 @@ function(joint, HRT) {
 
                     }
                 },
-                changeQuestionType: function()
+                changeQuestionTypeDropdown: function()
                 {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
@@ -439,45 +430,6 @@ function(joint, HRT) {
                         break;
 
                     }
-
-                },
-                addAnswer: function()
-                {
-
-
-                    // Let's add an answer to the selected question!
-
-                    // let's add another answer by cloning the first answr in this questions child neighbours.
-
-                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
-                    var n1              = neighbours[neighbours.length-1];
-                    var newAnswer       = n1.clone();
-                    var pos             = newAnswer.get('position');
-                    var attrs           = newAnswer.get('attrs');
-                    attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?';
-                    pos.x               += 200;
-
-                    newAnswer.set('position', pos);
-
-                    graph.addCell(newAnswer);
-
-
-                    // Set a new link
-
-                    var linkNew = new joint.dia.Link({
-                        smooth: true,
-                        source: { id: selectedQuestion.model.id },
-                        target: { id: newAnswer.id }
-                    });
-
-                    graph.addCell(linkNew);
-
-                    // embed this answer under the question (which is embedded into the logic wrapper)
-
-                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
-
-                    graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
-
 
                 },
                 addLogicOutPoint: function() {
@@ -544,13 +496,79 @@ function(joint, HRT) {
             }
         );
 
+        var answerControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    console.log('answer controls view inited');
+
+                    this.template = _.template($('.formAnswerOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+
+                        this.render()
+
+                    }, this);
+
+                },
+                events: {
+                    'click #btnAddAnswer': 'addAnswer'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    //this.$el.find('#questionValue').val(this.model.get('questionValue'));
+
+                    if (this.model.get('questionTypeID') != '') {
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        //this.$el.find('#questionType').val(this.model.get('questionTypeID'));
+                    }
+
+                    return this;
+                },
+                addAnswer: function()
+                {
+
+                    // Let's add an answer to the selected question!
+
+                    // let's add another answer by cloning the first answr in this questions child neighbours.
+                    if (!selectedQuestion) return;
+
+                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
+                    var n1              = neighbours[neighbours.length-1];
+                    var newAnswer       = n1.clone();
+                    var pos             = newAnswer.get('position');
+                    var attrs           = newAnswer.get('attrs');
+                    attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?'; // set using wrap utility
+                    pos.x               += 200;
+
+                    newAnswer.set('position', pos);
+
+                    graph.addCell(newAnswer);
 
 
+                    // Set a new link
+
+                    var linkNew = new joint.dia.Link({
+                        smooth: true,
+                        source: { id: selectedQuestion.model.id },
+                        target: { id: newAnswer.id }
+                    });
+
+                    graph.addCell(linkNew);
+
+                    // embed this answer under the question (which is embedded into the logic wrapper)
+
+                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
+
+                    graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
 
 
-        formModel.on('change', function(){
-            //console.log('formModel change event');
-        });
+                }
+            }
+        );
+        
 
         //wherever you need to do the ajax
         Backbone.ajax({
@@ -572,17 +590,24 @@ function(joint, HRT) {
 
                         // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
                         var renderedQuestionTypeSelect = HRT.templates['questionTypes.hbs'](questionTypeData);
-                        formModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
+                        questionModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
 
-                        // Don't initalise the form view til we got data.
-                        var fv = new formView(
+                        // Don't initalise the question and answer controls views til we got data.
+                        var questionControls = new questionControlsView(
                             {
-                                model: formModel,
+                                model: questionModel,
                                 el: '.formQuestionOptions'
                             }
                         );
 
-                        //$('body').prepend(fv.render().el);
+                        var answerControls = new answerControlsView(
+                            {
+                                model: answerModel,
+                                el: '.formAnswerOptions'
+                            }
+                        );
+
+                        //$('body').prepend(questionControls.render().el);
 
 
                     }
