@@ -8,13 +8,54 @@ define(
 function(joint, HRT) {
 
 
-    var init = function(graph, paper, questionLayout) {
+    var init = function(graph, paper) {
 
         //console.log('inited ', graph);
 
         var selectedQuestion;
         var selectedAnswer;
         var newQuestionType;
+        var valueDataTypes;
+
+
+        // Layout
+
+        var stageCenterX = (window.innerWidth / 2);
+        var stageCenterY = (window.innerHeight / 2);
+        var answerMargin = 25;
+        var questionMarginBottom = 130;
+        var newQuestionX, newQuestionY, numAnswers;
+
+        var questionLayout = {
+            boolean: {
+                lwPos: {x: 485, y: 250},
+                lwSize: {width: 450, height: 300},
+                //qPos: {x: 620, y: 280},
+                qSize: {width: 175, height: 100},
+                aSize: {width: 175, height: 100},
+                answers: [
+                   /* {
+                        position: {x: 520, y: 410},
+                        value: [1],
+                        label: 'true'
+                    },
+                    {
+                        position: {x: 720, y: 410},
+                        value: [0],
+                        label: 'false'
+                    }*/
+                ]
+            },
+            'multiple choice': {
+                lwPos: {x: 450, y: 250},
+                lwSize: {width: 820, height: 300},
+                //qPos: {x: 770, y: 280},
+                qSize: {width: 175, height: 100},
+                aSize: {width: 175, height: 100},
+                answers: []
+            }
+        };
+
 
 
         // Need to set defaults....
@@ -22,7 +63,8 @@ function(joint, HRT) {
             {
                 questionValue: '',
                 questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars questionTypesTemplate
-                questionTypeID: '1'
+                questionTypeID: '1',
+                choicesAccepted: 1
             }
         );
 
@@ -113,6 +155,8 @@ function(joint, HRT) {
 
                     this.$el.find('#questionTypeTemplate').html(this.model.get('questionTypeTemplate'));
 
+                    this.$el.find('#questionControlsMultiple').slideUp(0);
+
                     //this.render();
 
                     this.model.on('change', function(){
@@ -131,7 +175,8 @@ function(joint, HRT) {
                     'click #btnAddLogicOutPoint': 'addLogicOutPoint',
                     'click #btnAddContent': 'addContent',
                     'click #btnLogGraph': 'saveGraph',
-                    'keyup #questionValue': 'questionUpdate'
+                    'keyup #questionValue': 'questionUpdate',
+                    'change #questionType': 'changeQuestionType'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -148,50 +193,11 @@ function(joint, HRT) {
 
                     return this;
                 },
-                addAnswer: function()
-                {
-
-
-                    // Let's add an answer to the selected question!
-
-                    // let's add another answer by cloning the first answr in this questions child neighbours.
-
-                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
-                    var n1              = neighbours[neighbours.length-1];
-                    var newAnswer       = n1.clone();
-                    var pos             = newAnswer.get('position');
-                    var attrs           = newAnswer.get('attrs');
-                    attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?';
-                    pos.x               += 200;
-
-                    newAnswer.set('position', pos);
-
-                    graph.addCell(newAnswer);
-
-
-                    // Set a new link
-
-                    var linkNew = new joint.dia.Link({
-                        smooth: true,
-                        source: { id: selectedQuestion.model.id },
-                        target: { id: newAnswer.id }
-                    });
-
-                    graph.addCell(linkNew);
-
-                    // embed this answer under the question (which is embedded into the logic wrapper)
-
-                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
-
-                    graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
-
-
-                },
                 addQuestion: function (e) {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
 
-                    console.log('newQuestionType ', newQuestionType);
+                    //console.log('newQuestionType ', newQuestionType);
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
@@ -208,20 +214,95 @@ function(joint, HRT) {
                     logicWrapper.set('inPorts', ['l-i-1']);
                     logicWrapper.set('outPorts', ['l-o-1']);
 
+                    newQuestionX = stageCenterX - ((questionLayout[newQuestionType].qSize.width + answerMargin)/2);
+                    newQuestionY = stageCenterY - questionLayout[newQuestionType].qSize.height - (questionMarginBottom / 2);
+
                     var questionObject = {
                         ktype: 'question',
-                        position: questionLayout[newQuestionType].qPos,
+                        position: {x: newQuestionX, y: newQuestionY},
                         size: questionLayout[newQuestionType].qSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'New question', fill: 'black' }},
-                        label: '',
-                        input: '',
-                        select: ''
+                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: 'New question', fill: 'black' }}
                     };
 
 
                     // Bind to db model
 
                     questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
+
+
+                    // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
+                    answer_value_datatypes = [];
+
+
+
+                    // Set up answers and positions.
+
+                    var newY =  newQuestionY + questionMarginBottom;
+                    var answerWidth = questionLayout[newQuestionType].aSize.width;
+
+
+                    switch(newQuestionType)
+                    {
+                        case 'boolean':
+
+                            answer_value_datatypes[0] = valueDataTypes[newQuestionType]; // boolean
+                            answer_value_datatypes[1] = valueDataTypes[newQuestionType]; // boolean
+
+                            questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
+                            numAnswers = 2;
+
+
+                            // calculate the answer positions.
+
+                            var totalWidthOfAnswers = numAnswers * (answerWidth + answerMargin);
+                            var startX = stageCenterX - (totalWidthOfAnswers/2);
+
+                            var answerValueProvider =  [1, 0];
+                            var answerLabelProvider =  ['true', 'false'];
+
+                            for (var mca = 0; mca < numAnswers; mca++)
+                            {
+                                var newX = startX + (mca * (answerWidth + answerMargin));
+                                questionLayout[newQuestionType].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+                            }
+
+
+                        break;
+
+                        case 'multiple choice':
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+
+                            // calculate the answer positions.
+
+                            numAnswers = parseInt(this.$('#questionNumAnswers').val());
+
+                            var totalWidthOfAnswers = numAnswers * (answerWidth + answerMargin);
+                            var startX = stageCenterX - (totalWidthOfAnswers/2);
+
+                            for (var mca = 0; mca < numAnswers; mca++)
+                            {
+                                var newX = startX + (mca * (answerWidth + answerMargin));
+                                questionLayout[newQuestionType].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: '', // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: 'Answer ' + (mca+1)
+                                };
+                            }
+
+                            //console.log('added your answers into the data', questionLayout[newQuestionType]);
+
+
+                        break;
+
+                    }
+
+
+                    // But I will need access to the answer datatypes object.
 
                     //
 
@@ -255,19 +336,24 @@ function(joint, HRT) {
 
                     // Loop over answers
 
-                    for (var a=0; a < questionLayout[newQuestionType].aPos.length; a++) {
+                    for (var a=0; a < questionLayout[newQuestionType].answers.length; a++) {
+
+                        var wraptext = joint.util.breakText(questionLayout[newQuestionType].answers[a].label, {
+                            width: questionLayout[newQuestionType].aSize.width - 10,
+                            height: questionLayout[newQuestionType].aSize.height - 10
+                        });
 
                         var answer = new joint.shapes.html.Element({
                             ktype: 'answer',
-                            position: questionLayout[newQuestionType].aPos[a],
+                            position: questionLayout[newQuestionType].answers[a].position,
                             size: questionLayout[newQuestionType].aSize,
                             attrs: {
                                 rect: {fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
-                                text: {text: 'Answer ' + (a+1), fill: 'black'}
+                                text: {text: wraptext, fill: 'black'}
                             },
-                            label: '',
-                            input: '',
-                            select: ''
+                            answer_value_datatype_id: answer_value_datatypes[a],
+                            answer_value: questionLayout[newQuestionType].answers[a].value[0],
+                            answer_value2: questionLayout[newQuestionType].answers[a].value[1]
                         });
 
                         graph.addCells(
@@ -324,6 +410,69 @@ function(joint, HRT) {
 
                     }
                 },
+                changeQuestionType: function()
+                {
+
+                    newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
+
+                    console.log(' q type ', newQuestionType);
+
+                    switch(newQuestionType)
+                    {
+                        case 'boolean':
+
+                            this.$('#questionControlsMultiple').slideUp('fast');
+
+                        break;
+
+                        case 'multiple choice':
+
+                            this.$('#questionControlsMultiple').slideDown('slow');
+
+                        break;
+
+                    }
+
+                },
+                addAnswer: function()
+                {
+
+
+                    // Let's add an answer to the selected question!
+
+                    // let's add another answer by cloning the first answr in this questions child neighbours.
+
+                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
+                    var n1              = neighbours[neighbours.length-1];
+                    var newAnswer       = n1.clone();
+                    var pos             = newAnswer.get('position');
+                    var attrs           = newAnswer.get('attrs');
+                    attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?';
+                    pos.x               += 200;
+
+                    newAnswer.set('position', pos);
+
+                    graph.addCell(newAnswer);
+
+
+                    // Set a new link
+
+                    var linkNew = new joint.dia.Link({
+                        smooth: true,
+                        source: { id: selectedQuestion.model.id },
+                        target: { id: newAnswer.id }
+                    });
+
+                    graph.addCell(linkNew);
+
+                    // embed this answer under the question (which is embedded into the logic wrapper)
+
+                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
+
+                    graph.trigger('change:position', newAnswer, pos, {skipParentHandler:false});
+
+
+                },
                 addLogicOutPoint: function() {
 
                     // Let's add an out port to the parent of the selected answer.
@@ -357,8 +506,7 @@ function(joint, HRT) {
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
                         },
-                        interactive: false,
-                        skipParentHandler: true
+                        interactive: false
                     });
 
                     contentWrapper.set('inPorts', ['c-i-1']);
@@ -374,11 +522,7 @@ function(joint, HRT) {
                         position: { x: 505, y: 505 },
                         size: { width: 340, height: 140 },
                         attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
-                        label: '',
-                        textarea: '',
-                        select: '',
-                        interactive: false,
-                        skipParentHandler: true
+                        interactive: false
                     });
 
                     graph.addCells([contentWrapper, content]);
@@ -403,25 +547,40 @@ function(joint, HRT) {
             dataType: "json",
             url: "data/questionTypes.php",
             data: "",
-            success: function (jsonData) {
+            success: function (questionTypeData) {
 
-                $('body').prepend('<div class="alert"><em>Data ready</em></div>');
 
-                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                var renderedQuestionTypeSelect = HRT.templates['questionTypes.hbs'](jsonData);
-                formModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
+                Backbone.ajax({
+                    dataType: "json",
+                    url: "data/valueDataTypes.php",
+                    data: "",
+                    success: function (valueDataTypeData) {
 
-                // Don't initalise the form view til we got data.
-                var fv = new formView(
-                    {
-                        model: formModel,
-                        el: '.formQuestionOptions'
+                        valueDataTypes = valueDataTypeData;
+
+                        $('body').prepend('<div class="alert"><em>Data ready</em></div>');
+
+                        // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                        var renderedQuestionTypeSelect = HRT.templates['questionTypes.hbs'](questionTypeData);
+                        formModel.set({'questionTypeTemplate': renderedQuestionTypeSelect});
+
+                        // Don't initalise the form view til we got data.
+                        var fv = new formView(
+                            {
+                                model: formModel,
+                                el: '.formQuestionOptions'
+                            }
+                        );
+
+                        //$('body').prepend(fv.render().el);
+
+
                     }
-                );
 
-                $('body').prepend(fv.render().el);
+                });
 
             }
+
         });
 
 

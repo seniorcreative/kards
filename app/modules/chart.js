@@ -9,25 +9,6 @@ define(
 function(joint, controls, paperControls, boundingLogicExpansion) {
 
 
-    var questionLayout = {
-        boolean: {
-            lwPos: {x: 485, y: 250},
-            lwSize: {width: 450, height: 300},
-            qPos: {x: 620, y: 280},
-            qSize: {width: 175, height: 100},
-            aPos: [{x: 520, y: 410}, {x: 720, y: 410}],
-            aSize: {width: 175, height: 100}
-        },
-        'multiple choice': {
-            lwPos: {x: 450, y: 250},
-            lwSize: {width: 820, height: 300},
-            qPos: {x: 770, y: 280},
-            qSize: {width: 175, height: 100},
-            aPos: [{x: 470, y: 410}, {x: 670, y: 410}, {x: 870, y: 410}, {x: 1070, y: 410}],
-            aSize: {width: 175, height: 100}
-        }
-    };
-
     var graph = new joint.dia.Graph();
 
     var paper = new joint.dia.Paper({
@@ -57,7 +38,7 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
 
     //graph.fromJSON(val);
 
-    controls.init(graph, paper, questionLayout);
+    controls.init(graph, paper);
 
     // If you want paper controls.
     paperControls.init(graph, paper);
