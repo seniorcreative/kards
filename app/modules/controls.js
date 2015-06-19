@@ -31,6 +31,8 @@ function(joint, HRT) {
         var answerDataTypesProvider = [];
         var answerValueProvider = [];
         var answerLabelProvider = [];
+        var attrs;
+        var wraptext;
 
         var questionLayout = {
             boolean: {
@@ -87,22 +89,34 @@ function(joint, HRT) {
 
             console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'));
 
+            var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
+            var loopedElements = paper.findViewsInArea(paperRect);
+
             if (cellView.model.attributes.ktype == 'question')
             {
                 selectedQuestion = cellView;
 
-                var attrs           = selectedQuestion.model.get('attrs');
-                var questionTypeID  = selectedQuestion.model.get('question_type_id');
+                for(var element in loopedElements)
+                {
+                    if (loopedElements[element].model.get('ktype') == 'question')
+                    {
+                        attrs           = loopedElements[element].model.get('attrs');
+                        attrs.rect['stroke-dasharray'] = '';
+                        loopedElements[element].model.set('attrs', attrs);
+                        loopedElements[element].render().el;
+                    }
+                }
 
                 // adjust style of clicked element
-                attrs.rect['stroke-dasharray'] = '5,5';
+                attrs           = selectedQuestion.model.get('attrs');
+                attrs.rect['stroke-dasharray'] = '2,3';
                 selectedQuestion.model.set('attrs', attrs);
                 selectedQuestion.render().el;
 
                 questionModel.set(
                 {
                     questionValue: attrs.text.text,
-                    questionTypeID: questionTypeID
+                    questionTypeID: selectedQuestion.model.get('question_type_id')
                 });
 
                 //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
@@ -118,8 +132,19 @@ function(joint, HRT) {
 
                 var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
 
+                for(var element in loopedElements)
+                {
+                    if (loopedElements[element].model.get('ktype') == 'answer')
+                    {
+                        attrs           = loopedElements[element].model.get('attrs');
+                        attrs.rect['stroke-dasharray'] = '';
+                        loopedElements[element].model.set('attrs', attrs);
+                        loopedElements[element].render().el;
+                    }
+                }
+
                 // adjust style of clicked element
-                var attrs           = selectedAnswer.model.get('attrs');
+                attrs           = selectedAnswer.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '2,3';
                 selectedAnswer.model.set('attrs', attrs);
                 selectedAnswer.render().el;
@@ -132,7 +157,7 @@ function(joint, HRT) {
                     answerValueDataTypeID: answerValueDataTypeID
                 });
 
-                console.log('set the answer model val to ', selectedAnswer.model.get('answer_value')); // , questionModel.get('questionValue'));
+                //console.log('set the answer model val to ', selectedAnswer.model.get('answer_value')); // , questionModel.get('questionValue'));
 
                 answerModel.trigger('change');
             }
@@ -142,7 +167,7 @@ function(joint, HRT) {
                 selectedAnswer = cellView;
 
                 // adjust style of clicked element
-                var attrs           = selectedAnswer.model.get('attrs');
+                attrs           = selectedAnswer.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '5,1';
                 selectedAnswer.model.set('attrs', attrs);
                 selectedAnswer.render().el;
@@ -188,7 +213,7 @@ function(joint, HRT) {
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
                     if (this.model.get('questionTypeID') != '') {
-                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionType').val(this.model.get('questionTypeID'));
                     }
 
@@ -203,7 +228,7 @@ function(joint, HRT) {
 
                     //console.log('newQuestionY ', newQuestionY);
 
-                    var wraptext = joint.util.breakText(newQuestionType + ' question *', {
+                    wraptext = joint.util.breakText(newQuestionType + ' question *', {
                         width: questionLayout[newQuestionType].qSize.width,
                         height: questionLayout[newQuestionType].qSize.height
                     });
@@ -219,7 +244,6 @@ function(joint, HRT) {
                     // Add to db model
 
                     questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
-
 
                     // Set up answers and positions.
 
@@ -247,7 +271,7 @@ function(joint, HRT) {
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
-                                 newX = startX + (mca * (answerWidth + answerMargin));
+                                newX = startX + (mca * (answerWidth + answerMargin));
                                 questionLayout[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
@@ -281,13 +305,12 @@ function(joint, HRT) {
 
                         break;
 
-
                         case 'numeric':
 
                             questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
 
                             var numericStep = parseInt(this.$('#questionNumStep').val());
-                            var step = numericStep
+                            var step = numericStep;
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
                             setTotalWidthAnswers(numAnswers, answerWidth);
 
@@ -349,13 +372,13 @@ function(joint, HRT) {
                         question
                     ]);
 
-
+                    logicWrapper.toBack({deep: true});
 
                     // Loop over answers
 
                     for (var a=0; a < questionLayout[newQuestionType].answers.length; a++) {
 
-                        var wraptext = joint.util.breakText(questionLayout[newQuestionType].answers[a].label, {
+                        wraptext = joint.util.breakText(questionLayout[newQuestionType].answers[a].label, {
                             width: questionLayout[newQuestionType].aSize.width - 10,
                             height: questionLayout[newQuestionType].aSize.height - 10
                         });
@@ -416,9 +439,9 @@ function(joint, HRT) {
                     {
 
                         // adjust text of clicked element
-                        var attrs           = selectedQuestion.model.get('attrs');
+                        attrs           = selectedQuestion.model.get('attrs');
 
-                        var wraptext = joint.util.breakText(this.$(e.target).val(), {
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: questionLayout[newQuestionType].qSize.width,
                             height: questionLayout[newQuestionType].qSize.height
                         });
@@ -434,6 +457,11 @@ function(joint, HRT) {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
                     //console.log(' q type ', newQuestionType);
+
+                    questionModel.set(
+                        {
+                            questionTypeID: this.$('#questionType option:selected').val()
+                        });
 
                     switch(newQuestionType)
                     {
@@ -492,7 +520,7 @@ function(joint, HRT) {
                     contentWrapper.set('inPorts', ['c-i-1']);
                     contentWrapper.set('outPorts', ['c-o-1']);
 
-                    var wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
+                    wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
                         width: 320,
                         height: 130
                     });
@@ -536,13 +564,16 @@ function(joint, HRT) {
                 events: {
                     'keyup #answerLabel': 'answerUpdate',
                     'keyup #answerValue': 'answerValueUpdate',
-                    'click #btnAddAnswer': 'addAnswer'
+                    'keyup #answerValue2': 'answerValue2Update',
+                    'click #btnAddAnswer': 'addAnswer',
+                    'change #valueDataType': 'changeValueDataTypeDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
                     this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
                     this.$el.find('#answerValue').val(this.model.get('answerValue'));
+                    this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
 
                     if (this.model.get('answerValueDataTypeID') != '') {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
@@ -563,9 +594,10 @@ function(joint, HRT) {
                     var n1              = neighbours[neighbours.length-1];
                     var newAnswer       = n1.clone();
                     var pos             = newAnswer.get('position');
-                    var attrs           = newAnswer.get('attrs');
+
+                    attrs           = newAnswer.get('attrs');
                     attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?'; // set using wrap utility
-                    pos.x               += 200;
+                    pos.x               += questionLayout[newQuestionType].aSize.width + answerMargin;
 
                     newAnswer.set('position', pos);
 
@@ -596,9 +628,9 @@ function(joint, HRT) {
                     if (selectedQuestion && selectedAnswer)
                     {
                         // adjust text of clicked element
-                        var attrs           = selectedAnswer.model.get('attrs');
+                        attrs           = selectedAnswer.model.get('attrs');
 
-                        var wraptext = joint.util.breakText(this.$(e.target).val(), {
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: questionLayout[newQuestionType].qSize.width,
                             height: questionLayout[newQuestionType].qSize.height
                         });
@@ -616,9 +648,32 @@ function(joint, HRT) {
                     {
                         // adjust value of selected answer
                         selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
-                        selectedAnswer.render().el;
-
+                        //selectedAnswer.render().el;
                     }
+                },
+                answerValue2Update: function(e)
+                {
+                    //console.log('answer value is changing', e, this.$(e.target).val());
+                    if (selectedQuestion && selectedAnswer)
+                    {
+                        // adjust value of selected answer
+                        selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+                        //selectedAnswer.render().el;
+                    }
+                },
+                changeValueDataTypeDropdown: function()
+                {
+                    //var newValueDataType = this.$('#valueDataType option:selected').text().toLowerCase();
+                    //console.log(' q type ', newQuestionType);
+
+                    if (selectedQuestion && selectedAnswer) {
+                        selectedAnswer.model.set(
+                            {
+                                answer_value_datatype_id: this.$('#valueDataType option:selected').val()
+                            }
+                        );
+                    }
+
                 }
             }
         );

@@ -26,6 +26,8 @@ function(joint) {
 
         graph.on('change:position', function(cell, newPosition, opt) {
 
+            if (opt.skipParentHandler) return;
+
             if (cell.get('embeds') && cell.get('embeds').length) {
                 // If we're manipulating a parent element, let's store
                 // it's original position to a special property so that
@@ -51,28 +53,15 @@ function(joint) {
             var newCornerX = originalPosition.x + originalSize.width;
             var newCornerY = originalPosition.y + originalSize.height;
 
-            //if (parent.get('ktype') != 'question')
-
             _.each(parent.getEmbeddedCells(), function(child) {
 
+                var childBbox = child.getBBox();
 
-                    var childBbox = child.getBBox();
-
-                    if ((childBbox.x - logicWrapperPadding) < newX) {
-                        newX = childBbox.x - logicWrapperPadding;
-                    }
-                    if ((childBbox.y - logicWrapperPadding) < newY) {
-                        newY = childBbox.y - logicWrapperPadding;
-                    }
-                    if ((childBbox.corner().x + logicWrapperPadding) > newCornerX) {
-                        newCornerX = childBbox.corner().x + logicWrapperPadding;
-                    }
-                    if ((childBbox.corner().y + logicWrapperPadding) > newCornerY) {
-                        newCornerY = childBbox.corner().y + logicWrapperPadding;
-                    }
+                if (childBbox.x < newX) { newX = childBbox.x; }
+                if (childBbox.y < newY) { newY = childBbox.y; }
+                if (childBbox.corner().x > newCornerX) { newCornerX = childBbox.corner().x; }
+                if (childBbox.corner().y > newCornerY) { newCornerY = childBbox.corner().y; }
             });
-
-
 
             // Note that we also pass a flag so that we know we shouldn't adjust the
             // `originalPosition` and `originalSize` in our handlers as a reaction

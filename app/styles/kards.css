@@ -279,7 +279,7 @@ textarea:focus {
 }
 
 form {
-  position: absolute;
+  position: fixed;
 }
 form.formQuestionOptions {
   display: block;
@@ -370,18 +370,13 @@ div.alert {
 
 /* jointjs elements */
 div.formPanelControls {
+  position: fixed;
   display: block;
   padding: 5px;
   width: 275px;
   top: 40px;
   left: 20px;
   background: #ddd;
-}
-
-div.left {
-  position: absolute;
-  top: 50px;
-  left: 20px;
 }
 
 .element.Path path {
