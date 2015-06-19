@@ -15,6 +15,7 @@ function(joint, HRT) {
         var selectedQuestion;
         var selectedAnswer;
         var newQuestionType;
+        var newQuestionVariableType;
         var valueDataTypes;
 
 
@@ -61,13 +62,15 @@ function(joint, HRT) {
         };
 
 
-
         // Need to set defaults....
         var questionModel = new Backbone.Model(
             {
                 questionValue: '',
                 questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars
+                questionVariableTypeTemplate: '',
                 questionTypeID: '1',
+                questionVariableTypeID: '3',
+                questionDatapointID: '',
                 choicesAccepted: 1
             }
         );
@@ -78,11 +81,8 @@ function(joint, HRT) {
                 answerValue: '',
                 valueDataTypeTemplate: '',
                 answerValueDataTypeID: 1
-                //questionTypeID: '1',
-                //choicesAccepted: 1
             }
         );
-
 
 
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
@@ -116,7 +116,9 @@ function(joint, HRT) {
                 questionModel.set(
                 {
                     questionValue: attrs.text.text,
-                    questionTypeID: selectedQuestion.model.get('question_type_id')
+                    questionTypeID: selectedQuestion.model.get('question_type_id'),
+                    questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
+                    questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
                 });
 
                 //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
@@ -189,6 +191,7 @@ function(joint, HRT) {
                     this.template = _.template($('.formQuestionOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
                     this.$el.find('#questionTypeTemplate').html(this.model.get('questionTypeTemplate'));
+                    this.$el.find('#questionVariableTypeTemplate').html(this.model.get('questionVariableTypeTemplate'));
                     this.$el.find('#questionControlsMultiple').slideUp(0);
 
                     this.model.on('change', function(){
@@ -200,12 +203,14 @@ function(joint, HRT) {
                 },
                 events: {
                     'click #btnQuestionAdd': 'addQuestion',
-                    'click #btnAddAnswer': 'addAnswer',
+                    //'click #btnAddAnswer': 'addAnswer',
                     'click #btnAddLogicOutPoint': 'addLogicOutPoint',
                     'click #btnAddContent': 'addContent',
                     'click #btnLogGraph': 'saveGraph',
                     'keyup #questionValue': 'questionUpdate',
-                    'change #questionType': 'changeQuestionTypeDropdown'
+                    'change #questionType': 'changeQuestionTypeDropdown',
+                    'change #questionVariableType': 'changeQuestionVariableTypeDropdown',
+                    'change #questionDataPoint': 'changeQuestionDatapointDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -213,8 +218,18 @@ function(joint, HRT) {
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
                     if (this.model.get('questionTypeID') != '') {
-                        console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionType').val(this.model.get('questionTypeID'));
+                    }
+
+                    if (this.model.get('questionVariableTypeID') != '') {
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        this.$el.find('#questionVariableType').val(this.model.get('questionVariableTypeID'));
+                    }
+
+                    if (this.model.get('questionDatapointID') != '') {
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        this.$el.find('#questionDataPoint').val(this.model.get('questionDatapointID'));
                     }
 
                     return this;
@@ -243,7 +258,9 @@ function(joint, HRT) {
 
                     // Add to db model
 
-                    questionObject.question_type_id = parseInt(this.$('#questionType option:selected').val());
+                    questionObject.question_type_id             = parseInt(this.$('#questionType option:selected').val());
+                    questionObject.question_variable_type_id    = parseInt(this.$('#questionVariableType option:selected').val());
+                    questionObject.ehr_datapoint_id             = parseInt(this.$('#questionDataPoint option:selected').val());
 
                     // Set up answers and positions.
 
@@ -454,30 +471,66 @@ function(joint, HRT) {
                 },
                 changeQuestionTypeDropdown: function()
                 {
-
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
                     //console.log(' q type ', newQuestionType);
 
                     questionModel.set(
                         {
-                            questionTypeID: this.$('#questionType option:selected').val()
-                        });
+                            questionTypeID: parseInt(this.$('#questionType option:selected').val())
+                        }
+                    );
 
                     switch(newQuestionType)
                     {
                         case 'boolean':
-
                             this.$('#questionControlsMultiple').slideUp('fast');
-
                         break;
 
                         case 'multiple choice':
                         case 'numeric':
-
                             this.$('#questionControlsMultiple').slideDown('slow');
-
                         break;
+                    }
+                },
+                changeQuestionVariableTypeDropdown: function()
+                {
+                    newQuestionVariableType = this.$('#questionVariableType option:selected').text().toLowerCase();
+                    //console.log(' q type ', newQuestionType);
 
+                    questionModel.set(
+                        {
+                            questionVariableTypeID: parseInt(this.$('#questionVariableType option:selected').val())
+                        }
+                    );
+
+                    if (selectedQuestion)
+                    {
+                        selectedQuestion.model.set(
+                            {
+                                'question_variable_type_id': parseInt(this.$('#questionVariableType option:selected').val())
+                            }
+                        )
+                    }
+
+                },
+                changeQuestionDatapointDropdown: function()
+                {
+                    //newQuestionVariableType = this.$('#questionDataPoint option:selected').text().toLowerCase();
+                    //console.log(' q type ', newQuestionType);
+
+                    questionModel.set(
+                        {
+                            questionDatapointID: parseInt(this.$('#questionDataPoint option:selected').val())
+                        }
+                    );
+
+                    if (selectedQuestion)
+                    {
+                        selectedQuestion.model.set(
+                            {
+                                'ehr_datapoint_id': parseInt(this.$('#questionDataPoint option:selected').val())
+                            }
+                        )
                     }
 
                 },
@@ -689,6 +742,19 @@ function(joint, HRT) {
                 // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
                 var renderedTemplate = HRT.templates['questionTypes.hbs'](data);
                 questionModel.set({'questionTypeTemplate': renderedTemplate});
+
+            }
+        });
+
+        Backbone.ajax({
+            dataType: "json",
+            url: "data/questionVariableTypes.php",
+            data: "",
+            success: function (data) {
+
+                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                var renderedTemplate = HRT.templates['questionVariableTypes.hbs'](data);
+                questionModel.set({'questionVariableTypeTemplate': renderedTemplate});
 
             }
         });
