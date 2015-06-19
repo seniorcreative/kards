@@ -14,6 +14,7 @@ function(joint, HRT) {
 
         var selectedQuestion;
         var selectedAnswer;
+        var selectedContent;
         var newQuestionType;
         var newQuestionVariableType;
         var valueDataTypes;
@@ -80,7 +81,14 @@ function(joint, HRT) {
                 answerLabel: '',
                 answerValue: '',
                 valueDataTypeTemplate: '',
-                answerValueDataTypeID: 1
+                answerValueDataTypeID: 1,
+                answerDatapointID: ''
+            }
+        );
+
+        var contentModel = new Backbone.Model(
+            {
+                contentText: ''
             }
         );
 
@@ -156,23 +164,32 @@ function(joint, HRT) {
                     answerLabel: attrs.text.text,
                     answerValue: selectedAnswer.model.get('answer_value'),
                     answerValue2: selectedAnswer.model.get('answer_value2'),
+                    answerDatapointID: selectedAnswer.model.get('ehr_datapoint_id'),
                     answerValueDataTypeID: answerValueDataTypeID
                 });
 
-                //console.log('set the answer model val to ', selectedAnswer.model.get('answer_value')); // , questionModel.get('questionValue'));
+                //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
 
                 answerModel.trigger('change');
             }
 
             if (cellView.model.attributes.ktype == 'content')
             {
-                selectedAnswer = cellView;
+                selectedContent = cellView;
 
                 // adjust style of clicked element
-                attrs           = selectedAnswer.model.get('attrs');
+                attrs           = selectedContent.model.get('attrs');
                 attrs.rect['stroke-dasharray'] = '5,1';
-                selectedAnswer.model.set('attrs', attrs);
-                selectedAnswer.render().el;
+                selectedContent.model.set('attrs', attrs);
+                selectedContent.render().el;
+
+                contentModel.set(
+                    {
+                        contentText: attrs.text.text
+                    }
+                );
+
+                contentModel.trigger('change');
             }
 
         });
@@ -203,9 +220,7 @@ function(joint, HRT) {
                 },
                 events: {
                     'click #btnQuestionAdd': 'addQuestion',
-                    //'click #btnAddAnswer': 'addAnswer',
                     'click #btnAddLogicOutPoint': 'addLogicOutPoint',
-                    'click #btnAddContent': 'addContent',
                     'click #btnLogGraph': 'saveGraph',
                     'keyup #questionValue': 'questionUpdate',
                     'change #questionType': 'changeQuestionTypeDropdown',
@@ -384,11 +399,7 @@ function(joint, HRT) {
 
                     logicWrapper.embed(question);
 
-                    graph.addCells([
-                        logicWrapper,
-                        question
-                    ]);
-
+                    logicWrapper.toBack();
                     logicWrapper.toBack({deep: true});
 
                     // Loop over answers
@@ -411,7 +422,8 @@ function(joint, HRT) {
                             answer_value_datatype_id: answerDataTypesProvider[a],
                             answer_value: answerValueProvider[a][0],
                             answer_value2: answerValueProvider[a][1],
-                            answer_parent_question: question.id
+                            answer_parent_question: question.id,
+                            ehr_datapoint_id: ''
                         });
 
                         graph.addCells(
@@ -554,43 +566,6 @@ function(joint, HRT) {
                     }
 
                 },
-                addContent: function()
-                {
-
-                    var contentWrapper = new joint.shapes.devs.Model({
-                        ktype: 'logicwrapper',
-                        position: { x: 500, y: 500 },
-                        size: { width: 350, height: 150 },
-                        attrs: {
-                            '.label': { text: 'Content', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
-                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
-                            '.inPorts circle': { fill: '#cccccc' },
-                            '.outPorts circle': { fill: '#cccccc' }
-                        },
-                        interactive: false
-                    });
-
-                    contentWrapper.set('inPorts', ['c-i-1']);
-                    contentWrapper.set('outPorts', ['c-o-1']);
-
-                    wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
-                        width: 320,
-                        height: 130
-                    });
-
-                    var content = new joint.shapes.html.Element({
-                        ktype: 'content',
-                        position: { x: 505, y: 505 },
-                        size: { width: 340, height: 140 },
-                        attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
-                        interactive: false
-                    });
-
-                    graph.addCells([contentWrapper, content]);
-
-                    contentWrapper.embed(content);
-
-                },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));
                 }
@@ -619,7 +594,8 @@ function(joint, HRT) {
                     'keyup #answerValue': 'answerValueUpdate',
                     'keyup #answerValue2': 'answerValue2Update',
                     'click #btnAddAnswer': 'addAnswer',
-                    'change #valueDataType': 'changeValueDataTypeDropdown'
+                    'change #valueDataType': 'changeValueDataTypeDropdown',
+                    'change #answerDataPoint': 'changeAnswerDatapointDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -631,6 +607,11 @@ function(joint, HRT) {
                     if (this.model.get('answerValueDataTypeID') != '') {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
                         this.$el.find('#valueDataType').val(this.model.get('answerValueDataTypeID'));
+                    }
+
+                    if (this.model.get('answerDatapointID') != '') {
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        this.$el.find('#answerDataPoint').val(this.model.get('answerDatapointID'));
                     }
 
                     return this;
@@ -727,10 +708,116 @@ function(joint, HRT) {
                         );
                     }
 
+                },
+                changeAnswerDatapointDropdown: function()
+                {
+                    //newQuestionVariableType = this.$('#questionDataPoint option:selected').text().toLowerCase();
+                    console.log(' datat point type ', this.$('#answerDataPoint option:selected').val());
+
+                    answerModel.set(
+                        {
+                          answerDatapointID: parseInt(this.$('#answerDataPoint option:selected').val())
+                        }
+                    );
+
+                    if (selectedAnswer)
+                    {
+                        selectedAnswer.model.set(
+                            {
+                                'ehr_datapoint_id': parseInt(this.$('#answerDataPoint option:selected').val())
+                            }
+                        )
+                    }
+
                 }
             }
         );
-        
+
+        var contentControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    this.template = _.template($('.formContentOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+                        this.render()
+                    }, this);
+                },
+                events: {
+                    'click #btnAddContent': 'addContent',
+                    'keyup #contentText': 'contentUpdate'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#contentText').val(this.model.get('contentText').split('\n').join(''));
+
+                    return this;
+                },
+                addContent: function()
+                {
+
+                    var contentWrapper = new joint.shapes.devs.Model({
+                        ktype: 'logicwrapper',
+                        position: { x: 500, y: 500 },
+                        size: { width: 350, height: 150 },
+                        attrs: {
+                            '.label': { text: 'Content', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
+                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
+                            '.inPorts circle': { fill: '#cccccc' },
+                            '.outPorts circle': { fill: '#cccccc' }
+                        }
+                    });
+
+                    contentWrapper.set('inPorts', ['c-i-1']);
+                    contentWrapper.set('outPorts', ['c-o-1']);
+
+                    wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
+                        width: 320,
+                        height: 130
+                    });
+
+                    var content = new joint.shapes.html.Element({
+                        ktype: 'content',
+                        position: { x: 505, y: 505 },
+                        size: { width: 340, height: 140 },
+                        attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
+                        interactive: false
+                    });
+
+                    graph.addCells([contentWrapper, content]);
+
+                    contentWrapper.embed(content);
+
+                },
+                contentUpdate: function(e)
+                {
+                    console.log('conetnt value is changing', e, this.$(e.target).val());
+
+                    if (selectedContent)
+                    {
+                        // adjust text of clicked element
+                        attrs           = selectedContent.model.get('attrs');
+
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: 340,
+                            height: 140
+                        });
+
+                        attrs.text.text = wraptext;
+                        selectedContent.model.set('attrs', attrs);
+                        selectedContent.render().el;
+
+                    }
+                }
+            }
+        );
+
+
+
+
+
 
         //wherever you need to do the ajax
         Backbone.ajax({
@@ -743,66 +830,84 @@ function(joint, HRT) {
                 var renderedTemplate = HRT.templates['questionTypes.hbs'](data);
                 questionModel.set({'questionTypeTemplate': renderedTemplate});
 
-            }
-        });
 
-        Backbone.ajax({
-            dataType: "json",
-            url: "data/questionVariableTypes.php",
-            data: "",
-            success: function (data) {
 
-                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                var renderedTemplate = HRT.templates['questionVariableTypes.hbs'](data);
-                questionModel.set({'questionVariableTypeTemplate': renderedTemplate});
+                Backbone.ajax({
+                    dataType: "json",
+                    url: "data/questionVariableTypes.php",
+                    data: "",
+                    success: function (data) {
 
-            }
-        });
+                        // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                        var renderedTemplate = HRT.templates['questionVariableTypes.hbs'](data);
+                        questionModel.set({'questionVariableTypeTemplate': renderedTemplate});
 
-        Backbone.ajax({
-            dataType: "json",
-            url: "data/valueDataTypesDropdown.php",
-            data: "",
-            success: function (data) {
 
-                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                var renderedTemplate = HRT.templates['valueDataTypes.hbs'](data);
-                answerModel.set({'valueDataTypeTemplate': renderedTemplate});
 
-            }
-        });
+                        Backbone.ajax({
+                            dataType: "json",
+                            url: "data/valueDataTypesDropdown.php",
+                            data: "",
+                            success: function (data) {
 
-        Backbone.ajax({
-            dataType: "json",
-            url: "data/valueDataTypes.php",
-            data: "",
-            success: function (valueDataTypeData) {
+                                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
+                                var renderedTemplate = HRT.templates['valueDataTypes.hbs'](data);
+                                answerModel.set({'valueDataTypeTemplate': renderedTemplate});
 
-                $('body').prepend('<div class="alert"><em>Data ready</em></div>');
 
-                valueDataTypes = valueDataTypeData;
 
-                // Don't initalise the question and answer controls views til we got data.
-                var questionControls = new questionControlsView(
-                    {
-                        model: questionModel,
-                        el: '.formQuestionOptions'
+                                Backbone.ajax({
+                                    dataType: "json",
+                                    url: "data/valueDataTypes.php",
+                                    data: "",
+                                    success: function (valueDataTypeData) {
+
+
+                                        valueDataTypes = valueDataTypeData;
+
+                                        // Don't initalise the question and answer controls views til we got data.
+                                        var questionControls = new questionControlsView(
+                                            {
+                                                model: questionModel,
+                                                el: '.formQuestionOptions'
+                                            }
+                                        );
+
+                                        var answerControls = new answerControlsView(
+                                            {
+                                                model: answerModel,
+                                                el: '.formAnswerOptions'
+                                            }
+                                        );
+
+                                        var contentControls = new contentControlsView(
+                                            {
+                                                model: contentModel,
+                                                el: '.formContentOptions'
+                                            }
+                                        );
+
+
+                                        $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
+                                        $('.alert').animate({'opacity': 1}, 500);
+                                        setTimeout(function(){$('.alert').remove()}, 2500);
+
+                                    }
+
+                                });
+
+                            }
+                        });
+
                     }
-                );
-
-                var answerControls = new answerControlsView(
-                    {
-                        model: answerModel,
-                        el: '.formAnswerOptions'
-                    }
-                );
-
-                //$('body').prepend(questionControls.render().el);
-
+                });
 
             }
-
         });
+
+
+
+
 
 
 

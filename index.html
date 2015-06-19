@@ -7,9 +7,11 @@
 
   <title>Kards v1</title>
 
+  <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
   <!-- Application styles. -->
   <!-- build:[href] /styles.min.css -->
-  <link rel="stylesheet" href="app/styles/index.css">
+  <!--<link rel="stylesheet" href="app/styles/index.css">-->
   <link rel="stylesheet" href="app/styles/kards.css">
   <link rel="stylesheet" href="bower_components/jointjs/dist/joint.min.css">
   <!-- /build -->
@@ -24,6 +26,10 @@
       <div id="navigator visuallyhidden"><!-- Kards navigation scaled down paper --></div>
 
       <!--// Controls for paper scale and grid scale etc.-->
+
+
+      <h1>KARDS v1</h1>
+      <input type="text" class="reportTitle" value="Enter report name...">
 
       <div class="formPanelControls">
           <h3>Chart settings</h3>
@@ -97,11 +103,6 @@
           <h3>Question settings</h3>
 
           <div class="form-controls  form-controls--width-full">
-              <label for="questionValue">Question text</label>
-              <textarea id="questionValue" name="questionValue"></textarea>
-          </div>
-
-          <div class="form-controls  form-controls--width-full">
 
               <div id="questionVariableTypeTemplate"><!-- Template will be written here --></div>
 
@@ -116,24 +117,18 @@
           <div id="questionControlsMultiple" class="form-controls-dynamic">
 
               <div class="form-controls  form-controls--width-full">
-
                   <label for="questionNumAnswers">Number of answers</label>
                   <input type="number" value="2" min="1" id="questionNumAnswers" name="questionNumAnswers"  >
-
               </div>
 
               <div class="form-controls  form-controls--width-full">
+                  <label for="questionNumStep">Answer value - numeric step</label>
+                  <input type="number" value="1" id="questionNumStep" name="questionNumStep"  >
+              </div>
 
+              <div class="form-controls  form-controls--width-full">
                   <label for="questionChoicesAccepted">Number of accepted answers</label>
                   <input type="number" value="1" min="1" id="questionChoicesAccepted" name="questionChoicesAccepted"  >
-
-              </div>
-
-              <div class="form-controls  form-controls--width-full">
-
-                  <label for="questionNumStep">Numeric step value</label>
-                  <input type="number" value="1" id="questionNumStep" name="questionNumStep"  >
-
               </div>
 
           </div>
@@ -141,9 +136,8 @@
           <div class="form-controls  form-controls--width-full">
 
               <label for="questionDataPoint">Data point</label>
-
               <select class="" id="questionDataPoint" name="questionDataPoint" size="4">
-                  <!-- populate this with JSON -->
+                  <!-- populate this with data service (or work out nested handlebars templates .hbs looping) -->
                   <optgroup label="EHR Data">
                       <option value="1">Age</option>
                       <option value="2">Gender</option>
@@ -153,13 +147,14 @@
 
           </div>
 
+          <div class="form-controls  form-controls--width-full">
+              <label for="questionUnknownAnswerAllowed"><input type="checkbox" value="" name="questionUnknownAnswerAllowed" id="questionUnknownAnswerAllowed">Include 'unknown' answer</label>
+          </div>
+
 
           <div class="form-controls  form-controls--width-full">
-
-              <label for="questionUnknownAnswerAllowed">Allow unknown as one of the answers</label>
-
-              <input type="checkbox" value="" name="questionUnknownAnswerAllowed" id="questionUnknownAnswerAllowed">
-
+              <label for="questionValue">Question text</label>
+              <textarea id="questionValue" name="questionValue" rows="5"></textarea>
           </div>
 
           <div class="form-controls  form-controls--width-full" >
@@ -168,33 +163,41 @@
 
               <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
               <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
-              <button type="button" id="btnAddContent" class="button-add">Add content</button>
-              <button type="button" id="btnLogGraph" class="button-add">Console log graph</button>
+              <!--<button type="button" id="btnLogGraph" class="button-add">Console log graph</button>-->
 
           </div>
-
 
       </form>
 
 
       <form method="" action="" class="formAnswerOptions">
 
-          <!--<h2>Answers</h2>-->
-
-          <!--<p>Add a new answer</p>-->
-          <!--<button type="button" class="" id="btnNewAnswer">New answer</button>-->
-
           <h3>Answer settings</h3>
 
-          <div class="form-controls  form-controls--width-full">
-              <label for="answerLabel">Answer text</label>
-              <textarea id="answerLabel" name="answerLabel"></textarea>
-          </div>
 
           <div class="form-controls  form-controls--width-full">
 
               <div id="valueDataTypeTemplate"><!-- Template will be written here --></div>
 
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="answerDataPoint">CMS Condition / Symptom</label>
+              <select class="" id="answerDataPoint" name="answerDataPoint" size="4">
+                  <!-- populate this with data service (or work out nested handlebars templates .hbs looping) -->
+                  <optgroup label="HRT Options">
+                      <option value="1">E2</option>
+                      <option value="2">E2 + P</option>
+                      <option value="3">COC</option>
+                      <option value="4">Tibolone</option>
+                  </optgroup>
+                  <optgroup label="Menopausal Symptoms">
+                      <option value="5">Vasomotor</option>
+                      <option value="6">Neuromuscular</option>
+                      <option value="7">Urogenital</option>
+                      <option value="8">Psychogenic</option>
+                  </optgroup>
+              </select>
           </div>
 
           <div class="form-controls  form-controls--width-full">
@@ -207,13 +210,38 @@
               <input type="text" id="answerValue2" name="answerValue2">
           </div>
 
-          <div class="form-controls  form-controls--width-full" >
+          <div class="form-controls  form-controls--width-full">
+              <label for="answerLabel">Answer text</label>
+              <textarea id="answerLabel" name="answerLabel" rows="5"></textarea>
+          </div>
 
+          <div class="form-controls  form-controls--width-full" >
               <label for="btnAddAnswer" class="visuallyhidden">Click the button to add the answer</label>
               <button type="button" id="btnAddAnswer" class="button-add">Add answer</button>
+          </div>
+
+      </form>
+
+
+      <form method="" action="" class="formContentOptions">
+
+          <h3>Content settings</h3>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="contentText">Content text</label>
+              <textarea id="contentText" name="contentText" rows="12"></textarea>
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
+
+              <div id="contentTypeTemplate"><!-- Template will be written here --></div>
 
           </div>
 
+          <div class="form-controls  form-controls--width-full" >
+              <label for="btnAddContent" class="visuallyhidden">Click the button to add the content</label>
+              <button type="button" id="btnAddContent" class="button-add">Add content</button>
+          </div>
 
       </form>
 

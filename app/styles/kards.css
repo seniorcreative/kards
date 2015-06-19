@@ -278,6 +278,41 @@ textarea:focus {
   border: 4px solid black;
 }
 
+html, body {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  position: fixed;
+  left: 50%;
+  margin-left: -70px;
+  top: 10px;
+  text-align: center;
+}
+
+input.reportTitle {
+  width: 100%;
+  border: none;
+  -webkit-appearance: none;
+  text-align: center;
+  font-size: 1.25em;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background: none;
+}
+
+div.formPanelControls {
+  position: fixed;
+  display: block;
+  padding: 5px;
+  width: 275px;
+  bottom: 20px;
+  left: 10px;
+  background: #ddd;
+}
+
 form {
   position: fixed;
 }
@@ -285,32 +320,58 @@ form.formQuestionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 260px;
-  top: 260px;
-  left: 20px;
+  top: 40px;
+  left: 10px;
   background: #ddd;
 }
 form.formAnswerOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 260px;
-  right: 20px;
+  top: 40px;
+  right: 10px;
+  background: #ddd;
+}
+form.formContentOptions {
+  display: block;
+  padding: 5px;
+  width: 275px;
+  top: 580px;
+  right: 10px;
   background: #ddd;
 }
 form input {
+  font-family: 'Varela Round', sans-serif;
   padding: 3px 2px;
+  font-size: 1.1em;
+  color: #555;
+  border: none;
+  border-radius: 2px;
+  background-color: #CFF6F4;
 }
 form textarea {
+  font-family: 'Varela Round', sans-serif;
   padding: 3px 2px;
   width: 100%;
-  height: 100px;
+  font-size: 1.1em;
+  color: #555;
+  border: none;
+  border-radius: 2px;
+  background-color: #cff6f4;
 }
-form button.button-add {
-  padding: 5px;
-  float: right;
-  clear: right;
-  margin: 3px 0 0 0;
+form button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  background-color: #222;
+  margin: 2px 0 0 0;
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.1em;
+}
+form label {
+  display: block;
 }
 form div.form-controls {
   *zoom: 1;
@@ -369,16 +430,6 @@ div.alert {
 }
 
 /* jointjs elements */
-div.formPanelControls {
-  position: fixed;
-  display: block;
-  padding: 5px;
-  width: 275px;
-  top: 40px;
-  left: 20px;
-  background: #ddd;
-}
-
 .element.Path path {
   fill: #ecf0f1;
   stroke: #333333;
