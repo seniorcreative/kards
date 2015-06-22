@@ -13,7 +13,7 @@ function(joint) {
 
         graph.on('change:size', function(cell, newPosition, opt) {
 
-            if (opt.skipParentHandler) return;
+            if (opt && opt.skipParentHandler) return;
 
             if (cell.get('embeds') && cell.get('embeds').length) {
                 // If we're manipulating a parent element, let's store
@@ -26,7 +26,7 @@ function(joint) {
 
         graph.on('change:position', function(cell, newPosition, opt) {
 
-            if (opt.skipParentHandler) return;
+            if (opt && opt.skipParentHandler) return;
 
             if (cell.get('embeds') && cell.get('embeds').length) {
                 // If we're manipulating a parent element, let's store

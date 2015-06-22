@@ -28,8 +28,15 @@
       <!--// Controls for paper scale and grid scale etc.-->
 
 
+      <header>
       <h1>KARDS v1</h1>
-      <input type="text" class="reportTitle" value="Enter report name...">
+      <input type="text" class="reportTitle" placeholder="Enter report name">
+      <select id="reportCategory" name="reportCategory" size="1">
+          <option value="">Select a report category</option>
+          <option value="">Women's Health</option>
+          <option value="">Fertility</option>
+      </select>
+      </header>
 
       <div class="formPanelControls">
           <h3>Chart settings</h3>
@@ -161,8 +168,12 @@
 
               <label for="btnQuestionAdd" class="visuallyhidden">Click the button to add the question</label>
 
-              <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
-              <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
+              <div class="form-controls  form-controls--width-full" >
+                  <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
+              </div>
+              <div class="form-controls  form-controls--width-full" >
+                  <button type="button" id="btnAddAnswer" class="button-add">Add answer</button>
+              </div>
               <!--<button type="button" id="btnLogGraph" class="button-add">Console log graph</button>-->
 
           </div>
@@ -173,7 +184,6 @@
       <form method="" action="" class="formAnswerOptions">
 
           <h3>Answer settings</h3>
-
 
           <div class="form-controls  form-controls--width-full">
 
@@ -216,14 +226,27 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <label for="btnAddAnswer" class="visuallyhidden">Click the button to add the answer</label>
-              <button type="button" id="btnAddAnswer" class="button-add">Add answer</button>
+            <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
           </div>
 
       </form>
 
 
       <form method="" action="" class="formContentOptions">
+
+          <h3>Content search</h3>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="search-field">Search (autocomplete)</label>
+              <input id="search-field" name="search-field" value="" placeholder="Search for something">
+
+              <nav class="autocomplete-dropdown-nav">
+                  <div class="autocomplete-dropdown-nav__options  js-autocomplete--list  __height-constrain--100px">
+                      <ul class="autocomplete-dropdown-nav__options__list"></ul>
+                  </div>
+              </nav>
+
+          </div>
 
           <h3>Content settings</h3>
 

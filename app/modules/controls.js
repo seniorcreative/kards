@@ -3,7 +3,8 @@
 define(
     ['joint',
     'handlebars.runtime',
-    'compiled-templates'],
+    'compiled-templates',
+    'modules/sonoa-auto-complete'],
 
 function(joint, HRT) {
 
@@ -35,6 +36,8 @@ function(joint, HRT) {
         var answerLabelProvider = [];
         var attrs;
         var wraptext;
+        var previousText;
+        var loopedElements;
 
         var questionLayout = {
             boolean: {
@@ -53,6 +56,9 @@ function(joint, HRT) {
                 answers: []
             }
         };
+
+        var contentWrapperSize = {width: 350, height: 150};
+        var contentSize = {width: 250, height: 75};
 
         // Setter functions
 
@@ -95,102 +101,110 @@ function(joint, HRT) {
 
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
-            console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'));
+            console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'), 'element', cellView.el);
 
             var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
-            var loopedElements = paper.findViewsInArea(paperRect);
+            loopedElements = paper.findViewsInArea(paperRect);
 
-            if (cellView.model.attributes.ktype == 'question')
-            {
-                selectedQuestion = cellView;
+            switch(cellView.model.attributes.ktype) {
 
-                for(var element in loopedElements)
-                {
-                    if (loopedElements[element].model.get('ktype') == 'question')
-                    {
-                        attrs           = loopedElements[element].model.get('attrs');
-                        attrs.rect['stroke-dasharray'] = '';
-                        loopedElements[element].model.set('attrs', attrs);
-                        loopedElements[element].render().el;
+                case 'question':
+
+                    selectedQuestion = cellView;
+
+                    for (var element in loopedElements) {
+                        if (loopedElements[element].model.get('ktype') == 'question') {
+                            attrs = loopedElements[element].model.get('attrs');
+                            attrs.rect['stroke-dasharray'] = '';
+                            loopedElements[element].model.set('attrs', attrs);
+                            loopedElements[element].render().el;
+                        }
                     }
-                }
 
-                // adjust style of clicked element
-                attrs           = selectedQuestion.model.get('attrs');
-                attrs.rect['stroke-dasharray'] = '2,3';
-                selectedQuestion.model.set('attrs', attrs);
-                selectedQuestion.render().el;
+                    // adjust style of clicked element
+                    attrs = selectedQuestion.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedQuestion.model.set('attrs', attrs);
+                    selectedQuestion.render().el;
 
-                questionModel.set(
-                {
-                    questionValue: attrs.text.text,
-                    questionTypeID: selectedQuestion.model.get('question_type_id'),
-                    questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
-                    questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
-                });
+                    questionModel.set(
+                        {
+                            questionValue: attrs.text.text,
+                            questionTypeID: selectedQuestion.model.get('question_type_id'),
+                            questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
+                            questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
+                        });
 
-                //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
-                questionModel.trigger('change');
+                    //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
+                    questionModel.trigger('change');
+
+                break;
+
+                case 'answer':
+
+                    selectedAnswer = cellView;
+
+                    // Also set the parent question (both need to be set if we're editing answer controls)
+                    selectedQuestion = graph.getCell(selectedAnswer.model.get('answer_parent_question'));
+
+                    var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
+
+                    for (var element in loopedElements) {
+                        if (loopedElements[element].model.get('ktype') == 'answer') {
+                            attrs = loopedElements[element].model.get('attrs');
+                            attrs.rect['stroke-dasharray'] = '';
+                            loopedElements[element].model.set('attrs', attrs);
+                            loopedElements[element].render().el;
+                        }
+                    }
+
+                    // adjust style of clicked element
+                    attrs = selectedAnswer.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedAnswer.model.set('attrs', attrs);
+                    selectedAnswer.render().el;
+
+                    answerModel.set(
+                        {
+                            answerLabel: attrs.text.text,
+                            answerValue: selectedAnswer.model.get('answer_value'),
+                            answerValue2: selectedAnswer.model.get('answer_value2'),
+                            answerDatapointID: selectedAnswer.model.get('ehr_datapoint_id'),
+                            answerValueDataTypeID: answerValueDataTypeID
+                        });
+
+                    //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
+
+                    answerModel.trigger('change');
+
+                break;
+
+                case 'content':
+
+                    highlightContentForEditing(cellView);
+
+                break;
+
+                case 'logicwrapper':
+
+                    // Check if child is text 'content' model
+                    if (cellView.model.getEmbeddedCells().length) {
+                        if (cellView.model.getEmbeddedCells()[0].get('ktype') == "content") {
+                            highlightContentForEditing(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]));
+
+                        }
+                    }
+
+                break;
+
+                default:
+
+                    // link etc?
+
+                break;
+
             }
 
-            if (cellView.model.attributes.ktype == 'answer')
-            {
-                selectedAnswer = cellView;
-
-                // Also set the parent question (both need to be set if we're editing answer controls)
-                selectedQuestion = graph.getCell(selectedAnswer.model.get('answer_parent_question'));
-
-                var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
-
-                for(var element in loopedElements)
-                {
-                    if (loopedElements[element].model.get('ktype') == 'answer')
-                    {
-                        attrs           = loopedElements[element].model.get('attrs');
-                        attrs.rect['stroke-dasharray'] = '';
-                        loopedElements[element].model.set('attrs', attrs);
-                        loopedElements[element].render().el;
-                    }
-                }
-
-                // adjust style of clicked element
-                attrs           = selectedAnswer.model.get('attrs');
-                attrs.rect['stroke-dasharray'] = '2,3';
-                selectedAnswer.model.set('attrs', attrs);
-                selectedAnswer.render().el;
-
-                answerModel.set(
-                {
-                    answerLabel: attrs.text.text,
-                    answerValue: selectedAnswer.model.get('answer_value'),
-                    answerValue2: selectedAnswer.model.get('answer_value2'),
-                    answerDatapointID: selectedAnswer.model.get('ehr_datapoint_id'),
-                    answerValueDataTypeID: answerValueDataTypeID
-                });
-
-                //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
-
-                answerModel.trigger('change');
-            }
-
-            if (cellView.model.attributes.ktype == 'content')
-            {
-                selectedContent = cellView;
-
-                // adjust style of clicked element
-                attrs           = selectedContent.model.get('attrs');
-                attrs.rect['stroke-dasharray'] = '5,1';
-                selectedContent.model.set('attrs', attrs);
-                selectedContent.render().el;
-
-                contentModel.set(
-                    {
-                        contentText: attrs.text.text
-                    }
-                );
-
-                contentModel.trigger('change');
-            }
 
         });
 
@@ -199,6 +213,41 @@ function(joint, HRT) {
             //
         });
 
+
+        var highlightContentForEditing = function( _element )
+        {
+
+            console.log('selected content set to ', _element);
+
+            selectedContent = _element;
+
+            // reset all looped elements
+
+            for (var element in loopedElements) {
+                if (loopedElements[element].model.get('ktype') == 'content') {
+                    attrs = loopedElements[element].model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '';
+                    attrs.rect['stroke'] = 'rgba(0,0,0,0)';
+                    loopedElements[element].model.set('attrs', attrs);
+                    loopedElements[element].render().el;
+                }
+            }
+
+            // adjust style of clicked element
+            attrs = selectedContent.model.get('attrs');
+            attrs.rect['stroke-dasharray'] = '5,1';
+            attrs.rect['stroke'] = 'rgba(0,0,0,0.5)';
+            selectedContent.model.set('attrs', attrs);
+            selectedContent.render().el;
+
+            contentModel.set(
+                {
+                    contentText: attrs.text.text
+                }
+            );
+
+            contentModel.trigger('change');
+        }
 
 
         var questionControlsView = Backbone.View.extend(
@@ -220,8 +269,8 @@ function(joint, HRT) {
                 },
                 events: {
                     'click #btnQuestionAdd': 'addQuestion',
-                    'click #btnAddLogicOutPoint': 'addLogicOutPoint',
                     'click #btnLogGraph': 'saveGraph',
+                    'click #btnAddAnswer': 'addAnswer',
                     'keyup #questionValue': 'questionUpdate',
                     'change #questionType': 'changeQuestionTypeDropdown',
                     'change #questionVariableType': 'changeQuestionVariableTypeDropdown',
@@ -267,7 +316,7 @@ function(joint, HRT) {
                         ktype: 'question',
                         position: {x: newQuestionX, y: newQuestionY},
                         size: questionLayout[newQuestionType].qSize,
-                        attrs: { rect: { fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: wraptext, fill: 'black' }}
+                        attrs: { rect: { fill: 'rgb(255,255,255)', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: wraptext, fill: 'black' }}
                     };
 
 
@@ -292,14 +341,24 @@ function(joint, HRT) {
 
                             questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
                             numAnswers = 2;
-
-                            // calculate the answer positions.
-                            setTotalWidthAnswers(numAnswers, answerWidth);
-
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
                             answerDataTypesProvider = [valueDataTypes['boolean'], valueDataTypes['boolean']]; // boolean (can also use newQuestionType switch case here)
                             answerValueProvider     =  [[1], [0]]; // Note that the answer value can expect an array of 2 values
                             answerLabelProvider     =  ['true', 'false'];
+
+                            console.log('checked', $('#questionUnknownAnswerAllowed').is(":checked"));
+
+                            if ($('#questionUnknownAnswerAllowed').is(":checked"))
+                            {
+                                // Add a third answer
+                                numAnswers++;
+                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerValueProvider.push([1]);
+                                answerLabelProvider.push('unknown');
+                            }
+
+                            // calculate the answer positions.
+                            setTotalWidthAnswers(numAnswers, answerWidth);
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
@@ -310,6 +369,8 @@ function(joint, HRT) {
                                     label: answerLabelProvider[mca]
                                 };
                             }
+
+
 
                         break;
 
@@ -389,8 +450,8 @@ function(joint, HRT) {
                         }
                     });
 
-                    logicWrapper.set('inPorts', ['l-i-1']);
-                    logicWrapper.set('outPorts', ['l-o-1']);
+                    logicWrapper.set('inPorts', ['in 1']);
+                    logicWrapper.set('outPorts', ['out 1']);
 
                     graph.addCells([
                         logicWrapper,
@@ -416,7 +477,7 @@ function(joint, HRT) {
                             position: questionLayout[newQuestionType].answers[a].position,
                             size: questionLayout[newQuestionType].aSize,
                             attrs: {
-                                rect: {fill: 'white', 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
+                                rect: {fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
                                 text: {text: wraptext, fill: 'black'}
                             },
                             answer_value_datatype_id: answerDataTypesProvider[a],
@@ -439,7 +500,7 @@ function(joint, HRT) {
                         var lolink = new joint.shapes.devs.Link({
                             source: {
                                 id: logicWrapper.id,
-                                port: 'l-o-1'
+                                port: 'out 1'
                             },
                             target: {
                                 id: answer.id
@@ -546,81 +607,11 @@ function(joint, HRT) {
                     }
 
                 },
-                addLogicOutPoint: function() {
-
-                    // Let's add an out port to the parent of the selected answer.
-
-                    if (selectedAnswer) {
-
-                        var parentLogicWrapper = graph.getCell(selectedAnswer.model.get('parent'));
-
-                        var newOutports = parentLogicWrapper.attributes.outPorts;
-                        var ar = [];
-                        for (lo in newOutports) {
-                            ar[lo] = newOutports[lo];
-                        }
-
-                        ar.push("l-0-" + (newOutports.length + 1));
-                        parentLogicWrapper.set('outPorts', ar);
-
-                    }
-
-                },
-                saveGraph: function () {
-                    console.log(JSON.stringify(graph.toJSON()));
-                }
-            }
-        );
-
-        var answerControlsView = Backbone.View.extend(
-            {
-                initialize: function () {
-
-                    //console.log('answer controls view inited');
-
-                    this.template = _.template($('.formAnswerOptions').html());
-                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-                    this.$el.find('#valueDataTypeTemplate').html(this.model.get('valueDataTypeTemplate'));
-
-                    this.model.on('change', function(){
-
-                        this.render()
-
-                    }, this);
-
-                },
-                events: {
-                    'keyup #answerLabel': 'answerUpdate',
-                    'keyup #answerValue': 'answerValueUpdate',
-                    'keyup #answerValue2': 'answerValue2Update',
-                    'click #btnAddAnswer': 'addAnswer',
-                    'change #valueDataType': 'changeValueDataTypeDropdown',
-                    'change #answerDataPoint': 'changeAnswerDatapointDropdown'
-                },
-                render: function () {
-                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
-                    this.$el.find('#answerValue').val(this.model.get('answerValue'));
-                    this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
-
-                    if (this.model.get('answerValueDataTypeID') != '') {
-                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
-                        this.$el.find('#valueDataType').val(this.model.get('answerValueDataTypeID'));
-                    }
-
-                    if (this.model.get('answerDatapointID') != '') {
-                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
-                        this.$el.find('#answerDataPoint').val(this.model.get('answerDatapointID'));
-                    }
-
-                    return this;
-                },
                 addAnswer: function()
                 {
 
-                    // Let's add an answer to the selected question!
 
+                    // Let's add an answer to the selected question!
                     // let's add another answer by cloning the first answr in this questions child neighbours.
                     if (!selectedQuestion) return;
 
@@ -651,9 +642,62 @@ function(joint, HRT) {
                     // embed this answer under the question (which is embedded into the logic wrapper)
                     graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
 
+                    //
+                    console.log(selectedQuestion.model.get('parent'));
+
                     graph.trigger('change:position', newAnswer, pos);
 
 
+                },
+                saveGraph: function () {
+                    console.log(JSON.stringify(graph.toJSON()));
+                }
+            }
+        );
+
+        var answerControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    //console.log('answer controls view inited');
+
+                    this.template = _.template($('.formAnswerOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+                    this.$el.find('#valueDataTypeTemplate').html(this.model.get('valueDataTypeTemplate'));
+
+                    this.model.on('change', function(){
+
+                        this.render()
+
+                    }, this);
+
+                },
+                events: {
+                    'keyup #answerLabel': 'answerUpdate',
+                    'keyup #answerValue': 'answerValueUpdate',
+                    'keyup #answerValue2': 'answerValue2Update',
+                    'click #btnAddLogicOutPoint': 'addLogicOutPoint',
+                    'change #valueDataType': 'changeValueDataTypeDropdown',
+                    'change #answerDataPoint': 'changeAnswerDatapointDropdown'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
+                    this.$el.find('#answerValue').val(this.model.get('answerValue'));
+                    this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
+
+                    if (this.model.get('answerValueDataTypeID') != '') {
+                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
+                        this.$el.find('#valueDataType').val(this.model.get('answerValueDataTypeID'));
+                    }
+
+                    if (this.model.get('answerDatapointID') != '') {
+                        //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
+                        this.$el.find('#answerDataPoint').val(this.model.get('answerDatapointID'));
+                    }
+
+                    return this;
                 },
                 answerUpdate: function(e)
                 {
@@ -729,6 +773,27 @@ function(joint, HRT) {
                         )
                     }
 
+                },
+                addLogicOutPoint: function()
+                {
+
+                    // Let's add an out port to the parent of the selected answer.
+
+                    if (selectedAnswer) {
+
+                        var parentLogicWrapper = graph.getCell(selectedAnswer.model.get('parent'));
+
+                        var newOutports = parentLogicWrapper.attributes.outPorts;
+                        var ar = [];
+                        for (lo in newOutports) {
+                            ar[lo] = newOutports[lo];
+                        }
+
+                        ar.push("out " + (newOutports.length + 1));
+                        parentLogicWrapper.set('outPorts', ar);
+
+                    }
+
                 }
             }
         );
@@ -743,6 +808,9 @@ function(joint, HRT) {
                     this.model.on('change', function(){
                         this.render()
                     }, this);
+
+                    autocompleteSearch();
+
                 },
                 events: {
                     'click #btnAddContent': 'addContent',
@@ -760,8 +828,8 @@ function(joint, HRT) {
 
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: { x: 500, y: 500 },
-                        size: { width: 350, height: 150 },
+                        position: { x: stageCenterX - (contentWrapperSize.width / 2), y: stageCenterY - (contentWrapperSize.height / 2) },
+                        size: { width: contentWrapperSize.width, height: contentWrapperSize.height },
                         attrs: {
                             '.label': { text: 'Content', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
                             rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
@@ -770,19 +838,19 @@ function(joint, HRT) {
                         }
                     });
 
-                    contentWrapper.set('inPorts', ['c-i-1']);
-                    contentWrapper.set('outPorts', ['c-o-1']);
+                    contentWrapper.set('inPorts', ['in 1']);
+                    contentWrapper.set('outPorts', ['out 1']);
 
                     wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
-                        width: 320,
-                        height: 130
+                        width: contentSize.width,
+                        height: contentSize.height
                     });
 
                     var content = new joint.shapes.html.Element({
                         ktype: 'content',
-                        position: { x: 505, y: 505 },
-                        size: { width: 340, height: 140 },
-                        attrs: { rect: { fill: 'white', 'stroke-width': 1, stroke: 'rgb(0,0,0,0.5)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
+                        position: { x: stageCenterX - (contentSize.width / 2), y: stageCenterY - (contentSize.height / 2) },
+                        size: { width: contentSize.width, height: contentSize.height },
+                        attrs: { rect: { fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
                         interactive: false
                     });
 
@@ -793,21 +861,30 @@ function(joint, HRT) {
                 },
                 contentUpdate: function(e)
                 {
-                    console.log('conetnt value is changing', e, this.$(e.target).val());
+                    //console.log('content value is changing', e, this.$(e.target).val());
 
                     if (selectedContent)
                     {
-                        // adjust text of clicked element
-                        attrs           = selectedContent.model.get('attrs');
+                        //if (this.$(e.target).val() == '')
+                        //{
+                        //    this.$(e.target).val(previousText);
+                        //    alert('Operation not permitted');
+                        //}
+                        //else {
+                            // adjust text of clicked element
+                            attrs = selectedContent.model.get('attrs');
 
-                        wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: 340,
-                            height: 140
-                        });
+                            wraptext = joint.util.breakText(this.$(e.target).val(), {
+                                width: contentSize.width,
+                                height: contentSize.height
+                            });
 
-                        attrs.text.text = wraptext;
-                        selectedContent.model.set('attrs', attrs);
-                        selectedContent.render().el;
+                            attrs.text.text = wraptext;
+                            selectedContent.model.set('attrs', attrs);
+                            selectedContent.render().el;
+
+                            //previousText = this.$(e.target).val();
+                        //}
 
                     }
                 }
@@ -815,6 +892,71 @@ function(joint, HRT) {
         );
 
 
+        var autocompleteSearch  = function()
+        {
+
+            console.log('autocompleteSearch called');
+
+                $('#search-field').sonoaAutocomplete(
+                    {
+                        TYPE					: "GET",
+                        AJAX_URL				: 'http://localhost/kards-v1/data/individualisedContent.php',
+                        POST_STRING			    : {},
+
+                        SUGGESTION_LIST		    : '.js_autocomplete--list',
+
+                        INPUT_CLEAR_FILL		: false,
+
+                        //AUTOCOMPLETE_CLASS	: 'autocomplete-dropdown-nav__options__list',
+
+                        onLoad : function(){
+                        },
+
+                        onKeyup : function(){
+
+                        },
+
+                        beforeSend : function() {
+                            //$('.answer--append').addClass('hidden');
+                            //$('.main-content--message-read').addClass('hidden');
+                            //$('.main-content--message-read__title-profile__heading').addClass('hidden');
+                            //$('.main-content--message-read__message-date').addClass('hidden');
+
+                            //overlay.showSuggestionOverlay();
+                        },
+
+                        success : function( data ){
+
+                            $('#search-field').val(  $('#search-field').val() );
+                        },
+
+                        onClick : function( e ){
+                            //showAnswer( e.id );
+                            //overlay.hideSuggestionOverlay();
+                            //incrementSearchCounter( e.id );
+                        },
+
+                        onEmpty : function(){
+                            $('.main-content--suggestions__cantfind').show();
+                            $( '.js_autocomplete--list' ).html( '<ul class="header-search__suggest__list"><li><span class="autocomplete-dropdown-nav__options__span">No questions found</span></li></ul>' ); // PLEASE LEAVE THIS!!!! Steve
+                        },
+
+                        onEmptyInput : function(){
+                            if( $('#search-field').val() != undefined )
+                            {
+                                if($('#search-field').val().length <= 0)
+                                {
+                                    //overlay.hideSuggestionOverlay();
+                                }
+                            }
+                        },
+
+                        error : function( data ){
+                        }
+
+                    });
+
+        };
 
 
 

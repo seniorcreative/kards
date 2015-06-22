@@ -17,27 +17,43 @@ html,body
     font-size: 16px;
 }
 
-h1
+body
 {
-    position: fixed;
-    left: 50%;
-    margin-left: -70px;
-    top: 10px;
-    text-align: center;
+    background-color: #99ccff;
 }
 
-input.reportTitle
-{
-    width: 100%;
-    border: none;
-    -webkit-appearance: none;
-    text-align: center;
-    font-size: 1.25em;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    background: none;
+header {
+
+    h1 {
+        position: fixed;
+        left: 50%;
+        margin-left: -76px;
+        top: 10px;
+        text-align: center;
+    }
+
+    input.reportTitle {
+        width: 100%;
+        border: none;
+        -webkit-appearance: none;
+        text-align: center;
+        font-size: 1.25em;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        background: none;
+    }
+
+    select#reportCategory {
+        width: 175px;
+        position: fixed;
+        left: 50%;
+        top: 100px;
+        margin-left: -85px;
+    }
+
 }
+
 
 div.formPanelControls
 {
@@ -47,12 +63,26 @@ div.formPanelControls
     width: 275px;
     bottom: 20px;
     left: 10px;
-    background: #ddd;
+
+    background-color: rgba(#3A5861, 0.5);
+    color: white;
+    font-size: 1.1em;
+    border-radius: 4px;
+
+    h3
+    {
+        color: #111111;
+    }
+
 }
 
 form
 {
     position: fixed;
+    background-color: rgba(#3A5861, 0.5);
+    color: white;
+    font-size: 1.1em;
+    border-radius: 8px;
 
     &.formQuestionOptions {
 
@@ -61,7 +91,6 @@ form
         width: 275px;
         top: 40px;
         left: 10px;
-        background: #ddd;
 
     }
 
@@ -72,7 +101,6 @@ form
         width: 275px;
         top: 40px;
         right: 10px;
-        background: #ddd;
 
     }
 
@@ -83,8 +111,12 @@ form
         width: 275px;
         top: 580px;
         right: 10px;
-        background: #ddd;
 
+    }
+
+    h3
+    {
+        color: #111111;
     }
 
     input
@@ -137,6 +169,7 @@ form
     label
     {
         display: block;
+        font-size: .75em;
     }
 
     div.form-controls

@@ -283,15 +283,18 @@ html, body {
   font-size: 16px;
 }
 
-h1 {
+body {
+  background-color: #99ccff;
+}
+
+header h1 {
   position: fixed;
   left: 50%;
-  margin-left: -70px;
+  margin-left: -76px;
   top: 10px;
   text-align: center;
 }
-
-input.reportTitle {
+header input.reportTitle {
   width: 100%;
   border: none;
   -webkit-appearance: none;
@@ -302,6 +305,13 @@ input.reportTitle {
   left: 0;
   background: none;
 }
+header select#reportCategory {
+  width: 175px;
+  position: fixed;
+  left: 50%;
+  top: 100px;
+  margin-left: -85px;
+}
 
 div.formPanelControls {
   position: fixed;
@@ -310,11 +320,21 @@ div.formPanelControls {
   width: 275px;
   bottom: 20px;
   left: 10px;
-  background: #ddd;
+  background-color: rgba(58, 88, 97, 0.5);
+  color: white;
+  font-size: 1.1em;
+  border-radius: 4px;
+}
+div.formPanelControls h3 {
+  color: #111111;
 }
 
 form {
   position: fixed;
+  background-color: rgba(58, 88, 97, 0.5);
+  color: white;
+  font-size: 1.1em;
+  border-radius: 8px;
 }
 form.formQuestionOptions {
   display: block;
@@ -322,7 +342,6 @@ form.formQuestionOptions {
   width: 275px;
   top: 40px;
   left: 10px;
-  background: #ddd;
 }
 form.formAnswerOptions {
   display: block;
@@ -330,7 +349,6 @@ form.formAnswerOptions {
   width: 275px;
   top: 40px;
   right: 10px;
-  background: #ddd;
 }
 form.formContentOptions {
   display: block;
@@ -338,7 +356,9 @@ form.formContentOptions {
   width: 275px;
   top: 580px;
   right: 10px;
-  background: #ddd;
+}
+form h3 {
+  color: #111111;
 }
 form input {
   font-family: 'Varela Round', sans-serif;
@@ -372,6 +392,7 @@ form button {
 }
 form label {
   display: block;
+  font-size: .75em;
 }
 form div.form-controls {
   *zoom: 1;
