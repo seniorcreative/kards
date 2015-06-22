@@ -16,7 +16,7 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
         width: 2400,
         height: 2400,
         model: graph,
-        gridSize: 10,
+        gridSize: 15,
         defaultLink: new joint.dia.Link({
             smooth: true,
             attrs: {
