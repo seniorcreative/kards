@@ -346,8 +346,6 @@ function(joint, HRT) {
                             answerValueProvider     =  [[1], [0]]; // Note that the answer value can expect an array of 2 values
                             answerLabelProvider     =  ['true', 'false'];
 
-                            console.log('checked', $('#questionUnknownAnswerAllowed').is(":checked"));
-
                             if ($('#questionUnknownAnswerAllowed').is(":checked"))
                             {
                                 // Add a third answer
@@ -377,17 +375,31 @@ function(joint, HRT) {
                         case 'multiple choice':
 
                             questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
-
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
+
+                            // Initial loop
+                            for (mca = 0; mca < numAnswers; mca++) {
+
+                                answerDataTypesProvider[mca] = valueDataTypes['boolean']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca] = [1]; // Might as well be boolean
+                                answerLabelProvider[mca] = 'Answer ' + (mca + 1) + ' *';
+
+                            }
+
+                            // Append an unknown answer
+                            if ($('#questionUnknownAnswerAllowed').is(":checked"))
+                            {
+                                // Add a third answer
+                                numAnswers++;
+                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerValueProvider.push([1]);
+                                answerLabelProvider.push('unknown');
+                            }
+
                             setTotalWidthAnswers(numAnswers, answerWidth);
 
-                            for (mca = 0; mca < numAnswers; mca++)
-                            {
-
-                                answerDataTypesProvider[mca]  = valueDataTypes['string']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca]        = [''];
-                                answerLabelProvider[mca]        = 'Answer ' + (mca+1) + ' *';
-
+                            // Then loop again
+                            for (mca = 0; mca < numAnswers; mca++) {
                                 newX = startX + (mca * (answerWidth + answerMargin));
                                 questionLayout[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},
@@ -395,6 +407,7 @@ function(joint, HRT) {
                                     label: answerLabelProvider[mca]
                                 };
                             }
+
 
                         break;
 
@@ -405,17 +418,31 @@ function(joint, HRT) {
                             var numericStep = parseInt(this.$('#questionNumStep').val());
                             var step = numericStep;
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
-                            setTotalWidthAnswers(numAnswers, answerWidth);
 
-                            for (mca = 0; mca < numAnswers; mca++)
-                            {
+                            // Initial loop
+                            for (mca = 0; mca < numAnswers; mca++) {
 
-                                answerDataTypesProvider[mca]    = valueDataTypes['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca]        = [step];
-                                answerLabelProvider[mca]        = step + ' *';
+                                answerDataTypesProvider[mca] = valueDataTypes['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca] = [step];
+                                answerLabelProvider[mca] = step + ' *';
 
                                 step += numericStep; // increment the step by itself (prob need a start value from the form)
+                            }
 
+                            // Append an unknown answer
+                            if ($('#questionUnknownAnswerAllowed').is(":checked"))
+                            {
+                                // Add a third answer
+                                numAnswers++;
+                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerValueProvider.push([1]);
+                                answerLabelProvider.push('unknown');
+                            }
+
+                            setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            // Then loop again
+                            for (mca = 0; mca < numAnswers; mca++) {
                                 newX = startX + (mca * (answerWidth + answerMargin));
                                 questionLayout[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},

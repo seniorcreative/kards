@@ -27,19 +27,41 @@
 
       <!--// Controls for paper scale and grid scale etc.-->
 
-
       <header>
-      <h1>KARDS v1</h1>
-      <input type="text" class="reportTitle" placeholder="Enter report name">
-      <select id="reportCategory" name="reportCategory" size="1">
-          <option value="">Select a report category</option>
-          <option value="">Women's Health</option>
-          <option value="">Fertility</option>
-      </select>
+          <label class="testMode" for="testCheckBox"><input type="checkbox" id="testCheckBox" value="">Test mode</label>
+          <h1>KARDS v1</h1>
       </header>
 
+      <form method="" action="" class="formReportOptions">
+
+          <h3>Report</h3>
+
+          <input type="text" class="reportTitle" id="reportTitle" placeholder="Enter report name">
+          <select id="reportCategory" name="reportCategory" size="1">
+              <option value="">Select a report category</option>
+              <option value="">Women's Health</option>
+              <option value="">Fertility</option>
+          </select>
+
+      </form>
+
+      <form method="" action="" class="formSectionOptions">
+
+          <h3>Section</h3>
+
+          <label for="sectionID">Select a section</label>
+          <select id="sectionID" name="sectionID" size="1">
+              <option value="">Select a section</option>
+              <option value="1">Section 1</option>
+              <option value="2">Section 2</option>
+              <option value="3">Section 3</option>
+          </select>
+
+      </form>
+
+
       <div class="formPanelControls">
-          <h3>Chart settings</h3>
+          <h3>Display settings</h3>
 
           <div class="panel panel-primary">
               <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>-->
@@ -107,7 +129,20 @@
           <!--<p>Add a new question</p>-->
           <!--<button type="button" class="" id="btnNewQuestion">New question</button>-->
 
-          <h3>Question settings</h3>
+          <h3>Question</h3>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="search-field-question">Search (autocomplete)</label>
+              <select id="searchFilterContent" name="searchFilterContent">
+                  <option value="">Filter by...</option>
+              </select>
+              <input id="search-field-question" name="search-field-question" value="" placeholder="Search questions">
+              <nav class="autocomplete-dropdown-nav">
+                  <div class="autocomplete-dropdown-nav__options  js-autocomplete--list  __height-constrain--100px">
+                      <ul class="autocomplete-dropdown-nav__options__list"></ul>
+                  </div>
+              </nav>
+          </div>
 
           <div class="form-controls  form-controls--width-full">
 
@@ -183,7 +218,20 @@
 
       <form method="" action="" class="formAnswerOptions">
 
-          <h3>Answer settings</h3>
+          <h3>Answer</h3>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="search-field-answer">Search (autocomplete)</label>
+              <select id="searchFilterContent" name="searchFilterContent">
+                  <option value="">Filter by...</option>
+              </select>
+              <input id="search-field-answer" name="search-field-answer" value="" placeholder="Search answers">
+              <nav class="autocomplete-dropdown-nav">
+                  <div class="autocomplete-dropdown-nav__options  js-autocomplete--list  __height-constrain--100px">
+                      <ul class="autocomplete-dropdown-nav__options__list"></ul>
+                  </div>
+              </nav>
+          </div>
 
           <div class="form-controls  form-controls--width-full">
 
@@ -234,21 +282,24 @@
 
       <form method="" action="" class="formContentOptions">
 
-          <h3>Content search</h3>
+          <h3>Content</h3>
 
           <div class="form-controls  form-controls--width-full">
-              <label for="search-field">Search (autocomplete)</label>
-              <input id="search-field" name="search-field" value="" placeholder="Search for something">
-
+              <label for="search-field-content">Search (autocomplete)</label>
+              <select id="searchFilterContent" name="searchFilterContent">
+                  <option value="">Filter by...</option>
+                  <option value="">Report header</option>
+                  <option value="">Text</option>
+                  <option value="">Image</option>
+                  <option value="">Video</option>
+              </select>
+              <input id="search-field-content" name="search-field-content" value="" placeholder="Search content">
               <nav class="autocomplete-dropdown-nav">
                   <div class="autocomplete-dropdown-nav__options  js-autocomplete--list  __height-constrain--100px">
                       <ul class="autocomplete-dropdown-nav__options__list"></ul>
                   </div>
               </nav>
-
           </div>
-
-          <h3>Content settings</h3>
 
           <div class="form-controls  form-controls--width-full">
               <label for="contentText">Content text</label>
@@ -257,7 +308,7 @@
 
           <div class="form-controls  form-controls--width-full">
 
-              <div id="contentTypeTemplate"><!-- Template will be written here --></div>
+              <div id="contentTypeTemplate">Content type TBC<!-- Template will be written here --></div>
 
           </div>
 

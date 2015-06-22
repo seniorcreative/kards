@@ -47,4 +47,29 @@ function(joint, controls, paperControls, boundingLogicExpansion) {
     boundingLogicExpansion.init(graph, paper);
 
 
+    $('#testCheckBox').on('change', function() {
+
+        if ($('#testCheckBox').is(':checked')) {
+
+            $('.formQuestionOptions').animate({'left': -400}, 250);
+            $('.formAnswerOptions').animate({'right': -400}, 250);
+            $('.formContentOptions').animate({'right': -400}, 250);
+            $('.formPanelControls').animate({'left': -400}, 250);
+            $('.formReportOptions').animate({'left': -400}, 250);
+            $('.formSectionOptions').animate({'left': -400}, 250);
+
+        }
+        else
+        {
+            $('.formQuestionOptions').animate({'left': 10}, 250);
+            $('.formAnswerOptions').animate({'right': 10}, 250);
+            $('.formContentOptions').animate({'right': 10}, 250);
+            $('.formPanelControls').animate({'left': 10}, 250);
+            $('.formReportOptions').animate({'left': 10}, 250);
+            $('.formSectionOptions').animate({'left': 10}, 250);
+
+        }
+
+    });
+
 });
