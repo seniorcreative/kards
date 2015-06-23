@@ -43,6 +43,71 @@ function(joint, HRT) {
                 {
                     selected: '2,3',
                     deselected: ''
+                },
+                fill:
+                {
+                    normal: 'rgb(255,255,255)',
+                    wrapper: 'rgb(255,255,255)'
+                },
+                fillOpacity:
+                {
+                    normal: 1,
+                    wrapper: 0.5
+                },
+                strokeWidth:
+                {
+                    normal: 2,
+                    wrapper: 2
+                },
+                stroke:
+                {
+                    normal: 'rgb(0,0,0)',
+                    wrapper: 'rgb(0,0,0)'
+                },
+                strokeOpacity:
+                {
+                    normal: 1,
+                    wrapper: 0.5
+                }
+            },
+            port:
+            {
+                in:
+                {
+                    fill:
+                    {
+                        normal: '#cccccc',
+                        hidden: 'rgba(0,0,0,0)'
+                    },
+                    stroke:
+                    {
+                        normal: '#cccccc',
+                        hidden: 'rgba(0,0,0,0)'
+                    }
+                },
+                out:
+                {
+                    fill:
+                    {
+                        normal: '#cccccc',
+                        hidden: 'rgba(0,0,0,0)'
+                    },
+                    stroke:
+                    {
+                        normal: '#cccccc',
+                        hidden: 'rgba(0,0,0,0)'
+                    }
+                }
+            },
+            text:
+            {
+                fill:
+                {
+                    normal: 'rgb(0,0,0)'
+                },
+                fontSize:
+                {
+                    label: '8px'
                 }
             }
         };
@@ -181,6 +246,13 @@ function(joint, HRT) {
             selectedContent = null;
 
             // Clear the appropriate  model values
+            sectionModel.set(
+                {
+                    sectionTitle: ''
+                }
+            );
+            sectionModel.trigger('change');
+
             questionModel.set(
                 {
                     questionValue: ''
@@ -471,21 +543,31 @@ function(joint, HRT) {
                         height: layout.report.size.height
                     });
 
-
                     var report = new joint.shapes.devs.Model({
                         ktype: 'report',
                         position: { x: stageCenterX - (layout.report.size.width / 2), y: 100 },
                         size: { width: layout.report.size.width, height: layout.report.size.height },
                         attrs: {
-                            '.label': { text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
+                            '.label': { text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', 'stroke-dasharray':style.node.strokeDashArray.selected, style:{'pointer-events':''}
+                                fill: style.node.fill.normal,
+                                'fill-opacity': style.node.fillOpacity.normal,
+                                'stroke-width': style.node.strokeWidth.normal,
+                                stroke: style.node.stroke.normal,
+                                'stroke-opacity': style.node.strokeOpacity.normal,
+                                'stroke-dasharray':style.node.strokeDashArray.selected,
+                                style:{'pointer-events':''}
                             },
                             text: {
-                                text: wraptext, fill: 'black'
+                                text: wraptext, fill: style.text.fill.normal
                             },
-                            '.inPorts circle': { fill: 'rgba(0,0,0,0)', stroke: 'rgba(0,0,0,0)', style:{'pointer-events':'none'} },
-                            '.outPorts circle': { fill: '#cccccc' }
+                            '.inPorts circle': {
+                                fill: style.port.in.fill.hidden,
+                                stroke: style.port.in.stroke.hidden,
+                                style:{'pointer-events':'none'} },
+                            '.outPorts circle': {
+                                fill: style.port.out.fill.normal
+                            }
                         },
                         report_category_id: this.$('#reportCategory option:selected').val(),
                         interactive: true
@@ -573,15 +655,20 @@ function(joint, HRT) {
                         position: { x: stageCenterX - (layout.section.size.width / 2), y: stageCenterY - (layout.section.size.height / 2) },
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
-                            '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
+                            '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', 'stroke-dasharray':style.node.strokeDashArray.selected, style:{'pointer-events':''}
+                                fill: style.node.fill.normal,
+                                'fill-opacity': style.node.fillOpacity.normal,
+                                'stroke-width': style.node.strokeWidth.normal,
+                                stroke: style.node.stroke.normal,
+                                'stroke-dasharray':style.node.strokeDashArray.selected,
+                                style:{'pointer-events':''}
                             },
                             text: {
-                                text: wraptext, fill: 'black'
+                                text: wraptext, fill: style.text.fill.normal
                             },
-                            '.inPorts circle': { fill: '#cccccc' },
-                            '.outPorts circle': { fill: '#cccccc' }
+                            '.inPorts circle': { fill: style.port.in.fill.normal },
+                            '.outPorts circle': { fill: style.port.out.fill.normal }
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         interactive: true
@@ -688,18 +775,19 @@ function(joint, HRT) {
                                 text: 'Q',
                                 'ref-x': .1,
                                 'ref-y': .1,
-                                'font-size': '8px'
+                                'font-size': style.text.fontSize.label
                             },
                             rect: {
-                                fill: 'rgb(255,255,255)',
-                                'fill-opacity': 1,
-                                'stroke-width': 2,
-                                stroke: 'rgb(0,0,0)',
-                                'stroke-dasharray': style.node.strokeDashArray.selected
+                                fill: style.node.fill.normal,
+                                'fill-opacity': style.node.fillOpacity.normal,
+                                'stroke-width': style.node.strokeWidth.normal,
+                                stroke: style.node.stroke.normal,
+                                'stroke-dasharray':style.node.strokeDashArray.selected,
+                                style:{'pointer-events':''}
                                 },
                                 text: {
                                     text: wraptext,
-                                    fill: 'black'
+                                    fill: style.text.fill.normal
                                 }
                             }
                     };
@@ -855,10 +943,17 @@ function(joint, HRT) {
                         position: {x: stageCenterX - (logicWrapperWidth/2), y: stageCenterY - (logicWrapperHeight / 2)},
                         size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
-                            '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
-                            rect: { fill: 'rgb(255,255,255)', 'fill-opacity': 0.5, 'stroke-width': 2, stroke: 'rgb(0,0,0)', 'stroke-opacity': 0.25},
-                            '.inPorts circle': { fill: '#cccccc' },
-                            '.outPorts circle': { fill: '#cccccc' }
+                            '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
+                            rect: {
+                                fill: style.node.fill.wrapper,
+                                'fill-opacity': style.node.fillOpacity.wrapper,
+                                'stroke-width': style.node.strokeWidth.wrapper,
+                                stroke: style.node.stroke.wrapper,
+                                'stroke-dasharray':style.node.strokeDashArray.deselected,
+                                style:{'pointer-events':''}
+                            },
+                            '.inPorts circle': { fill: style.port.in.fill.normal },
+                            '.outPorts circle': { fill: style.port.out.fill.normal }
                         }
                     });
 
@@ -889,9 +984,18 @@ function(joint, HRT) {
                             position: layout.question[newQuestionType].answers[a].position,
                             size: layout.question[newQuestionType].aSize,
                             attrs: {
-                                '.label': { text: 'A', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
-                                rect: {fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
-                                text: {text: wraptext, fill: 'black'}
+                                '.label': { text: 'A', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
+                                rect: {
+                                    fill: style.node.fill.normal,
+                                    'fill-opacity': style.node.fillOpacity.normal,
+                                    'stroke-width': style.node.strokeWidth.normal,
+                                    stroke: style.node.stroke.wrapper,
+                                    style:{'pointer-events':''}
+                                },
+                                text: {
+                                    text: wraptext,
+                                    fill: style.text.fill.normal
+                                }
                             },
                             answer_value_datatype_id: answerDataTypesProvider[a],
                             answer_value: answerValueProvider[a][0],
@@ -913,7 +1017,7 @@ function(joint, HRT) {
                         var lolink = new joint.shapes.devs.Link({
                             source: {
                                 id: logicWrapper.id,
-                                port: 'out 1'
+                                port: 'out 1' // This is potentially one of many, so suffix with count of 1
                             },
                             target: {
                                 id: answer.id
@@ -1255,16 +1359,21 @@ function(joint, HRT) {
                 {
 
 
-
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
                         position: { x: stageCenterX - (layout.content.wrapperSize.width / 2), y: stageCenterY - (layout.content.wrapperSize.height / 2) },
                         size: { width: layout.content.wrapperSize.width, height: layout.content.wrapperSize.height },
                         attrs: {
-                            '.label': { text: 'Content', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
-                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
-                            '.inPorts circle': { fill: '#cccccc' },
-                            '.outPorts circle': { fill: '#cccccc' }
+                            '.label': { text: 'CONTENT', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
+                            rect: {
+                                fill: style.node.fill.wrapper,
+                                'fill-opacity': style.node.fillOpacity.wrapper,
+                                'stroke-width': style.node.strokeWidth.wrapper,
+                                stroke: style.node.stroke.wrapper,
+                                rx: 2,
+                                ry: 4 },
+                            '.inPorts circle': { fill: style.port.in.fill.normal },
+                            '.outPorts circle': { fill: style.port.out.fill.normal }
                         }
                     });
 
@@ -1285,10 +1394,15 @@ function(joint, HRT) {
                         size: { width: layout.content.bodySize.width, height: layout.content.bodySize.height },
                         attrs: {
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', 'stroke-dasharray': style.node.strokeDashArray.selected, style:{'pointer-events':''}
+                                fill: style.node.fill.normal,
+                                'fill-opacity': style.node.fillOpacity.normal,
+                                'stroke-width': style.node.strokeWidth.normal,
+                                stroke: style.node.stroke.normal,
+                                'stroke-dasharray':style.node.strokeDashArray.selected,
+                                style:{'pointer-events':''}
                             },
                             text: {
-                                text: wraptext, fill: 'black'
+                                text: wraptext, fill: style.text.fill.normal
                             }
                         },
                         interactive: false
