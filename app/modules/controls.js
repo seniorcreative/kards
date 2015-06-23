@@ -88,8 +88,88 @@ function(joint, HRT) {
             }
         };
 
+        var autocompleteSearch  = function()
+        {
+
+            console.log('autocompleteSearch called');
+
+            $('#search-field').sonoaAutocomplete(
+                {
+                    TYPE					: "GET",
+                    AJAX_URL				: 'http://localhost/kards-v1/data/individualisedContent.php',
+                    POST_STRING			    : {},
+
+                    SUGGESTION_LIST		    : '.js_autocomplete--list',
+
+                    INPUT_CLEAR_FILL		: false,
+
+                    //AUTOCOMPLETE_CLASS	: 'autocomplete-dropdown-nav__options__list',
+
+                    onLoad : function(){
+                    },
+
+                    onKeyup : function(){
+
+                    },
+
+                    beforeSend : function() {
+                        //$('.answer--append').addClass('hidden');
+                        //$('.main-content--message-read').addClass('hidden');
+                        //$('.main-content--message-read__title-profile__heading').addClass('hidden');
+                        //$('.main-content--message-read__message-date').addClass('hidden');
+
+                        //overlay.showSuggestionOverlay();
+                    },
+
+                    success : function( data ){
+
+                        $('#search-field').val(  $('#search-field').val() );
+                    },
+
+                    onClick : function( e ){
+                        //showAnswer( e.id );
+                        //overlay.hideSuggestionOverlay();
+                        //incrementSearchCounter( e.id );
+                    },
+
+                    onEmpty : function(){
+                        $('.main-content--suggestions__cantfind').show();
+                        $( '.js_autocomplete--list' ).html( '<ul class="header-search__suggest__list"><li><span class="autocomplete-dropdown-nav__options__span">No questions found</span></li></ul>' ); // PLEASE LEAVE THIS!!!! Steve
+                    },
+
+                    onEmptyInput : function(){
+                        if( $('#search-field').val() != undefined )
+                        {
+                            if($('#search-field').val().length <= 0)
+                            {
+                                //overlay.hideSuggestionOverlay();
+                            }
+                        }
+                    },
+
+                    error : function( data ){
+                    }
+
+                });
+
+        };
+
 
         // Need to set defaults....
+
+        var reportModel = new Backbone.Model(
+            {
+                reportTitle: 'New report *',
+                reportCategoryID: ''
+            }
+        );
+
+        var sectionModel = new Backbone.Model(
+            {
+                sectionTitle: 'New section *'
+            }
+        );
+
         var questionModel = new Backbone.Model(
             {
                 questionValue: '',
@@ -118,19 +198,6 @@ function(joint, HRT) {
             }
         );
 
-        var reportModel = new Backbone.Model(
-            {
-                reportTitle: 'New report *',
-                reportCategoryID: ''
-            }
-        );
-
-        var sectionModel = new Backbone.Model(
-            {
-                sectionTitle: 'New section *'
-            }
-        );
-
 
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
@@ -140,6 +207,49 @@ function(joint, HRT) {
             loopedElements = paper.findViewsInArea(paperRect);
 
             switch(cellView.model.attributes.ktype) {
+
+                case 'report':
+
+                    selectedReport = cellView;
+
+                    var reportCategoryID = selectedReport.model.get('report_category_id');
+
+                    // adjust style of clicked element
+                    attrs = selectedReport.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedReport.model.set('attrs', attrs);
+                    selectedReport.render().el;
+
+                    reportModel.set(
+                        {
+                            reportTitle: attrs.text.text,
+                            reportCategoryID: selectedReport.model.get('report_category_id')
+                        });
+
+                    reportModel.trigger('change');
+
+                    break;
+
+                case 'section':
+
+                    selectedSection = cellView;
+
+                    resetElementStyles(loopedElements, 'section');
+
+                    // adjust style of clicked element
+                    attrs = selectedSection.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedSection.model.set('attrs', attrs);
+                    selectedSection.render().el;
+
+                    sectionModel.set(
+                        {
+                            sectionTitle: attrs.text.text
+                        });
+
+                    sectionModel.trigger('change');
+
+                break;
 
                 case 'question':
 
@@ -216,49 +326,6 @@ function(joint, HRT) {
 
                 break;
 
-                case 'report':
-
-                    selectedReport = cellView;
-
-                    var reportCategoryID = selectedReport.model.get('report_category_id');
-
-                    // adjust style of clicked element
-                    attrs = selectedReport.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
-                    selectedReport.model.set('attrs', attrs);
-                    selectedReport.render().el;
-
-                    reportModel.set(
-                        {
-                            reportTitle: attrs.text.text,
-                            reportCategoryID: selectedReport.model.get('report_category_id')
-                        });
-
-                    reportModel.trigger('change');
-
-                break;
-
-                case 'section':
-
-                    selectedSection = cellView;
-
-                    resetElementStyles(loopedElements, 'section');
-
-                    // adjust style of clicked element
-                    attrs = selectedSection.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
-                    selectedSection.model.set('attrs', attrs);
-                    selectedSection.render().el;
-
-                    sectionModel.set(
-                        {
-                            sectionTitle: attrs.text.text
-                        });
-
-                    sectionModel.trigger('change');
-
-                break;
-
                 default:
 
                     // link etc?
@@ -270,12 +337,6 @@ function(joint, HRT) {
 
         });
 
-
-        paper.on('cell:pointerup', function(cellView, evt, x, y) {
-            //
-        });
-
-
         var highlightContentForEditing = function( _element )
         {
 
@@ -283,8 +344,7 @@ function(joint, HRT) {
 
             selectedContent = _element;
 
-            // reset all looped elements
-
+            // reset all looped elements (slightly different to resetElementStyles)
             for (var element in loopedElements) {
                 if (loopedElements[element].model.get('ktype') == 'content') {
                     attrs = loopedElements[element].model.get('attrs');
@@ -311,6 +371,179 @@ function(joint, HRT) {
             contentModel.trigger('change');
         };
 
+
+
+        var reportControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    this.template = _.template($('.formReportOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+                        this.render()
+                    }, this);
+
+                },
+                events: {
+                    'click #btnAddReport': 'addReport',
+                    'keyup #reportTitle': 'reportUpdate',
+                    'change #reportCategory': 'reportCategoryUpdate'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#reportTitle').val(this.model.get('reportTitle'));
+
+                    if (this.model.get('reportCategoryID') != '') {
+                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
+                        this.$el.find('#reportCategory').val(this.model.get('reportCategoryID'));
+                    }
+
+                    return this;
+                },
+                addReport: function()
+                {
+
+                    wraptext = joint.util.breakText($('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val(), {
+                        width: layout.report.size.width,
+                        height: layout.report.size.height
+                    });
+
+
+                    var report = new joint.shapes.devs.Model({
+                        ktype: 'report',
+                        position: { x: stageCenterX - (layout.report.size.width / 2), y: 100 },
+                        size: { width: layout.report.size.width, height: layout.report.size.height },
+                        attrs: {
+                            '.label': { text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
+                            rect: {
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                            },
+                            text: {
+                                text: wraptext, fill: 'black'
+                            },
+                            '.inPorts circle': { fill: 'rgba(0,0,0,0)', stroke: 'rgba(0,0,0,0)', style:{'pointer-events':'none'} },
+                            '.outPorts circle': { fill: '#cccccc' }
+                        },
+                        report_category_id: this.$('#reportCategory option:selected').val(),
+                        interactive: true
+                    });
+
+                    report.set('inPorts', ['']);
+                    report.set('outPorts', ['out']);
+
+                    graph.addCells([report]);
+
+                    // Disable the add button.
+                    this.$('#btnAddReport').attr('disabled', 'disabled');
+                    this.$('#btnAddReport').slideUp('slow');
+                    
+                    selectedReport = paper.findViewByModel(report);
+
+                },
+                reportUpdate: function(e)
+                {
+                    if (selectedReport)
+                    {
+                        attrs = selectedReport.model.get('attrs');
+
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: layout.report.size.width,
+                            height: layout.report.size.height
+                        });
+
+                        attrs.text.text = wraptext;
+                        selectedReport.model.set('attrs', attrs);
+                        selectedReport.render().el;
+                    }
+                },
+                reportCategoryUpdate: function()
+                {
+                    if (selectedReport) {
+                        selectedReport.model.set(
+                            {
+                                report_category_id: this.$('#reportCategory option:selected').val()
+                            }
+                        );
+                    }
+                }
+            }
+        );
+
+        var sectionControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    this.template = _.template($('.formSectionOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+                        this.render()
+                    }, this);
+
+                },
+                events: {
+                    'click #btnAddSection': 'addSection',
+                    'keyup #sectionTitle': 'sectionUpdate'
+                    //'change #reportCategory': 'reportCategoryUpdate'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#sectionTitle').val(this.model.get('sectionTitle'));
+
+                    return this;
+                },
+                addSection: function()
+                {
+                    wraptext = joint.util.breakText($('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val(), {
+                        width: layout.section.size.width,
+                        height: layout.section.size.height
+                    });
+
+                    var section = new joint.shapes.devs.Model({
+                        ktype: 'section',
+                        position: { x: stageCenterX - (layout.section.size.width / 2), y: stageCenterY - (layout.section.size.height / 2) },
+                        size: { width: layout.section.size.width, height: layout.section.size.height },
+                        attrs: {
+                            '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
+                            rect: {
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                            },
+                            text: {
+                                text: wraptext, fill: 'black'
+                            },
+                            '.inPorts circle': { fill: '#cccccc' },
+                            '.outPorts circle': { fill: '#cccccc' }
+                        },
+                        //report_category_id: this.$('#reportCategory option:selected').val(),
+                        interactive: true
+                    });
+
+                    section.set('inPorts', ['in']);
+                    section.set('outPorts', ['out']);
+
+                    graph.addCells([section]);
+                },
+                sectionUpdate: function(e)
+                {
+                    if (selectedSection)
+                    {
+                        attrs = selectedSection.model.get('attrs');
+
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: layout.section.size.width,
+                            height: layout.section.size.height
+                        });
+
+                        attrs.text.text = wraptext;
+                        selectedSection.model.set('attrs', attrs);
+                        selectedSection.render().el;
+                    }
+                }
+            }
+        );
 
         var questionControlsView = Backbone.View.extend(
             {
@@ -556,7 +789,7 @@ function(joint, HRT) {
                         }
                     });
 
-                    logicWrapper.set('inPorts', ['in 1']);
+                    logicWrapper.set('inPorts', ['in']);
                     logicWrapper.set('outPorts', ['out 1']);
 
                     graph.addCells([
@@ -992,243 +1225,15 @@ function(joint, HRT) {
             }
         );
 
-        var reportControlsView = Backbone.View.extend(
-            {
-                initialize: function () {
-
-                    this.template = _.template($('.formReportOptions').html());
-                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    this.model.on('change', function(){
-                        this.render()
-                    }, this);
-
-                },
-                events: {
-                    'click #btnAddReport': 'addReport',
-                    'keyup #reportTitle': 'reportUpdate',
-                    'change #reportCategory': 'reportCategoryUpdate'
-                },
-                render: function () {
-                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    this.$el.find('#reportTitle').val(this.model.get('reportTitle'));
-
-                    if (this.model.get('reportCategoryID') != '') {
-                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
-                        this.$el.find('#reportCategory').val(this.model.get('reportCategoryID'));
-                    }
-
-                    return this;
-                },
-                addReport: function()
-                {
-
-                    console.log('add report getting called ');
-
-                    wraptext = joint.util.breakText($('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val(), {
-                        width: layout.content.bodySize.width,
-                        height: layout.content.bodySize.height
-                    });
-
-                    var report = new joint.shapes.html.Element({
-                        ktype: 'report',
-                        position: { x: stageCenterX - (layout.report.size.width / 2), y: 100 },
-                        size: { width: layout.report.size.width, height: layout.report.size.height },
-                        attrs: {
-                            rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
-                            },
-                            text: {
-                                text: wraptext, fill: 'black'
-                            }
-                        },
-                        report_category_id: this.$('#reportCategory option:selected').val(),
-                        interactive: true
-                    });
-
-                    graph.addCells([report]);
-
-                    // Disable the add button.
-                    this.$('#btnAddReport').attr('disabled', 'disabled');
-                    this.$('#btnAddReport').slideUp('slow');
-
-                },
-                reportUpdate: function(e)
-                {
-                    if (selectedReport)
-                    {
-                            attrs = selectedReport.model.get('attrs');
-
-                            wraptext = joint.util.breakText(this.$(e.target).val(), {
-                                width: layout.report.size.width,
-                                height: layout.report.size.height
-                            });
-
-                            attrs.text.text = wraptext;
-                            selectedReport.model.set('attrs', attrs);
-                            selectedReport.render().el;
-                    }
-                },
-                reportCategoryUpdate: function()
-                {
-                    if (selectedReport) {
-                        selectedReport.model.set(
-                            {
-                                report_category_id: this.$('#reportCategory option:selected').val()
-                            }
-                        );
-                    }
-                }
-            }
-        );
-
-        var sectionControlsView = Backbone.View.extend(
-            {
-                initialize: function () {
-
-                    this.template = _.template($('.formSectionOptions').html());
-                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    this.model.on('change', function(){
-                        this.render()
-                    }, this);
-
-                },
-                events: {
-                    'click #btnAddSection': 'addSection',
-                    'keyup #sectionTitle': 'sectionUpdate'
-                    //'change #reportCategory': 'reportCategoryUpdate'
-                },
-                render: function () {
-                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                    this.$el.find('#sectionTitle').val(this.model.get('sectionTitle'));
-                    
-                    return this;
-                },
-                addSection: function()
-                {
-
-                    wraptext = joint.util.breakText($('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val(), {
-                        width: layout.section.size.width,
-                        height: layout.section.size.height
-                    });
-
-                    var section = new joint.shapes.html.Element({
-                        ktype: 'section',
-                        position: { x: stageCenterX - (layout.section.size.width / 2), y: stageCenterY - (layout.section.size.height / 2) },
-                        size: { width: layout.section.size.width, height: layout.section.size.height },
-                        attrs: {
-                            rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
-                            },
-                            text: {
-                                text: wraptext, fill: 'black'
-                            }
-                        },
-                        //report_category_id: this.$('#reportCategory option:selected').val(),
-                        interactive: true
-                    });
-
-                    graph.addCells([section]);
-
-                },
-                sectionUpdate: function(e)
-                {
-                    if (selectedSection)
-                    {
-                        attrs = selectedSection.model.get('attrs');
-
-                        wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.content.bodySize.width,
-                            height: layout.content.bodySize.height
-                        });
-
-                        attrs.text.text = wraptext;
-                        selectedSection.model.set('attrs', attrs);
-                        selectedSection.render().el;
-                    }
-                }
-            }
-        );
-
-
-        var autocompleteSearch  = function()
-        {
-
-            console.log('autocompleteSearch called');
-
-                $('#search-field').sonoaAutocomplete(
-                    {
-                        TYPE					: "GET",
-                        AJAX_URL				: 'http://localhost/kards-v1/data/individualisedContent.php',
-                        POST_STRING			    : {},
-
-                        SUGGESTION_LIST		    : '.js_autocomplete--list',
-
-                        INPUT_CLEAR_FILL		: false,
-
-                        //AUTOCOMPLETE_CLASS	: 'autocomplete-dropdown-nav__options__list',
-
-                        onLoad : function(){
-                        },
-
-                        onKeyup : function(){
-
-                        },
-
-                        beforeSend : function() {
-                            //$('.answer--append').addClass('hidden');
-                            //$('.main-content--message-read').addClass('hidden');
-                            //$('.main-content--message-read__title-profile__heading').addClass('hidden');
-                            //$('.main-content--message-read__message-date').addClass('hidden');
-
-                            //overlay.showSuggestionOverlay();
-                        },
-
-                        success : function( data ){
-
-                            $('#search-field').val(  $('#search-field').val() );
-                        },
-
-                        onClick : function( e ){
-                            //showAnswer( e.id );
-                            //overlay.hideSuggestionOverlay();
-                            //incrementSearchCounter( e.id );
-                        },
-
-                        onEmpty : function(){
-                            $('.main-content--suggestions__cantfind').show();
-                            $( '.js_autocomplete--list' ).html( '<ul class="header-search__suggest__list"><li><span class="autocomplete-dropdown-nav__options__span">No questions found</span></li></ul>' ); // PLEASE LEAVE THIS!!!! Steve
-                        },
-
-                        onEmptyInput : function(){
-                            if( $('#search-field').val() != undefined )
-                            {
-                                if($('#search-field').val().length <= 0)
-                                {
-                                    //overlay.hideSuggestionOverlay();
-                                }
-                            }
-                        },
-
-                        error : function( data ){
-                        }
-
-                    });
-
-        };
-
-
-
 
         //wherever you need to do the ajax
         Backbone.ajax({
             dataType: "json",
-            url: "data/questionTypes.php",
+            url: "data/questionTypes.php", // url: "data/dataProviders.php", ? // COMBINE 3 DATA PROVIDERS INTO 1 HERE
             data: "",
             success: function (data) {
+
+                // COMBINE 3 DATA PROVIDERS INTO 1 HERE
 
                 // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
                 var renderedTemplate = HRT.templates['questionTypes.hbs'](data);
@@ -1269,7 +1274,22 @@ function(joint, HRT) {
 
                                         valueDataTypes = valueDataTypeData;
 
-                                        // Don't initalise the question and answer controls views til we got data.
+                                        // Don't initialise the question and answer controls views til we got data.
+
+                                        var reportControls = new reportControlsView(
+                                            {
+                                                model: reportModel,
+                                                el: '.formReportOptions'
+                                            }
+                                        );
+
+                                        var sectionControls = new sectionControlsView(
+                                            {
+                                                model: sectionModel,
+                                                el: '.formSectionOptions'
+                                            }
+                                        );
+
                                         var questionControls = new questionControlsView(
                                             {
                                                 model: questionModel,
@@ -1288,20 +1308,6 @@ function(joint, HRT) {
                                             {
                                                 model: contentModel,
                                                 el: '.formContentOptions'
-                                            }
-                                        );
-
-                                        var reportControls = new reportControlsView(
-                                            {
-                                                model: reportModel,
-                                                el: '.formReportOptions'
-                                            }
-                                        );
-
-                                        var sectionControls = new sectionControlsView(
-                                            {
-                                                model: sectionModel,
-                                                el: '.formSectionOptions'
                                             }
                                         );
 

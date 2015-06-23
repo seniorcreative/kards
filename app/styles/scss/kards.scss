@@ -33,8 +33,10 @@ header {
 
     h1 {
         position: fixed;
-        left: 50%;
-        margin-left: -76px;
+        width: 100%;
+        pointer-events: none;
+//        left: 50%;
+//        margin-left: -76px;
         top: 10px;
         text-align: center;
     }
@@ -68,7 +70,7 @@ div.formPanelControls
     display: block;
     padding: 5px;
     width: 275px;
-    bottom: -170px;
+    bottom: 10px;
     left: 10px;
 
     background-color: rgba(#3A5861, 0.5);
@@ -79,6 +81,7 @@ div.formPanelControls
     h3
     {
         color: #111111;
+        margin: 4px 0 2px 0;
     }
 
 }
@@ -114,7 +117,7 @@ form
         display: block;
         padding: 5px;
         width: 275px;
-        top: 362px;
+        top: 342px;
         left: 10px;
 
     }
@@ -142,7 +145,7 @@ form
     h3
     {
         color: #111111;
-        margin: 5px 0;
+        margin: 4px 0 2px 0;
     }
 
     input
@@ -202,7 +205,7 @@ form
     {
 
         @include clearfix();
-        padding: 5px 0;
+        padding: 5px 0 0 0;
     }
 
     select

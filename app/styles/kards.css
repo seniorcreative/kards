@@ -294,8 +294,8 @@ header .testMode {
 }
 header h1 {
   position: fixed;
-  left: 50%;
-  margin-left: -76px;
+  width: 100%;
+  pointer-events: none;
   top: 10px;
   text-align: center;
 }
@@ -323,7 +323,7 @@ div.formPanelControls {
   display: block;
   padding: 5px;
   width: 275px;
-  bottom: -170px;
+  bottom: 10px;
   left: 10px;
   background-color: rgba(58, 88, 97, 0.5);
   color: white;
@@ -332,6 +332,7 @@ div.formPanelControls {
 }
 div.formPanelControls h3 {
   color: #111111;
+  margin: 4px 0 2px 0;
 }
 
 form {
@@ -359,7 +360,7 @@ form.formQuestionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 362px;
+  top: 342px;
   left: 10px;
 }
 form.formAnswerOptions {
@@ -378,7 +379,7 @@ form.formContentOptions {
 }
 form h3 {
   color: #111111;
-  margin: 5px 0;
+  margin: 4px 0 2px 0;
 }
 form input {
   font-family: 'Varela Round', sans-serif;
@@ -416,7 +417,7 @@ form label {
 }
 form div.form-controls {
   *zoom: 1;
-  padding: 5px 0;
+  padding: 5px 0 0 0;
 }
 form div.form-controls:before, form div.form-controls:after {
   content: " ";
