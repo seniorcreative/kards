@@ -4,7 +4,8 @@ define(
     ['joint',
     'handlebars.runtime',
     'compiled-templates',
-    'modules/sonoa-auto-complete'],
+    //'modules/sonoa-auto-complete'
+    ],
 
 function(joint, HRT) {
 
@@ -317,7 +318,11 @@ function(joint, HRT) {
 
         var contentModel = new Backbone.Model(
             {
-                contentText: ''
+                contentText: '',
+                contentTypeTemplate: '',
+                contentCategoriesTemplate: '',
+                contentTypeID: '',
+                contentCategoryID: ''
             }
         );
 
@@ -391,7 +396,6 @@ function(joint, HRT) {
                             questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
                         });
 
-                    //console.log(attrs, 'set the model val to ', attrs.text.text, 'set the question type to ', questionTypeID); // , questionModel.get('questionValue'));
                     questionModel.trigger('change');
 
                 break;
@@ -426,15 +430,24 @@ function(joint, HRT) {
                             answerValueDataTypeID: answerValueDataTypeID
                         });
 
+                    // When we select an answer I want to also select simultaneously the parent question.
 
                     attrs = selectedQuestion.model.get('attrs');
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     selectedQuestion.model.set('attrs', attrs);
                     selectedQuestion.render().el;
 
-                    //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
+                    questionModel.set(
+                        {
+                            questionValue: attrs.text.text,
+                            questionTypeID: selectedQuestion.model.get('question_type_id'),
+                            questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
+                            questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
+                        });
 
+                    //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
                     answerModel.trigger('change');
+                    questionModel.trigger('change');
 
                 break;
 
@@ -495,7 +508,9 @@ function(joint, HRT) {
 
             contentModel.set(
                 {
-                    contentText: attrs.text.text
+                    contentText: attrs.text.text,
+                    contentTypeID: selectedContent.model.get('cms_content_type_id'),
+                    contentCategoryID: selectedContent.model.get('cms_content_category_id')
                 }
             );
 
@@ -1063,7 +1078,6 @@ function(joint, HRT) {
                 changeQuestionTypeDropdown: function()
                 {
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
-                    //console.log(' q type ', newQuestionType);
 
                     questionModel.set(
                         {
@@ -1086,7 +1100,6 @@ function(joint, HRT) {
                 changeQuestionVariableTypeDropdown: function()
                 {
                     newQuestionVariableType = this.$('#questionVariableType option:selected').text().toLowerCase();
-                    //console.log(' q type ', newQuestionType);
 
                     questionModel.set(
                         {
@@ -1337,6 +1350,9 @@ function(joint, HRT) {
                     this.template = _.template($('.formContentOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
+                    this.$el.find('#cmsContentTypeTemplate').html(this.model.get('contentTypeTemplate'));
+                    this.$el.find('#cmsContentCategoryTemplate').html(this.model.get('contentCategoryTemplate'));
+
                     this.model.on('change', function(){
                         this.render()
                     }, this);
@@ -1346,12 +1362,22 @@ function(joint, HRT) {
                 },
                 events: {
                     'click #btnAddContent': 'addContent',
-                    'keyup #contentText': 'contentUpdate'
+                    'keyup #contentText': 'contentUpdate',
+                    'change #cmsContentTypeID': 'changeContentTypeDropdown',
+                    'change #cmsContentCategoryID': 'changeContentCategoryDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
-                    this.$el.find('#contentText').val(this.model.get('contentText').split('\n').join(''));
+                    this.$el.find('#contentText').val(this.model.get('contentText'));
+
+                    if (this.model.get('contentTypeID') != '') {
+                        this.$el.find('#cmsContentTypeID').val(this.model.get('contentTypeID'));
+                    }
+
+                    if (this.model.get('contentCategoryID') != '') {
+                        this.$el.find('#cmsContentCategoryID').val(this.model.get('contentCategoryID'));
+                    }
 
                     return this;
                 },
@@ -1377,8 +1403,8 @@ function(joint, HRT) {
                         }
                     });
 
-                    contentWrapper.set('inPorts', ['in 1']);
-                    contentWrapper.set('outPorts', ['out 1']);
+                    contentWrapper.set('inPorts', ['in']);
+                    contentWrapper.set('outPorts', ['out']);
 
                     var newContentText = $('#contentText').val() == '' ? 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.' : $('#contentText').val();
                     $('#contentText').val(newContentText);
@@ -1405,7 +1431,9 @@ function(joint, HRT) {
                                 text: wraptext, fill: style.text.fill.normal
                             }
                         },
-                        interactive: false
+                        interactive: false,
+                        cms_content_type_id: parseInt(this.$('#cmsContentTypeID option:selected').val()),
+                        cms_content_category_id: parseInt(this.$('#cmsContentCategoryID option:selected').val())
                     });
 
                     graph.addCells([contentWrapper, content]);
@@ -1430,6 +1458,44 @@ function(joint, HRT) {
                             selectedContent.model.set('attrs', attrs);
                             selectedContent.render().el;
                     }
+                },
+                changeContentTypeDropdown: function()
+                {
+
+                    contentModel.set(
+                        {
+                            contentTypeID: parseInt(this.$('#cmsContentTypeID option:selected').val())
+                        }
+                    );
+
+                    if (selectedContent)
+                    {
+                        selectedContent.model.set(
+                            {
+                                'cms_content_type_id': parseInt(this.$('#cmsContentTypeID option:selected').val())
+                            }
+                        )
+                    }
+
+                },
+                changeContentCategoryDropdown: function()
+                {
+
+                    contentModel.set(
+                        {
+                            contentCategoryID: parseInt(this.$('#cmsContentCategoryID option:selected').val())
+                        }
+                    );
+
+                    if (selectedContent)
+                    {
+                        selectedContent.model.set(
+                            {
+                                'cms_content_category_id': parseInt(this.$('#cmsContentCategoryID option:selected').val())
+                            }
+                        )
+                    }
+
                 }
             }
         );
@@ -1438,110 +1504,68 @@ function(joint, HRT) {
         //wherever you need to do the ajax
         Backbone.ajax({
             dataType: "json",
-            url: "data/questionTypes.php", // url: "data/dataProviders.php", ? // COMBINE 3 DATA PROVIDERS INTO 1 HERE
+            url: "data/dataProviders.php",
             data: "",
             success: function (data) {
 
-                // COMBINE 3 DATA PROVIDERS INTO 1 HERE
+                //console.log(data);
 
                 // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                var renderedTemplate = HRT.templates['questionTypes.hbs'](data);
-                questionModel.set({'questionTypeTemplate': renderedTemplate});
+                questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](data)});
+                questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](data)});
+                answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](data)});
+                contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](data)});
+                contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](data)});
 
+                // Parse data for use elsewhere (which is not pumped into handlebars templates)
+                valueDataTypes = data.valueDataTypes;
 
+                // Don't initialise the question and answer controls views til we got data.
 
-                Backbone.ajax({
-                    dataType: "json",
-                    url: "data/questionVariableTypes.php",
-                    data: "",
-                    success: function (data) {
-
-                        // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                        var renderedTemplate = HRT.templates['questionVariableTypes.hbs'](data);
-                        questionModel.set({'questionVariableTypeTemplate': renderedTemplate});
-
-
-
-                        Backbone.ajax({
-                            dataType: "json",
-                            url: "data/valueDataTypesDropdown.php",
-                            data: "",
-                            success: function (data) {
-
-                                // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                                var renderedTemplate = HRT.templates['valueDataTypes.hbs'](data);
-                                answerModel.set({'valueDataTypeTemplate': renderedTemplate});
-
-
-
-                                Backbone.ajax({
-                                    dataType: "json",
-                                    url: "data/valueDataTypes.php",
-                                    data: "",
-                                    success: function (valueDataTypeData) {
-
-
-                                        valueDataTypes = valueDataTypeData;
-
-                                        // Don't initialise the question and answer controls views til we got data.
-
-                                        var reportControls = new reportControlsView(
-                                            {
-                                                model: reportModel,
-                                                el: '.formReportOptions'
-                                            }
-                                        );
-
-                                        var sectionControls = new sectionControlsView(
-                                            {
-                                                model: sectionModel,
-                                                el: '.formSectionOptions'
-                                            }
-                                        );
-
-                                        var questionControls = new questionControlsView(
-                                            {
-                                                model: questionModel,
-                                                el: '.formQuestionOptions'
-                                            }
-                                        );
-
-                                        var answerControls = new answerControlsView(
-                                            {
-                                                model: answerModel,
-                                                el: '.formAnswerOptions'
-                                            }
-                                        );
-
-                                        var contentControls = new contentControlsView(
-                                            {
-                                                model: contentModel,
-                                                el: '.formContentOptions'
-                                            }
-                                        );
-
-
-                                        $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
-                                        $('.alert').animate({'opacity': 1}, 500);
-                                        setTimeout(function(){$('.alert').remove()}, 2500);
-
-                                    }
-
-                                });
-
-                            }
-                        });
-
+                var reportControls = new reportControlsView(
+                    {
+                        model: reportModel,
+                        el: '.formReportOptions'
                     }
-                });
+                );
 
+                var sectionControls = new sectionControlsView(
+                    {
+                        model: sectionModel,
+                        el: '.formSectionOptions'
+                    }
+                );
+
+                var questionControls = new questionControlsView(
+                    {
+                        model: questionModel,
+                        el: '.formQuestionOptions'
+                    }
+                );
+
+                var answerControls = new answerControlsView(
+                    {
+                        model: answerModel,
+                        el: '.formAnswerOptions'
+                    }
+                );
+
+                var contentControls = new contentControlsView(
+                    {
+                        model: contentModel,
+                        el: '.formContentOptions'
+                    }
+                );
+
+
+                $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
+                $('.alert').animate({'opacity': 1}, 500);
+                setTimeout(function () {
+                    $('.alert').remove()
+                }, 2500);
             }
+
         });
-
-
-
-
-
 
 
     };
