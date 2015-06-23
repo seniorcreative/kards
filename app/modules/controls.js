@@ -179,6 +179,29 @@ function(joint, HRT) {
             selectedSection = null;
             selectedAnswer = null;
             selectedContent = null;
+
+            // Clear the appropriate  model values
+            questionModel.set(
+                {
+                    questionValue: ''
+                }
+            );
+            questionModel.trigger('change');
+
+            answerModel.set(
+                {
+                    answerLabel: ''
+                }
+            );
+            answerModel.trigger('change');
+
+            contentModel.set(
+                {
+                    contentText: ''
+                }
+            );
+            contentModel.trigger('change');
+
         });
 
 
@@ -406,7 +429,6 @@ function(joint, HRT) {
 
             contentModel.trigger('change');
         };
-
 
 
         var reportControlsView = Backbone.View.extend(
