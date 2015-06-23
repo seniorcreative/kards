@@ -37,11 +37,16 @@
           <h3>Report</h3>
 
           <input type="text" class="reportTitle" id="reportTitle" placeholder="Enter report name">
+
+          <label for="reportCategory">Report category</label>
           <select id="reportCategory" name="reportCategory" size="1">
-              <option value="">Select a report category</option>
-              <option value="">Women's Health</option>
-              <option value="">Fertility</option>
+              <option value="1">Women's Health</option>
+              <option value="2">Fertility</option>
           </select>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnAddReport" class="button-add">Add report</button>
+          </div>
 
       </form>
 
@@ -49,77 +54,21 @@
 
           <h3>Section</h3>
 
-          <label for="sectionID">Select a section</label>
-          <select id="sectionID" name="sectionID" size="1">
-              <option value="">Select a section</option>
-              <option value="1">Section 1</option>
-              <option value="2">Section 2</option>
-              <option value="3">Section 3</option>
-          </select>
+          <input type="text" class="sectionTitle" id="sectionTitle" placeholder="Enter section name">
+
+          <!--<label for="sectionID">Select a section</label>-->
+          <!--<select id="sectionID" name="sectionID" size="1">-->
+              <!--<option value="">Select a section</option>-->
+              <!--<option value="1">Section 1</option>-->
+              <!--<option value="2">Section 2</option>-->
+              <!--<option value="3">Section 3</option>-->
+          <!--</select>-->
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnAddSection" class="button-add">Add section</button>
+          </div>
 
       </form>
-
-
-      <div class="formPanelControls">
-          <h3>Display settings</h3>
-
-          <div class="panel panel-primary">
-              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>-->
-              <div class="panel-body">
-                  <div class="row">
-                      <div class="form-group">
-                          <label for="ox" data-tooltip="Position of zero x-coordinate of the paper in pixels">Origin x</label>
-                          <input id="ox" name="ox" type="range" value="0" min="-3000" max="3000" autocomplete="off">
-                          <output for="ox"></output>
-                      </div>
-                      <div class="form-group">
-                          <label for="oy" data-tooltip="Position of zero y-coordinate of the paper in pixels">Origin y</label>
-                          <input id="oy" type="range" value="0" min="-3000" max="3000" autocomplete="off">
-                          <output for="oy"></output>
-                      </div>
-                      <div class="form-group">
-                          <label for="sx" data-tooltip="Scale factor">Scale</label>
-                          <input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
-                          <output for="sx"></output>
-                      </div>
-                      <div class="form-group  visuallyhidden">
-                          <label for="sy" data-tooltip="Scale factor for y axis">Scale y</label>
-                          <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
-                          <output for="sy"></output>
-                      </div>
-                      <div class="form-group">
-                          <label for="width" data-tooltip="Width of the paper in pixels">Width</label>
-                          <input id="width" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
-                          <output for="width"></output>
-                      </div>
-                      <div class="form-group">
-                          <label for="height" data-tooltip="Height of the paper in pixels">Height</label>
-                          <input id="height" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
-                          <output for="height"></output>
-                      </div>
-                      <div class="form-group">
-                          <label for="grid" data-tooltip="Size of the grid in pixels">Grid size</label>
-                          <input id="grid" class="range" type="range" value="1" min="1" max="50" autocomplete="off">
-                          <output for="grid">1</output>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="panel  panel-primary">
-              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:getContentBBox">Content bounding box</a></div>-->
-              <div class="panel-body">
-                  <label for="bbox-x">x</label>
-                  <span class="output" id="bbox-x">100</span>
-                  <label for="bbox-y">y</label>
-                  <span class="output" id="bbox-y">50</span>
-                  <label for="bbox-width">width</label>
-                  <span class="output" id="bbox-width">475</span>
-                  <label for="bbox-height">height</label>
-                  <span class="output" id="bbox-height">290</span>
-              </div>
-          </div>
-      </div>
 
 
       <form method="" action="" class="formQuestionOptions">
@@ -214,6 +163,72 @@
           </div>
 
       </form>
+
+
+
+
+      <div class="formPanelControls">
+          <h3>Display settings</h3>
+
+          <div class="panel panel-primary">
+              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:options">Attributes</a></div>-->
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="form-group">
+                          <label for="ox" data-tooltip="Position of zero x-coordinate of the paper in pixels">Origin x</label>
+                          <input id="ox" name="ox" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+                          <output for="ox"></output>
+                      </div>
+                      <div class="form-group">
+                          <label for="oy" data-tooltip="Position of zero y-coordinate of the paper in pixels">Origin y</label>
+                          <input id="oy" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+                          <output for="oy"></output>
+                      </div>
+                      <div class="form-group">
+                          <label for="sx" data-tooltip="Scale factor">Scale</label>
+                          <input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+                          <output for="sx"></output>
+                      </div>
+                      <div class="form-group  visuallyhidden">
+                          <label for="sy" data-tooltip="Scale factor for y axis">Scale y</label>
+                          <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+                          <output for="sy"></output>
+                      </div>
+                      <div class="form-group">
+                          <label for="width" data-tooltip="Width of the paper in pixels">Width</label>
+                          <input id="width" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
+                          <output for="width"></output>
+                      </div>
+                      <div class="form-group">
+                          <label for="height" data-tooltip="Height of the paper in pixels">Height</label>
+                          <input id="height" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
+                          <output for="height"></output>
+                      </div>
+                      <div class="form-group">
+                          <label for="grid" data-tooltip="Size of the grid in pixels">Grid size</label>
+                          <input id="grid" class="range" type="range" value="1" min="1" max="50" autocomplete="off">
+                          <output for="grid">1</output>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="panel  panel-primary">
+              <!--<div class="panel-heading"><a href="/api#joint.dia.Paper:getContentBBox">Content bounding box</a></div>-->
+              <div class="panel-body">
+                  <label for="bbox-x">x</label>
+                  <span class="output" id="bbox-x">100</span>
+                  <label for="bbox-y">y</label>
+                  <span class="output" id="bbox-y">50</span>
+                  <label for="bbox-width">width</label>
+                  <span class="output" id="bbox-width">475</span>
+                  <label for="bbox-height">height</label>
+                  <span class="output" id="bbox-height">290</span>
+              </div>
+          </div>
+      </div>
+
+
 
 
       <form method="" action="" class="formAnswerOptions">

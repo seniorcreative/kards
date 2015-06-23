@@ -13,13 +13,10 @@ function(joint, HRT) {
 
         //console.log('inited ', graph);
 
-        var selectedQuestion;
-        var selectedAnswer;
-        var selectedContent;
+        var selectedReport,selectedSection,selectedQuestion,selectedAnswer,selectedContent;
         var newQuestionType;
         var newQuestionVariableType;
         var valueDataTypes;
-
 
         // Layout
 
@@ -39,26 +36,36 @@ function(joint, HRT) {
         var previousText;
         var loopedElements;
 
-        var questionLayout = {
-            boolean: {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
-                answers: []
+        var layout = {
+            question: {
+                boolean: {
+                    qSize: {width: 120, height: 75},
+                    aSize: {width: 120, height: 50},
+                    answers: []
+                },
+                'multiple choice': {
+                    qSize: {width: 120, height: 75},
+                    aSize: {width: 120, height: 50},
+                    answers: []
+                },
+                'numeric': {
+                    qSize: {width: 120, height: 75},
+                    aSize: {width: 120, height: 50},
+                    answers: []
+                }
             },
-            'multiple choice': {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
-                answers: []
+            content:
+            {
+                wrapperSize: {width: 350, height: 150},
+                bodySize: {width: 250, height: 75}
             },
-            'numeric': {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
-                answers: []
+            report: {
+                size: {width: 200, height: 75}
+            },
+            section: {
+                size: {width: 120, height: 75}
             }
         };
-
-        var contentWrapperSize = {width: 350, height: 150};
-        var contentSize = {width: 250, height: 75};
 
         // Setter functions
 
@@ -66,6 +73,19 @@ function(joint, HRT) {
         {
             totalWidthOfAnswers = (numAnswers * answerWidth) + ((numAnswers-1) * answerMargin);
             startX = stageCenterX - (totalWidthOfAnswers/2);
+        };
+
+        var resetElementStyles = function (loopedElements, elementKType)
+        {
+            var element;
+            for (element in loopedElements) {
+                if (loopedElements[element].model.get('ktype') == elementKType) {
+                    attrs = loopedElements[element].model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '';
+                    loopedElements[element].model.set('attrs', attrs);
+                    loopedElements[element].render().el;
+                }
+            }
         };
 
 
@@ -98,6 +118,19 @@ function(joint, HRT) {
             }
         );
 
+        var reportModel = new Backbone.Model(
+            {
+                reportTitle: 'New report *',
+                reportCategoryID: ''
+            }
+        );
+
+        var sectionModel = new Backbone.Model(
+            {
+                sectionTitle: 'New section *'
+            }
+        );
+
 
         paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
@@ -112,14 +145,7 @@ function(joint, HRT) {
 
                     selectedQuestion = cellView;
 
-                    for (var element in loopedElements) {
-                        if (loopedElements[element].model.get('ktype') == 'question') {
-                            attrs = loopedElements[element].model.get('attrs');
-                            attrs.rect['stroke-dasharray'] = '';
-                            loopedElements[element].model.set('attrs', attrs);
-                            loopedElements[element].render().el;
-                        }
-                    }
+                    resetElementStyles(loopedElements, 'question');
 
                     // adjust style of clicked element
                     attrs = selectedQuestion.model.get('attrs');
@@ -149,14 +175,7 @@ function(joint, HRT) {
 
                     var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
 
-                    for (var element in loopedElements) {
-                        if (loopedElements[element].model.get('ktype') == 'answer') {
-                            attrs = loopedElements[element].model.get('attrs');
-                            attrs.rect['stroke-dasharray'] = '';
-                            loopedElements[element].model.set('attrs', attrs);
-                            loopedElements[element].render().el;
-                        }
-                    }
+                    resetElementStyles(loopedElements, 'answer');
 
                     // adjust style of clicked element
                     attrs = selectedAnswer.model.get('attrs');
@@ -194,6 +213,49 @@ function(joint, HRT) {
 
                         }
                     }
+
+                break;
+
+                case 'report':
+
+                    selectedReport = cellView;
+
+                    var reportCategoryID = selectedReport.model.get('report_category_id');
+
+                    // adjust style of clicked element
+                    attrs = selectedReport.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedReport.model.set('attrs', attrs);
+                    selectedReport.render().el;
+
+                    reportModel.set(
+                        {
+                            reportTitle: attrs.text.text,
+                            reportCategoryID: selectedReport.model.get('report_category_id')
+                        });
+
+                    reportModel.trigger('change');
+
+                break;
+
+                case 'section':
+
+                    selectedSection = cellView;
+
+                    resetElementStyles(loopedElements, 'section');
+
+                    // adjust style of clicked element
+                    attrs = selectedSection.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = '2,3';
+                    selectedSection.model.set('attrs', attrs);
+                    selectedSection.render().el;
+
+                    sectionModel.set(
+                        {
+                            sectionTitle: attrs.text.text
+                        });
+
+                    sectionModel.trigger('change');
 
                 break;
 
@@ -247,7 +309,7 @@ function(joint, HRT) {
             );
 
             contentModel.trigger('change');
-        }
+        };
 
 
         var questionControlsView = Backbone.View.extend(
@@ -302,21 +364,38 @@ function(joint, HRT) {
 
                     newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
 
-                    newQuestionX = stageCenterX - ((questionLayout[newQuestionType].qSize.width)/2);
-                    newQuestionY = stageCenterY - questionLayout[newQuestionType].qSize.height - (logicCenterHeight / 2);
+                    newQuestionX = stageCenterX - ((layout.question[newQuestionType].qSize.width)/2);
+                    newQuestionY = stageCenterY - layout.question[newQuestionType].qSize.height - (logicCenterHeight / 2);
 
                     //console.log('newQuestionY ', newQuestionY);
 
                     wraptext = joint.util.breakText(newQuestionType + ' question *', {
-                        width: questionLayout[newQuestionType].qSize.width,
-                        height: questionLayout[newQuestionType].qSize.height
+                        width: layout.question[newQuestionType].qSize.width,
+                        height: layout.question[newQuestionType].qSize.height
                     });
 
                     var questionObject = {
                         ktype: 'question',
                         position: {x: newQuestionX, y: newQuestionY},
-                        size: questionLayout[newQuestionType].qSize,
-                        attrs: { rect: { fill: 'rgb(255,255,255)', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgb(0,0,0)' }, text: { text: wraptext, fill: 'black' }}
+                        size: layout.question[newQuestionType].qSize,
+                        attrs: {
+                            '.label': {
+                                text: 'Q',
+                                'ref-x': .1,
+                                'ref-y': .1,
+                                'font-size': '8px'
+                            },
+                            rect: {
+                                fill: 'rgb(255,255,255)',
+                                'fill-opacity': 1,
+                                'stroke-width': 2,
+                                stroke: 'rgb(0,0,0)'
+                                },
+                                text: {
+                                    text: wraptext,
+                                    fill: 'black'
+                                }
+                            }
                     };
 
 
@@ -331,7 +410,7 @@ function(joint, HRT) {
                     var newX;
                     var mca;
                     var newY =  stageCenterY + (logicCenterHeight / 2);
-                    var answerWidth = questionLayout[newQuestionType].aSize.width;
+                    var answerWidth = layout.question[newQuestionType].aSize.width;
 
 
                     switch(newQuestionType)
@@ -361,7 +440,7 @@ function(joint, HRT) {
                             for (mca = 0; mca < numAnswers; mca++)
                             {
                                 newX = startX + (mca * (answerWidth + answerMargin));
-                                questionLayout[newQuestionType].answers[mca] = {
+                                layout.question[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
@@ -401,7 +480,7 @@ function(joint, HRT) {
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
                                 newX = startX + (mca * (answerWidth + answerMargin));
-                                questionLayout[newQuestionType].answers[mca] = {
+                                layout.question[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
@@ -444,7 +523,7 @@ function(joint, HRT) {
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
                                 newX = startX + (mca * (answerWidth + answerMargin));
-                                questionLayout[newQuestionType].answers[mca] = {
+                                layout.question[newQuestionType].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
@@ -461,7 +540,7 @@ function(joint, HRT) {
                     var question = new joint.shapes.html.Element( questionObject );
 
                     var logicWrapperWidth = totalWidthOfAnswers + (logicWrapperPadding * 1);
-                    var logicWrapperHeight = questionLayout[newQuestionType].qSize.height  + questionLayout[newQuestionType].aSize.height + logicCenterHeight +  (logicWrapperPadding * 2);
+                    var logicWrapperHeight = layout.question[newQuestionType].qSize.height  + layout.question[newQuestionType].aSize.height + logicCenterHeight +  (logicWrapperPadding * 2);
 
                     //console.log(stageCenterY, logicWrapperHeight, (stageCenterY - (logicWrapperHeight / 2)));
 
@@ -470,7 +549,7 @@ function(joint, HRT) {
                         position: {x: stageCenterX - (logicWrapperWidth/2), y: stageCenterY - (logicWrapperHeight / 2)},
                         size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
-                            '.label': { text: 'Question logic', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
+                            '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
                             rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0,0.25)'},
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
@@ -492,18 +571,19 @@ function(joint, HRT) {
 
                     // Loop over answers
 
-                    for (var a=0; a < questionLayout[newQuestionType].answers.length; a++) {
+                    for (var a=0; a < layout.question[newQuestionType].answers.length; a++) {
 
-                        wraptext = joint.util.breakText(questionLayout[newQuestionType].answers[a].label, {
-                            width: questionLayout[newQuestionType].aSize.width - 10,
-                            height: questionLayout[newQuestionType].aSize.height - 10
+                        wraptext = joint.util.breakText(layout.question[newQuestionType].answers[a].label, {
+                            width: layout.question[newQuestionType].aSize.width - 10,
+                            height: layout.question[newQuestionType].aSize.height - 10
                         });
 
                         var answer = new joint.shapes.html.Element({
                             ktype: 'answer',
-                            position: questionLayout[newQuestionType].answers[a].position,
-                            size: questionLayout[newQuestionType].aSize,
+                            position: layout.question[newQuestionType].answers[a].position,
+                            size: layout.question[newQuestionType].aSize,
                             attrs: {
+                                '.label': { text: 'A', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
                                 rect: {fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgb(0,0,0)'},
                                 text: {text: wraptext, fill: 'black'}
                             },
@@ -559,8 +639,8 @@ function(joint, HRT) {
                         attrs           = selectedQuestion.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: questionLayout[newQuestionType].qSize.width,
-                            height: questionLayout[newQuestionType].qSize.height
+                            width: layout.question[newQuestionType].qSize.width,
+                            height: layout.question[newQuestionType].qSize.height
                         });
 
                         attrs.text.text = wraptext;
@@ -649,7 +729,7 @@ function(joint, HRT) {
 
                     attrs           = newAnswer.get('attrs');
                     attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?'; // set using wrap utility
-                    pos.x               += questionLayout[newQuestionType].aSize.width + answerMargin;
+                    pos.x               += layout.question[newQuestionType].aSize.width + answerMargin;
 
                     newAnswer.set('position', pos);
 
@@ -736,8 +816,8 @@ function(joint, HRT) {
                         attrs           = selectedAnswer.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: questionLayout[newQuestionType].qSize.width,
-                            height: questionLayout[newQuestionType].qSize.height
+                            width: layout.question[newQuestionType].qSize.width,
+                            height: layout.question[newQuestionType].qSize.height
                         });
 
                         attrs.text.text = wraptext;
@@ -836,7 +916,7 @@ function(joint, HRT) {
                         this.render()
                     }, this);
 
-                    autocompleteSearch();
+                    //autocompleteSearch();
 
                 },
                 events: {
@@ -855,8 +935,8 @@ function(joint, HRT) {
 
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: { x: stageCenterX - (contentWrapperSize.width / 2), y: stageCenterY - (contentWrapperSize.height / 2) },
-                        size: { width: contentWrapperSize.width, height: contentWrapperSize.height },
+                        position: { x: stageCenterX - (layout.content.wrapperSize.width / 2), y: stageCenterY - (layout.content.wrapperSize.height / 2) },
+                        size: { width: layout.content.wrapperSize.width, height: layout.content.wrapperSize.height },
                         attrs: {
                             '.label': { text: 'Content', 'ref-x': .1, 'ref-y': .05, 'font-size': '8px' },
                             rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgb(0,0,0)', rx: 2, ry: 4 },
@@ -869,15 +949,22 @@ function(joint, HRT) {
                     contentWrapper.set('outPorts', ['out 1']);
 
                     wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
-                        width: contentSize.width,
-                        height: contentSize.height
+                        width: layout.content.bodySize.width,
+                        height: layout.content.bodySize.height
                     });
 
                     var content = new joint.shapes.html.Element({
                         ktype: 'content',
-                        position: { x: stageCenterX - (contentSize.width / 2), y: stageCenterY - (contentSize.height / 2) },
-                        size: { width: contentSize.width, height: contentSize.height },
-                        attrs: { rect: { fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', style:{'pointer-events':'none'} }, text: { text: wraptext, fill: 'black' }},
+                        position: { x: stageCenterX - (layout.content.bodySize.width / 2), y: stageCenterY - (layout.content.bodySize.height / 2) },
+                        size: { width: layout.content.bodySize.width, height: layout.content.bodySize.height },
+                        attrs: {
+                            rect: {
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', style:{'pointer-events':''}
+                            },
+                            text: {
+                                text: wraptext, fill: 'black'
+                            }
+                        },
                         interactive: false
                     });
 
@@ -888,31 +975,179 @@ function(joint, HRT) {
                 },
                 contentUpdate: function(e)
                 {
-                    //console.log('content value is changing', e, this.$(e.target).val());
-
                     if (selectedContent)
                     {
-                        //if (this.$(e.target).val() == '')
-                        //{
-                        //    this.$(e.target).val(previousText);
-                        //    alert('Operation not permitted');
-                        //}
-                        //else {
-                            // adjust text of clicked element
                             attrs = selectedContent.model.get('attrs');
 
                             wraptext = joint.util.breakText(this.$(e.target).val(), {
-                                width: contentSize.width,
-                                height: contentSize.height
+                                width: layout.content.bodySize.width,
+                                height: layout.content.bodySize.height
                             });
 
                             attrs.text.text = wraptext;
                             selectedContent.model.set('attrs', attrs);
                             selectedContent.render().el;
+                    }
+                }
+            }
+        );
 
-                            //previousText = this.$(e.target).val();
-                        //}
+        var reportControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
 
+                    this.template = _.template($('.formReportOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+                        this.render()
+                    }, this);
+
+                },
+                events: {
+                    'click #btnAddReport': 'addReport',
+                    'keyup #reportTitle': 'reportUpdate',
+                    'change #reportCategory': 'reportCategoryUpdate'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#reportTitle').val(this.model.get('reportTitle'));
+
+                    if (this.model.get('reportCategoryID') != '') {
+                        //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
+                        this.$el.find('#reportCategory').val(this.model.get('reportCategoryID'));
+                    }
+
+                    return this;
+                },
+                addReport: function()
+                {
+
+                    console.log('add report getting called ');
+
+                    wraptext = joint.util.breakText($('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val(), {
+                        width: layout.content.bodySize.width,
+                        height: layout.content.bodySize.height
+                    });
+
+                    var report = new joint.shapes.html.Element({
+                        ktype: 'report',
+                        position: { x: stageCenterX - (layout.report.size.width / 2), y: 100 },
+                        size: { width: layout.report.size.width, height: layout.report.size.height },
+                        attrs: {
+                            rect: {
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                            },
+                            text: {
+                                text: wraptext, fill: 'black'
+                            }
+                        },
+                        report_category_id: this.$('#reportCategory option:selected').val(),
+                        interactive: true
+                    });
+
+                    graph.addCells([report]);
+
+                    // Disable the add button.
+                    this.$('#btnAddReport').attr('disabled', 'disabled');
+                    this.$('#btnAddReport').slideUp('slow');
+
+                },
+                reportUpdate: function(e)
+                {
+                    if (selectedReport)
+                    {
+                            attrs = selectedReport.model.get('attrs');
+
+                            wraptext = joint.util.breakText(this.$(e.target).val(), {
+                                width: layout.report.size.width,
+                                height: layout.report.size.height
+                            });
+
+                            attrs.text.text = wraptext;
+                            selectedReport.model.set('attrs', attrs);
+                            selectedReport.render().el;
+                    }
+                },
+                reportCategoryUpdate: function()
+                {
+                    if (selectedReport) {
+                        selectedReport.model.set(
+                            {
+                                report_category_id: this.$('#reportCategory option:selected').val()
+                            }
+                        );
+                    }
+                }
+            }
+        );
+
+        var sectionControlsView = Backbone.View.extend(
+            {
+                initialize: function () {
+
+                    this.template = _.template($('.formSectionOptions').html());
+                    this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.model.on('change', function(){
+                        this.render()
+                    }, this);
+
+                },
+                events: {
+                    'click #btnAddSection': 'addSection',
+                    'keyup #sectionTitle': 'sectionUpdate'
+                    //'change #reportCategory': 'reportCategoryUpdate'
+                },
+                render: function () {
+                    //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#sectionTitle').val(this.model.get('sectionTitle'));
+                    
+                    return this;
+                },
+                addSection: function()
+                {
+
+                    wraptext = joint.util.breakText($('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val(), {
+                        width: layout.section.size.width,
+                        height: layout.section.size.height
+                    });
+
+                    var section = new joint.shapes.html.Element({
+                        ktype: 'section',
+                        position: { x: stageCenterX - (layout.section.size.width / 2), y: stageCenterY - (layout.section.size.height / 2) },
+                        size: { width: layout.section.size.width, height: layout.section.size.height },
+                        attrs: {
+                            rect: {
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                            },
+                            text: {
+                                text: wraptext, fill: 'black'
+                            }
+                        },
+                        //report_category_id: this.$('#reportCategory option:selected').val(),
+                        interactive: true
+                    });
+
+                    graph.addCells([section]);
+
+                },
+                sectionUpdate: function(e)
+                {
+                    if (selectedSection)
+                    {
+                        attrs = selectedSection.model.get('attrs');
+
+                        wraptext = joint.util.breakText(this.$(e.target).val(), {
+                            width: layout.content.bodySize.width,
+                            height: layout.content.bodySize.height
+                        });
+
+                        attrs.text.text = wraptext;
+                        selectedSection.model.set('attrs', attrs);
+                        selectedSection.render().el;
                     }
                 }
             }
@@ -1053,6 +1288,20 @@ function(joint, HRT) {
                                             {
                                                 model: contentModel,
                                                 el: '.formContentOptions'
+                                            }
+                                        );
+
+                                        var reportControls = new reportControlsView(
+                                            {
+                                                model: reportModel,
+                                                el: '.formReportOptions'
+                                            }
+                                        );
+
+                                        var sectionControls = new sectionControlsView(
+                                            {
+                                                model: sectionModel,
+                                                el: '.formSectionOptions'
                                             }
                                         );
 

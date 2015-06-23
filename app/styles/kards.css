@@ -323,7 +323,7 @@ div.formPanelControls {
   display: block;
   padding: 5px;
   width: 275px;
-  bottom: 20px;
+  bottom: -170px;
   left: 10px;
   background-color: rgba(58, 88, 97, 0.5);
   color: white;
@@ -352,14 +352,14 @@ form.formSectionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 180px;
+  top: 210px;
   left: 10px;
 }
 form.formQuestionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 300px;
+  top: 362px;
   left: 10px;
 }
 form.formAnswerOptions {
