@@ -33,8 +33,19 @@ function(joint, HRT) {
         var answerLabelProvider = [];
         var attrs;
         var wraptext;
-        var previousText;
         var loopedElements;
+
+        var style =
+        {
+            node:
+            {
+                strokeDashArray:
+                {
+                    selected: '2,3',
+                    deselected: ''
+                }
+            }
+        };
 
         var layout = {
             question: {
@@ -75,13 +86,17 @@ function(joint, HRT) {
             startX = stageCenterX - (totalWidthOfAnswers/2);
         };
 
-        var resetElementStyles = function (loopedElements, elementKType)
+        var resetElementStyles = function (elementKType)
         {
             var element;
+
+            var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
+            loopedElements = paper.findViewsInArea(paperRect);
+
             for (element in loopedElements) {
-                if (loopedElements[element].model.get('ktype') == elementKType) {
+                if (loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') {
                     attrs = loopedElements[element].model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
                     loopedElements[element].model.set('attrs', attrs);
                     loopedElements[element].render().el;
                 }
@@ -154,6 +169,19 @@ function(joint, HRT) {
 
         };
 
+        // Detect if we're clicking on a blank area of the chart.
+        paper.on('blank:pointerdown', function(evt, x, y)
+        {
+
+            resetElementStyles('all');
+
+            selectedQuestion = null;
+            selectedSection = null;
+            selectedAnswer = null;
+            selectedContent = null;
+        });
+
+
 
         // Need to set defaults....
 
@@ -203,9 +231,6 @@ function(joint, HRT) {
 
             console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'), 'element', cellView.el);
 
-            var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
-            loopedElements = paper.findViewsInArea(paperRect);
-
             switch(cellView.model.attributes.ktype) {
 
                 case 'report':
@@ -216,7 +241,7 @@ function(joint, HRT) {
 
                     // adjust style of clicked element
                     attrs = selectedReport.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     selectedReport.model.set('attrs', attrs);
                     selectedReport.render().el;
 
@@ -234,11 +259,11 @@ function(joint, HRT) {
 
                     selectedSection = cellView;
 
-                    resetElementStyles(loopedElements, 'section');
+                    resetElementStyles('section');
 
                     // adjust style of clicked element
                     attrs = selectedSection.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     selectedSection.model.set('attrs', attrs);
                     selectedSection.render().el;
 
@@ -255,11 +280,11 @@ function(joint, HRT) {
 
                     selectedQuestion = cellView;
 
-                    resetElementStyles(loopedElements, 'question');
+                    resetElementStyles('question');
 
                     // adjust style of clicked element
                     attrs = selectedQuestion.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     selectedQuestion.model.set('attrs', attrs);
                     selectedQuestion.render().el;
 
@@ -281,15 +306,19 @@ function(joint, HRT) {
                     selectedAnswer = cellView;
 
                     // Also set the parent question (both need to be set if we're editing answer controls)
-                    selectedQuestion = graph.getCell(selectedAnswer.model.get('answer_parent_question'));
+                    selectedQuestion = paper.findViewByModel(selectedAnswer.model.get('answer_parent_question'));
 
                     var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
 
-                    resetElementStyles(loopedElements, 'answer');
+                    resetElementStyles('answer');
+                    resetElementStyles('question');
 
                     // adjust style of clicked element
+
+                    // highlight node method?
+
                     attrs = selectedAnswer.model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '2,3';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     selectedAnswer.model.set('attrs', attrs);
                     selectedAnswer.render().el;
 
@@ -301,6 +330,12 @@ function(joint, HRT) {
                             answerDatapointID: selectedAnswer.model.get('ehr_datapoint_id'),
                             answerValueDataTypeID: answerValueDataTypeID
                         });
+
+
+                    attrs = selectedQuestion.model.get('attrs');
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                    selectedQuestion.model.set('attrs', attrs);
+                    selectedQuestion.render().el;
 
                     //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
 
@@ -331,24 +366,25 @@ function(joint, HRT) {
                     // link etc?
 
                 break;
-
             }
-
 
         });
 
         var highlightContentForEditing = function( _element )
         {
 
-            console.log('selected content set to ', _element);
+            //console.log('selected content set to ', _element);
 
             selectedContent = _element;
+
+            var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
+            loopedElements = paper.findViewsInArea(paperRect);
 
             // reset all looped elements (slightly different to resetElementStyles)
             for (var element in loopedElements) {
                 if (loopedElements[element].model.get('ktype') == 'content') {
                     attrs = loopedElements[element].model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = '';
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
                     attrs.rect['stroke'] = 'rgba(0,0,0,0)';
                     loopedElements[element].model.set('attrs', attrs);
                     loopedElements[element].render().el;
@@ -357,7 +393,7 @@ function(joint, HRT) {
 
             // adjust style of clicked element
             attrs = selectedContent.model.get('attrs');
-            attrs.rect['stroke-dasharray'] = '5,1';
+            attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
             attrs.rect['stroke'] = 'rgba(0,0,0,0.5)';
             selectedContent.model.set('attrs', attrs);
             selectedContent.render().el;
@@ -405,7 +441,10 @@ function(joint, HRT) {
                 addReport: function()
                 {
 
-                    wraptext = joint.util.breakText($('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val(), {
+                    var newReportTitle = $('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val();
+                    $('#reportTitle').val(newReportTitle);
+
+                    wraptext = joint.util.breakText(newReportTitle, {
                         width: layout.report.size.width,
                         height: layout.report.size.height
                     });
@@ -418,7 +457,7 @@ function(joint, HRT) {
                         attrs: {
                             '.label': { text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', 'stroke-dasharray':style.node.strokeDashArray.selected, style:{'pointer-events':''}
                             },
                             text: {
                                 text: wraptext, fill: 'black'
@@ -438,7 +477,7 @@ function(joint, HRT) {
                     // Disable the add button.
                     this.$('#btnAddReport').attr('disabled', 'disabled');
                     this.$('#btnAddReport').slideUp('slow');
-                    
+
                     selectedReport = paper.findViewByModel(report);
 
                 },
@@ -497,7 +536,12 @@ function(joint, HRT) {
                 },
                 addSection: function()
                 {
-                    wraptext = joint.util.breakText($('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val(), {
+                    var newSectionTitle = $('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val();
+                    $('#sectionTitle').val(newSectionTitle);
+
+                    resetElementStyles('section');
+
+                    wraptext = joint.util.breakText(newSectionTitle, {
                         width: layout.section.size.width,
                         height: layout.section.size.height
                     });
@@ -509,7 +553,7 @@ function(joint, HRT) {
                         attrs: {
                             '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', style:{'pointer-events':''}
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,1)', 'stroke-dasharray':style.node.strokeDashArray.selected, style:{'pointer-events':''}
                             },
                             text: {
                                 text: wraptext, fill: 'black'
@@ -525,6 +569,8 @@ function(joint, HRT) {
                     section.set('outPorts', ['out']);
 
                     graph.addCells([section]);
+
+                    selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
                 },
                 sectionUpdate: function(e)
                 {
@@ -595,14 +641,18 @@ function(joint, HRT) {
                 },
                 addQuestion: function (e) {
 
-                    newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
+                    newQuestionType = $('#questionType option:selected').text().toLowerCase();
+
+                    var newQuestionText = $('#questionValue').val() == '' ? newQuestionType + ' question *' : $('#questionValue').val();
+                    $('#questionValue').val(newQuestionText);
 
                     newQuestionX = stageCenterX - ((layout.question[newQuestionType].qSize.width)/2);
                     newQuestionY = stageCenterY - layout.question[newQuestionType].qSize.height - (logicCenterHeight / 2);
 
                     //console.log('newQuestionY ', newQuestionY);
+                    resetElementStyles('question');
 
-                    wraptext = joint.util.breakText(newQuestionType + ' question *', {
+                    wraptext = joint.util.breakText(newQuestionText, {
                         width: layout.question[newQuestionType].qSize.width,
                         height: layout.question[newQuestionType].qSize.height
                     });
@@ -622,7 +672,8 @@ function(joint, HRT) {
                                 fill: 'rgb(255,255,255)',
                                 'fill-opacity': 1,
                                 'stroke-width': 2,
-                                stroke: 'rgb(0,0,0)'
+                                stroke: 'rgb(0,0,0)',
+                                'stroke-dasharray': style.node.strokeDashArray.selected
                                 },
                                 text: {
                                     text: wraptext,
@@ -783,7 +834,7 @@ function(joint, HRT) {
                         size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
                             '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': '8px' },
-                            rect: { fill: 'rgba(255,255,255,0)', 'stroke-width': 2, stroke: 'rgba(0,0,0,0.25)'},
+                            rect: { fill: 'rgb(255,255,255)', 'fill-opacity': 0.5, 'stroke-width': 2, stroke: 'rgb(0,0,0)', 'stroke-opacity': 0.25},
                             '.inPorts circle': { fill: '#cccccc' },
                             '.outPorts circle': { fill: '#cccccc' }
                         }
@@ -857,8 +908,9 @@ function(joint, HRT) {
 
                     logicWrapper.embed(question);
 
-                    this.model.trigger('change'); // Why are we calling this - write a note?
+                    selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
+                    //this.model.trigger('change'); // If we do, why are we calling this? - write a note
 
                 },
                 questionUpdate: function(e)
@@ -951,17 +1003,32 @@ function(joint, HRT) {
                 {
 
 
+
+                    //console.log('selected question', selectedQuestion);
                     // Let's add an answer to the selected question!
                     // let's add another answer by cloning the first answr in this questions child neighbours.
                     if (!selectedQuestion) return;
 
+                    resetElementStyles('answer');
+
                     var neighbours      = graph.getNeighbors(selectedQuestion.model);
+
+                    var newAnswerText = $('#answerLabel').val() == '' ? 'Answer ' + (neighbours.length+1) + ' *' : $('#answerLabel').val();
+                    $('#answerLabel').val(newAnswerText);
+
                     var n1              = neighbours[neighbours.length-1];
                     var newAnswer       = n1.clone();
                     var pos             = newAnswer.get('position');
 
-                    attrs           = newAnswer.get('attrs');
-                    attrs.text.text     = 'a ' + (neighbours.length+1) + ' - ?'; // set using wrap utility
+                    attrs               = newAnswer.get('attrs');
+
+                    wraptext = joint.util.breakText(newAnswerText, {
+                        width: layout.question[newQuestionType].aSize.width,
+                        height: layout.question[newQuestionType].aSize.height
+                    });
+
+                    attrs.text.text     = wraptext; // set using wrap utility,
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     pos.x               += layout.question[newQuestionType].aSize.width + answerMargin;
 
                     newAnswer.set('position', pos);
@@ -982,12 +1049,11 @@ function(joint, HRT) {
                     // embed this answer under the question (which is embedded into the logic wrapper)
                     graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
 
-                    //
-                    console.log(selectedQuestion.model.get('parent'));
+                    // console.log(selectedQuestion.model.get('parent'));
 
                     graph.trigger('change:position', newAnswer, pos);
 
-
+                    selectedAnswer = paper.findViewByModel(newAnswer); // make so is selected straight away.
                 },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));
@@ -1166,6 +1232,8 @@ function(joint, HRT) {
                 addContent: function()
                 {
 
+
+
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
                         position: { x: stageCenterX - (layout.content.wrapperSize.width / 2), y: stageCenterY - (layout.content.wrapperSize.height / 2) },
@@ -1181,7 +1249,10 @@ function(joint, HRT) {
                     contentWrapper.set('inPorts', ['in 1']);
                     contentWrapper.set('outPorts', ['out 1']);
 
-                    wraptext = joint.util.breakText('lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.', {
+                    var newContentText = $('#contentText').val() == '' ? 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.' : $('#contentText').val();
+                    $('#contentText').val(newContentText);
+
+                    wraptext = joint.util.breakText(newContentText, {
                         width: layout.content.bodySize.width,
                         height: layout.content.bodySize.height
                     });
@@ -1192,7 +1263,7 @@ function(joint, HRT) {
                         size: { width: layout.content.bodySize.width, height: layout.content.bodySize.height },
                         attrs: {
                             rect: {
-                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', style:{'pointer-events':''}
+                                fill: 'white', 'fill-opacity': 1, 'stroke-width': 2, stroke: 'rgba(0,0,0,0)', 'stroke-dasharray': style.node.strokeDashArray.selected, style:{'pointer-events':''}
                             },
                             text: {
                                 text: wraptext, fill: 'black'
@@ -1204,6 +1275,8 @@ function(joint, HRT) {
                     graph.addCells([contentWrapper, content]);
 
                     contentWrapper.embed(content);
+
+                    selectedContent = content;
 
                 },
                 contentUpdate: function(e)
