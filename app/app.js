@@ -229,44 +229,58 @@ define(
 
                     //var that = this; // this is the 'router'
 
-                    var highlightContentForEditing = function( _element )
+                    var selectChildElement = function( _element, mode )
                     {
 
-                        //console.log('selected content set to ', _element);
-
-                        var selectedContent = _element;
+                        //var selectedContent = _element;
 
                         var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
                         loopedElements = paper.findViewsInArea(paperRect);
 
                         // reset all looped elements (slightly different to resetElementStyles)
-                        for (var element in loopedElements) {
-                            if (loopedElements[element].model.get('ktype') == 'content') {
-                                attrs = loopedElements[element].model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
-                                attrs.rect['stroke'] = 'rgba(0,0,0,0)';
-                                loopedElements[element].model.set('attrs', attrs);
-                                loopedElements[element].render().el;
-                            }
-                        }
+
+                        helpers.resetElementStyles('content');
+
 
                         // adjust style of clicked element
-                        attrs = selectedContent.model.get('attrs');
-                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                        attrs.rect['stroke'] = 'rgba(0,0,0,0.5)';
-                        selectedContent.model.set('attrs', attrs);
-                        selectedContent.render().el;
+                        attrs = _element.model.get('attrs');
+                        attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
+                        attrs.rect['stroke']            = style.node.stroke.normal;
+                        _element.model.set('attrs', attrs);
+                        _element.render().el;
 
-                        that.contentModel.set(
-                            {
-                                contentText: selectedContent.model.get('contentOriginal'),
-                                contentTypeID: selectedContent.model.get('cms_content_type_id'),
-                                contentCategoryID: selectedContent.model.get('cms_content_category_id'),
-                                selectedContent: selectedContent
-                            }
-                        );
+                        switch ( mode )
+                        {
 
-                        that.contentModel.trigger('change');
+                            case 'content':
+
+                                that.contentModel.set(
+                                    {
+                                        contentText: _element.model.get('contentOriginal'),
+                                        contentTypeID: _element.model.get('cms_content_type_id'),
+                                        contentCategoryID: _element.model.get('cms_content_category_id'),
+                                        selectedContent: _element
+                                    }
+                                );
+
+                            break;
+
+                            case 'question':
+
+                                that.questionModel.set(
+                                    {
+                                        questionValue: attrs.text.text,
+                                        questionTypeID: _element.model.get('question_type_id'),
+                                        questionDatapointID: _element.model.get('ehr_datapoint_id'),
+                                        questionVariableTypeID: _element.model.get('question_variable_type_id'),
+                                        selectedQuestion: _element
+                                    });
+
+                            break;
+
+                        }
+
+                        //that.contentModel.trigger('change');
                     };
 
 
@@ -390,7 +404,7 @@ define(
 
                                 that.questionModel.trigger('change');
 
-                                console.log('selected question', cellView);
+                                //console.log('selected question', cellView);
 
                                 break;
 
@@ -452,7 +466,7 @@ define(
 
                             case 'content':
 
-                                highlightContentForEditing(cellView);
+                                selectChildElement(cellView, 'content');
 
                                 break;
 
@@ -460,9 +474,13 @@ define(
 
                                 // Check if child is text 'content' model
                                 if (cellView.model.getEmbeddedCells().length) {
-                                    if (cellView.model.getEmbeddedCells()[0].get('ktype') == "content") {
-                                        highlightContentForEditing(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]));
-                                    }
+
+                                    //if (cellView.model.getEmbeddedCells()[0].get('ktype') == "content") {
+
+                                        selectChildElement(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]), cellView.model.getEmbeddedCells()[0].get('ktype'));
+
+                                    //}
+
                                 }
 
                                 break;
