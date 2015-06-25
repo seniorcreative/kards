@@ -3,21 +3,26 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers) {
 
-        var scope;
+        var that;
         var graph;
         var paper;
+
+        var wraptext;
 
         var answerControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-                    scope = this.model.get('that');
+                    that = this.model.get('that');
                     graph = this.model.get('graph');
                     paper = this.model.get('paper');
+
+                    helpers.init(that, paper, graph);
 
                     //console.log('answer controls view inited');
 
@@ -61,42 +66,44 @@ define(
                 },
                 answerUpdate: function(e)
                 {
-                    //console.log('answer value is changing', e, this.$(e.target).val());
+                    //console.log('answer value is changing', e, this.$(e.target).val(), that.selectedQuestion);
+                    //console.log('selectd question', that.selectedQuestion);
+                    //console.log('selectd answer', this.model.get('selectedAnswer'));
 
-                    if (selectedQuestion && selectedAnswer)
+                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
                     {
                         // adjust text of clicked element
-                        attrs           = selectedAnswer.model.get('attrs');
+                        attrs           = this.model.get('selectedAnswer').model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[newQuestionType].qSize.width,
-                            height: layout.question[newQuestionType].qSize.height
+                            width: layout.question[layout.get('newQuestionType')].qSize.width,
+                            height: layout.question[layout.get('newQuestionType')].qSize.height
                         });
 
                         attrs.text.text = wraptext;
-                        selectedAnswer.model.set('attrs', attrs);
-                        selectedAnswer.render().el;
+                        this.model.get('selectedAnswer').model.set('attrs', attrs);
+                        this.model.get('selectedAnswer').render().el;
 
                     }
                 },
                 answerValueUpdate: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (selectedQuestion && selectedAnswer)
+                    if (that.selectedQuestion && this.model.get('selectedAnswer'))
                     {
                         // adjust value of selected answer
-                        selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
-                        //selectedAnswer.render().el;
+                        this.model.get('selectedAnswer').model.set({'answer_value': this.$(e.target).val()});
+                        //this.model.get('selectedAnswer').render().el;
                     }
                 },
                 answerValue2Update: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (selectedQuestion && selectedAnswer)
+                    if (that.selectedQuestion && this.model.get('selectedAnswer'))
                     {
                         // adjust value of selected answer
-                        selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
-                        //selectedAnswer.render().el;
+                        this.model.get('selectedAnswer').model.set({'answer_value2': this.$(e.target).val()});
+                        //this.model.get('selectedAnswer').render().el;
                     }
                 },
                 changeValueDataTypeDropdown: function()
@@ -104,8 +111,8 @@ define(
                     //var newValueDataType = this.$('#valueDataType option:selected').text().toLowerCase();
                     //console.log(' q type ', newQuestionType);
 
-                    if (selectedQuestion && selectedAnswer) {
-                        selectedAnswer.model.set(
+                    if (that.selectedQuestion && this.model.get('selectedAnswer')) {
+                        this.model.get('selectedAnswer').model.set(
                             {
                                 answer_value_datatype_id: this.$('#valueDataType option:selected').val()
                             }
@@ -115,18 +122,17 @@ define(
                 },
                 changeAnswerDatapointDropdown: function()
                 {
-                    //newQuestionVariableType = this.$('#questionDataPoint option:selected').text().toLowerCase();
-                    console.log(' datat point type ', this.$('#answerDataPoint option:selected').val());
+                    //console.log('data point type ', this.$('#answerDataPoint option:selected').val());
 
-                    answerModel.set(
+                    this.model.set(
                         {
                             answerDatapointID: parseInt(this.$('#answerDataPoint option:selected').val())
                         }
                     );
 
-                    if (selectedAnswer)
+                    if (this.model.get('selectedAnswer'))
                     {
-                        selectedAnswer.model.set(
+                        this.model.get('selectedAnswer').model.set(
                             {
                                 'ehr_datapoint_id': parseInt(this.$('#answerDataPoint option:selected').val())
                             }
@@ -139,9 +145,9 @@ define(
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    if (selectedAnswer) {
+                    if (this.model.get('selectedAnswer')) {
 
-                        var parentLogicWrapper = graph.getCell(selectedAnswer.model.get('parent'));
+                        var parentLogicWrapper = graph.getCell(this.model.get('selectedAnswer').model.get('parent'));
 
                         var newOutports = parentLogicWrapper.attributes.outPorts;
                         var ar = [];

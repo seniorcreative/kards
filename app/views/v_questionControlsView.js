@@ -3,27 +3,34 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers) {
 
         var scope;
         var graph;
         var paper;
 
+        var wraptext;
+
         var questionControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-                    scope = this.model.get('that');
+                    that = this.model.get('that');
                     graph = this.model.get('graph');
                     paper = this.model.get('paper');
+                    
+                    helpers.init(that, paper, graph);
 
                     this.template = _.template($('.formQuestionOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
                     this.$el.find('#questionTypeTemplate').html(this.model.get('questionTypeTemplate'));
                     this.$el.find('#questionVariableTypeTemplate').html(this.model.get('questionVariableTypeTemplate'));
                     this.$el.find('#questionControlsMultiple').slideUp(0);
+
+                    //console.log('question view initied', this.model, this.model.get);
 
                     this.model.on('change', function(){
 
@@ -65,26 +72,26 @@ define(
                 },
                 addQuestion: function (e) {
 
-                    newQuestionType = $('#questionType option:selected').text().toLowerCase();
+                    layout.set('newQuestionType', $('#questionType option:selected').text().toLowerCase())
 
-                    var newQuestionText = $('#questionValue').val() == '' ? newQuestionType + ' question *' : $('#questionValue').val();
+                    var newQuestionText = $('#questionValue').val() == '' ? layout.get('newQuestionType') + ' question *' : $('#questionValue').val();
                     $('#questionValue').val(newQuestionText);
 
-                    newQuestionX = stageCenterX - ((layout.question[newQuestionType].qSize.width)/2);
-                    newQuestionY = stageCenterY - layout.question[newQuestionType].qSize.height - (logicCenterHeight / 2);
+                    newQuestionX = layout.stage.centerX - ((layout.question[layout.get('newQuestionType')].qSize.width)/2);
+                    newQuestionY = layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2);
 
                     //console.log('newQuestionY ', newQuestionY);
-                    resetElementStyles('question');
+                    helpers.resetElementStyles('question');
 
                     wraptext = joint.util.breakText(newQuestionText, {
-                        width: layout.question[newQuestionType].qSize.width,
-                        height: layout.question[newQuestionType].qSize.height
+                        width: layout.question[layout.get('newQuestionType')].qSize.width,
+                        height: layout.question[layout.get('newQuestionType')].qSize.height
                     });
 
                     var questionObject = {
                         ktype: 'question',
                         position: {x: newQuestionX, y: newQuestionY},
-                        size: layout.question[newQuestionType].qSize,
+                        size: layout.question[layout.get('newQuestionType')].qSize,
                         attrs: {
                             '.label': {
                                 text: 'Q',
@@ -118,11 +125,11 @@ define(
 
                     var newX;
                     var mca;
-                    var newY =  stageCenterY + (logicCenterHeight / 2);
-                    var answerWidth = layout.question[newQuestionType].aSize.width;
+                    var newY =  layout.stage.centerY + (layout.logicCenterHeight / 2);
+                    var answerWidth = layout.question[layout.get('newQuestionType')].aSize.width;
 
 
-                    switch(newQuestionType)
+                    switch(layout.get('newQuestionType'))
                     {
                         case 'boolean':
 
@@ -130,7 +137,7 @@ define(
                             questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
                             numAnswers = 2;
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
-                            answerDataTypesProvider = [valueDataTypes['boolean'], valueDataTypes['boolean']]; // boolean (can also use newQuestionType switch case here)
+                            answerDataTypesProvider = [this.model.get('valueDataTypes')['boolean'], this.model.get('valueDataTypes')['boolean']]; // boolean (can also use layout.get('newQuestionType') switch case here)
                             answerValueProvider     =  [[1], [0]]; // Note that the answer value can expect an array of 2 values
                             answerLabelProvider     =  ['true', 'false'];
 
@@ -138,24 +145,27 @@ define(
                             {
                                 // Add a third answer
                                 numAnswers++;
-                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerDataTypesProvider.push(this.model.get('valueDataTypes')['unknown']);
                                 answerValueProvider.push([1]);
                                 answerLabelProvider.push('unknown');
                             }
 
                             // calculate the answer positions.
-                            setTotalWidthAnswers(numAnswers, answerWidth);
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
-                                newX = startX + (mca * (answerWidth + answerMargin));
-                                layout.question[newQuestionType].answers[mca] = {
+                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin)); // WARNING - dynamic layout vars that were set with setter need to be got with getter
+                                layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
                                 };
+
+
                             }
 
+                            //console.log('answer position calculation layout', layout.get('newQuestionType'), layout.question[layout.get('newQuestionType')], layout.question[layout.get('newQuestionType')].answers);
 
 
                             break;
@@ -168,7 +178,7 @@ define(
                             // Initial loop
                             for (mca = 0; mca < numAnswers; mca++) {
 
-                                answerDataTypesProvider[mca] = valueDataTypes['boolean']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['boolean']; // string is the default for new multiple choice questions. (we can adjust the question after)
                                 answerValueProvider[mca] = [1]; // Might as well be boolean
                                 answerLabelProvider[mca] = 'Answer ' + (mca + 1) + ' *';
 
@@ -179,17 +189,17 @@ define(
                             {
                                 // Add a third answer
                                 numAnswers++;
-                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerDataTypesProvider.push(this.model.get('valueDataTypes')['unknown']);
                                 answerValueProvider.push([1]);
                                 answerLabelProvider.push('unknown');
                             }
 
-                            setTotalWidthAnswers(numAnswers, answerWidth);
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
-                                newX = startX + (mca * (answerWidth + answerMargin));
-                                layout.question[newQuestionType].answers[mca] = {
+                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin));
+                                layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
@@ -210,7 +220,7 @@ define(
                             // Initial loop
                             for (mca = 0; mca < numAnswers; mca++) {
 
-                                answerDataTypesProvider[mca] = valueDataTypes['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
                                 answerValueProvider[mca] = [step];
                                 answerLabelProvider[mca] = step + ' *';
 
@@ -222,17 +232,17 @@ define(
                             {
                                 // Add a third answer
                                 numAnswers++;
-                                answerDataTypesProvider.push(valueDataTypes['unknown']);
+                                answerDataTypesProvider.push(this.model.get('valueDataTypes')['unknown']);
                                 answerValueProvider.push([1]);
                                 answerLabelProvider.push('unknown');
                             }
 
-                            setTotalWidthAnswers(numAnswers, answerWidth);
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
-                                newX = startX + (mca * (answerWidth + answerMargin));
-                                layout.question[newQuestionType].answers[mca] = {
+                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin));
+                                layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
@@ -248,14 +258,15 @@ define(
 
                     var question = new joint.shapes.html.Element( questionObject );
 
-                    var logicWrapperWidth = totalWidthOfAnswers + (logicWrapperPadding * 1);
-                    var logicWrapperHeight = layout.question[newQuestionType].qSize.height  + layout.question[newQuestionType].aSize.height + logicCenterHeight +  (logicWrapperPadding * 2);
 
-                    //console.log(stageCenterY, logicWrapperHeight, (stageCenterY - (logicWrapperHeight / 2)));
+                    var logicWrapperWidth = layout.get('totalWidthOfAnswers') + (layout.logicWrapperPadding * 1);
+                    var logicWrapperHeight = layout.question[layout.get('newQuestionType')].qSize.height  + layout.question[layout.get('newQuestionType')].aSize.height + layout.logicCenterHeight +  (layout.logicWrapperPadding * 2);
+
+                    //console.log(layout.stage.centerY, logicWrapperHeight, (layout.stage.centerY - (logicWrapperHeight / 2)));
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: {x: stageCenterX - (logicWrapperWidth/2), y: stageCenterY - (logicWrapperHeight / 2)},
+                        position: {x: layout.stage.centerX - (logicWrapperWidth/2), y: layout.stage.centerY - (logicWrapperHeight / 2)},
                         size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
                             '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
@@ -272,6 +283,8 @@ define(
                         }
                     });
 
+                    //console.log("wrapper pos ", layout.stage.centerX - (logicWrapperWidth/2), layout.stage.centerY - (logicWrapperHeight / 2));
+
                     logicWrapper.set('inPorts', ['in']);
                     logicWrapper.set('outPorts', ['out 1']);
 
@@ -287,17 +300,17 @@ define(
 
                     // Loop over answers
 
-                    for (var a=0; a < layout.question[newQuestionType].answers.length; a++) {
+                    for (var a=0; a < layout.question[layout.get('newQuestionType')].answers.length; a++) {
 
-                        wraptext = joint.util.breakText(layout.question[newQuestionType].answers[a].label, {
-                            width: layout.question[newQuestionType].aSize.width - 10,
-                            height: layout.question[newQuestionType].aSize.height - 10
+                        wraptext = joint.util.breakText(layout.question[layout.get('newQuestionType')].answers[a].label, {
+                            width: layout.question[layout.get('newQuestionType')].aSize.width - 10,
+                            height: layout.question[layout.get('newQuestionType')].aSize.height - 10
                         });
 
                         var answer = new joint.shapes.html.Element({
                             ktype: 'answer',
-                            position: layout.question[newQuestionType].answers[a].position,
-                            size: layout.question[newQuestionType].aSize,
+                            position: layout.question[layout.get('newQuestionType')].answers[a].position,
+                            size: layout.question[layout.get('newQuestionType')].aSize,
                             attrs: {
                                 '.label': { text: 'A', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                                 rect: {
@@ -349,7 +362,7 @@ define(
 
                     logicWrapper.embed(question);
 
-                    selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
+                    this.model.set('selectedQuestion', paper.findViewByModel(question)); // Make so is the selected straight away.
 
                     //this.model.trigger('change'); // If we do, why are we calling this? - write a note
 
@@ -357,35 +370,37 @@ define(
                 questionUpdate: function(e)
                 {
                     //console.log('question value is changing', e, this.$(e.target).val());
+                    
+                    //console.log('scope is telling me this.model.get('selectedQuestion') is ', this.model.get('selectedQuestion'));
 
-                    if (selectedQuestion)
+                    if (this.model.get('selectedQuestion') != null)
                     {
 
                         // adjust text of clicked element
-                        attrs           = selectedQuestion.model.get('attrs');
+                        attrs           = this.model.get('selectedQuestion').model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[newQuestionType].qSize.width,
-                            height: layout.question[newQuestionType].qSize.height
+                            width: layout.question[layout.get('newQuestionType')].qSize.width,
+                            height: layout.question[layout.get('newQuestionType')].qSize.height
                         });
 
                         attrs.text.text = wraptext;
-                        selectedQuestion.model.set('attrs', attrs);
-                        selectedQuestion.render().el;
+                        this.model.get('selectedQuestion').model.set('attrs', attrs);
+                        this.model.get('selectedQuestion').render().el;
 
                     }
                 },
                 changeQuestionTypeDropdown: function()
                 {
-                    newQuestionType = this.$('#questionType option:selected').text().toLowerCase();
+                    this.model.set('newQuestionType', this.$('#questionType option:selected').text().toLowerCase());
 
-                    questionModel.set(
+                    this.model.set(
                         {
                             questionTypeID: parseInt(this.$('#questionType option:selected').val())
                         }
                     );
 
-                    switch(newQuestionType)
+                    switch(layout.get('newQuestionType'))
                     {
                         case 'boolean':
                             this.$('#questionControlsMultiple').slideUp('fast');
@@ -399,17 +414,18 @@ define(
                 },
                 changeQuestionVariableTypeDropdown: function()
                 {
-                    newQuestionVariableType = this.$('#questionVariableType option:selected').text().toLowerCase();
 
-                    questionModel.set(
+                    this.model.set(
                         {
                             questionVariableTypeID: parseInt(this.$('#questionVariableType option:selected').val())
                         }
                     );
 
-                    if (selectedQuestion)
+                    layout.set('newQuestionVariableType', this.$('#questionVariableType option:selected').text().toLowerCase());
+
+                    if (this.model.get('selectedQuestion'))
                     {
-                        selectedQuestion.model.set(
+                        this.model.get('selectedQuestion').model.set(
                             {
                                 'question_variable_type_id': parseInt(this.$('#questionVariableType option:selected').val())
                             }
@@ -419,18 +435,17 @@ define(
                 },
                 changeQuestionDatapointDropdown: function()
                 {
-                    //newQuestionVariableType = this.$('#questionDataPoint option:selected').text().toLowerCase();
-                    //console.log(' q type ', newQuestionType);
+                    //console.log(' q type ', layout.get('newQuestionType'));
 
-                    questionModel.set(
+                    this.model.set(
                         {
                             questionDatapointID: parseInt(this.$('#questionDataPoint option:selected').val())
                         }
                     );
 
-                    if (selectedQuestion)
+                    if (this.model.get('selectedQuestion'))
                     {
-                        selectedQuestion.model.set(
+                        this.model.get('selectedQuestion').model.set(
                             {
                                 'ehr_datapoint_id': parseInt(this.$('#questionDataPoint option:selected').val())
                             }
@@ -443,14 +458,14 @@ define(
 
 
 
-                    //console.log('selected question', selectedQuestion);
+                    //console.log('selected question', this.model.get('selectedQuestion'));
                     // Let's add an answer to the selected question!
                     // let's add another answer by cloning the first answr in this questions child neighbours.
-                    if (!selectedQuestion) return;
+                    if (!this.model.get('selectedQuestion')) return;
 
-                    resetElementStyles('answer');
+                    helpers.resetElementStyles('answer');
 
-                    var neighbours      = graph.getNeighbors(selectedQuestion.model);
+                    var neighbours      = graph.getNeighbors(this.model.get('selectedQuestion').model);
 
                     var newAnswerText = $('#answerLabel').val() == '' ? 'Answer ' + (neighbours.length+1) + ' *' : $('#answerLabel').val();
                     $('#answerLabel').val(newAnswerText);
@@ -462,13 +477,13 @@ define(
                     attrs               = newAnswer.get('attrs');
 
                     wraptext = joint.util.breakText(newAnswerText, {
-                        width: layout.question[newQuestionType].aSize.width,
-                        height: layout.question[newQuestionType].aSize.height
+                        width: layout.question[layout.get('newQuestionType')].aSize.width,
+                        height: layout.question[layout.get('newQuestionType')].aSize.height
                     });
 
                     attrs.text.text     = wraptext; // set using wrap utility,
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                    pos.x               += layout.question[newQuestionType].aSize.width + answerMargin;
+                    pos.x               += layout.question[layout.get('newQuestionType')].aSize.width + layout.answerMargin;
 
                     newAnswer.set('position', pos);
 
@@ -479,20 +494,20 @@ define(
 
                     var linkNew = new joint.dia.Link({
                         smooth: true,
-                        source: { id: selectedQuestion.model.id },
+                        source: { id: this.model.get('selectedQuestion').model.id },
                         target: { id: newAnswer.id }
                     });
 
                     graph.addCell(linkNew);
 
                     // embed this answer under the question (which is embedded into the logic wrapper)
-                    graph.getCell(selectedQuestion.model.get('parent')).embed(newAnswer);
+                    graph.getCell(this.model.get('selectedQuestion').model.get('parent')).embed(newAnswer);
 
-                    // console.log(selectedQuestion.model.get('parent'));
+                    // console.log(this.model.get('selectedQuestion').model.get('parent'));
 
                     graph.trigger('change:position', newAnswer, pos);
 
-                    selectedAnswer = paper.findViewByModel(newAnswer); // make so is selected straight away.
+                    this.model.set('selectedAnswer', paper.findViewByModel(newAnswer)); // make so is selected straight away.
                 },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));

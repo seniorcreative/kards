@@ -7,15 +7,17 @@ define(
 
     function($, Backbone, joint, style, layout) {
 
-        var scope;
+        var that;
         var graph;
         var paper;
+
+        var wraptext;
 
         var contentControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-                    scope = this.model.get('that');
+                    that = this.model.get('that');
                     graph = this.model.get('graph');
                     paper = this.model.get('paper');
 
@@ -59,8 +61,8 @@ define(
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
                         position: {
-                            x: stageCenterX - (layout.content.wrapperSize.width / 2),
-                            y: stageCenterY - (layout.content.wrapperSize.height / 2)
+                            x: layout.stage.centerX - (layout.content.wrapperSize.width / 2),
+                            y: layout.stage.centerY - (layout.content.wrapperSize.height / 2)
                         },
                         size: {width: layout.content.wrapperSize.width, height: layout.content.wrapperSize.height},
                         attrs: {
@@ -97,8 +99,8 @@ define(
                     var content = new joint.shapes.html.Element({
                         ktype: 'content',
                         position: {
-                            x: stageCenterX - (layout.content.bodySize.width / 2),
-                            y: stageCenterY - (layout.content.bodySize.height / 2)
+                            x: layout.stage.centerX - (layout.content.bodySize.width / 2),
+                            y: layout.stage.centerY - (layout.content.bodySize.height / 2)
                         },
                         size: {width: layout.content.bodySize.width, height: layout.content.bodySize.height},
                         attrs: {
@@ -124,12 +126,12 @@ define(
 
                     contentWrapper.embed(content);
 
-                    selectedContent = content;
+                    this.model.set('selectedContent', content);
 
                 },
                 contentUpdate: function (e) {
-                    if (selectedContent) {
-                        attrs = selectedContent.model.get('attrs');
+                    if (this.model.get('selectedContent')) {
+                        attrs = this.model.get('selectedContent').model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.content.bodySize.width,
@@ -137,9 +139,9 @@ define(
                         }) + '...';
 
                         attrs.text.text = wraptext;
-                        selectedContent.model.set('attrs', attrs);
-                        selectedContent.model.set('contentOriginal', this.$(e.target).val());
-                        selectedContent.render().el;
+                        this.model.get('selectedContent').model.set('attrs', attrs);
+                        this.model.get('selectedContent').model.set('contentOriginal', this.$(e.target).val());
+                        this.model.get('selectedContent').render().el;
                     }
                 },
                 changeContentTypeDropdown: function () {
@@ -150,8 +152,8 @@ define(
                         }
                     );
 
-                    if (selectedContent) {
-                        selectedContent.model.set(
+                    if (this.model.get('selectedContent')) {
+                        this.model.get('selectedContent').model.set(
                             {
                                 'cms_content_type_id': parseInt(this.$('#cmsContentTypeID option:selected').val())
                             }
@@ -167,8 +169,8 @@ define(
                         }
                     );
 
-                    if (selectedContent) {
-                        selectedContent.model.set(
+                    if (this.model.get('selectedContent')) {
+                        this.model.get('selectedContent').model.set(
                             {
                                 'cms_content_category_id': parseInt(this.$('#cmsContentCategoryID option:selected').val())
                             }

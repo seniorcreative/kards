@@ -38,23 +38,22 @@ define(
 
         var kardsModelCollection;
 
-        var selectedReport,selectedSection,selectedQuestion,selectedAnswer,selectedContent;
-        var newQuestionType;
-        var newQuestionVariableType;
+        //var selectedReport,selectedSection,selectedQuestion,selectedAnswer,selectedContent;
+        //var newQuestionType;
+        //var newQuestionVariableType;
         var valueDataTypes;
 
         // Layout
 
-        var stageCenterX, stageCenterY;
-        var answerMargin;
-        var newQuestionX, newQuestionY, numAnswers;
-        var logicWrapperPadding;
-        var logicCenterHeight;
-        var totalWidthOfAnswers, startX;
+        //var answerMargin;
+        //var newQuestionX, newQuestionY, numAnswers;
+        //var logicWrapperPadding;
+        //var logicCenterHeight;
+        //var totalWidthOfAnswers, startX;
 
         var answerDataTypesProvider, answerValueProvider, answerLabelProvider;
         var attrs;
-        var wraptext;
+        //var wraptext;
         var loopedElements;
 
         var reportControls, sectionControls, questionControls, answerControls, contentControls;
@@ -79,12 +78,6 @@ define(
 
 
                     // Set up some local vars.
-
-                    stageCenterX = (window.innerWidth / 2);
-                    stageCenterY = (window.innerHeight / 2);
-                    answerMargin = 20;
-                    logicWrapperPadding = 40;
-                    logicCenterHeight = 20;
                     answerDataTypesProvider = [];
                     answerValueProvider = [];
                     answerLabelProvider = [];
@@ -128,13 +121,13 @@ define(
 
                     //graph.fromJSON(val);
 
-                    //controls.init(that, graph, paper);
+                    helpers.init(that, paper, graph);
 
                     // If you want paper controls.
                     paperControls.init(graph, paper);
 
                     // If you want bounding box expansion on logic wrappers.
-                    //boundingLogicExpansion.init(graph, paper);
+                    boundingLogicExpansion.init(graph, paper);
 
 
                     $('#testCheckBox').on('change', function() {
@@ -163,9 +156,6 @@ define(
                     });
 
 
-                    helpers.init(that);
-
-
                     //wherever you need to do the ajax
                     Backbone.ajax({
                         dataType: "json",
@@ -173,17 +163,16 @@ define(
                         data: "",
                         success: function (data) {
 
-                            //console.log(data, HRT);
+                            console.log("Kards-v1 ... app ready");
 
                             // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
                             that.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](data)});
                             that.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](data)});
+                            that.questionModel.set({'valueDataTypes': data.valueDataTypes});
+
                             that.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](data)});
                             that.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](data)});
                             that.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](data)});
-
-                            // Parse data for use elsewhere (which is not pumped into handlebars templates)
-                            valueDataTypes = data.valueDataTypes;
 
                             // Don't initialise the question and answer controls views til we got data.
 
@@ -241,15 +230,14 @@ define(
 
                 main: function () {
 
-                    var that = this; // this is the 'router'
-
+                    //var that = this; // this is the 'router'
 
                     var highlightContentForEditing = function( _element )
                     {
 
                         //console.log('selected content set to ', _element);
 
-                        selectedContent = _element;
+                        var selectedContent = _element;
 
                         var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
                         loopedElements = paper.findViewsInArea(paperRect);
@@ -276,7 +264,8 @@ define(
                             {
                                 contentText: selectedContent.model.get('contentOriginal'),
                                 contentTypeID: selectedContent.model.get('cms_content_type_id'),
-                                contentCategoryID: selectedContent.model.get('cms_content_category_id')
+                                contentCategoryID: selectedContent.model.get('cms_content_category_id'),
+                                selectedContent: selectedContent
                             }
                         );
 
@@ -290,10 +279,11 @@ define(
 
                         helpers.resetElementStyles('all');
 
-                        selectedQuestion = null;
-                        selectedSection = null;
-                        selectedAnswer = null;
-                        selectedContent = null;
+                        that.reportModel.set('selectedContent',null);
+                        that.sectionModel.set('selectedSection',null);
+                        that.questionModel.set('selectedQuestion',null);
+                        that.answerModel.set('selectedQuestion',null);
+                        that.answerModel.set('selectedAnswer',null);
 
                         // Clear the appropriate  model values
                         that.sectionModel.set(
@@ -328,26 +318,30 @@ define(
 
                     paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
-                        console.log('cell view clicked ', cellView.model, 'linked neighbours', graph.getNeighbors(cellView.model), 'parent', cellView.model.get('parent'), 'element', cellView.el);
+                        console.log('cell view clicked ', cellView.model);
+                        //console.log('linked neighbours', graph.getNeighbors(cellView.model));
+                        //console.log('parent', cellView.model.get('parent'));
+                        //console.log('element', cellView.el);
 
                         switch(cellView.model.attributes.ktype) {
 
                             case 'report':
 
-                                selectedReport = cellView;
+                                //console.log('click on report', that, that.reportModel);
 
-                                var reportCategoryID = selectedReport.model.get('report_category_id');
+                                var reportCategoryID = cellView.model.get('report_category_id');
 
                                 // adjust style of clicked element
-                                attrs = selectedReport.model.get('attrs');
+                                attrs = cellView.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                selectedReport.model.set('attrs', attrs);
-                                selectedReport.render().el;
+                                cellView.model.set('attrs', attrs);
+                                cellView.render().el;
 
                                 that.reportModel.set(
                                     {
                                         reportTitle: attrs.text.text,
-                                        reportCategoryID: selectedReport.model.get('report_category_id')
+                                        reportCategoryID: cellView.model.get('report_category_id'),
+                                        selectedReport: cellView
                                     });
 
                                 that.reportModel.trigger('change');
@@ -356,19 +350,20 @@ define(
 
                             case 'section':
 
-                                selectedSection = cellView;
+                                //selectedSection = cellView;
 
-                                resetElementStyles('section');
+                                helpers.resetElementStyles('section');
 
                                 // adjust style of clicked element
-                                attrs = selectedSection.model.get('attrs');
+                                attrs = cellView.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                selectedSection.model.set('attrs', attrs);
-                                selectedSection.render().el;
+                                cellView.model.set('attrs', attrs);
+                                cellView.render().el;
 
                                 that.sectionModel.set(
                                     {
-                                        sectionTitle: attrs.text.text
+                                        sectionTitle: attrs.text.text,
+                                        selectedSection: cellView
                                     });
 
                                 that.sectionModel.trigger('change');
@@ -377,36 +372,37 @@ define(
 
                             case 'question':
 
-                                selectedQuestion = cellView;
+                                //selectedQuestion = cellView;
 
-                                resetElementStyles('question');
+                                helpers.resetElementStyles('question');
 
                                 // adjust style of clicked element
-                                attrs = selectedQuestion.model.get('attrs');
+                                attrs = cellView.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                selectedQuestion.model.set('attrs', attrs);
-                                selectedQuestion.render().el;
+                                cellView.model.set('attrs', attrs);
+                                cellView.render().el;
 
                                 that.questionModel.set(
                                     {
                                         questionValue: attrs.text.text,
-                                        questionTypeID: selectedQuestion.model.get('question_type_id'),
-                                        questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
+                                        questionTypeID: cellView.model.get('question_type_id'),
+                                        questionDatapointID: cellView.model.get('ehr_datapoint_id'),
+                                        questionVariableTypeID: cellView.model.get('question_variable_type_id'),
+                                        selectedQuestion: cellView
                                     });
 
                                 that.questionModel.trigger('change');
+
+                                console.log('selected question', cellView);
 
                                 break;
 
                             case 'answer':
 
-                                selectedAnswer = cellView;
+                                //selectedAnswer = cellView;
 
                                 // Also set the parent question (both need to be set if we're editing answer controls)
-                                selectedQuestion = paper.findViewByModel(selectedAnswer.model.get('answer_parent_question'));
-
-                                var answerValueDataTypeID = selectedAnswer.model.get('answer_value_datatype_id');
+                                var selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question'));
 
                                 helpers.resetElementStyles('answer');
                                 helpers.resetElementStyles('question');
@@ -415,21 +411,25 @@ define(
 
                                 // highlight node method?
 
-                                attrs = selectedAnswer.model.get('attrs');
+                                attrs = cellView.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                selectedAnswer.model.set('attrs', attrs);
-                                selectedAnswer.render().el;
+                                cellView.model.set('attrs', attrs);
+                                cellView.render().el;
 
                                 that.answerModel.set(
                                     {
                                         answerLabel: attrs.text.text,
-                                        answerValue: selectedAnswer.model.get('answer_value'),
-                                        answerValue2: selectedAnswer.model.get('answer_value2'),
-                                        answerDatapointID: selectedAnswer.model.get('ehr_datapoint_id'),
-                                        answerValueDataTypeID: answerValueDataTypeID
+                                        answerValue: cellView.model.get('answer_value'),
+                                        answerValue2: cellView.model.get('answer_value2'),
+                                        answerDatapointID: cellView.model.get('ehr_datapoint_id'),
+                                        answerValueDataTypeID: cellView.model.get('answer_value_datatype_id'),
+                                        selectedAnswer: cellView,
+                                        selectedQuestion: selectedQuestion // Note we are setting the selected question i
                                     });
 
                                 // When we select an answer I want to also select simultaneously the parent question.
+
+
 
                                 attrs = selectedQuestion.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
@@ -441,12 +441,15 @@ define(
                                         questionValue: attrs.text.text,
                                         questionTypeID: selectedQuestion.model.get('question_type_id'),
                                         questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id')
+                                        questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id'),
+                                        selectedQuestion: selectedQuestion
                                     });
 
                                 //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
                                 that.answerModel.trigger('change');
                                 that.questionModel.trigger('change');
+
+                                //console.log('your selected answer', selectedAnswer);
 
                                 break;
 
@@ -462,7 +465,6 @@ define(
                                 if (cellView.model.getEmbeddedCells().length) {
                                     if (cellView.model.getEmbeddedCells()[0].get('ktype') == "content") {
                                         highlightContentForEditing(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]));
-
                                     }
                                 }
 

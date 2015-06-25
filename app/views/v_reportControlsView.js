@@ -7,19 +7,21 @@ define(
 
     function($, Backbone, joint, style, layout) {
 
-        var scope;
+        var that;
         var graph;
         var paper;
+
+        var wraptext;
 
         var reportControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-                    scope = this.model.get('that');
+                    that = this.model.get('that');
                     graph = this.model.get('graph');
                     paper = this.model.get('paper');
 
-                    //console.log(scope, graph, paper);
+                    //console.log(s, graph, paper);
 
                     this.template = _.template($('.formReportOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -60,7 +62,7 @@ define(
 
                     var report = new joint.shapes.devs.Model({
                         ktype: 'report',
-                        position: {x: scope.stageCenterX - (layout.report.size.width / 2), y: 100},
+                        position: {x: layout.stage.centerX - (layout.report.size.width / 2), y: 100},
                         size: {width: layout.report.size.width, height: layout.report.size.height},
                         attrs: {
                             '.label': {text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label},
@@ -98,12 +100,12 @@ define(
                     this.$('#btnAddReport').attr('disabled', 'disabled');
                     this.$('#btnAddReport').slideUp('slow');
 
-                    scope.selectedReport = paper.findViewByModel(report);
+                    this.model.set('selectedReport',paper.findViewByModel(report)); // Assign the selected report after it is first added.
 
                 },
                 reportUpdate: function (e) {
-                    if (scope.selectedReport) {
-                        attrs = scope.selectedReport.model.get('attrs');
+                    if (this.model.get('selectedReport') != null) {
+                        attrs = this.model.get('selectedReport').model.get('attrs');
 
                         var wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.report.size.width,
@@ -111,13 +113,13 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        scope.selectedReport.model.set('attrs', attrs);
-                        scope.selectedReport.render().el;
+                        this.model.get('selectedReport').model.set('attrs', attrs);
+                        this.model.get('selectedReport').render().el;
                     }
                 },
                 reportCategoryUpdate: function () {
-                    if (scope.selectedReport) {
-                        scope.selectedReport.model.set(
+                    if (this.model.get('selectedReport')) {
+                        this.model.get('selectedReport').model.set(
                             {
                                 report_category_id: this.$('#reportCategory option:selected').val()
                             }

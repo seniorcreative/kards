@@ -1,32 +1,45 @@
 define(
-    ['jquery'],
+    ['jquery',
+    'modules/style',
+    'modules/layout'],
 
-    function($) {
+    function($, style, layout) {
 
         // Setter functions (accept that for global scope) - where 'that' should be
 
-        var that;
+        var that, paper, graph;
 
-        var init = function (scope) {
+        var init = function (_scope, _paper, _graph) {
 
-            that = scope;
+            that    = _scope;
+            paper   = _paper;
+            graph   = _graph;
 
         };
 
         var setTotalWidthAnswers = function (numAnswers, answerWidth) {
-            that.totalWidthOfAnswers = (numAnswers * answerWidth) + ((numAnswers - 1) * that.answerMargin);
-            that.startX = that.stageCenterX - (that.totalWidthOfAnswers / 2);
+
+            var _totalWidth = (numAnswers * answerWidth) + ((numAnswers - 1) * layout.answerMargin);
+
+            layout.set('totalWidthOfAnswers', _totalWidth);
+
+            var _startX = layout.stage.centerX - (_totalWidth / 2);
+
+            layout.set('startX', _startX);
+
+            //console.log('setTotalWidthAnswers set total width ', layout.get('totalWidthOfAnswers'), ' start x ', layout.get('startX'));
         };
 
         var resetElementStyles = function (elementKType) {
 
+
             var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
-            that.loopedElements = that.paper.findViewsInArea(paperRect);
+            that.loopedElements = paper.findViewsInArea(paperRect);
 
             for (var element in that.loopedElements) {
                 if (that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') {
                     attrs = that.loopedElements[element].model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = that.style.node.strokeDashArray.deselected;
+                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
                     that.loopedElements[element].model.set('attrs', attrs);
                     that.loopedElements[element].render().el;
                 }

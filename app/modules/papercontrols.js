@@ -317,7 +317,7 @@ function(joint) {
 
         setTimeout(function() {
             $grid.val(15);
-            console.log(paper.$el);
+            //console.log(paper.$el);
             paper.$el.css('background-image', 'url("' + getGridBackgroundImage(15 * $sx.val(), 15 * $sy.val()) + '")');
             $('output[for="grid"]').text(15);
         }, 25);

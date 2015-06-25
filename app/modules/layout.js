@@ -3,6 +3,11 @@ define(['backbone'], function (Backbone) {
 
     var layout = Backbone.Model.extend({
 
+        stage:
+        {
+            centerX: (window.innerWidth / 2),
+            centerY: (window.innerHeight / 2)
+        },
         question: {
             boolean: {
                 qSize: {width: 120, height: 75},
@@ -30,8 +35,10 @@ define(['backbone'], function (Backbone) {
         },
         section: {
             size: {width: 120, height: 75}
-        }
-
+        },
+        answerMargin: 20,
+        logicWrapperPadding: 40,
+        logicCenterHeight: 20
     });
 
 

@@ -3,21 +3,26 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers) {
 
-        var scope;
+        var that;
         var graph;
         var paper;
+
+        var wraptext;
 
         var sectionControlsView = Backbone.View.extend(
             {
                 initialize: function () {
 
-                    scope = this.model.get('that');
+                    that = this.model.get('that');
                     graph = this.model.get('graph');
                     paper = this.model.get('paper');
+
+                    helpers.init(that, paper, graph);
 
                     this.template = _.template($('.formSectionOptions').html());
                     this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
@@ -44,7 +49,7 @@ define(
                     var newSectionTitle = $('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val();
                     $('#sectionTitle').val(newSectionTitle);
 
-                    resetElementStyles('section');
+                    helpers.resetElementStyles('section');
 
                     wraptext = joint.util.breakText(newSectionTitle, {
                         width: layout.section.size.width,
@@ -53,7 +58,7 @@ define(
 
                     var section = new joint.shapes.devs.Model({
                         ktype: 'section',
-                        position: { x: stageCenterX - (layout.section.size.width / 2), y: stageCenterY - (layout.section.size.height / 2) },
+                        position: { x: layout.stage.centerX - (layout.section.size.width / 2), y: layout.stage.centerY - (layout.section.size.height / 2) },
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
                             '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
@@ -80,13 +85,13 @@ define(
 
                     graph.addCells([section]);
 
-                    selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
+                    this.model.set('selectedSection', paper.findViewByModel(section)); // Make so is the selected straight away.
                 },
                 sectionUpdate: function(e)
                 {
-                    if (selectedSection)
+                    if (this.model.get('selectedSection') != null)
                     {
-                        attrs = selectedSection.model.get('attrs');
+                        attrs = this.model.get('selectedSection').model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.section.size.width,
@@ -94,8 +99,8 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        selectedSection.model.set('attrs', attrs);
-                        selectedSection.render().el;
+                        this.model.get('selectedSection').model.set('attrs', attrs);
+                        this.model.get('selectedSection').render().el;
                     }
                 }
             }
