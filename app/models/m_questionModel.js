@@ -9,8 +9,8 @@ define(
                 questionValue: '',
                 questionTypeTemplate: '', // Need to get this by loading JSON from PHP into handlebars
                 questionVariableTypeTemplate: '',
-                questionTypeID: '1',
-                questionVariableTypeID: '3',
+                questionTypeID: '',
+                questionVariableTypeID: '',
                 questionDatapointID: '',
                 choicesAccepted: 1
             }

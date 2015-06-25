@@ -41,8 +41,6 @@ define(
         //var selectedReport,selectedSection,selectedQuestion,selectedAnswer,selectedContent;
         //var newQuestionType;
         //var newQuestionVariableType;
-        var valueDataTypes;
-
         // Layout
 
         //var answerMargin;
@@ -51,8 +49,7 @@ define(
         //var logicCenterHeight;
         //var totalWidthOfAnswers, startX;
 
-        var answerDataTypesProvider, answerValueProvider, answerLabelProvider;
-        var attrs;
+        //var attrs;
         //var wraptext;
         var loopedElements;
 

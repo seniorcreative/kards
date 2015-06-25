@@ -13,6 +13,11 @@ define(
         var paper;
 
         var wraptext;
+        var numAnswers;
+        var valueDataTypes;
+        var answerDataTypesProvider = [];
+        var answerValueProvider = [];
+        var answerLabelProvider = [];
 
         var questionControlsView = Backbone.View.extend(
             {
@@ -51,19 +56,23 @@ define(
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
+
+                    //console.log('questionTypeID ', this.model.get('questionTypeID'));
+                    //console.log('questionVariableTypeID ', this.model.get('questionVariableTypeID'));
+
                     this.$el.find('#questionValue').val(this.model.get('questionValue'));
 
-                    if (this.model.get('questionTypeID') != '') {
+                    if (this.model.get('questionTypeID') != undefined) {
                         //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionType').val(this.model.get('questionTypeID'));
                     }
 
-                    if (this.model.get('questionVariableTypeID') != '') {
+                    if (this.model.get('questionVariableTypeID') != undefined) {
                         //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionVariableType').val(this.model.get('questionVariableTypeID'));
                     }
 
-                    if (this.model.get('questionDatapointID') != '') {
+                    if (this.model.get('questionDatapointID') != undefined) {
                         //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionDataPoint').val(this.model.get('questionDatapointID'));
                     }
@@ -72,7 +81,9 @@ define(
                 },
                 addQuestion: function (e) {
 
-                    layout.set('newQuestionType', $('#questionType option:selected').text().toLowerCase())
+                    console.log('setting question type to ', $('#questionType option:selected').text().toLowerCase());
+
+                    layout.set('newQuestionType', $('#questionType option:selected').text().toLowerCase());
 
                     var newQuestionText = $('#questionValue').val() == '' ? layout.get('newQuestionType') + ' question *' : $('#questionValue').val();
                     $('#questionValue').val(newQuestionText);
@@ -138,8 +149,8 @@ define(
                             numAnswers = 2;
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
                             answerDataTypesProvider = [this.model.get('valueDataTypes')['boolean'], this.model.get('valueDataTypes')['boolean']]; // boolean (can also use layout.get('newQuestionType') switch case here)
-                            answerValueProvider     =  [[1], [0]]; // Note that the answer value can expect an array of 2 values
-                            answerLabelProvider     =  ['true', 'false'];
+                            answerValueProvider     = [[1], [0]]; // Note that the answer value can expect an array of 2 values
+                            answerLabelProvider     = ['true', 'false'];
 
                             if ($('#questionUnknownAnswerAllowed').is(":checked"))
                             {
@@ -392,7 +403,7 @@ define(
                 },
                 changeQuestionTypeDropdown: function()
                 {
-                    this.model.set('newQuestionType', this.$('#questionType option:selected').text().toLowerCase());
+                    layout.set('newQuestionType', this.$('#questionType option:selected').text().toLowerCase());
 
                     this.model.set(
                         {

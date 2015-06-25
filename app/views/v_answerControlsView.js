@@ -66,8 +66,8 @@ define(
                 },
                 answerUpdate: function(e)
                 {
-                    //console.log('answer value is changing', e, this.$(e.target).val(), that.selectedQuestion);
-                    //console.log('selectd question', that.selectedQuestion);
+                    //console.log('answer value is changing', e, this.$(e.target).val(), this.model.get('selectedQuestion'));
+                    //console.log('selectd question', this.model.get('selectedQuestion'));
                     //console.log('selectd answer', this.model.get('selectedAnswer'));
 
                     if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
@@ -89,7 +89,7 @@ define(
                 answerValueUpdate: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (that.selectedQuestion && this.model.get('selectedAnswer'))
+                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
                     {
                         // adjust value of selected answer
                         this.model.get('selectedAnswer').model.set({'answer_value': this.$(e.target).val()});
@@ -99,7 +99,7 @@ define(
                 answerValue2Update: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (that.selectedQuestion && this.model.get('selectedAnswer'))
+                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
                     {
                         // adjust value of selected answer
                         this.model.get('selectedAnswer').model.set({'answer_value2': this.$(e.target).val()});
@@ -111,7 +111,7 @@ define(
                     //var newValueDataType = this.$('#valueDataType option:selected').text().toLowerCase();
                     //console.log(' q type ', newQuestionType);
 
-                    if (that.selectedQuestion && this.model.get('selectedAnswer')) {
+                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null) {
                         this.model.get('selectedAnswer').model.set(
                             {
                                 answer_value_datatype_id: this.$('#valueDataType option:selected').val()
@@ -145,7 +145,7 @@ define(
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    if (this.model.get('selectedAnswer')) {
+                    if (this.model.get('selectedAnswer') != null) {
 
                         var parentLogicWrapper = graph.getCell(this.model.get('selectedAnswer').model.get('parent'));
 
