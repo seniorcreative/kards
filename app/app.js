@@ -48,8 +48,6 @@ define(
             bootBackboneRouter();
         };
 
-
-
         var bootBackboneRouter = function () {
             var AppRouter = Backbone.Router.extend({
 
@@ -284,6 +282,8 @@ define(
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
 
+                                $('.formQuestionOptions h3').text('Edit Question');
+
                             break;
 
                         }
@@ -398,6 +398,8 @@ define(
                                 $('#btnQuestionAdd').removeClass('hidden');
                                 $('#btnAddAnswer').addClass('hidden');
 
+                                $('.formQuestionOptions h3').text('Add Question');
+
                                 break;
 
                             case 'question':
@@ -429,6 +431,9 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
+
+
+                                $('.formQuestionOptions h3').text('Edit Question');
 
                                 break;
 
@@ -486,6 +491,8 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
+
+                                $('.formQuestionOptions h3').text('Edit Question');
 
                                 break;
 

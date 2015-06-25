@@ -380,6 +380,8 @@ define(
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnQuestionAdd').addClass('hidden');
 
+                    $('.formQuestionOptions h3').text('Edit Question');
+
                 },
                 questionUpdate: function(e)
                 {

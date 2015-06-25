@@ -90,6 +90,7 @@ define(
                     $('.formQuestionOptions').css('opacity', 1);
                     $('.formContentOptions').css('opacity', 1);
 
+
                 },
                 sectionUpdate: function(e)
                 {

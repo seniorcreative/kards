@@ -1,4 +1,4 @@
-define(['backbone'], function (Backbone) {
+define(['jquery','backbone'], function ($,Backbone) {
 
 
     var layout = Backbone.Model.extend({
@@ -42,6 +42,15 @@ define(['backbone'], function (Backbone) {
     });
 
 
-    return new layout();
+    var layoutModel = new layout();
+
+    $(window).on('resize', function()
+    {
+        layoutModel.stage.centerX = (window.innerWidth / 2);
+        layoutModel.stage.centerY = (window.innerHeight / 2);
+    });
+
+
+    return layoutModel;
 
 });
