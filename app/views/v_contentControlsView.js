@@ -126,12 +126,13 @@ define(
 
                     contentWrapper.embed(content);
 
-                    this.model.set('selectedContent', content);
+                    window.selectedContent = content;
 
                 },
                 contentUpdate: function (e) {
-                    if (this.model.get('selectedContent')) {
-                        attrs = this.model.get('selectedContent').model.get('attrs');
+
+                    if (window.selectedContent != null) {
+                        attrs = window.selectedContent.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.content.bodySize.width,
@@ -139,10 +140,12 @@ define(
                         }) + '...';
 
                         attrs.text.text = wraptext;
-                        this.model.get('selectedContent').model.set('attrs', attrs);
-                        this.model.get('selectedContent').model.set('contentOriginal', this.$(e.target).val());
-                        this.model.get('selectedContent').render().el;
+
+                        window.selectedContent.model.set('attrs', attrs);
+                        window.selectedContent.model.set('contentOriginal', this.$(e.target).val());
+                        window.selectedContent.render().el;
                     }
+
                 },
                 changeContentTypeDropdown: function () {
 
@@ -152,8 +155,8 @@ define(
                         }
                     );
 
-                    if (this.model.get('selectedContent')) {
-                        this.model.get('selectedContent').model.set(
+                    if (window.selectedContent != null) {
+                        window.selectedContent.model.set(
                             {
                                 'cms_content_type_id': parseInt(this.$('#cmsContentTypeID option:selected').val())
                             }
@@ -169,8 +172,8 @@ define(
                         }
                     );
 
-                    if (this.model.get('selectedContent')) {
-                        this.model.get('selectedContent').model.set(
+                    if (window.selectedContent != null) {
+                        window.selectedContent.model.set(
                             {
                                 'cms_content_category_id': parseInt(this.$('#cmsContentCategoryID option:selected').val())
                             }

@@ -37,20 +37,8 @@ define(
         var paper, graph;
 
         var kardsModelCollection;
+        var selectionModel;
 
-        //var selectedReport,selectedSection,selectedQuestion,selectedAnswer,selectedContent;
-        //var newQuestionType;
-        //var newQuestionVariableType;
-        // Layout
-
-        //var answerMargin;
-        //var newQuestionX, newQuestionY, numAnswers;
-        //var logicWrapperPadding;
-        //var logicCenterHeight;
-        //var totalWidthOfAnswers, startX;
-
-        //var attrs;
-        //var wraptext;
         var loopedElements;
 
         var reportControls, sectionControls, questionControls, answerControls, contentControls;
@@ -96,14 +84,24 @@ define(
                         })
                     });
 
-                    kardsModelCollection = Backbone.Collection.extend();
+                    that.kardsModelCollection = Backbone.Collection.extend();
 
+
+
+                    // Globals - til I find another way to do this having tried various ways with models and collections but having issues with the scope from within the views.
+                    window.selectedReport       = null;
+                    window.selectedSection      = null;
+                    window.selectedQuestion     = null;
+                    window.selectedAnswer       = null;
+                    window.selectedContent      =  null;
+
+                    //
                     // Set up a reference within this object scope of each model.
-                    that.reportModel = new reportModel({ that: this, collection: kardsModelCollection, graph: graph, paper: paper });
-                    that.sectionModel = new sectionModel({ that: this, collection: kardsModelCollection, graph: graph, paper: paper });
-                    that.questionModel = new questionModel({ that: this, collection: kardsModelCollection, graph: graph, paper: paper });
-                    that.answerModel = new answerModel({ that: this, collection: kardsModelCollection, graph: graph, paper: paper });
-                    that.contentModel = new contentModel({ that: this, collection: kardsModelCollection, graph: graph, paper: paper });
+                    that.reportModel    = new reportModel({ that: this, collection: that.kardsModelCollection, selectionModel: that.selectionModel, graph: graph, paper: paper });
+                    that.sectionModel   = new sectionModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
+                    that.questionModel  = new questionModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
+                    that.answerModel    = new answerModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
+                    that.contentModel   = new contentModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -173,16 +171,18 @@ define(
 
                             // Don't initialise the question and answer controls views til we got data.
 
+
                             reportControls = new reportControlsView(
                                 {
                                     model: that.reportModel,
-                                    el: '.formReportOptions',
+                                    el: '.formReportOptions'
                                 }
                             );
 
                             sectionControls = new sectionControlsView(
                                 {
                                     model: that.sectionModel,
+                                    selectionModel: that.selectionModel,
                                     el: '.formSectionOptions'
                                 }
                             );
@@ -190,6 +190,7 @@ define(
                             questionControls = new questionControlsView(
                                 {
                                     model: that.questionModel,
+                                    selectionModel: that.selectionModel,
                                     el: '.formQuestionOptions'
                                 }
                             );
@@ -197,6 +198,7 @@ define(
                             answerControls = new answerControlsView(
                                 {
                                     model: that.answerModel,
+                                    selectionModel: that.selectionModel,
                                     el: '.formAnswerOptions'
                                 }
                             );
@@ -204,6 +206,7 @@ define(
                             contentControls = new contentControlsView(
                                 {
                                     model: that.contentModel,
+                                    selectionModel: that.selectionModel,
                                     el: '.formContentOptions'
                                 }
                             );
@@ -241,7 +244,6 @@ define(
 
                         helpers.resetElementStyles('content');
 
-
                         // adjust style of clicked element
                         attrs = _element.model.get('attrs');
                         attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
@@ -259,9 +261,10 @@ define(
                                         contentText: _element.model.get('contentOriginal'),
                                         contentTypeID: _element.model.get('cms_content_type_id'),
                                         contentCategoryID: _element.model.get('cms_content_category_id'),
-                                        selectedContent: _element
                                     }
                                 );
+
+                                window.selectedContent = _element;
 
                             break;
 
@@ -272,11 +275,14 @@ define(
                                         questionValue: attrs.text.text,
                                         questionTypeID: _element.model.get('question_type_id'),
                                         questionDatapointID: _element.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: _element.model.get('question_variable_type_id'),
-                                        selectedQuestion: _element
+                                        questionVariableTypeID: _element.model.get('question_variable_type_id')
                                     });
 
+                                window.selectedQuestion = _element;
+
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('#btnQuestionAdd').addClass('hidden');
+                                $('#btnAddAnswer').removeClass('hidden');
 
                             break;
 
@@ -292,12 +298,11 @@ define(
 
                         helpers.resetElementStyles('all');
 
-                        that.reportModel.set('selectedContent',null);
-                        that.sectionModel.set('selectedSection',null);
-                        that.questionModel.set('selectedQuestion',null);
-                        that.answerModel.set('selectedQuestion',null);
-                        that.answerModel.set('selectedAnswer',null);
-
+                        // Don't reset the selectedReport once we have one.
+                        window.selectedContent  = null;
+                        window.selectedSection  = null;
+                        window.selectedQuestion = null;
+                        window.selectedAnswer   = null;
 
                         $('#btnAddAnswer').addClass('hidden');
 
@@ -360,8 +365,9 @@ define(
                                     {
                                         reportTitle: attrs.text.text,
                                         reportCategoryID: cellView.model.get('report_category_id'),
-                                        selectedReport: cellView
                                     });
+
+                                window.selectedReport = cellView;
 
                                 that.reportModel.trigger('change');
 
@@ -381,13 +387,16 @@ define(
 
                                 that.sectionModel.set(
                                     {
-                                        sectionTitle: attrs.text.text,
-                                        selectedSection: cellView
+                                        sectionTitle: attrs.text.text
                                     });
+
+                                window.selectedSection =  cellView;
 
                                 that.sectionModel.trigger('change');
 
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('#btnQuestionAdd').removeClass('hidden');
+                                $('#btnAddAnswer').addClass('hidden');
 
                                 break;
 
@@ -408,17 +417,18 @@ define(
                                         questionValue: attrs.text.text,
                                         questionTypeID: cellView.model.get('question_type_id'),
                                         questionDatapointID: cellView.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: cellView.model.get('question_variable_type_id'),
-                                        selectedQuestion: cellView
+                                        questionVariableTypeID: cellView.model.get('question_variable_type_id')
                                     });
+
+                                window.selectedQuestion =  cellView;
 
                                 that.questionModel.trigger('change');
 
                                 //console.log('selected question', cellView);
 
-                                $('#btnAddAnswer').removeClass('hidden');
-
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('#btnQuestionAdd').addClass('hidden');
+                                $('#btnAddAnswer').removeClass('hidden');
 
                                 break;
 
@@ -427,7 +437,9 @@ define(
                                 //selectedAnswer = cellView;
 
                                 // Also set the parent question (both need to be set if we're editing answer controls)
-                                var selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question'));
+
+                                window.selectedAnswer   = cellView;
+                                window.selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question')); // Note we are setting the selected question i
 
                                 helpers.resetElementStyles('answer');
                                 helpers.resetElementStyles('question');
@@ -447,26 +459,23 @@ define(
                                         answerValue2: cellView.model.get('answer_value2'),
                                         answerDatapointID: cellView.model.get('ehr_datapoint_id'),
                                         answerValueDataTypeID: cellView.model.get('answer_value_datatype_id'),
-                                        selectedAnswer: cellView,
-                                        selectedQuestion: selectedQuestion // Note we are setting the selected question i
                                     });
 
                                 // When we select an answer I want to also select simultaneously the parent question.
 
 
 
-                                attrs = selectedQuestion.model.get('attrs');
+                                attrs = window.selectedQuestion.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                selectedQuestion.model.set('attrs', attrs);
-                                selectedQuestion.render().el;
+                                window.selectedQuestion.model.set('attrs', attrs);
+                                window.selectedQuestion.render().el;
 
                                 that.questionModel.set(
                                     {
                                         questionValue: attrs.text.text,
-                                        questionTypeID: selectedQuestion.model.get('question_type_id'),
-                                        questionDatapointID: selectedQuestion.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: selectedQuestion.model.get('question_variable_type_id'),
-                                        selectedQuestion: selectedQuestion
+                                        questionTypeID: window.selectedQuestion.model.get('question_type_id'),
+                                        questionDatapointID: window.selectedQuestion.model.get('ehr_datapoint_id'),
+                                        questionVariableTypeID: window.selectedQuestion.model.get('question_variable_type_id'),
                                     });
 
                                 //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
@@ -475,6 +484,8 @@ define(
 
                                 $('.formAnswerOptions').css('opacity', 1);
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('#btnQuestionAdd').addClass('hidden');
+                                $('#btnAddAnswer').removeClass('hidden');
 
                                 break;
 

@@ -373,24 +373,22 @@ define(
 
                     logicWrapper.embed(question);
 
-                    this.model.set('selectedQuestion', paper.findViewByModel(question)); // Make so is the selected straight away.
+                    window.selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
                     //this.model.trigger('change'); // If we do, why are we calling this? - write a note
 
                     $('#btnAddAnswer').removeClass('hidden');
+                    $('#btnQuestionAdd').addClass('hidden');
 
                 },
                 questionUpdate: function(e)
                 {
-                    //console.log('question value is changing', e, this.$(e.target).val());
-                    
-                    //console.log('scope is telling me this.model.get('selectedQuestion') is ', this.model.get('selectedQuestion'));
 
-                    if (this.model.get('selectedQuestion') != null)
+                    if (window.selectedQuestion != null)
                     {
 
                         // adjust text of clicked element
-                        attrs           = this.model.get('selectedQuestion').model.get('attrs');
+                        attrs           = window.selectedQuestion.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.question[layout.get('newQuestionType')].qSize.width,
@@ -398,8 +396,8 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        this.model.get('selectedQuestion').model.set('attrs', attrs);
-                        this.model.get('selectedQuestion').render().el;
+                        window.selectedQuestion.model.set('attrs', attrs);
+                        window.selectedQuestion.render().el;
 
                     }
                 },
@@ -436,9 +434,9 @@ define(
 
                     layout.set('newQuestionVariableType', this.$('#questionVariableType option:selected').text().toLowerCase());
 
-                    if (this.model.get('selectedQuestion'))
+                    if (window.selectedQuestion)
                     {
-                        this.model.get('selectedQuestion').model.set(
+                        window.selectedQuestion.model.set(
                             {
                                 'question_variable_type_id': parseInt(this.$('#questionVariableType option:selected').val())
                             }
@@ -456,9 +454,9 @@ define(
                         }
                     );
 
-                    if (this.model.get('selectedQuestion'))
+                    if (window.selectedQuestion)
                     {
-                        this.model.get('selectedQuestion').model.set(
+                        window.selectedQuestion.model.set(
                             {
                                 'ehr_datapoint_id': parseInt(this.$('#questionDataPoint option:selected').val())
                             }
@@ -471,14 +469,14 @@ define(
 
 
 
-                    //console.log('selected question', this.model.get('selectedQuestion'));
+                    //console.log('selected question', window.selectedQuestion);
                     // Let's add an answer to the selected question!
                     // let's add another answer by cloning the first answr in this questions child neighbours.
-                    if (!this.model.get('selectedQuestion')) return;
+                    if (!window.selectedQuestion) return;
 
                     helpers.resetElementStyles('answer');
 
-                    var neighbours      = graph.getNeighbors(this.model.get('selectedQuestion').model);
+                    var neighbours      = graph.getNeighbors(window.selectedQuestion.model);
 
                     var newAnswerText = $('#answerLabel').val() == '' ? 'Answer ' + (neighbours.length+1) + ' *' : $('#answerLabel').val();
                     $('#answerLabel').val(newAnswerText);
@@ -507,20 +505,20 @@ define(
 
                     var linkNew = new joint.dia.Link({
                         smooth: true,
-                        source: { id: this.model.get('selectedQuestion').model.id },
+                        source: { id: window.selectedQuestion.model.id },
                         target: { id: newAnswer.id }
                     });
 
                     graph.addCell(linkNew);
 
                     // embed this answer under the question (which is embedded into the logic wrapper)
-                    graph.getCell(this.model.get('selectedQuestion').model.get('parent')).embed(newAnswer);
-
-                    // console.log(this.model.get('selectedQuestion').model.get('parent'));
+                    graph.getCell(window.selectedQuestion.model.get('parent')).embed(newAnswer);
 
                     graph.trigger('change:position', newAnswer, pos);
 
-                    this.model.set('selectedAnswer', paper.findViewByModel(newAnswer)); // make so is selected straight away.
+                    window.selectedAnswer =  paper.findViewByModel(newAnswer); // make so is selected straight away.
+
+                    $('.formAnswerOptions').css('opacity', 1);
                 },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));

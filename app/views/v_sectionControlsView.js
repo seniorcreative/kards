@@ -85,16 +85,17 @@ define(
 
                     graph.addCells([section]);
 
-                    this.model.set('selectedSection', paper.findViewByModel(section)); // Make so is the selected straight away.
+                    window.selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
 
                     $('.formQuestionOptions').css('opacity', 1);
                     $('.formContentOptions').css('opacity', 1);
+
                 },
                 sectionUpdate: function(e)
                 {
-                    if (this.model.get('selectedSection') != null)
+                    if (window.selectedSection != null)
                     {
-                        attrs = this.model.get('selectedSection').model.get('attrs');
+                        attrs = window.selectedSection.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.section.size.width,
@@ -102,8 +103,8 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        this.model.get('selectedSection').model.set('attrs', attrs);
-                        this.model.get('selectedSection').render().el;
+                        window.selectedSection.model.set('attrs', attrs);
+                        window.selectedSection.render().el;
                     }
                 }
             }

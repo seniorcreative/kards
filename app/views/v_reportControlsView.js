@@ -100,14 +100,14 @@ define(
                     this.$('#btnAddReport').attr('disabled', 'disabled');
                     this.$('#btnAddReport').slideUp('slow');
 
-                    this.model.set('selectedReport',paper.findViewByModel(report)); // Assign the selected report after it is first added.
+                    window.selectedReport = paper.findViewByModel(report); // Assign the selected report after it is first added.
 
                     $('.formSectionOptions').css('opacity', 1);
 
                 },
                 reportUpdate: function (e) {
-                    if (this.model.get('selectedReport') != null) {
-                        attrs = this.model.get('selectedReport').model.get('attrs');
+                    if (window.selectedReport != null) {
+                        attrs = window.selectedReport.model.get('attrs');
 
                         var wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.report.size.width,
@@ -115,13 +115,13 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        this.model.get('selectedReport').model.set('attrs', attrs);
-                        this.model.get('selectedReport').render().el;
+                        window.selectedReport.model.set('attrs', attrs);
+                        window.selectedReport.render().el;
                     }
                 },
                 reportCategoryUpdate: function () {
-                    if (this.model.get('selectedReport')) {
-                        this.model.get('selectedReport').model.set(
+                    if (window.selectedReport) {
+                        window.selectedReport.model.set(
                             {
                                 report_category_id: this.$('#reportCategory option:selected').val()
                             }

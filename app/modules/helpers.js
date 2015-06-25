@@ -27,7 +27,6 @@ define(
 
             layout.set('startX', _startX);
 
-            //console.log('setTotalWidthAnswers set total width ', layout.get('totalWidthOfAnswers'), ' start x ', layout.get('startX'));
         };
 
         var resetElementStyles = function (elementKType) {

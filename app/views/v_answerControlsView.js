@@ -66,14 +66,14 @@ define(
                 },
                 answerUpdate: function(e)
                 {
-                    //console.log('answer value is changing', e, this.$(e.target).val(), this.model.get('selectedQuestion'));
-                    //console.log('selectd question', this.model.get('selectedQuestion'));
-                    //console.log('selectd answer', this.model.get('selectedAnswer'));
+                    //console.log('answer value is changing', e, this.$(e.target).val(), window.selectedQuestion);
+                    //console.log('selectd question', window.selectedQuestion);
+                    //console.log('selectd answer', window.selectedAnswer);
 
-                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
+                    if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
                         // adjust text of clicked element
-                        attrs           = this.model.get('selectedAnswer').model.get('attrs');
+                        attrs           = window.selectedAnswer.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.question[layout.get('newQuestionType')].qSize.width,
@@ -81,29 +81,29 @@ define(
                         });
 
                         attrs.text.text = wraptext;
-                        this.model.get('selectedAnswer').model.set('attrs', attrs);
-                        this.model.get('selectedAnswer').render().el;
+                        window.selectedAnswer.model.set('attrs', attrs);
+                        window.selectedAnswer.render().el;
 
                     }
                 },
                 answerValueUpdate: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
+                    if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
                         // adjust value of selected answer
-                        this.model.get('selectedAnswer').model.set({'answer_value': this.$(e.target).val()});
-                        //this.model.get('selectedAnswer').render().el;
+                        window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+                        //window.selectedAnswer.render().el;
                     }
                 },
                 answerValue2Update: function(e)
                 {
                     //console.log('answer value is changing', e, this.$(e.target).val());
-                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null)
+                    if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
                         // adjust value of selected answer
-                        this.model.get('selectedAnswer').model.set({'answer_value2': this.$(e.target).val()});
-                        //this.model.get('selectedAnswer').render().el;
+                        window.selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+                        //window.selectedAnswer.render().el;
                     }
                 },
                 changeValueDataTypeDropdown: function()
@@ -111,8 +111,8 @@ define(
                     //var newValueDataType = this.$('#valueDataType option:selected').text().toLowerCase();
                     //console.log(' q type ', newQuestionType);
 
-                    if (this.model.get('selectedQuestion') != null && this.model.get('selectedAnswer') != null) {
-                        this.model.get('selectedAnswer').model.set(
+                    if (window.selectedQuestion != null && window.selectedAnswer != null) {
+                        window.selectedAnswer.model.set(
                             {
                                 answer_value_datatype_id: this.$('#valueDataType option:selected').val()
                             }
@@ -130,9 +130,9 @@ define(
                         }
                     );
 
-                    if (this.model.get('selectedAnswer'))
+                    if (window.selectedAnswer)
                     {
-                        this.model.get('selectedAnswer').model.set(
+                        window.selectedAnswer.model.set(
                             {
                                 'ehr_datapoint_id': parseInt(this.$('#answerDataPoint option:selected').val())
                             }
@@ -145,9 +145,9 @@ define(
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    if (this.model.get('selectedAnswer') != null) {
+                    if (window.selectedAnswer != null) {
 
-                        var parentLogicWrapper = graph.getCell(this.model.get('selectedAnswer').model.get('parent'));
+                        var parentLogicWrapper = graph.getCell(window.selectedAnswer.model.get('parent'));
 
                         var newOutports = parentLogicWrapper.attributes.outPorts;
                         var ar = [];
