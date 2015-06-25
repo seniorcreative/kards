@@ -37,7 +37,7 @@ define(
             that.loopedElements = paper.findViewsInArea(paperRect);
 
             for (var element in that.loopedElements) {
-                if (that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') {
+                if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {
                     attrs = that.loopedElements[element].model.get('attrs');
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
                     that.loopedElements[element].model.set('attrs', attrs);

@@ -377,6 +377,8 @@ define(
 
                     //this.model.trigger('change'); // If we do, why are we calling this? - write a note
 
+                    $('#btnAddAnswer').removeClass('hidden');
+
                 },
                 questionUpdate: function(e)
                 {

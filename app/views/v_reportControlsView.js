@@ -43,7 +43,7 @@ define(
 
                     this.$el.find('#reportTitle').val(this.model.get('reportTitle'));
 
-                    if (this.model.get('reportCategoryID') != '') {
+                    if (this.model.get('reportCategoryID') != undefined) {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
                         this.$el.find('#reportCategory').val(this.model.get('reportCategoryID'));
                     }
@@ -101,6 +101,8 @@ define(
                     this.$('#btnAddReport').slideUp('slow');
 
                     this.model.set('selectedReport',paper.findViewByModel(report)); // Assign the selected report after it is first added.
+
+                    $('.formSectionOptions').css('opacity', 1);
 
                 },
                 reportUpdate: function (e) {

@@ -276,6 +276,8 @@ define(
                                         selectedQuestion: _element
                                     });
 
+                                $('.formQuestionOptions').css('opacity', 1);
+
                             break;
 
                         }
@@ -295,6 +297,12 @@ define(
                         that.questionModel.set('selectedQuestion',null);
                         that.answerModel.set('selectedQuestion',null);
                         that.answerModel.set('selectedAnswer',null);
+
+
+                        $('#btnAddAnswer').addClass('hidden');
+
+                        $('.formAnswerOptions').css('opacity', 0);
+                        $('.formQuestionOptions').css('opacity', 0);
 
                         // Clear the appropriate  model values
                         that.sectionModel.set(
@@ -379,6 +387,8 @@ define(
 
                                 that.sectionModel.trigger('change');
 
+                                $('.formQuestionOptions').css('opacity', 1);
+
                                 break;
 
                             case 'question':
@@ -406,6 +416,10 @@ define(
 
                                 //console.log('selected question', cellView);
 
+                                $('#btnAddAnswer').removeClass('hidden');
+
+                                $('.formQuestionOptions').css('opacity', 1);
+
                                 break;
 
                             case 'answer':
@@ -419,7 +433,6 @@ define(
                                 helpers.resetElementStyles('question');
 
                                 // adjust style of clicked element
-
                                 // highlight node method?
 
                                 attrs = cellView.model.get('attrs');
@@ -460,7 +473,8 @@ define(
                                 that.answerModel.trigger('change');
                                 that.questionModel.trigger('change');
 
-                                //console.log('your selected answer', selectedAnswer);
+                                $('.formAnswerOptions').css('opacity', 1);
+                                $('.formQuestionOptions').css('opacity', 1);
 
                                 break;
 

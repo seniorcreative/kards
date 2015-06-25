@@ -86,6 +86,9 @@ define(
                     graph.addCells([section]);
 
                     this.model.set('selectedSection', paper.findViewByModel(section)); // Make so is the selected straight away.
+
+                    $('.formQuestionOptions').css('opacity', 1);
+                    $('.formContentOptions').css('opacity', 1);
                 },
                 sectionUpdate: function(e)
                 {

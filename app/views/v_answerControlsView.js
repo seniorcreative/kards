@@ -52,12 +52,12 @@ define(
                     this.$el.find('#answerValue').val(this.model.get('answerValue'));
                     this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
 
-                    if (this.model.get('answerValueDataTypeID') != '') {
+                    if (this.model.get('answerValueDataTypeID') != undefined) {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
                         this.$el.find('#valueDataType').val(this.model.get('answerValueDataTypeID'));
                     }
 
-                    if (this.model.get('answerDatapointID') != '') {
+                    if (this.model.get('answerDatapointID') != undefined) {
                         //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#answerDataPoint').val(this.model.get('answerDatapointID'));
                     }
