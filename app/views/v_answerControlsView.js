@@ -82,6 +82,7 @@ define(
 
                         attrs.text.text = wraptext;
                         window.selectedAnswer.model.set('attrs', attrs);
+                        window.selectedAnswer.model.set('answerFull', this.$(e.target).val());
                         window.selectedAnswer.render().el;
 
                     }

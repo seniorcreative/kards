@@ -116,7 +116,7 @@ define(
                                 text: wraptext, fill: style.text.fill.normal
                             }
                         },
-                        contentOriginal: newContentText,
+                        contentFull: newContentText,
                         interactive: false,
                         cms_content_type_id: parseInt(this.$('#cmsContentTypeID option:selected').val()),
                         cms_content_category_id: parseInt(this.$('#cmsContentCategoryID option:selected').val())
@@ -142,7 +142,7 @@ define(
                         attrs.text.text = wraptext;
 
                         window.selectedContent.model.set('attrs', attrs);
-                        window.selectedContent.model.set('contentOriginal', this.$(e.target).val());
+                        window.selectedContent.model.set('contentFull', this.$(e.target).val());
                         window.selectedContent.render().el;
                     }
 

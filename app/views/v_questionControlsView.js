@@ -81,7 +81,7 @@ define(
                 },
                 addQuestion: function (e) {
 
-                    console.log('setting question type to ', $('#questionType option:selected').text().toLowerCase());
+                    //console.log('setting question type to ', $('#questionType option:selected').text().toLowerCase());
 
                     layout.set('newQuestionType', $('#questionType option:selected').text().toLowerCase());
 
@@ -122,7 +122,8 @@ define(
                                 text: wraptext,
                                 fill: style.text.fill.normal
                             }
-                        }
+                        },
+                        questionFull: newQuestionText
                     };
 
 
@@ -313,7 +314,9 @@ define(
 
                     for (var a=0; a < layout.question[layout.get('newQuestionType')].answers.length; a++) {
 
-                        wraptext = joint.util.breakText(layout.question[layout.get('newQuestionType')].answers[a].label, {
+                        var fullAnswerText = layout.question[layout.get('newQuestionType')].answers[a].label;
+
+                        wraptext = joint.util.breakText(fullAnswerText, {
                             width: layout.question[layout.get('newQuestionType')].aSize.width - 10,
                             height: layout.question[layout.get('newQuestionType')].aSize.height - 10
                         });
@@ -336,6 +339,7 @@ define(
                                     fill: style.text.fill.normal
                                 }
                             },
+                            answerFull: fullAnswerText,
                             answer_value_datatype_id: answerDataTypesProvider[a],
                             answer_value: answerValueProvider[a][0],
                             answer_value2: answerValueProvider[a][1],
@@ -395,10 +399,11 @@ define(
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
                             width: layout.question[layout.get('newQuestionType')].qSize.width,
                             height: layout.question[layout.get('newQuestionType')].qSize.height
-                        });
+                        }) + '...';
 
                         attrs.text.text = wraptext;
                         window.selectedQuestion.model.set('attrs', attrs);
+                        window.selectedQuestion.model.set('questionFull', this.$(e.target).val());
                         window.selectedQuestion.render().el;
 
                     }

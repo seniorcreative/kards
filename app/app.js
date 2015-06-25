@@ -256,7 +256,7 @@ define(
 
                                 that.contentModel.set(
                                     {
-                                        contentText: _element.model.get('contentOriginal'),
+                                        contentText: _element.model.get('contentFull'),
                                         contentTypeID: _element.model.get('cms_content_type_id'),
                                         contentCategoryID: _element.model.get('cms_content_category_id'),
                                     }
@@ -268,9 +268,12 @@ define(
 
                             case 'question':
 
+                                console.log('full text', _element.model.get('questionFull'));
+
                                 that.questionModel.set(
                                     {
-                                        questionValue: attrs.text.text,
+                                        //questionValue: attrs.text.text,
+                                        questionValue: _element.model.get('questionFull'),
                                         questionTypeID: _element.model.get('question_type_id'),
                                         questionDatapointID: _element.model.get('ehr_datapoint_id'),
                                         questionVariableTypeID: _element.model.get('question_variable_type_id')
@@ -416,7 +419,7 @@ define(
 
                                 that.questionModel.set(
                                     {
-                                        questionValue: attrs.text.text,
+                                        questionValue: cellView.model.get('questionFull'),
                                         questionTypeID: cellView.model.get('question_type_id'),
                                         questionDatapointID: cellView.model.get('ehr_datapoint_id'),
                                         questionVariableTypeID: cellView.model.get('question_variable_type_id')
@@ -459,7 +462,8 @@ define(
 
                                 that.answerModel.set(
                                     {
-                                        answerLabel: attrs.text.text,
+                                        //answerLabel: attrs.text.text,
+                                        answerLabel: cellView.model.get('answerFull'),
                                         answerValue: cellView.model.get('answer_value'),
                                         answerValue2: cellView.model.get('answer_value2'),
                                         answerDatapointID: cellView.model.get('ehr_datapoint_id'),
