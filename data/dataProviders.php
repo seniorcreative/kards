@@ -63,6 +63,36 @@ $json = (object) [
         (object) ['id' => 2, 'label' => 'text_content'],
         (object) ['id' => 3, 'label' => 'image'],
         (object) ['id' => 4, 'label' => 'video']
+    ],
+    'logicOperatorPrefix' =>
+    [
+        (object) ['id' => '1','data-symbol' => 'IF','label' => 'IF', 'data-type' => '2'],
+        (object) ['id' => '2','data-symbol' => '&&','label' => 'AND', 'data-type' => '2'],
+        (object) ['id' => '3','data-symbol' => '||','label' => 'OR', 'data-type' => '2'],
+        (object) ['id' => '19','data-symbol' => 'ELSE','label' => 'ELSE', 'data-type' => '2'],
+        (object) ['id' => '27','data-symbol' => 'ELSE IF','label' => 'ELSE IF', 'data-type' => '2']
+    ],
+    'logicOperatorNormal' =>
+    [
+        (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
+        (object) ['id' => '4','data-symbol' => '<','label' => 'LESS THAN', 'data-type' => '1'],
+        (object) ['id' => '5','data-symbol' => '<=','label' => 'LESS THAN OR EQUAL', 'data-type' => '1'],
+        (object) ['id' => '6','data-symbol' => '>','label' => 'GREATER THAN', 'data-type' => '1'],
+        (object) ['id' => '7','data-symbol' => '>=','label' => 'GREATER THAN OR EQUAL', 'data-type' => '1'],
+        (object) ['id' => '8','data-symbol' => '+','label' => 'PLUS', 'data-type' => '1'],
+        (object) ['id' => '9','data-symbol' => '-','label' => 'MINUS', 'data-type' => '1'],
+        (object) ['id' => '10','data-symbol' => '*','label' => 'MULTIPLY', 'data-type' => '1'],
+        (object) ['id' => '11','data-symbol' => '/','label' => 'DIVIDE', 'data-type' => '1'],
+        (object) ['id' => '12','data-symbol' => '==','label' => 'EQUAL', 'data-type' => '1'],
+        (object) ['id' => '13','data-symbol' => '!=','label' => 'NOT EQUAL', 'data-type' => '1'],
+        (object) ['id' => '14','data-symbol' => 'sum([VALUES])','label' => 'SUM', 'data-type' => '1'],
+        (object) ['id' => '15','data-symbol' => 'mean([VALUES])','label' => 'MEAN', 'data-type' => '1'],
+        (object) ['id' => '16','data-symbol' => 'mode([VALUES])','label' => 'MODE', 'data-type' => '1'],
+        (object) ['id' => '17','data-symbol' => 'median([VALUES])','label' => 'MEDIAN', 'data-type' => '1'],
+        (object) ['id' => '18','data-symbol' => 'sd([VALUES])','label' => 'STANDARD DEVIATION', 'data-type' => '1'],
+        (object) ['id' => '20','data-symbol' => 'range([VALUES])','label' => 'RANGE', 'data-type' => '1'],
+        (object) ['id' => '25','data-symbol' => 'contains','label' => 'CONTAINS', 'data-type' => '1'],
+        (object) ['id' => '26','data-symbol' => 'notcontains','label' => 'DOES NOT CONTAIN', 'data-type' => '1']
     ]
 ];
 

@@ -9,7 +9,8 @@ define(
                 answerValue: '',
                 valueDataTypeTemplate: '',
                 answerValueDataTypeID: 1,
-                answerDatapointID: ''
+                answerDatapointID: '',
+                logicVisible: false
             }
         );
 

@@ -35,7 +35,7 @@ define(
                     this.$el.find('#questionVariableTypeTemplate').html(this.model.get('questionVariableTypeTemplate'));
                     this.$el.find('#questionControlsMultiple').slideUp(0);
 
-                    //console.log('question view initied', this.model, this.model.get);
+                    console.log('question view initied', this.model);
 
                     this.model.on('change', function(){
 
@@ -99,6 +99,11 @@ define(
                         height: layout.question[layout.get('newQuestionType')].qSize.height
                     });
 
+
+                    var questionNumber = this.model.get('questions').length;
+
+                    console.log('questions', questionNumber);
+
                     var questionObject = {
                         ktype: 'question',
                         position: {x: newQuestionX, y: newQuestionY},
@@ -123,7 +128,8 @@ define(
                                 fill: style.text.fill.normal
                             }
                         },
-                        questionFull: newQuestionText
+                        questionFull: newQuestionText,
+                        questionNumber: questionNumber
                     };
 
 
@@ -270,6 +276,9 @@ define(
 
                     var question = new joint.shapes.html.Element( questionObject );
 
+                    var questionModelArray = this.model.get('questions');
+                    questionModelArray.push(question);
+                    this.model.set('questions', questionModelArray);
 
                     var logicWrapperWidth = layout.get('totalWidthOfAnswers') + (layout.logicWrapperPadding * 1);
                     var logicWrapperHeight = layout.question[layout.get('newQuestionType')].qSize.height  + layout.question[layout.get('newQuestionType')].aSize.height + layout.logicCenterHeight +  (layout.logicWrapperPadding * 2);

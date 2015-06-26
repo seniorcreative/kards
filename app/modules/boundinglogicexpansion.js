@@ -1,9 +1,10 @@
 // Controls
 
 define(
-    ['joint'],
+    ['joint',
+    'modules/layout'],
 
-function(joint) {
+function(joint, layout) {
 
 
     var init = function(graph, paper) {
@@ -68,7 +69,7 @@ function(joint) {
             // on the following `set()` call.
             parent.set({
                 position: { x: newX, y: newY },
-                size: { width: newCornerX - newX, height: newCornerY - newY }
+                size: { width: newCornerX - newX + layout.answerMargin, height: newCornerY - newY }
             }, { skipParentHandler: true });
         });
 

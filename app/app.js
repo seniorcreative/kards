@@ -15,33 +15,35 @@ define(
         'models/m_questionModel',
         'models/m_answerModel',
         'models/m_contentModel',
+        'models/m_logicModel',
         'views/v_reportControlsView',
         'views/v_sectionControlsView',
         'views/v_questionControlsView',
         'views/v_answerControlsView',
         'views/v_contentControlsView',
+        'views/v_logicControlsView',
         'modules/style',
         'modules/layout',
-        //'modules/controls',
         'modules/papercontrols',
         'modules/boundinglogicexpansion',
         'modules/helpers',
         'compiled-templates'
     ],
 
-    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, contentModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, contentControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
+    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, contentModel, logicModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, contentControlsView, logicControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
 
 
 
         var that = this;
         var paper, graph;
 
+        var loadedData;
         var kardsModelCollection;
         var selectionModel;
 
         var loopedElements;
 
-        var reportControls, sectionControls, questionControls, answerControls, contentControls;
+        var reportControls, sectionControls, questionControls, answerControls, contentControls, logicControls;
 
 
         var run = function () {
@@ -85,13 +87,12 @@ define(
                     that.kardsModelCollection = Backbone.Collection.extend();
 
 
-
                     // Globals - til I find another way to do this having tried various ways with models and collections but having issues with the scope from within the views.
                     window.selectedReport       = null;
                     window.selectedSection      = null;
                     window.selectedQuestion     = null;
                     window.selectedAnswer       = null;
-                    window.selectedContent      =  null;
+                    window.selectedContent      = null;
 
                     //
                     // Set up a reference within this object scope of each model.
@@ -100,6 +101,7 @@ define(
                     that.questionModel  = new questionModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
                     that.answerModel    = new answerModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
                     that.contentModel   = new contentModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
+                    that.logicModel     = new logicModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -156,18 +158,18 @@ define(
                         data: "",
                         success: function (data) {
 
+                            loadedData = data;
+
                             console.log("Kards-v1 ... app ready");
 
                             // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                            that.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](data)});
-                            that.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](data)});
-                            that.questionModel.set({'valueDataTypes': data.valueDataTypes});
+                            that.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](loadedData)});
+                            that.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](loadedData)});
+                            that.questionModel.set({'valueDataTypes': loadedData.valueDataTypes});
 
-                            that.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](data)});
-                            that.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](data)});
-                            that.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](data)});
-
-                            // Don't initialise the question and answer controls views til we got data.
+                            that.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](loadedData)});
+                            that.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](loadedData)});
+                            that.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](loadedData)});
 
 
                             reportControls = new reportControlsView(
@@ -180,7 +182,6 @@ define(
                             sectionControls = new sectionControlsView(
                                 {
                                     model: that.sectionModel,
-                                    selectionModel: that.selectionModel,
                                     el: '.formSectionOptions'
                                 }
                             );
@@ -188,7 +189,6 @@ define(
                             questionControls = new questionControlsView(
                                 {
                                     model: that.questionModel,
-                                    selectionModel: that.selectionModel,
                                     el: '.formQuestionOptions'
                                 }
                             );
@@ -196,7 +196,6 @@ define(
                             answerControls = new answerControlsView(
                                 {
                                     model: that.answerModel,
-                                    selectionModel: that.selectionModel,
                                     el: '.formAnswerOptions'
                                 }
                             );
@@ -204,17 +203,39 @@ define(
                             contentControls = new contentControlsView(
                                 {
                                     model: that.contentModel,
-                                    selectionModel: that.selectionModel,
                                     el: '.formContentOptions'
                                 }
                             );
 
 
-                            $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
-                            $('.alert').animate({'opacity': 1}, 500);
-                            setTimeout(function () {
-                                $('.alert').remove()
-                            }, 2500);
+                            // By subscribing from here to an event that occurs within the change of the answer model
+                            // such as clicking on the 'add logic out point' button
+                            // we have access to the scope of other models...
+
+                            answerControls.listenTo(that.answerModel, "change:logicVisible", function(){
+                                console.log('changed something in answer model', that.questionModel.get('questions'));
+                            });
+
+                            // When we click the 'add logic to answer...'
+
+                            loadedData.ruleNum = 1;
+                            loadedData.ruleSortIndex = 1;
+
+                            that.logicModel.set(
+                                {
+                                    logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
+                                    ruleNum: 1,
+                                    ruleSortIndex: 1
+                                }
+                            );
+
+                            logicControls = new logicControlsView(
+                                {
+                                    model: that.logicModel,
+                                    el: '#logic-modal'
+                                }
+                            );
+
                         }
 
                     });
@@ -229,6 +250,16 @@ define(
                 main: function () {
 
                     //var that = this; // this is the 'router'
+
+
+                    $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
+                    $('.alert').animate({'opacity': 1}, 500);
+                    setTimeout(function () {
+                        $('.alert').remove()
+                    }, 2500);
+
+
+                    //
 
                     var selectChildElement = function( _element, mode )
                     {
@@ -310,7 +341,9 @@ define(
                         $('#btnAddAnswer').addClass('hidden');
 
                         $('.formAnswerOptions').css('opacity', 0);
-                        $('.formQuestionOptions').css('opacity', 0);
+                        //$('.formQuestionOptions').css('opacity', 0);
+                        $('#btnQuestionAdd').removeClass('hidden');
+                        $('#btnAddAnswer').addClass('hidden');
 
                         // Clear the appropriate  model values
                         that.sectionModel.set(
@@ -340,6 +373,7 @@ define(
                             }
                         );
                         that.contentModel.trigger('change');
+
 
                     });
 

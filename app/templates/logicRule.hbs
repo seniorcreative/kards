@@ -1,0 +1,184 @@
+<div class="logic-rule">
+
+    <div id="" class="ruleForm">
+
+        <div class="ruleWrapper">
+
+            <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Sort</span>
+
+            <label for="rule_{{ ruleNum }}_sortindex">
+                <input type="number" value="{{ ruleSortIndex }}" class="short" name="rule_{{ ruleNum }}_sortindex" id="rule_{{ ruleNum }}_sortindex">
+            </label>
+
+        </div>
+
+        <div class="ruleWrapper ruleWrapper--block">
+
+            <div class="ruleWrapperBlock prefix">
+
+                <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Prefix</span>
+
+                <select name="rule_prefix_{{ ruleNum }}" id="rule_prefix_{{ ruleNum }}" size="1">
+                    {{#each logicOperatorPrefix}}
+                        <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
+                    {{/each}}
+                    <!--<option value="1">IF</option>-->
+                    <!--<option value="2">AND</option>-->
+                    <!--<option value="3">ELSE</option>-->
+                    <!--<option value="4">ELSE IF</option>-->
+                    <!--<option value="5">OR</option>-->
+                </select>
+
+            </div>
+
+            <div class="ruleWrapperBlock  calculations">
+
+                <span class="ruleWrapperBlockTitle">Calculation Blocks</span>
+
+                <div class="ruleWrapperBlockCalculationBlocks">
+
+                    <div class="ruleWrapperBlockCalculationBlockWrapper">
+
+                        <div class="ruleWrapperBlockCalculationBlock operation">
+
+                            <span class="ruleWrapperCalculationBlockTitle">Operation</span>
+
+                            <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operation" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operation" size="1">
+                                {{#each logicOperatorNormal}}
+                                    <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
+                                {{/each}}
+                                <!--<option value="1">VALUE OF</option>-->
+                                <!--<option value="2">SUM</option>-->
+                                <!--<option value="3">PLUS</option>-->
+                                <!--<option value="4">MINUS</option>-->
+                                <!--<option value="5">MULTIPLY</option>-->
+                            </select>
+
+                        </div>
+
+                        <div class="ruleWrapperBlockCalculationBlock  operand">
+
+                            <span class="ruleWrapperCalculationBlockTitle">Operands</span>
+
+                            <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                <span class="ruleWrapperBlockLabel">Answer value</span>
+
+                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="5">
+                                    <option value="1">Q1 - True</option>
+                                    <option value="2">Q1 - False</option>
+                                    <option value="3">Q1 - Unknown</option>
+                                    {{#each answerValue}}
+                                        <option value="{{id}}">{{label}}</option>
+                                    {{/each}}
+                                    <!--<option value="3">Q3</option>-->
+                                    <!--<option value="4">Q4</option>-->
+                                    <!--<option value="5">Q5</option>-->
+                                </select>
+
+                            </div>
+
+                            <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                <span class="ruleWrapperBlockLabel"><strong>OR</strong> Custom value type</span>
+
+                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value_type" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value_type" size="1">
+                                    {{#each valueDataTypesDropdown}}
+                                        <option value="{{id}}">{{label}}</option>
+                                    {{/each}}
+                                    <!--<option value="1">integer</option>-->
+                                    <!--<option value="2">boolean</option>-->
+                                    <!--<option value="3">float</option>-->
+                                    <!--<option value="4">string</option>-->
+                                </select>
+
+                            </div>
+
+
+                            <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                <span class="ruleWrapperBlockLabel">Value</span>
+
+                                <input type="text" value=" ? " name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button>Add calculation block</button>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="ruleWrapperBlock suffix">
+
+                <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Suffix</span>
+
+                <div class="ruleWrapperBlockSuffixBlock condition">
+
+                    <select name="rule_{{ ruleNum }}_suffix_condition" id="rule_{{ ruleNum }}_suffix_condition" size="1">
+                        {{#each logicOperatorNormal}}
+                            <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
+                        {{/each}}
+                        <!--<option value="1">IS</option>-->
+                        <!--<option value="2">GREATER THAN</option>-->
+                        <!--<option value="3">LESS THAN</option>-->
+                        <!--<option value="4">GREATER THAN OR EQUAL TO</option>-->
+                        <!--<option value="5">LESS THAN OR EQUAL TO</option>-->
+                    </select>
+
+
+                </div>
+
+                <div class="ruleWrapperBlockSuffixBlock  topMargin  answer">
+
+                    <span class="ruleWrapperBlockLabel">Select answer</span>
+
+                    <select name="rule_{{ ruleNum }}_suffix_answer_value" id="rule_{{ ruleNum }}_suffix_answer_value" size="5">
+                        <option value="1">Q1 - A1 - True</option>
+                        <option value="2">Q1 - A2 - True</option>
+                        <option value="3">Q1 - A3 - Unknown</option>
+                        <option value="4">Q2 - A1 - Psychogenic</option>
+                        {{#each answerValue}}
+                            <option value="{{id}}">{{label}}</option>
+                        {{/each}}
+                    </select>
+
+                </div>
+
+                <div class="ruleWrapperBlockSuffixBlock  topMargin  customvalueType">
+
+                    <span class="ruleWrapperBlockLabel"><strong>OR</strong> Custom value type</span>
+
+                    <select name="rule_{{ ruleNum }}_suffix_custom_value_type" id="rule_{{ ruleNum }}_suffix_custom_value_type" size="1">
+                        {{#each valueDataTypesDropdown}}
+                            <option value="{{id}}">{{label}}</option>
+                        {{/each}}
+                    </select>
+
+
+                </div>
+
+                <div class="ruleWrapperBlockSuffixBlock  topMargin  customvalue">
+
+                    <span class="ruleWrapperBlockLabel">Value</span>
+
+                    <input type="text" value=" ? " name="rule_{{ ruleNum }}_suffix_custom_value" id="rule_{{ ruleNum }}_suffix_custom_value">
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

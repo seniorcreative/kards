@@ -203,8 +203,8 @@ textarea:focus {
 /* Container */
 #simplemodal-container {
   height: 75%;
-  width: 90%;
-  color: #bbb;
+  width: 75%;
+  color: #aaa;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 4px;
   padding: 12px;
@@ -272,6 +272,15 @@ textarea:focus {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
+  padding-top: 4px;
+}
+#simplemodal-container .ruleWrapper.ruleWrapper--block {
+  border-radius: 5px;
+  background-color: #ccc;
+  padding: 4px 4px 4px 4px;
+}
+#simplemodal-container .ruleWrapper.ruleWrapper--block span.ruleWrapperBlockTitle {
+  color: #888;
 }
 #simplemodal-container .ruleWrapperBlock {
   display: inline-block;

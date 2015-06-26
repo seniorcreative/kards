@@ -11,8 +11,8 @@
 #simplemodal-container {
 
     height: 75%;
-    width: 90%;
-    color: #bbb;
+    width: 75%;
+    color: #aaa;
     background-color: rgba(#ffffff, 0.9);
     border-radius: 4px;
     padding: 12px;
@@ -113,14 +113,25 @@
             display: inline-block;
             vertical-align: top;
             padding-right: 10px;
+            padding-top: 4px;
 
+            &.ruleWrapper--block {
+//                border: 1px solid grey;
+                border-radius: 5px;
+                background-color: #ccc;
+                padding: 4px 4px 4px 4px;
+
+                span.ruleWrapperBlockTitle
+                {
+                    color: #888;
+                }
+            }
         }
 
         .ruleWrapperBlock {
             display: inline-block;
             vertical-align: top;
             padding-right: 10px;
-
         }
 
         .ruleWrapperBlockCalculationBlockWrapper
