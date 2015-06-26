@@ -1,0 +1,170 @@
+
+
+
+
+#logic-modal {display:none;}
+
+/* Overlay */
+#simplemodal-overlay {background-color:#000;}
+
+/* Container */
+#simplemodal-container {
+
+    height: 75%;
+    width: 90%;
+    color: #bbb;
+    background-color: rgba(#ffffff, 0.9);
+    border-radius: 4px;
+    padding: 12px;
+
+    .simplemodal-data {
+        padding: 8px;
+    }
+    //#simplemodal-container code {background:#141414; border-left:3px solid #65B43D; color: white; display:block; font-size:12px; margin-bottom:12px; padding:4px 6px 6px;}
+    //#simplemodal-container a {color:#ddd;}
+    a.modalCloseImg {
+        background: url(/kards-v1/img/basic/close.png) no-repeat;
+        width: 25px;
+        height: 25px;
+        display: inline;
+        z-index: 3200;
+        background-size: 25px 25px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+    h3 {
+        color: #000;
+        margin: 0 0 5px 0
+    }
+
+
+
+    ///
+
+    .logic-header-buttons
+    {
+        text-align: center;
+        margin: 10px auto;
+    }
+
+
+    input {
+
+        width: 80px;
+        padding: 5px;
+        border-radius: 2px;
+        border: 0;
+
+        &.short
+        {
+            width: 40px;
+        }
+    }
+
+    select
+    {
+        width: 120px;
+    }
+
+    span
+    {
+        display: block;
+        color: #aaa;
+
+        strong
+        {
+            color: #000;
+        }
+
+        &.ruleWrapperBlockTitle--bottomMargin
+        {
+            margin-bottom: 25px;
+        }
+    }
+
+    span.ruleWrapperBlockLabel
+    {
+        font-size: 0.75em;
+        color: #777;
+    }
+
+    span.ruleWrapperBlockTitle
+    {
+//        display: block;
+    }
+
+    .logic-rule
+    {
+        border-bottom: 1px dashed #aaa; padding: 4px 0;
+    }
+
+        ///
+
+        button {
+            border: 1px solid black;
+            background: white;
+            font-size: 1em;
+            border-radius: 4px;
+        }
+
+        .ruleWrapper {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+
+        }
+
+        .ruleWrapperBlock {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+
+        }
+
+        .ruleWrapperBlockCalculationBlockWrapper
+        {
+            border-bottom: 1px dashed #999;
+            margin-bottom: 5px;
+        }
+
+        .ruleWrapperBlockCalculationBlocks {
+            border: 1px solid #999;
+            background-color: #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        .ruleWrapperBlockCalculationBlock {
+            display: inline-block;
+            vertical-align: top;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            text-align: left;
+
+
+        }
+
+        .ruleWrapperBlockCalculationOperandBlock {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+        }
+
+        .ruleWrapperBlockSuffixBlock {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+
+            &.topMargin
+            {
+                margin-top: -12px;
+            }
+        }
+
+//    }
+
+}

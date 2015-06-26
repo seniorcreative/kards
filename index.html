@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="app/styles/kards.css">
   <link rel="stylesheet" href="bower_components/jointjs/dist/joint.min.css">
   <!-- /build -->
+
 </head>
 
 <body>
@@ -289,7 +290,198 @@
             <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
           </div>
 
+
+
+          <!-- A basic modal html can live here even though covers the whole page. -->
+
+		<!-- modal content -->
+          <div id="logic-modal">
+
+              <h3>Logic modal - Question Q17</h3>
+
+
+              <div class="logic-rule">
+
+                  <form id="" class="ruleForm">
+
+                      <div class="ruleWrapper">
+
+                          <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Sort</span>
+
+                          <label for="rule_1_sortindex">
+                              <input type="number" value="1" class="short" name="rule_1_sortindex" id="rule_1_sortindex">
+                          </label>
+
+                      </div>
+
+                      <div class="ruleWrapper">
+
+                          <div class="ruleWrapperBlock prefix">
+
+                              <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Prefix</span>
+
+                              <select name="rule_prefix_1" id="rule_prefix_1" size="1">
+                                  <option value="1">IF</option>
+                                  <option value="2">AND</option>
+                                  <option value="3">ELSE</option>
+                                  <option value="4">ELSE IF</option>
+                                  <option value="5">OR</option>
+                              </select>
+
+                          </div>
+
+                          <div class="ruleWrapperBlock  calculations">
+
+                              <span class="ruleWrapperBlockTitle">Calculation Blocks</span>
+
+                              <div class="ruleWrapperBlockCalculationBlocks">
+
+                                  <div class="ruleWrapperBlockCalculationBlockWrapper">
+
+                                      <div class="ruleWrapperBlockCalculationBlock operation">
+
+                                          <span class="ruleWrapperCalculationBlockTitle">Operation</span>
+
+                                          <select name="rule_1_calculationblock_1_operation" id="rule_1_calculationblock_1_operation" size="1">
+                                              <option value="1">VALUE OF</option>
+                                              <option value="2">SUM</option>
+                                              <option value="3">PLUS</option>
+                                              <option value="4">MINUS</option>
+                                              <option value="5">MULTIPLY</option>
+                                          </select>
+
+                                      </div>
+
+                                      <div class="ruleWrapperBlockCalculationBlock  operand">
+
+                                          <span class="ruleWrapperCalculationBlockTitle">Operands</span>
+
+                                          <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                              <span class="ruleWrapperBlockLabel">Answer value</span>
+
+                                              <select name="rule_1_calculationblock_1_operand_answer" id="rule_1_calculationblock_1_operand_answer" size="5">
+                                                  <option value="1">Q1</option>
+                                                  <option value="2">Q2</option>
+                                                  <option value="3">Q3</option>
+                                                  <option value="4">Q4</option>
+                                                  <option value="5">Q5</option>
+                                              </select>
+
+                                          </div>
+
+                                          <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                              <span class="ruleWrapperBlockLabel"><strong>OR</strong> Custom value type</span>
+
+                                              <select name="rule_1_calculationblock_1_operand_custom_value_type" id="rule_1_calculationblock_1_operand_custom_value_type" size="1">
+                                                  <option value="1">integer</option>
+                                                  <option value="2">boolean</option>
+                                                  <option value="3">float</option>
+                                                  <option value="4">string</option>
+                                              </select>
+
+                                          </div>
+
+
+                                          <div class="ruleWrapperBlockCalculationOperandBlock">
+
+                                              <span class="ruleWrapperBlockLabel">Value</span>
+
+                                              <input type="text" value=" ? " name="rule_1_calculationblock_1_operand_custom_value" id="rule_1_calculationblock_1_operand_custom_value">
+
+                                          </div>
+
+                                      </div>
+
+                                  </div>
+
+                                  <button>Add calculation block</button>
+
+
+                              </div>
+
+
+                          </div>
+
+
+                          <div class="ruleWrapperBlock suffix">
+
+                              <span class="ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin">Suffix</span>
+
+                              <div class="ruleWrapperBlockSuffixBlock condition">
+
+                                  <select name="rule_1_suffix_condition" id="rule_1_suffix_condition" size="1">
+                                      <option value="1">IS</option>
+                                      <option value="2">GREATER THAN</option>
+                                      <option value="3">LESS THAN</option>
+                                      <option value="4">GREATER THAN OR EQUAL TO</option>
+                                      <option value="5">LESS THAN OR EQUAL TO</option>
+                                  </select>
+
+
+                              </div>
+
+                              <div class="ruleWrapperBlockSuffixBlock  topMargin  answer">
+
+                                  <span class="ruleWrapperBlockLabel">Select answer</span>
+
+                                  <select name="rule_1_suffix_answer_value" id="rule_1_suffix_answer_value" size="5">
+                                      <option value="1">Q1 - A1 - True</option>
+                                      <option value="2">Q1 - A2 - True</option>
+                                      <option value="3">Q1 - A3 - Unknown</option>
+                                      <option value="4">Q2 - A1 - Psychogenic</option>
+                                  </select>
+
+                              </div>
+
+                              <div class="ruleWrapperBlockSuffixBlock  topMargin  customvalueType">
+
+                                  <span class="ruleWrapperBlockLabel"><strong>OR</strong> Custom value type</span>
+
+                                  <select name="rule_1_suffix_custom_value_type" id="rule_1_suffix_custom_value_type" size="1">
+                                      <option value="1">integer</option>
+                                      <option value="2">boolean</option>
+                                      <option value="3">float</option>
+                                      <option value="4">string</option>
+                                  </select>
+
+
+                              </div>
+
+                              <div class="ruleWrapperBlockSuffixBlock  topMargin  customvalue">
+
+                                  <span class="ruleWrapperBlockLabel">Value</span>
+
+                                  <input type="text" value=" ? " name="rule_1_suffix_custom_value" id="rule_1_suffix_custom_value">
+
+                              </div>
+
+
+                          </div>
+
+                      </div>
+
+                  </form>
+
+
+              </div>
+
+              <div class="logic-header-buttons">
+                  <button>Add Rule</button>
+                  <button>Add Action</button>
+              </div>
+
+          </div>
+
+          <!-- preload the images -->
+          <div style='display:none'>
+              <img src='img/basic/x.png' alt='' />
+          </div>
+
       </form>
+
+
 
 
       <form method="" action="" class="formContentOptions  faded">

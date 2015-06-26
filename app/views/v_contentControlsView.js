@@ -45,11 +45,11 @@ define(
 
                     this.$el.find('#contentText').val(this.model.get('contentText'));
 
-                    if (this.model.get('contentTypeID') != '') {
+                    if (this.model.get('contentTypeID') != undefined) {
                         this.$el.find('#cmsContentTypeID').val(this.model.get('contentTypeID'));
                     }
 
-                    if (this.model.get('contentCategoryID') != '') {
+                    if (this.model.get('contentCategoryID') != undefined) {
                         this.$el.find('#cmsContentCategoryID').val(this.model.get('contentCategoryID'));
                     }
 

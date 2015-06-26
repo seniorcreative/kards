@@ -4,7 +4,9 @@ define(
         'joint',
         'modules/style',
         'modules/layout',
-        'modules/helpers'],
+        'modules/helpers',
+        'modules/jquery.simplemodal'
+    ],
 
     function($, Backbone, joint, style, layout, helpers) {
 
@@ -146,6 +148,8 @@ define(
 
                     // Let's add an out port to the parent of the selected answer.
 
+                    $('#logic-modal').modal();
+
                     if (window.selectedAnswer != null) {
 
                         var parentLogicWrapper = graph.getCell(window.selectedAnswer.model.get('parent'));
@@ -164,6 +168,8 @@ define(
                 }
             }
         );
+
+        //$('#logic-modal').modal();
 
 
         return answerControlsView;

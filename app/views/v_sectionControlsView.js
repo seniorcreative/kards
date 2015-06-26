@@ -58,7 +58,7 @@ define(
 
                     var section = new joint.shapes.devs.Model({
                         ktype: 'section',
-                        position: { x: layout.stage.centerX - (layout.section.size.width / 2), y: layout.stage.centerY - (layout.section.size.height / 2) },
+                        position: { x: 310, y: 225 }, // layout.stage.centerX - (layout.section.size.width / 2), layout.stage.centerY - (layout.section.size.height / 2)
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
                             '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
@@ -84,6 +84,22 @@ define(
                     section.set('outPorts', ['out']);
 
                     graph.addCells([section]);
+
+
+                    console.log('try to add link from ',section.id,'to', window.selectedReport.model.get('id'));
+
+                    var link = new joint.shapes.devs.Link({
+                        source: {
+                            id: section.id,
+                            port: 'in'
+                        },
+                        target: {
+                            id: window.selectedReport.model.get('id'),
+                            port: 'out'
+                        }
+                    });
+                    // Assume graph has the srcModel and dstModel with in and out ports.
+                    graph.addCell(link);
 
                     window.selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
 

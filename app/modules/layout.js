@@ -50,7 +50,6 @@ define(['jquery','backbone'], function ($,Backbone) {
         layoutModel.stage.centerY = (window.innerHeight / 2);
     });
 
-
     return layoutModel;
 
 });

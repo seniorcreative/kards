@@ -191,6 +191,126 @@ textarea:focus {
   cursor: text;
 }
 
+#logic-modal {
+  display: none;
+}
+
+/* Overlay */
+#simplemodal-overlay {
+  background-color: #000;
+}
+
+/* Container */
+#simplemodal-container {
+  height: 75%;
+  width: 90%;
+  color: #bbb;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  padding: 12px;
+}
+#simplemodal-container .simplemodal-data {
+  padding: 8px;
+}
+#simplemodal-container a.modalCloseImg {
+  background: url(/kards-v1/img/basic/close.png) no-repeat;
+  width: 25px;
+  height: 25px;
+  display: inline;
+  z-index: 3200;
+  background-size: 25px 25px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+#simplemodal-container h3 {
+  color: #000;
+  margin: 0 0 5px 0;
+}
+#simplemodal-container .logic-header-buttons {
+  text-align: center;
+  margin: 10px auto;
+}
+#simplemodal-container input {
+  width: 80px;
+  padding: 5px;
+  border-radius: 2px;
+  border: 0;
+}
+#simplemodal-container input.short {
+  width: 40px;
+}
+#simplemodal-container select {
+  width: 120px;
+}
+#simplemodal-container span {
+  display: block;
+  color: #aaa;
+}
+#simplemodal-container span strong {
+  color: #000;
+}
+#simplemodal-container span.ruleWrapperBlockTitle--bottomMargin {
+  margin-bottom: 25px;
+}
+#simplemodal-container span.ruleWrapperBlockLabel {
+  font-size: 0.75em;
+  color: #777;
+}
+#simplemodal-container .logic-rule {
+  border-bottom: 1px dashed #aaa;
+  padding: 4px 0;
+}
+#simplemodal-container button {
+  border: 1px solid black;
+  background: white;
+  font-size: 1em;
+  border-radius: 4px;
+}
+#simplemodal-container .ruleWrapper {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 10px;
+}
+#simplemodal-container .ruleWrapperBlock {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 10px;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper {
+  border-bottom: 1px dashed #999;
+  margin-bottom: 5px;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlocks {
+  border: 1px solid #999;
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  vertical-align: top;
+  text-align: center;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlock {
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  text-align: left;
+}
+#simplemodal-container .ruleWrapperBlockCalculationOperandBlock {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 10px;
+}
+#simplemodal-container .ruleWrapperBlockSuffixBlock {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 10px;
+}
+#simplemodal-container .ruleWrapperBlockSuffixBlock.topMargin {
+  margin-top: -12px;
+}
+
 .html-element {
   position: absolute;
   background: none;
