@@ -84,7 +84,7 @@ define(
                         })
                     });
 
-                    that.kardsModelCollection = Backbone.Collection.extend();
+                    window.kardsModelCollection = Backbone.Collection.extend();
 
 
                     // Globals - til I find another way to do this having tried various ways with models and collections but having issues with the scope from within the views.
@@ -96,12 +96,12 @@ define(
 
                     //
                     // Set up a reference within this object scope of each model.
-                    that.reportModel    = new reportModel({ that: this, collection: that.kardsModelCollection, selectionModel: that.selectionModel, graph: graph, paper: paper });
-                    that.sectionModel   = new sectionModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
-                    that.questionModel  = new questionModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
-                    that.answerModel    = new answerModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
-                    that.contentModel   = new contentModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
-                    that.logicModel     = new logicModel({ that: this, collection: that.kardsModelCollection, graph: graph, paper: paper });
+                    window.reportModel    = new reportModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.sectionModel   = new sectionModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.questionModel  = new questionModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.answerModel    = new answerModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.contentModel   = new contentModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.logicModel     = new logicModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -163,46 +163,46 @@ define(
                             console.log("Kards-v1 ... app ready");
 
                             // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                            that.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](loadedData)});
-                            that.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](loadedData)});
-                            that.questionModel.set({'valueDataTypes': loadedData.valueDataTypes});
+                            window.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](loadedData)});
+                            window.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](loadedData)});
+                            window.questionModel.set({'valueDataTypes': loadedData.valueDataTypes});
 
-                            that.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](loadedData)});
-                            that.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](loadedData)});
-                            that.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](loadedData)});
+                            window.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](loadedData)});
+                            window.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](loadedData)});
+                            window.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](loadedData)});
 
 
                             reportControls = new reportControlsView(
                                 {
-                                    model: that.reportModel,
+                                    model: window.reportModel,
                                     el: '.formReportOptions'
                                 }
                             );
 
                             sectionControls = new sectionControlsView(
                                 {
-                                    model: that.sectionModel,
+                                    model: window.sectionModel,
                                     el: '.formSectionOptions'
                                 }
                             );
 
                             questionControls = new questionControlsView(
                                 {
-                                    model: that.questionModel,
+                                    model: window.questionModel,
                                     el: '.formQuestionOptions'
                                 }
                             );
 
                             answerControls = new answerControlsView(
                                 {
-                                    model: that.answerModel,
+                                    model: window.answerModel,
                                     el: '.formAnswerOptions'
                                 }
                             );
 
                             contentControls = new contentControlsView(
                                 {
-                                    model: that.contentModel,
+                                    model: window.contentModel,
                                     el: '.formContentOptions'
                                 }
                             );
@@ -214,45 +214,46 @@ define(
                             //
                             logicControls = new logicControlsView(
                             {
-                                model: that.logicModel,
+                                model: window.logicModel,
                                     el: '#logic-modal'
                             }
                             );
 
 
-                            answerControls.listenTo(that.answerModel, "change:logicVisible", function(){
-                                console.log('changed something in answer model', that.questionModel.questions);
+                            /*answerControls.listenTo(window.answerModel, "change", function(){
+                                console.log('changed something in answer model', window.questionModel.questions);
 
                                 // When we click the 'add logic to answer...'
 
                                 loadedData.ruleNum = 1;
                                 loadedData.ruleSortIndex = 1;
-                                loadedData.questions = that.questionModel.questions;
-                                loadedData.answerValues = that.questionModel.answerValues.sort(helpers.questionCompare);
+                                loadedData.questions = window.questionModel.questions;
+                                loadedData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
 
-                                that.logicModel.set(
+                                window.logicModel.set(
                                     {
                                         logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
                                         ruleNum: 1,
                                         ruleSortIndex: 1
                                     }
                                 );
+                                window.answerModel.set('logicVisible', false);
 
                                 logicControls.render().el;
 
-                            });
+                            });*/
 
-                            questionControls.listenTo(that.questionModel, "change", function(){
-                                console.log('changed something in question model', that.questionModel.answerValues);
+                            questionControls.listenTo(window.questionModel, "change:ruleAdded", function(){
+                                console.log('changed something in question model', window.questionModel.answerValues);
 
                                 // When we click the 'add logic to answer...'
 
                                 loadedData.ruleNum = 1;
                                 loadedData.ruleSortIndex = 1;
-                                loadedData.questions = that.questionModel.questions;
-                                loadedData.answerValues = that.questionModel.answerValues.sort(helpers.questionCompare);
+                                loadedData.questions = window.questionModel.questions;
+                                loadedData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
                                 //
-                                that.logicModel.set(
+                                window.logicModel.set(
                                     {
                                         logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
                                         ruleNum: 1,
@@ -260,8 +261,11 @@ define(
                                     }
                                 );
 
-                                that.questionModel.set('questionAdded', false);
-                                that.questionModel.set('answerAdded', false);
+                                window.questionModel.set('questionAdded', false);
+                                window.questionModel.set('questionUpdated', false);
+                                window.questionModel.set('answerAdded', false);
+                                window.questionModel.set('answerUpdated', false);
+                                window.questionModel.set('ruleAdded', false);
 
                                 logicControls.render().el;
 
@@ -317,7 +321,7 @@ define(
 
                             case 'content':
 
-                                that.contentModel.set(
+                                window.contentModel.set(
                                     {
                                         contentText: _element.model.get('contentFull'),
                                         contentTypeID: _element.model.get('cms_content_type_id'),
@@ -331,9 +335,9 @@ define(
 
                             case 'question':
 
-                                console.log('full text', _element.model.get('questionFull'));
+                                //console.log('full text', _element.model.get('questionFull'));
 
-                                that.questionModel.set(
+                                window.questionModel.set(
                                     {
                                         //questionValue: attrs.text.text,
                                         questionValue: _element.model.get('questionFull'),
@@ -348,7 +352,8 @@ define(
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
 
-                                $('.formQuestionOptions h3').text('Edit Question');
+                                $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
 
                             break;
 
@@ -378,33 +383,35 @@ define(
                         $('#btnAddAnswer').addClass('hidden');
 
                         // Clear the appropriate  model values
-                        that.sectionModel.set(
+                        window.sectionModel.set(
                             {
                                 sectionTitle: ''
                             }
                         );
-                        that.sectionModel.trigger('change');
+                        window.sectionModel.trigger('change');
 
-                        that.questionModel.set(
+                        window.questionModel.set(
                             {
                                 questionValue: ''
                             }
                         );
-                        that.questionModel.trigger('change');
+                        window.questionModel.trigger('change');
 
-                        that.answerModel.set(
+                        window.answerModel.set(
                             {
                                 answerLabel: ''
                             }
                         );
-                        that.answerModel.trigger('change');
+                        window.answerModel.trigger('change');
 
-                        that.contentModel.set(
+                        window.contentModel.set(
                             {
                                 contentText: ''
                             }
                         );
-                        that.contentModel.trigger('change');
+                        window.contentModel.trigger('change');
+
+                        $('.formQuestionOptions h3').text('Add Question');
 
 
                     });
@@ -432,7 +439,7 @@ define(
                                 cellView.model.set('attrs', attrs);
                                 cellView.render().el;
 
-                                that.reportModel.set(
+                                window.reportModel.set(
                                     {
                                         reportTitle: attrs.text.text,
                                         reportCategoryID: cellView.model.get('report_category_id'),
@@ -440,7 +447,7 @@ define(
 
                                 window.selectedReport = cellView;
 
-                                that.reportModel.trigger('change');
+                                window.reportModel.trigger('change');
 
                                 break;
 
@@ -456,14 +463,14 @@ define(
                                 cellView.model.set('attrs', attrs);
                                 cellView.render().el;
 
-                                that.sectionModel.set(
+                                window.sectionModel.set(
                                     {
                                         sectionTitle: attrs.text.text
                                     });
 
                                 window.selectedSection =  cellView;
 
-                                that.sectionModel.trigger('change');
+                                window.sectionModel.trigger('change');
 
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').removeClass('hidden');
@@ -485,7 +492,7 @@ define(
                                 cellView.model.set('attrs', attrs);
                                 cellView.render().el;
 
-                                that.questionModel.set(
+                                window.questionModel.set(
                                     {
                                         questionValue: cellView.model.get('questionFull'),
                                         questionTypeID: cellView.model.get('question_type_id'),
@@ -495,7 +502,7 @@ define(
 
                                 window.selectedQuestion =  cellView;
 
-                                that.questionModel.trigger('change');
+                                window.questionModel.trigger('change');
 
                                 //console.log('selected question', cellView);
 
@@ -504,7 +511,8 @@ define(
                                 $('#btnAddAnswer').removeClass('hidden');
 
 
-                                $('.formQuestionOptions h3').text('Edit Question');
+                                $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
 
                                 break;
 
@@ -528,7 +536,7 @@ define(
                                 cellView.model.set('attrs', attrs);
                                 cellView.render().el;
 
-                                that.answerModel.set(
+                                window.answerModel.set(
                                     {
                                         //answerLabel: attrs.text.text,
                                         answerLabel: cellView.model.get('answerFull'),
@@ -547,7 +555,7 @@ define(
                                 window.selectedQuestion.model.set('attrs', attrs);
                                 window.selectedQuestion.render().el;
 
-                                that.questionModel.set(
+                                window.questionModel.set(
                                     {
                                         questionValue: attrs.text.text,
                                         questionTypeID: window.selectedQuestion.model.get('question_type_id'),
@@ -556,15 +564,18 @@ define(
                                     });
 
                                 //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
-                                that.answerModel.trigger('change');
-                                that.questionModel.trigger('change');
+                                window.answerModel.trigger('change');
+                                window.questionModel.trigger('change');
 
                                 $('.formAnswerOptions').css('opacity', 1);
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
 
-                                $('.formQuestionOptions h3').text('Edit Question');
+                                $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('.formAnswerOptions h3').text('Edit Answer - A' + window.selectedAnswer.model.get('answerNumber'));
+
 
                                 break;
 

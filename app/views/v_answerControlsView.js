@@ -87,6 +87,15 @@ define(
                         window.selectedAnswer.model.set('answerFull', this.$(e.target).val());
                         window.selectedAnswer.render().el;
 
+
+                        // update the specific
+
+                        console.log(' scope for ext model ', window.questionModel );
+
+                        window.questionModel.answerValues[window.selectedAnswer.model.get('answerNumber') - 1].label = "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + window.selectedAnswer.model.get('answerNumber') + " - (" + wraptext.substring(0, 8) + "...)";
+
+                        window.questionModel.set('answerUpdated', true);
+
                     }
                 },
                 answerValueUpdate: function(e)

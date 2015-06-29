@@ -28,7 +28,7 @@ define(['jquery','backbone'], function ($,Backbone) {
         content:
         {
             wrapperSize: {width: 350, height: 150},
-            bodySize: {width: 250, height: 75}
+            bodySize: {width: 310, height: 110}
         },
         report: {
             size: {width: 200, height: 75}

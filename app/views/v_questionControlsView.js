@@ -360,7 +360,11 @@ define(
                             [answer]
                         );
 
-                        answerValues.push({id: a, label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)" });
+                        answerValues.push({
+                            qid: questionNumber,
+                            id: a,
+                            label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)"
+                        });
 
                         var link = new joint.dia.Link({
                             smooth: true,
@@ -399,7 +403,8 @@ define(
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnQuestionAdd').addClass('hidden');
 
-                    $('.formQuestionOptions h3').text('Edit Question');
+                    $('.formQuestionOptions h3').text('Edit Question - Q' + questionNumber);
+                    $('#logic-modal h3').text('Logic - Q' + questionNumber);
 
                 },
                 questionUpdate: function(e)
@@ -489,8 +494,6 @@ define(
                 addAnswer: function()
                 {
 
-
-
                     //console.log('selected question', window.selectedQuestion);
                     // Let's add an answer to the selected question!
                     // let's add another answer by cloning the first answr in this questions child neighbours.
@@ -503,6 +506,8 @@ define(
                     var newAnswerText = $('#answerLabel').val() == '' ? 'New Answer' : $('#answerLabel').val();
                     $('#answerLabel').val(newAnswerText);
 
+                    var newAnswerNumber = (neighbours.length+1);
+
                     var n1              = neighbours[neighbours.length-1];
                     var newAnswer       = n1.clone();
                     var pos             = newAnswer.get('position');
@@ -514,18 +519,22 @@ define(
                         height: layout.question[layout.get('newQuestionType')].aSize.height
                     });
 
-                    attrs['.label']['text'] = 'A'+(neighbours.length+1);
+                    attrs['.label']['text'] = 'A'+newAnswerNumber;
                     attrs.text.text     = wraptext; // set using wrap utility,
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     pos.x               += layout.question[layout.get('newQuestionType')].aSize.width + layout.answerMargin;
 
                     newAnswer.set('position', pos);
                     newAnswer.set('answerFull', newAnswerText);
-                    newAnswer.set('answerNumber', (neighbours.length+1));
+                    newAnswer.set('answerNumber', newAnswerNumber);
 
                     var answerValues = this.model.answerValues;
 
-                    answerValues.push({id: (neighbours.length+1), label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + (neighbours.length+1) + " - (" + wraptext.substring(0, 8) + "...)" });
+                    answerValues.push({
+                        qid: window.selectedQuestion.model.get('questionNumber'),
+                        id: newAnswerNumber,
+                        label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + newAnswerNumber + " - (" + wraptext.substring(0, 8) + "...)"
+                    });
 
                     this.model.answerValues = answerValues;
                     this.model.set('answerAdded', true);
@@ -547,6 +556,8 @@ define(
                     graph.getCell(window.selectedQuestion.model.get('parent')).embed(newAnswer);
 
                     graph.trigger('change:position', newAnswer, pos);
+
+                    $('.formAnswerOptions h3').text('Edit Answer - A' + newAnswerNumber);
 
                     window.selectedAnswer =  paper.findViewByModel(newAnswer); // make so is selected straight away.
 

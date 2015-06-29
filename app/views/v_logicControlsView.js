@@ -35,12 +35,14 @@ define(
 
                 },
                 events: {
+
                     //'click #btnQuestionAdd': 'addQuestion',
                     //'keyup #questionValue': 'questionUpdate',
                     //'change #questionType': 'changeQuestionTypeDropdown',
 
                     // rule for add rule...
-
+                    'click #logic-header-button-add-rule': 'addRule',
+                    'click #logic-header-button-add-action': 'addAction'
                     // rule for add action...
                 },
                 render: function () {
@@ -49,6 +51,14 @@ define(
                     this.$el.find('#logic-rules').html(this.model.get('logicRuleTemplate'));
 
                     return this;
+                },
+                addRule: function()
+                {
+                    window.questionModel.set('ruleAdded', true);
+                },
+                addAction: function()
+                {
+                    window.questionModel.set('actionAdded', true);
                 }
             }
         );
