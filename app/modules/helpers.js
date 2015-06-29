@@ -108,11 +108,22 @@ define(
 
         };
 
+        var questionCompare = function(a,b) {
+            if (a.id < b.id)
+                return -1;
+            if (a.id > b.id)
+                return 1;
+            return 0;
+        };
+
+        //objs.sort(compare);
+
         return {
             init: init,
             setTotalWidthAnswers: setTotalWidthAnswers,
             resetElementStyles: resetElementStyles,
-            autocompleteSearch: autocompleteSearch
+            autocompleteSearch: autocompleteSearch,
+            questionCompare: questionCompare
         }
     }
 );

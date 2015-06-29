@@ -228,7 +228,7 @@ define(
                                 loadedData.ruleNum = 1;
                                 loadedData.ruleSortIndex = 1;
                                 loadedData.questions = that.questionModel.questions;
-                                loadedData.answerValues = that.questionModel.answerValues;
+                                loadedData.answerValues = that.questionModel.answerValues.sort(helpers.questionCompare);
 
                                 that.logicModel.set(
                                     {
@@ -250,7 +250,7 @@ define(
                                 loadedData.ruleNum = 1;
                                 loadedData.ruleSortIndex = 1;
                                 loadedData.questions = that.questionModel.questions;
-                                loadedData.answerValues = that.questionModel.answerValues;
+                                loadedData.answerValues = that.questionModel.answerValues.sort(helpers.questionCompare);
                                 //
                                 that.logicModel.set(
                                     {
