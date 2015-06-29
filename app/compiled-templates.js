@@ -59,10 +59,18 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
 
   return "                                        <option value=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\">Q"
+    + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
+    + "</option>\n";
+},"7":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "                                        <option value=\""
+    + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "</option>\n";
-},"7":function(depth0,helpers,partials,data) {
+},"9":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "                            <option value=\""
@@ -74,7 +82,7 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + "\">"
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "</option>\n";
-},"9":function(depth0,helpers,partials,data) {
+},"11":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "                            <option value=\""
@@ -117,8 +125,8 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
-    + "_operand_answer\" size=\"5\">\n                                    <option value=\"1\">Q1 - True</option>\n                                    <option value=\"2\">Q1 - False</option>\n                                    <option value=\"3\">Q1 - Unknown</option>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.answerValue : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "_operand_answer\" size=\"8\">\n                                    <!--<option value=\"1\">Q1 - True</option>-->\n                                    <!--<option value=\"2\">Q1 - False</option>-->\n                                    <!--<option value=\"3\">Q1 - Unknown</option>-->\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.questions : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                                    <!--<option value=\"3\">Q3</option>-->\n                                    <!--<option value=\"4\">Q4</option>-->\n                                    <!--<option value=\"5\">Q5</option>-->\n                                </select>\n\n                            </div>\n\n                            <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n                                <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                                <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
@@ -128,7 +136,7 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + "_calculationblock_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
     + "_operand_custom_value_type\" size=\"1\">\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.valueDataTypesDropdown : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.valueDataTypesDropdown : depth0),{"name":"each","hash":{},"fn":this.program(7, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                                    <!--<option value=\"1\">integer</option>-->\n                                    <!--<option value=\"2\">boolean</option>-->\n                                    <!--<option value=\"3\">float</option>-->\n                                    <!--<option value=\"4\">string</option>-->\n                                </select>\n\n                            </div>\n\n\n                            <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n                                <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                                <input type=\"text\" value=\" ? \" name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
@@ -142,19 +150,19 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + "_suffix_condition\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_condition\" size=\"1\">\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.logicOperatorNormal : depth0),{"name":"each","hash":{},"fn":this.program(7, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.logicOperatorNormal : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_answer_value\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
-    + "_suffix_answer_value\" size=\"5\">\n                        <option value=\"1\">Q1 - A1 - True</option>\n                        <option value=\"2\">Q1 - A2 - True</option>\n                        <option value=\"3\">Q1 - A3 - Unknown</option>\n                        <option value=\"4\">Q2 - A1 - Psychogenic</option>\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.answerValue : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "_suffix_answer_value\" size=\"10\">\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n"
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.answerValues : depth0),{"name":"each","hash":{},"fn":this.program(11, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_custom_value_type\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_custom_value_type\" size=\"1\">\n"
-    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.valueDataTypesDropdown : depth0),{"name":"each","hash":{},"fn":this.program(9, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.valueDataTypesDropdown : depth0),{"name":"each","hash":{},"fn":this.program(11, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\" ? \" name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_custom_value\" id=\"rule_"

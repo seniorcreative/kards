@@ -13,7 +13,8 @@ define(
                 questionVariableTypeID: '',
                 questionDatapointID: '',
                 choicesAccepted: 1,
-                questions: []
+                questions: [],
+                answerValues: []
             }
         );
 

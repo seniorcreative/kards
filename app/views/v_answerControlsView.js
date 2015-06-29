@@ -148,10 +148,12 @@ define(
 
                     // Let's add an out port to the parent of the selected answer.
 
-                    $('#logic-modal').modal();
+                    //$('#logic-modal').modal();
 
                     this.model.set('logicVisible', true);
 
+                    //console.log(this.model, this.model.get('logicVisible'));
+/*
                     var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
                     that.loopedElements = paper.findViewsInArea(paperRect);
 
@@ -162,7 +164,7 @@ define(
                         }
                     }
 
-                    /*
+
 
                     if (window.selectedAnswer != null) {
 
@@ -177,7 +179,8 @@ define(
                         ar.push("out " + (newOutports.length + 1));
                         parentLogicWrapper.set('outPorts', ar);
 
-                    }*/
+                    }
+                    */
 
                 }
             }

@@ -211,30 +211,62 @@ define(
                             // By subscribing from here to an event that occurs within the change of the answer model
                             // such as clicking on the 'add logic out point' button
                             // we have access to the scope of other models...
+                            //
+                            logicControls = new logicControlsView(
+                            {
+                                model: that.logicModel,
+                                    el: '#logic-modal'
+                            }
+                            );
+
 
                             answerControls.listenTo(that.answerModel, "change:logicVisible", function(){
-                                console.log('changed something in answer model', that.questionModel.get('questions'));
+                                console.log('changed something in answer model', that.questionModel.questions);
+
+                                // When we click the 'add logic to answer...'
+
+                                loadedData.ruleNum = 1;
+                                loadedData.ruleSortIndex = 1;
+                                loadedData.questions = that.questionModel.questions;
+                                loadedData.answerValues = that.questionModel.answerValues;
+
+                                that.logicModel.set(
+                                    {
+                                        logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
+                                        ruleNum: 1,
+                                        ruleSortIndex: 1
+                                    }
+                                );
+
+                                logicControls.render().el;
+
                             });
 
-                            // When we click the 'add logic to answer...'
+                            questionControls.listenTo(that.questionModel, "change", function(){
+                                console.log('changed something in question model', that.questionModel.answerValues);
 
-                            loadedData.ruleNum = 1;
-                            loadedData.ruleSortIndex = 1;
+                                // When we click the 'add logic to answer...'
 
-                            that.logicModel.set(
-                                {
-                                    logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
-                                    ruleNum: 1,
-                                    ruleSortIndex: 1
-                                }
-                            );
+                                loadedData.ruleNum = 1;
+                                loadedData.ruleSortIndex = 1;
+                                loadedData.questions = that.questionModel.questions;
+                                loadedData.answerValues = that.questionModel.answerValues;
+                                //
+                                that.logicModel.set(
+                                    {
+                                        logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
+                                        ruleNum: 1,
+                                        ruleSortIndex: 1
+                                    }
+                                );
 
-                            logicControls = new logicControlsView(
-                                {
-                                    model: that.logicModel,
-                                    el: '#logic-modal'
-                                }
-                            );
+                                that.questionModel.set('questionAdded', false);
+                                that.questionModel.set('answerAdded', false);
+
+                                logicControls.render().el;
+
+                            });
+
 
                         }
 
@@ -383,6 +415,8 @@ define(
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
+
+                        cellView.model.toFront({deep: true, links: true});
 
                         switch(cellView.model.attributes.ktype) {
 

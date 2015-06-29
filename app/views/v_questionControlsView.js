@@ -35,7 +35,7 @@ define(
                     this.$el.find('#questionVariableTypeTemplate').html(this.model.get('questionVariableTypeTemplate'));
                     this.$el.find('#questionControlsMultiple').slideUp(0);
 
-                    console.log('question view initied', this.model);
+                    //console.log('question view inited', this.model, that.questionModel);
 
                     this.model.on('change', function(){
 
@@ -100,9 +100,7 @@ define(
                     });
 
 
-                    var questionNumber = this.model.get('questions').length;
-
-                    console.log('questions', questionNumber);
+                    var questionNumber = this.model.questions.length + 1;
 
                     var questionObject = {
                         ktype: 'question',
@@ -110,7 +108,7 @@ define(
                         size: layout.question[layout.get('newQuestionType')].qSize,
                         attrs: {
                             '.label': {
-                                text: 'Q',
+                                text: 'Q' + questionNumber,
                                 'ref-x': .1,
                                 'ref-y': .1,
                                 'font-size': style.text.fontSize.label
@@ -273,12 +271,9 @@ define(
 
                     // But I will need access to the answer datatypes object.
 
-
                     var question = new joint.shapes.html.Element( questionObject );
 
-                    var questionModelArray = this.model.get('questions');
-                    questionModelArray.push(question);
-                    this.model.set('questions', questionModelArray);
+                    this.model.questions.push({id: questionNumber });
 
                     var logicWrapperWidth = layout.get('totalWidthOfAnswers') + (layout.logicWrapperPadding * 1);
                     var logicWrapperHeight = layout.question[layout.get('newQuestionType')].qSize.height  + layout.question[layout.get('newQuestionType')].aSize.height + layout.logicCenterHeight +  (layout.logicWrapperPadding * 2);
@@ -321,6 +316,10 @@ define(
 
                     // Loop over answers
 
+                    //var questionModelArray = this.model.get('questions');
+
+                    var answerValues = this.model.answerValues;
+
                     for (var a=0; a < layout.question[layout.get('newQuestionType')].answers.length; a++) {
 
                         var fullAnswerText = layout.question[layout.get('newQuestionType')].answers[a].label;
@@ -335,7 +334,7 @@ define(
                             position: layout.question[layout.get('newQuestionType')].answers[a].position,
                             size: layout.question[layout.get('newQuestionType')].aSize,
                             attrs: {
-                                '.label': { text: 'A', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
+                                '.label': { text: 'A'+(a+1), 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                                 rect: {
                                     fill: style.node.fill.normal,
                                     'fill-opacity': style.node.fillOpacity.normal,
@@ -353,12 +352,15 @@ define(
                             answer_value: answerValueProvider[a][0],
                             answer_value2: answerValueProvider[a][1],
                             answer_parent_question: question.id,
-                            ehr_datapoint_id: ''
+                            ehr_datapoint_id: '',
+                            answerNumber: (a+1)
                         });
 
                         graph.addCells(
                             [answer]
                         );
+
+                        answerValues.push({id: a, label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)" });
 
                         var link = new joint.dia.Link({
                             smooth: true,
@@ -383,6 +385,10 @@ define(
                         logicWrapper.embed(answer);
 
                     }
+
+                    this.model.answerValues = answerValues;
+
+                    this.model.set('questionAdded', true);
 
                     logicWrapper.embed(question);
 
@@ -494,7 +500,7 @@ define(
 
                     var neighbours      = graph.getNeighbors(window.selectedQuestion.model);
 
-                    var newAnswerText = $('#answerLabel').val() == '' ? 'Answer ' + (neighbours.length+1) + ' *' : $('#answerLabel').val();
+                    var newAnswerText = $('#answerLabel').val() == '' ? 'New Answer' : $('#answerLabel').val();
                     $('#answerLabel').val(newAnswerText);
 
                     var n1              = neighbours[neighbours.length-1];
@@ -508,11 +514,21 @@ define(
                         height: layout.question[layout.get('newQuestionType')].aSize.height
                     });
 
+                    attrs['.label']['text'] = 'A'+(neighbours.length+1);
                     attrs.text.text     = wraptext; // set using wrap utility,
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                     pos.x               += layout.question[layout.get('newQuestionType')].aSize.width + layout.answerMargin;
 
                     newAnswer.set('position', pos);
+                    newAnswer.set('answerFull', newAnswerText);
+                    newAnswer.set('answerNumber', (neighbours.length+1));
+
+                    var answerValues = this.model.answerValues;
+
+                    answerValues.push({id: (neighbours.length+1), label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + (neighbours.length+1) + " - (" + wraptext.substring(0, 8) + "...)" });
+
+                    this.model.answerValues = answerValues;
+                    this.model.set('answerAdded', true);
 
                     graph.addCell(newAnswer);
 

@@ -64,12 +64,12 @@
 
                                 <span class="ruleWrapperBlockLabel">Answer value</span>
 
-                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="5">
-                                    <option value="1">Q1 - True</option>
-                                    <option value="2">Q1 - False</option>
-                                    <option value="3">Q1 - Unknown</option>
-                                    {{#each answerValue}}
-                                        <option value="{{id}}">{{label}}</option>
+                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="8">
+                                    <!--<option value="1">Q1 - True</option>-->
+                                    <!--<option value="2">Q1 - False</option>-->
+                                    <!--<option value="3">Q1 - Unknown</option>-->
+                                    {{#each questions}}
+                                        <option value="{{id}}">Q{{id}}</option>
                                     {{/each}}
                                     <!--<option value="3">Q3</option>-->
                                     <!--<option value="4">Q4</option>-->
@@ -140,12 +140,12 @@
 
                     <span class="ruleWrapperBlockLabel">Select answer</span>
 
-                    <select name="rule_{{ ruleNum }}_suffix_answer_value" id="rule_{{ ruleNum }}_suffix_answer_value" size="5">
-                        <option value="1">Q1 - A1 - True</option>
-                        <option value="2">Q1 - A2 - True</option>
-                        <option value="3">Q1 - A3 - Unknown</option>
-                        <option value="4">Q2 - A1 - Psychogenic</option>
-                        {{#each answerValue}}
+                    <select name="rule_{{ ruleNum }}_suffix_answer_value" id="rule_{{ ruleNum }}_suffix_answer_value" size="10">
+                        <!--<option value="1">Q1 - A1 - True</option>-->
+                        <!--<option value="2">Q1 - A2 - True</option>-->
+                        <!--<option value="3">Q1 - A3 - Unknown</option>-->
+                        <!--<option value="4">Q2 - A1 - Psychogenic</option>-->
+                        {{#each answerValues}}
                             <option value="{{id}}">{{label}}</option>
                         {{/each}}
                     </select>

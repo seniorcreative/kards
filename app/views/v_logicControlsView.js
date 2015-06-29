@@ -38,9 +38,15 @@ define(
                     //'click #btnQuestionAdd': 'addQuestion',
                     //'keyup #questionValue': 'questionUpdate',
                     //'change #questionType': 'changeQuestionTypeDropdown',
+
+                    // rule for add rule...
+
+                    // rule for add action...
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
+
+                    this.$el.find('#logic-rules').html(this.model.get('logicRuleTemplate'));
 
                     return this;
                 }

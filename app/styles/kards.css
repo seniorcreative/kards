@@ -191,13 +191,15 @@ textarea:focus {
   cursor: text;
 }
 
-#logic-modal {
-  display: none;
-}
-
 /* Overlay */
 #simplemodal-overlay {
   background-color: #000;
+}
+
+#logic-modal {
+  position: fixed;
+  top: 200px;
+  left: 200px;
 }
 
 /* Container */
