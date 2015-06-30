@@ -21,12 +21,12 @@
 
             <span class="ruleWrapperBlockLabel">Answer value</span>
 
-            <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="8">
+            <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="8" multiple>
                 <!--<option value="1">Q1 - True</option>-->
                 <!--<option value="2">Q1 - False</option>-->
                 <!--<option value="3">Q1 - Unknown</option>-->
                 {{#each questions}}
-                    <option value="{{id}}">Q{{id}}</option>
+                    <option value="{{id}}" data-element="{{element}}" data-parent="{{parent}}">Q{{id}}</option>
                 {{/each}}
                 <!--<option value="3">Q3</option>-->
                 <!--<option value="4">Q4</option>-->

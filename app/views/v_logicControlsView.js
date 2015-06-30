@@ -106,9 +106,50 @@ define(
 
                             case 'logicAction':
 
+                                if (window.selectedQuestion != null) {
+
+                                    var parentLogicWrapper = graph.getCell(window.selectedQuestion.model.get('parent'));
+
+                                    var newOutports = parentLogicWrapper.attributes.outPorts;
+                                    var ar = [];
+                                    for (lo in newOutports) {
+                                        ar[lo] = newOutports[lo];
+                                    }
+
+                                    var newOutportName = "out " + (newOutports.length + 1);
+
+                                    ar.push(newOutportName);
+                                    parentLogicWrapper.set('outPorts', ar);
+
+
+                                    // Now we'll work out the links
+
+                                    // Go from question element
+                                    var elementLogicWrapperID = $('#rule_1_calculationblock_1_operand_answer option:selected').attr('data-parent');
+
+                                    // To answer element
+                                    var elementAnswerID = $('#rule_1_suffix_answer_value option:selected').attr('data-element');
+                                    
+
+                                    var newLogicOutportAnswerLink = new joint.shapes.devs.Link({
+                                     source: {
+                                     id: elementLogicWrapperID,
+                                     port: newOutportName // This is potentially one of many, so suffix with count of 1
+                                     },
+                                     target: {
+                                     id: elementAnswerID
+                                     }
+                                     });
+
+                                    graph.addCells(
+                                        [newLogicOutportAnswerLink]
+                                    );
+
+                                }
+
                                 window.questionModel.set('actionAdded', true);
 
-                                break;
+                            break;
 
 
                             case 'calculationBlock':

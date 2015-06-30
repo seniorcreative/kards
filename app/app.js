@@ -362,7 +362,7 @@ define(
 
                         // reset all looped elements (slightly different to resetElementStyles)
 
-                        helpers.resetElementStyles('content');
+                        helpers.resetElementStyles('all');
 
                         // adjust style of clicked element
                         attrs = _element.model.get('attrs');

@@ -93,13 +93,13 @@
 
                     <span class="ruleWrapperBlockLabel">Select answer</span>
 
-                    <select name="rule_{{ ruleNum }}_suffix_answer_value" id="rule_{{ ruleNum }}_suffix_answer_value" size="10">
+                    <select name="rule_{{ ruleNum }}_suffix_answer_value" id="rule_{{ ruleNum }}_suffix_answer_value" size="10" multiple>
                         <!--<option value="1">Q1 - A1 - True</option>-->
                         <!--<option value="2">Q1 - A2 - True</option>-->
                         <!--<option value="3">Q1 - A3 - Unknown</option>-->
                         <!--<option value="4">Q2 - A1 - Psychogenic</option>-->
                         {{#each answerValues}}
-                            <option value="{{id}}">{{label}}</option>
+                            <option value="{{id}}" data-element="{{element}}">{{label}}</option>
                         {{/each}}
                     </select>
 

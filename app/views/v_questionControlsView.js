@@ -271,7 +271,6 @@ define(
 
                     var question = new joint.shapes.html.Element( questionObject );
 
-                    this.model.questions.push({id: questionNumber });
 
                     var logicWrapperWidth = layout.get('totalWidthOfAnswers') + (layout.logicWrapperPadding * 1);
                     var logicWrapperHeight = layout.question[layout.get('newQuestionType')].qSize.height  + layout.question[layout.get('newQuestionType')].aSize.height + layout.logicCenterHeight +  (layout.logicWrapperPadding * 2);
@@ -300,12 +299,18 @@ define(
                     //console.log("wrapper pos ", layout.stage.centerX - (logicWrapperWidth/2), layout.stage.centerY - (logicWrapperHeight / 2));
 
                     logicWrapper.set('inPorts', ['in']);
-                    logicWrapper.set('outPorts', ['out 1']);
+                    //logicWrapper.set('outPorts', ['out 1']); // We are now adding out ports based on chosen answer(s) of the question
 
                     graph.addCells([
                         logicWrapper,
                         question
                     ]);
+
+                    this.model.questions.push({
+                        id: questionNumber,
+                        element: question.id,
+                        parent: logicWrapper.id
+                    });
 
                     logicWrapper.embed(question);
 
@@ -361,7 +366,8 @@ define(
                         answerValues.push({
                             qid: questionNumber,
                             id: a,
-                            label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)"
+                            label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)",
+                            element: answer.id
                         });
 
                         var link = new joint.dia.Link({
@@ -370,7 +376,10 @@ define(
                             target: { id: answer.id }
                         });
 
-                        var lolink = new joint.shapes.devs.Link({
+                        // I was originally adding by default a first out port and a link from the default answers
+                        // to that outport but have now commented out as will be getting created by the logic instead
+
+                        /*var lolink = new joint.shapes.devs.Link({
                             source: {
                                 id: logicWrapper.id,
                                 port: 'out 1' // This is potentially one of many, so suffix with count of 1
@@ -379,9 +388,9 @@ define(
                                 id: answer.id
                             }
                         });
-
+*/
                         graph.addCells(
-                            [link, lolink]
+                            [link] // , lolink]
                         );
 
                         logicWrapper.embed(answer);
@@ -527,18 +536,19 @@ define(
                     newAnswer.set('answerFull', newAnswerText);
                     newAnswer.set('answerNumber', newAnswerNumber);
 
+                    graph.addCell(newAnswer);
+
                     var answerValues = this.model.answerValues;
 
                     answerValues.push({
                         qid: window.selectedQuestion.model.get('questionNumber'),
                         id: newAnswerNumber,
-                        label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + newAnswerNumber + " - (" + wraptext.substring(0, 8) + "...)"
+                        label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + newAnswerNumber + " - (" + wraptext.substring(0, 8) + "...)",
+                        element: newAnswer.id
                     });
 
                     this.model.answerValues = answerValues;
                     this.model.set('answerAdded', true);
-
-                    graph.addCell(newAnswer);
 
 
                     // Set a new link

@@ -159,7 +159,7 @@ define(
 
                     //$('#logic-modal').modal();
 
-                    this.model.set('logicVisible', true);
+                    //this.model.set('logicVisible', true);
 
                     //console.log(this.model, this.model.get('logicVisible'));
 /*
@@ -173,8 +173,8 @@ define(
                         }
                     }
 
-
-
+*/
+/*
                     if (window.selectedAnswer != null) {
 
                         var parentLogicWrapper = graph.getCell(window.selectedAnswer.model.get('parent'));
