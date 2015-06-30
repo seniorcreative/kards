@@ -31,10 +31,14 @@ define(['jquery','backbone'], function ($,Backbone) {
             bodySize: {width: 310, height: 110}
         },
         report: {
-            size: {width: 200, height: 75}
+            size: {width: 200, height: 75},
+            startX: 0,
+            startY: 100
         },
         section: {
-            size: {width: 120, height: 75}
+            size: {width: 120, height: 75},
+            startX: -250,
+            startY: 200
         },
         answerMargin: 20,
         logicWrapperPadding: 40,

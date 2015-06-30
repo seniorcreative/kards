@@ -99,8 +99,8 @@ define(
                     var content = new joint.shapes.html.Element({
                         ktype: 'content',
                         position: {
-                            x: layout.stage.centerX - (layout.content.bodySize.width / 2),
-                            y: layout.stage.centerY - (layout.content.bodySize.height / 2)
+                            x: parseInt(layout.stage.centerX - (layout.content.bodySize.width / 2)),
+                            y: parseInt(layout.stage.centerY - (layout.content.bodySize.height / 2))
                         },
                         size: {width: layout.content.bodySize.width, height: layout.content.bodySize.height},
                         attrs: {

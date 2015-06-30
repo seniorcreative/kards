@@ -69,7 +69,7 @@ function(joint, layout) {
             // on the following `set()` call.
             parent.set({
                 position: { x: newX, y: newY },
-                size: { width: newCornerX - newX + layout.answerMargin, height: newCornerY - newY }
+                size: { width: newCornerX - newX, height: newCornerY - newY } // + layout.answerMargin
             }, { skipParentHandler: true });
         });
 

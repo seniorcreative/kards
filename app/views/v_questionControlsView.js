@@ -139,7 +139,7 @@ define(
 
                     var newX;
                     var mca;
-                    var newY =  layout.stage.centerY + (layout.logicCenterHeight / 2);
+                    var newY =  parseInt(layout.stage.centerY + (layout.logicCenterHeight / 2));
                     var answerWidth = layout.question[layout.get('newQuestionType')].aSize.width;
 
 
@@ -169,7 +169,7 @@ define(
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
-                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin)); // WARNING - dynamic layout vars that were set with setter need to be got with getter
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin))); // WARNING - dynamic layout vars that were set with setter need to be got with getter
                                 layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
@@ -212,7 +212,7 @@ define(
 
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
-                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin));
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin)));
                                 layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
@@ -255,7 +255,7 @@ define(
 
                             // Then loop again
                             for (mca = 0; mca < numAnswers; mca++) {
-                                newX = layout.get('startX') + (mca * (answerWidth + layout.answerMargin));
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin)));
                                 layout.question[layout.get('newQuestionType')].answers[mca] = {
                                     position: {x: newX, y: newY},
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
@@ -279,7 +279,7 @@ define(
 
                     var logicWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
-                        position: {x: layout.stage.centerX - (logicWrapperWidth/2), y: layout.stage.centerY - (logicWrapperHeight / 2)},
+                        position: {x: parseInt(layout.stage.centerX - (logicWrapperWidth/2)), y: parseInt(layout.stage.centerY - (logicWrapperHeight / 2))},
                         size:  {width: logicWrapperWidth, height: logicWrapperHeight},
                         attrs: {
                             '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },

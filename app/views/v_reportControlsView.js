@@ -62,7 +62,7 @@ define(
 
                     var report = new joint.shapes.devs.Model({
                         ktype: 'report',
-                        position: {x: layout.stage.centerX - (layout.report.size.width / 2), y: 100},
+                        position: {x: parseInt(layout.stage.centerX - (layout.report.size.width / 2) + layout.report.startX), y: parseInt(layout.report.startY)},
                         size: {width: layout.report.size.width, height: layout.report.size.height},
                         attrs: {
                             '.label': {text: 'R', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label},

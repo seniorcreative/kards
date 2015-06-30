@@ -58,7 +58,7 @@ define(
 
                     var section = new joint.shapes.devs.Model({
                         ktype: 'section',
-                        position: { x: layout.stage.centerX - 250, y: 225 }, // layout.stage.centerX - (layout.section.size.width / 2), layout.stage.centerY - (layout.section.size.height / 2)
+                        position: { x: parseInt(layout.stage.centerX + layout.section.startX), y: parseInt(layout.section.startY) }, // layout.stage.centerX - (layout.section.size.width / 2), layout.stage.centerY - (layout.section.size.height / 2)
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
                             '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
