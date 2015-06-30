@@ -197,6 +197,7 @@ textarea:focus {
 }
 
 #logic-modal {
+  display: none;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.2);
   padding: 5px;
@@ -204,6 +205,9 @@ textarea:focus {
   top: 20px;
   left: 50%;
   margin-left: -625px;
+}
+#logic-modal h3 {
+  min-width: 1244px;
 }
 
 /* Container */
@@ -297,6 +301,26 @@ textarea:focus {
   border-bottom: 1px dashed #999;
   margin-bottom: 5px;
 }
+#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header {
+  *zoom: 1;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:before, #simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
+  content: " ";
+  display: table;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
+  clear: both;
+}
+#simplemodal-container .calculationBlockWrapper {
+  *zoom: 1;
+}
+#simplemodal-container .calculationBlockWrapper:before, #simplemodal-container .calculationBlockWrapper:after {
+  content: " ";
+  display: table;
+}
+#simplemodal-container .calculationBlockWrapper:after {
+  clear: both;
+}
 #simplemodal-container .ruleWrapperBlockCalculationBlocks {
   border: 1px solid #999;
   background-color: #ddd;
@@ -311,6 +335,12 @@ textarea:focus {
   padding-bottom: 10px;
   padding-right: 10px;
   text-align: left;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlock.operation {
+  width: 130px;
+}
+#simplemodal-container .ruleWrapperBlockCalculationBlock.operand {
+  width: 380px;
 }
 #simplemodal-container .ruleWrapperBlockCalculationOperandBlock {
   display: inline-block;

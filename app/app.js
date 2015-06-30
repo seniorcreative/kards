@@ -37,12 +37,7 @@ define(
         var that = this;
         var paper, graph;
 
-        var loadedData;
-        var kardsModelCollection;
-        var selectionModel;
-
         var loopedElements;
-
         var reportControls, sectionControls, questionControls, answerControls, contentControls, logicControls;
 
 
@@ -55,18 +50,10 @@ define(
 
                 initialize: function () {
 
-
-                    //this.games = new Game.Collection();
-
-                    //console.log(' reportModel', reportModel);
-
-
-
                     // Set up some local vars.
                     answerDataTypesProvider = [];
                     answerValueProvider = [];
                     answerLabelProvider = [];
-
 
                     graph = new joint.dia.Graph();
 
@@ -158,18 +145,18 @@ define(
                         data: "",
                         success: function (data) {
 
-                            loadedData = data;
+                            window.loadedData = data;
 
                             console.log("Kards-v1 ... app ready");
 
                             // Feed the data into the template and get back a rendered HTML block. Thanks handlebars!
-                            window.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](loadedData)});
-                            window.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](loadedData)});
-                            window.questionModel.set({'valueDataTypes': loadedData.valueDataTypes});
+                            window.questionModel.set({'questionTypeTemplate': HRT.templates['questionTypes.hbs'](window.loadedData)});
+                            window.questionModel.set({'questionVariableTypeTemplate': HRT.templates['questionVariableTypes.hbs'](window.loadedData)});
+                            window.questionModel.set({'valueDataTypes': window.loadedData.valueDataTypes});
 
-                            window.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](loadedData)});
-                            window.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](loadedData)});
-                            window.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](loadedData)});
+                            window.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](window.loadedData)});
+                            window.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](window.loadedData)});
+                            window.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](window.loadedData)});
 
 
                             reportControls = new reportControlsView(
@@ -220,42 +207,68 @@ define(
                             );
 
 
+                            var templateDataBlock;
+                            var templateData;
+
                             /*answerControls.listenTo(window.answerModel, "change", function(){
                                 console.log('changed something in answer model', window.questionModel.questions);
 
                                 // When we click the 'add logic to answer...'
 
-                                loadedData.ruleNum = 1;
-                                loadedData.ruleSortIndex = 1;
-                                loadedData.questions = window.questionModel.questions;
-                                loadedData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+                                templateDataBlock = '';
+                                for (var rule = 1; rule <= 2; rule++) {
+
+                                    templateData = window.loadedData;
+
+                                    console.log(window.questionModel.answerValues);
+
+                                    templateData.ruleNum = rule;
+                                    templateData.ruleSortIndex = rule;
+                                    templateData.questions = window.questionModel.questions;
+                                    templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+
+                                    templateDataBlock += HRT.templates['logicRule.hbs'](templateData);
+
+                                }
 
                                 window.logicModel.set(
                                     {
-                                        logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
+                                        logicRuleTemplate: templateDataBlock,
                                         ruleNum: 1,
                                         ruleSortIndex: 1
                                     }
                                 );
                                 window.answerModel.set('logicVisible', false);
+                                window.answerModel.set('contentChanged', false);
 
                                 logicControls.render().el;
 
                             });*/
 
-                            questionControls.listenTo(window.questionModel, "change:ruleAdded", function(){
+                            /*questionControls.listenTo(window.questionModel, "change", function(){
+
                                 console.log('changed something in question model', window.questionModel.answerValues);
 
                                 // When we click the 'add logic to answer...'
 
-                                loadedData.ruleNum = 1;
-                                loadedData.ruleSortIndex = 1;
-                                loadedData.questions = window.questionModel.questions;
-                                loadedData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+                                templateDataBlock = '';
+                                for (var rule = 1; rule <= 2; rule++) {
+
+                                    templateData = window.loadedData;
+
+                                    templateData.ruleNum = rule;
+                                    templateData.ruleSortIndex = rule;
+                                    templateData.questions = window.questionModel.questions;
+                                    templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+
+                                    templateDataBlock += HRT.templates['logicRule.hbs'](templateData);
+
+                                }
+
                                 //
                                 window.logicModel.set(
                                     {
-                                        logicRuleTemplate: HRT.templates['logicRule.hbs'](loadedData),
+                                        logicRuleTemplate: templateDataBlock,
                                         ruleNum: 1,
                                         ruleSortIndex: 1
                                     }
@@ -268,6 +281,48 @@ define(
                                 window.questionModel.set('ruleAdded', false);
 
                                 logicControls.render().el;
+
+                            });*/
+
+                            questionControls.listenTo(window.questionModel, "change", function(){
+
+                                console.log('changed something in question model , answer Values', window.questionModel.answerValues);
+
+                                if (window.selectedQuestion != null) {
+
+                                    var logic = window.selectedQuestion.model.get('logic');
+
+                                    var rulesCompiled = '';
+                                    var calculationBlockCompiled;
+
+                                    for(var rule in logic.rules)
+                                    {
+                                        calculationBlockCompiled = '';
+                                        for (var calcBlock in logic.rules[rule].calculationBlocksCompiled)
+                                        {
+                                            calculationBlockCompiled += logic.rules[rule].calculationBlocksCompiled[calcBlock] + '\n';
+                                        }
+
+                                        rulesCompiled += logic.rules[rule].ruleCompiled.replace('[[[calculationBlocks]]]', calculationBlockCompiled); // ran into difficulties with nested handlebarring here
+                                    }
+
+                                    //
+                                    window.logicModel.set(
+                                        {
+                                            logicRuleTemplate: rulesCompiled
+                                        }
+                                    );
+
+                                    /*         window.questionModel.set('questionAdded', false);
+                                     window.questionModel.set('questionUpdated', false);
+                                     window.questionModel.set('answerAdded', false);
+                                     window.questionModel.set('answerUpdated', false);*/
+                                    window.questionModel.set('ruleAdded', false);
+                                    window.questionModel.set('calculationBlockAdded', false);
+
+                                    logicControls.render().el;
+
+                                }
 
                             });
 
@@ -354,6 +409,7 @@ define(
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('#logic-modal').show();
 
                             break;
 
@@ -412,13 +468,14 @@ define(
                         window.contentModel.trigger('change');
 
                         $('.formQuestionOptions h3').text('Add Question');
+                        $('#logic-modal').hide();
 
 
                     });
 
                     paper.on('cell:pointerdown', function(cellView, evt, x, y) {
 
-                        console.log('cell view clicked ', cellView.model);
+                        console.log('cellView.model ', cellView.model);
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
@@ -513,6 +570,7 @@ define(
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                $('#logic-modal').show();
 
                                 break;
 
@@ -572,9 +630,11 @@ define(
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
 
+
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('.formAnswerOptions h3').text('Edit Answer - A' + window.selectedAnswer.model.get('answerNumber'));
+                                $('#logic-modal').show();
 
 
                                 break;

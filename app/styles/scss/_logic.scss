@@ -6,7 +6,7 @@
 #simplemodal-overlay {background-color:#000;}
 
 #logic-modal {
-//    display:none;
+    display:none;
     position: fixed;
     background-color: rgba(0,0,0,.2);
     padding: 5px;
@@ -14,6 +14,11 @@
     top: 20px;
     left: 50%;
     margin-left: -625px;
+
+    h3
+    {
+        min-width: 1244px;
+    }
 }
 
 /* Container */
@@ -147,7 +152,18 @@
         {
             border-bottom: 1px dashed #999;
             margin-bottom: 5px;
+
+
+            header
+            {
+                @include clearfix();
+            }
         }
+
+            .calculationBlockWrapper
+            {
+                @include clearfix();
+            }
 
         .ruleWrapperBlockCalculationBlocks {
             border: 1px solid #999;
@@ -165,6 +181,15 @@
             padding-right: 10px;
             text-align: left;
 
+            &.operation
+            {
+                width: 130px;
+            }
+
+            &.operand
+            {
+                width: 380px;
+            }
 
         }
 

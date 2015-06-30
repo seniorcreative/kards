@@ -4,9 +4,11 @@ define(
         'joint',
         'modules/style',
         'modules/layout',
-        'modules/helpers'],
+        'modules/helpers',
+        'handlebars.runtime',
+        'compiled-templates'],
 
-    function($, Backbone, joint, style, layout, helpers) {
+    function($, Backbone, joint, style, layout, helpers, HRT, compiledtemplates) {
 
         var scope;
         var graph;
@@ -40,9 +42,10 @@ define(
                     //'keyup #questionValue': 'questionUpdate',
                     //'change #questionType': 'changeQuestionTypeDropdown',
 
+                    'click': 'addHandler',
                     // rule for add rule...
                     'click #logic-header-button-add-rule': 'addRule',
-                    'click #logic-header-button-add-action': 'addAction'
+                    'click #logic-header-button-add-action': 'addAction',
                     // rule for add action...
                 },
                 render: function () {
@@ -52,13 +55,99 @@ define(
 
                     return this;
                 },
-                addRule: function()
+                addHandler: function(e)
                 {
-                    window.questionModel.set('ruleAdded', true);
-                },
-                addAction: function()
-                {
-                    window.questionModel.set('actionAdded', true);
+
+                    //console.log(' add handler - click ', this.$(e.target).data('action'));
+                    var logic = window.selectedQuestion.model.get('logic');
+
+                    var templateData;
+
+                    if (this.$(e.target).data('action') != undefined) {
+
+
+                        switch (this.$(e.target).data('action')) {
+
+                            case 'logicRule':
+
+                                templateData = window.loadedData;
+
+                                // Add dynamic vars to the template.
+                                templateData.ruleNum = logic.rules.length + 1;
+                                templateData.ruleSortIndex = logic.rules.length + 1;
+                                templateData.questions = window.questionModel.questions;
+                                templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+
+                                templateData.calculationNum = 1; // first calculation block of rule is added here and will always be 1
+
+                                // Let's add a calculation to the template - from another template!
+                                var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
+
+                                //templateData.calculationBlocks = calculationBlockCompiled; // Add it as a returnedHTML variable to data (check it gets parsed that way in the .hbs file)
+
+                                // or if we're using olf fashioned square brackets method.
+
+                                var ruleCompiled = HRT.templates['logicRule.hbs'](templateData); // .replace('[[[calculationBlocks]]]', calculationBlockCompiled);
+
+                                // Pump the template into questions logic rules array.
+                                logic.rules.push({
+                                    ruleCompiled: ruleCompiled,
+                                    calculationBlocksCompiled: [calculationBlockCompiled]
+                                });
+
+                                // And finally, add the logic as a property of the selected Question
+                                window.selectedQuestion.model.set('logic', logic);
+
+                                // Notify App of rule added.
+
+                                window.questionModel.set('ruleAdded', true);
+
+                                break;
+
+                            case 'logicAction':
+
+                                window.questionModel.set('actionAdded', true);
+
+                                break;
+
+
+                            case 'calculationBlock':
+
+
+                                var ruleNumber = parseInt(this.$(e.target).attr('id').split('logic-header-button-add-calculation-block-rule-')[1]);
+
+                                //console.log('rule calc block num', ruleNumber);
+
+                                 //var templateData;
+                                 templateData = window.loadedData;
+
+                                 // Add dynamic vars to the template.
+                                 templateData.ruleNum = ruleNumber;
+                                 templateData.ruleSortIndex = ruleNumber;
+                                 templateData.questions = window.questionModel.questions;
+                                 templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+                                 templateData.calculationNum = logic.rules[ruleNumber-1]['calculationBlocksCompiled'].length + 1; // first calc block of rule added here , will always be 1
+
+                                //Let's add a calculation to the template - from another template!
+                                var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
+                                logic.rules[ruleNumber-1]['calculationBlocksCompiled'].push(calculationBlockCompiled);
+
+                                 // And finally, add the logic as a property of the selected Question
+                                 window.selectedQuestion.model.set('logic', logic);
+
+                                // Notify App of calc block added.
+                                window.questionModel.set('calculationBlockAdded', true); // I only want to append a calc block
+
+
+
+                                break;
+
+                        }
+
+                    }
+
+
+
                 }
             }
         );

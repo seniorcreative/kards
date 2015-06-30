@@ -1,4 +1,4 @@
-<div class="logic-rule">
+<div id="rule-{{ ruleNum }}" class="logic-rule">
 
     <div id="" class="ruleForm">
 
@@ -39,20 +39,11 @@
 
                     <div class="ruleWrapperBlockCalculationBlockWrapper">
 
+                        <header>
+
                         <div class="ruleWrapperBlockCalculationBlock operation">
 
                             <span class="ruleWrapperCalculationBlockTitle">Operation</span>
-
-                            <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operation" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operation" size="1">
-                                {{#each logicOperatorNormal}}
-                                    <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
-                                {{/each}}
-                                <!--<option value="1">VALUE OF</option>-->
-                                <!--<option value="2">SUM</option>-->
-                                <!--<option value="3">PLUS</option>-->
-                                <!--<option value="4">MINUS</option>-->
-                                <!--<option value="5">MULTIPLY</option>-->
-                            </select>
 
                         </div>
 
@@ -60,54 +51,16 @@
 
                             <span class="ruleWrapperCalculationBlockTitle">Operands</span>
 
-                            <div class="ruleWrapperBlockCalculationOperandBlock">
-
-                                <span class="ruleWrapperBlockLabel">Answer value</span>
-
-                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_answer" size="8">
-                                    <!--<option value="1">Q1 - True</option>-->
-                                    <!--<option value="2">Q1 - False</option>-->
-                                    <!--<option value="3">Q1 - Unknown</option>-->
-                                    {{#each questions}}
-                                        <option value="{{id}}">Q{{id}}</option>
-                                    {{/each}}
-                                    <!--<option value="3">Q3</option>-->
-                                    <!--<option value="4">Q4</option>-->
-                                    <!--<option value="5">Q5</option>-->
-                                </select>
-
-                            </div>
-
-                            <div class="ruleWrapperBlockCalculationOperandBlock">
-
-                                <span class="ruleWrapperBlockLabel"><strong>OR</strong> Custom value type</span>
-
-                                <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value_type" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value_type" size="1">
-                                    {{#each valueDataTypesDropdown}}
-                                        <option value="{{id}}">{{label}}</option>
-                                    {{/each}}
-                                    <!--<option value="1">integer</option>-->
-                                    <!--<option value="2">boolean</option>-->
-                                    <!--<option value="3">float</option>-->
-                                    <!--<option value="4">string</option>-->
-                                </select>
-
-                            </div>
-
-
-                            <div class="ruleWrapperBlockCalculationOperandBlock">
-
-                                <span class="ruleWrapperBlockLabel">Value</span>
-
-                                <input type="text" value=" ? " name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_operand_custom_value">
-
-                            </div>
-
                         </div>
+
+                        </header>
+
+                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->
+                        <!--{{{calculationBlocks}}} &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->
 
                     </div>
 
-                    <button>Add calculation block</button>
+                    <button class="btnAddCalcBlock" data-action="calculationBlock" id="logic-header-button-add-calculation-block-rule-{{ ruleNum }}">Add calculation block</button>
 
 
                 </div>

@@ -91,8 +91,11 @@ $json = (object) [
         (object) ['id' => '17','data-symbol' => 'median([VALUES])','label' => 'MEDIAN', 'data-type' => '1'],
         (object) ['id' => '18','data-symbol' => 'sd([VALUES])','label' => 'STANDARD DEVIATION', 'data-type' => '1'],
         (object) ['id' => '20','data-symbol' => 'range([VALUES])','label' => 'RANGE', 'data-type' => '1'],
-        (object) ['id' => '25','data-symbol' => 'contains','label' => 'CONTAINS', 'data-type' => '1'],
-        (object) ['id' => '26','data-symbol' => 'notcontains','label' => 'DOES NOT CONTAIN', 'data-type' => '1']
+        (object) ['id' => '25','data-symbol' => 'contains([VALUES])','label' => 'CONTAINS', 'data-type' => '1'],
+        (object) ['id' => '26','data-symbol' => '!contains([VALUES])','label' => 'DOES NOT CONTAIN', 'data-type' => '1'],
+        (object) ['id' => '27','data-symbol' => 'ELSE IF','label' => 'ELSE IF', 'data-type' => '1'],
+        (object) ['id' => '29','data-symbol' => '&&','label' => 'AND', 'data-type' => '1'],
+        (object) ['id' => '30','data-symbol' => '||','label' => 'OR', 'data-type' => '1']
     ]
 ];
 

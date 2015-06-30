@@ -118,8 +118,8 @@ define(
                                 'fill-opacity': style.node.fillOpacity.normal,
                                 'stroke-width': style.node.strokeWidth.normal,
                                 stroke: style.node.stroke.normal,
-                                'stroke-dasharray':style.node.strokeDashArray.selected,
-                                style:{'pointer-events':''}
+                                'stroke-dasharray': style.node.strokeDashArray.selected,
+                                style: {'pointer-events': ''}
                             },
                             text: {
                                 text: wraptext,
@@ -127,15 +127,13 @@ define(
                             }
                         },
                         questionFull: newQuestionText,
-                        questionNumber: questionNumber
+                        questionNumber: questionNumber,
+                        question_type_id: parseInt(this.$('#questionType option:selected').val()),
+                        question_variable_type_id: parseInt(this.$('#questionVariableType option:selected').val()),
+                        ehr_datapoint_id: parseInt(this.$('#questionDataPoint option:selected').val()),
+                        logic: {rules: []} // { ruleCompiled: '', calculationBlocksCompiled: []}
                     };
 
-
-                    // Add to db model
-
-                    questionObject.question_type_id             = parseInt(this.$('#questionType option:selected').val());
-                    questionObject.question_variable_type_id    = parseInt(this.$('#questionVariableType option:selected').val());
-                    questionObject.ehr_datapoint_id             = parseInt(this.$('#questionDataPoint option:selected').val());
 
                     // Set up answers and positions.
 
@@ -405,6 +403,7 @@ define(
 
                     $('.formQuestionOptions h3').text('Edit Question - Q' + questionNumber);
                     $('#logic-modal h3').text('Logic - Q' + questionNumber);
+                    $('#logic-modal').show();
 
                 },
                 questionUpdate: function(e)

@@ -90,7 +90,7 @@ define(
 
                         // update the specific
 
-                        console.log(' scope for ext model ', window.questionModel );
+                        //console.log(' scope for ext model ', window.questionModel );
 
                         window.questionModel.answerValues[window.selectedAnswer.model.get('answerNumber') - 1].label = "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + window.selectedAnswer.model.get('answerNumber') + " - (" + wraptext.substring(0, 8) + "...)";
 
