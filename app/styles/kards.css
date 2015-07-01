@@ -242,6 +242,9 @@ textarea:focus {
   text-align: center;
   margin: 10px auto;
 }
+#simplemodal-container .btnDisabled {
+  opacity: 0.5;
+}
 #simplemodal-container input {
   width: 80px;
   padding: 5px;
