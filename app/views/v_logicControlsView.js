@@ -175,7 +175,7 @@ define(
 
                                         var parentLogicWrapper = graph.getCell(elementLogicWrapperID);
                                         var outports = parentLogicWrapper.attributes.outPorts;
-                                        
+
                                         var newActionNumber = logic.rules.length + 1;
 
                                         var actionBlockCompiled = HRT.templates['logicAction.hbs']({ ruleNum: newActionNumber, ruleSortIndex: newActionNumber,actionNum: outports.length, actionLabel: newOutportName });

@@ -47,6 +47,7 @@ define(
                 events: {
                     'click #btnQuestionAdd': 'addQuestion',
                     'click #btnLogGraph': 'saveGraph',
+                    'click #btnShowLogic': 'showLogic',
                     'click #btnAddAnswer': 'addAnswer',
                     'keyup #questionValue': 'questionUpdate',
                     'change #questionType': 'changeQuestionTypeDropdown',
@@ -411,11 +412,27 @@ define(
                     this.model.trigger('change');
 
                     $('#btnAddAnswer').removeClass('hidden');
+                    $('#btnShowLogic').removeClass('hidden');
                     $('#btnQuestionAdd').addClass('hidden');
 
                     $('.formQuestionOptions h3').text('Edit Question - Q' + questionNumber);
                     $('#logic-modal h3').text('Logic - Q' + questionNumber);
-                    $('#logic-modal').show();
+
+
+                    // Finally - move the new question somewhere, with a transition... (not working...)
+
+                    /*logicWrapper.model.transition('position', 250, {
+                            delay: 100,
+                            duration: 500,
+                            timingFunction: function() { return },
+                            valueFunction: function() { return {
+                                x: 300,
+                                y: 300
+                            }}
+                        }
+                    );
+*/
+                    //$('#logic-modal').show();
 
                 },
                 questionUpdate: function(e)
@@ -577,6 +594,9 @@ define(
                 },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));
+                },
+                showLogic: function () {
+                    $('#logic-modal').show();
                 }
             }
         );

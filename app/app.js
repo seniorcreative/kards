@@ -370,10 +370,11 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
+                                $('#btnShowLogic').removeClass('hidden');
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('#logic-modal').show();
+                                //$('#logic-modal').show();
 
                             break;
 
@@ -381,6 +382,8 @@ define(
 
                         //that.contentModel.trigger('change');
                     };
+
+
 
 
                     // Detect if we're clicking on a blank area of the chart.
@@ -396,11 +399,12 @@ define(
                         window.selectedAnswer   = null;
 
                         $('#btnAddAnswer').addClass('hidden');
+                        $('#btnShowLogic').addClass('hidden');
 
                         $('.formAnswerOptions').css('opacity', 0);
                         //$('.formQuestionOptions').css('opacity', 0);
                         $('#btnQuestionAdd').removeClass('hidden');
-                        $('#btnAddAnswer').addClass('hidden');
+                        //$('#btnAddAnswer').addClass('hidden');
 
                         // Clear the appropriate  model values
                         window.sectionModel.set(
@@ -437,7 +441,7 @@ define(
 
                     });
 
-                    paper.on('cell:pointerdown', function(cellView, evt, x, y) {
+                    paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
                         console.log('cellView.model ', cellView.model);
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
@@ -496,6 +500,7 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').removeClass('hidden');
                                 $('#btnAddAnswer').addClass('hidden');
+                                $('#btnShowLogic').addClass('hidden');
 
                                 $('.formQuestionOptions h3').text('Add Question');
 
@@ -533,11 +538,12 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
+                                $('#btnShowLogic').removeClass('hidden');
 
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('#logic-modal').show();
+                                //$('#logic-modal').show();
 
                                 break;
 
@@ -595,12 +601,13 @@ define(
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
+                                $('#btnShowLogic').removeClass('hidden');
 
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('.formAnswerOptions h3').text('Edit Answer - Q'+ window.selectedQuestion.model.get('questionNumber') +', A' + window.selectedAnswer.model.get('answerNumber'));
-                                $('#logic-modal').show();
+                                //$('#logic-modal').show();
 
 
                                 break;
@@ -634,7 +641,6 @@ define(
                         }
 
                     });
-
 
                 }
             });
