@@ -112,7 +112,15 @@ templates['logicAction.hbs'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main"
 
   return "<div id=\"action-"
     + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
-    + "\" class=\"logic-action\">\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic "
+    + "\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_"
+    + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
+    + "_sortindex\">\n            <input type=\"number\" value=\""
+    + alias3(((helper = (helper = helpers.ruleSortIndex || (depth0 != null ? depth0.ruleSortIndex : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleSortIndex","hash":{},"data":data}) : helper)))
+    + "\" class=\"short\" name=\"rule_"
+    + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
+    + "_sortindex\" id=\"rule_"
+    + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
+    + "_sortindex\">\n        </label>\n\n    </div>\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic "
     + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
     + " - "
     + alias3(((helper = (helper = helpers.actionLabel || (depth0 != null ? depth0.actionLabel : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionLabel","hash":{},"data":data}) : helper)))
@@ -149,6 +157,8 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-element=\""
     + alias3(((helper = (helper = helpers.element || (depth0 != null ? depth0.element : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"element","hash":{},"data":data}) : helper)))
+    + "\" data-question=\""
+    + alias3(((helper = (helper = helpers.question || (depth0 != null ? depth0.question : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"question","hash":{},"data":data}) : helper)))
     + "\">"
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "</option>\n                        ";

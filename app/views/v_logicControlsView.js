@@ -175,8 +175,10 @@ define(
 
                                         var parentLogicWrapper = graph.getCell(elementLogicWrapperID);
                                         var outports = parentLogicWrapper.attributes.outPorts;
+                                        
+                                        var newActionNumber = logic.rules.length + 1;
 
-                                        var actionBlockCompiled = HRT.templates['logicAction.hbs']({ actionNum: outports.length, actionLabel: newOutportName });
+                                        var actionBlockCompiled = HRT.templates['logicAction.hbs']({ ruleNum: newActionNumber, ruleSortIndex: newActionNumber,actionNum: outports.length, actionLabel: newOutportName });
 
                                         // Could add this into it's own action attrib but just want to check adding as a rule...
                                         logic.rules.push({
