@@ -109,9 +109,9 @@ define(
         };
 
         var questionCompare = function(a,b) {
-            if (a.id < b.id)
+            if (a.qid < b.qid)
                 return -1;
-            if (a.id > b.id)
+            if (a.qid > b.qid)
                 return 1;
             return 0;
         };

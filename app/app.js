@@ -207,83 +207,6 @@ define(
                             );
 
 
-                            var templateDataBlock;
-                            var templateData;
-
-                            /*answerControls.listenTo(window.answerModel, "change", function(){
-                                console.log('changed something in answer model', window.questionModel.questions);
-
-                                // When we click the 'add logic to answer...'
-
-                                templateDataBlock = '';
-                                for (var rule = 1; rule <= 2; rule++) {
-
-                                    templateData = window.loadedData;
-
-                                    console.log(window.questionModel.answerValues);
-
-                                    templateData.ruleNum = rule;
-                                    templateData.ruleSortIndex = rule;
-                                    templateData.questions = window.questionModel.questions;
-                                    templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
-
-                                    templateDataBlock += HRT.templates['logicRule.hbs'](templateData);
-
-                                }
-
-                                window.logicModel.set(
-                                    {
-                                        logicRuleTemplate: templateDataBlock,
-                                        ruleNum: 1,
-                                        ruleSortIndex: 1
-                                    }
-                                );
-                                window.answerModel.set('logicVisible', false);
-                                window.answerModel.set('contentChanged', false);
-
-                                logicControls.render().el;
-
-                            });*/
-
-                            /*questionControls.listenTo(window.questionModel, "change", function(){
-
-                                console.log('changed something in question model', window.questionModel.answerValues);
-
-                                // When we click the 'add logic to answer...'
-
-                                templateDataBlock = '';
-                                for (var rule = 1; rule <= 2; rule++) {
-
-                                    templateData = window.loadedData;
-
-                                    templateData.ruleNum = rule;
-                                    templateData.ruleSortIndex = rule;
-                                    templateData.questions = window.questionModel.questions;
-                                    templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
-
-                                    templateDataBlock += HRT.templates['logicRule.hbs'](templateData);
-
-                                }
-
-                                //
-                                window.logicModel.set(
-                                    {
-                                        logicRuleTemplate: templateDataBlock,
-                                        ruleNum: 1,
-                                        ruleSortIndex: 1
-                                    }
-                                );
-
-                                window.questionModel.set('questionAdded', false);
-                                window.questionModel.set('questionUpdated', false);
-                                window.questionModel.set('answerAdded', false);
-                                window.questionModel.set('answerUpdated', false);
-                                window.questionModel.set('ruleAdded', false);
-
-                                logicControls.render().el;
-
-                            });*/
-
                             questionControls.listenTo(window.questionModel, "change", function(){
 
                                 console.log('changed something in question model , answer Values', window.questionModel.answerValues);
@@ -294,16 +217,43 @@ define(
 
                                     var rulesCompiled = '';
                                     var calculationBlockCompiled;
+                                    var questionOptionsCompiled;
+                                    var answerOptionsCompiled;
 
                                     for(var rule in logic.rules)
                                     {
+                                        questionOptionsCompiled = '';
+                                        for (var qIndex in window.questionModel.questions)
+                                        {
+                                            questionOptionsCompiled += '<option ' +
+                                            'value="'+ window.questionModel.questions[qIndex].id +'" ' +
+                                            'data-element="'+ window.questionModel.questions[qIndex].element +'" ' +
+                                            'data-parent="'+ window.questionModel.questions[qIndex].parent + // must have parent for logic wrapper adding link
+                                            '">Q' +
+                                            window.questionModel.questions[qIndex].id
+                                            + '</option>' + '\n';
+                                        }
+
+
                                         calculationBlockCompiled = '';
                                         for (var calcBlock in logic.rules[rule].calculationBlocksCompiled)
                                         {
-                                            calculationBlockCompiled += logic.rules[rule].calculationBlocksCompiled[calcBlock] + '\n';
+                                            calculationBlockCompiled += logic.rules[rule].calculationBlocksCompiled[calcBlock].replace('[[[questionValues]]]', questionOptionsCompiled) + '\n';
                                         }
 
-                                        rulesCompiled += logic.rules[rule].ruleCompiled.replace('[[[calculationBlocks]]]', calculationBlockCompiled); // ran into difficulties with nested handlebarring here
+                                        answerOptionsCompiled = '';
+                                        for (var aIndex in window.questionModel.answerValues)
+                                        {
+                                            answerOptionsCompiled += '<option value="'+ window.questionModel.answerValues[aIndex].id +'" data-element="'+ window.questionModel.answerValues[aIndex].element +'">' +
+                                            window.questionModel.answerValues[aIndex].label
+                                            + '</option>' + '\n';
+                                        }
+
+                                        var ruleCompiledReplacement = logic.rules[rule].ruleCompiled.replace('[[[calculationBlocks]]]', calculationBlockCompiled);
+                                        ruleCompiledReplacement = ruleCompiledReplacement.replace('[[[answerValues]]]', answerOptionsCompiled);
+                                        ruleCompiledReplacement = ruleCompiledReplacement.replace('[[[questionValues]]]', questionOptionsCompiled);
+
+                                        rulesCompiled += ruleCompiledReplacement; // ran into difficulties with nested handlebarring here
                                     }
 
                                     //
@@ -313,12 +263,12 @@ define(
                                         }
                                     );
 
-                                    /*         window.questionModel.set('questionAdded', false);
-                                     window.questionModel.set('questionUpdated', false);
-                                     window.questionModel.set('answerAdded', false);
-                                     window.questionModel.set('answerUpdated', false);*/
+                                    window.questionModel.set('questionAdded', false);
+                                    //window.questionModel.set('questionUpdated', false);
                                     window.questionModel.set('ruleAdded', false);
                                     window.questionModel.set('calculationBlockAdded', false);
+                                    window.questionModel.set('answerAdded', false);
+                                    window.questionModel.set('answerUpdated', false);
 
                                     logicControls.render().el;
 
@@ -402,6 +352,8 @@ define(
                                     });
 
                                 window.selectedQuestion = _element;
+
+                                window.questionModel.trigger('change');
 
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('#btnQuestionAdd').addClass('hidden');
@@ -558,7 +510,6 @@ define(
                                     });
 
                                 window.selectedQuestion =  cellView;
-
                                 window.questionModel.trigger('change');
 
                                 //console.log('selected question', cellView);

@@ -88,8 +88,8 @@ define(
                     var newQuestionText = $('#questionValue').val() == '' ? layout.get('newQuestionType') + ' question *' : $('#questionValue').val();
                     $('#questionValue').val(newQuestionText);
 
-                    newQuestionX = layout.stage.centerX - ((layout.question[layout.get('newQuestionType')].qSize.width)/2);
-                    newQuestionY = layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2);
+                    newQuestionX = parseInt(layout.stage.centerX - ((layout.question[layout.get('newQuestionType')].qSize.width)/2));
+                    newQuestionY = parseInt(layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2));
 
                     //console.log('newQuestionY ', newQuestionY);
                     helpers.resetElementStyles('question');
@@ -399,13 +399,14 @@ define(
 
                     this.model.answerValues = answerValues;
 
-                    this.model.set('questionAdded', true);
+                    this.model.set('questionAdded', true); // for listener in app.js
 
                     logicWrapper.embed(question);
 
                     window.selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
-                    //this.model.trigger('change'); // If we do, why are we calling this? - write a note
+                    // We need to call a change on the model here so that views that use this model are updated - such as logicControlsView
+                    this.model.trigger('change');
 
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnQuestionAdd').addClass('hidden');

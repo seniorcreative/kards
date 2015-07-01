@@ -130,6 +130,8 @@ define(
                                     // To answer element
                                     var elementAnswerID = $('#rule_1_suffix_answer_value option:selected').attr('data-element');
 
+                                    console.log(' logic connect id ', elementLogicWrapperID, elementAnswerID );
+
                                     if (elementLogicWrapperID != undefined  && elementAnswerID != undefined) {
 
                                         var newLogicOutportAnswerLink = new joint.shapes.devs.Link({
@@ -168,12 +170,12 @@ define(
                                  // Add dynamic vars to the template.
                                  templateData.ruleNum = ruleNumber;
                                  templateData.ruleSortIndex = ruleNumber;
-                                 templateData.questions = window.questionModel.questions;
-                                 templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
                                  templateData.calculationNum = logic.rules[ruleNumber-1]['calculationBlocksCompiled'].length + 1; // first calc block of rule added here , will always be 1
 
                                 //Let's add a calculation to the template - from another template!
                                 var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
+
+
                                 logic.rules[ruleNumber-1]['calculationBlocksCompiled'].push(calculationBlockCompiled);
 
                                  // And finally, add the logic as a property of the selected Question
