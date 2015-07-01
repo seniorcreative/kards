@@ -47,15 +47,15 @@ templates['calculationBlock.hbs'] = template({"1":function(depth0,helpers,partia
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
     + "_operation\" size=\"1\">\n"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.logicOperatorNormal : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer value</span>\n\n            <select name=\"rule_"
+    + "            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
-    + "_operand_answer\" id=\"rule_"
+    + "_operand_answer_of\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
-    + "_operand_answer\" size=\"5\" multiple>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--"
+    + "_operand_answer\" size=\"5\" data-calculation-control=\"operandAnswerOf\" multiple>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.questions : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "-->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
@@ -107,6 +107,17 @@ templates['cmsContentTypes.hbs'] = template({"1":function(depth0,helpers,partial
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.cmsContentTypes : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "</select>";
 },"useData":true});
+templates['logicAction.hbs'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "<div id=\"action-"
+    + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
+    + "\" class=\"logic-action\">\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic "
+    + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
+    + " - "
+    + alias3(((helper = (helper = helpers.actionLabel || (depth0 != null ? depth0.actionLabel : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionLabel","hash":{},"data":data}) : helper)))
+    + "</span>\n        </div>\n\n    </div>\n\n</div>";
+},"useData":true});
 templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -154,7 +165,7 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
 
   return "<div id=\"rule-"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
-    + "\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Sort</span>\n\n            <label for=\"rule_"
+    + "\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_sortindex\">\n                <input type=\"number\" value=\""
     + alias3(((helper = (helper = helpers.ruleSortIndex || (depth0 != null ? depth0.ruleSortIndex : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleSortIndex","hash":{},"data":data}) : helper)))
@@ -182,7 +193,7 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_suffix_answer_value\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
-    + "_suffix_answer_value\" size=\"5\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--"
+    + "_suffix_answer_value\" size=\"5\" data-calculation-control=\"suffixAnswerValue\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.answerValues : depth0),{"name":"each","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "-->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))

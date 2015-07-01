@@ -92,9 +92,19 @@ define(
 
                         //console.log(' scope for ext model ', window.questionModel );
 
-                        window.questionModel.answerValues[window.selectedAnswer.model.get('answerNumber') - 1].label = "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + window.selectedAnswer.model.get('answerNumber') + " - (" + wraptext.substring(0, 8) + "...)";
+                        var localAnswerValues = window.questionModel.answerValues;
 
-                        window.questionModel.set('answerUpdated', true);
+                        //console.log(' selected Q num ', window.selectedQuestion.model.get('questionNumber'), ' selected A num ', window.selectedAnswer.model.get('answerNumber') );
+
+                        localAnswerValues[window.selectedQuestion.model.get('questionNumber')][window.selectedAnswer.model.get('answerNumber')].label = "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + window.selectedAnswer.model.get('answerNumber') + " - (" + this.$(e.target).val().substring(0, 8) + "...)";
+
+                        //console.log('local answer values ', localAnswerValues);
+
+                        window.questionModel.set(
+                        {
+                            answerUpdated: true,
+                            answerValues: localAnswerValues
+                        });
 
                     }
                 },

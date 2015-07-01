@@ -223,6 +223,8 @@ define(
                                     for(var rule in logic.rules)
                                     {
                                         questionOptionsCompiled = '';
+
+                                        answerOptionsCompiled = '';
                                         for (var qIndex in window.questionModel.questions)
                                         {
                                             questionOptionsCompiled += '<option ' +
@@ -232,6 +234,23 @@ define(
                                             '">Q' +
                                             window.questionModel.questions[qIndex].id
                                             + '</option>' + '\n';
+
+
+                                            var questionAnswer;
+
+                                            for (var aIndex in window.questionModel.answerValues[window.questionModel.questions[qIndex].id])
+                                            {
+                                                questionAnswer = window.questionModel.answerValues[window.questionModel.questions[qIndex].id][aIndex];
+
+                                                answerOptionsCompiled += '<option ' +
+                                                'value="'+ questionAnswer.id +'" ' +
+                                                'data-element="'+ questionAnswer.element +'"' +
+                                                'data-question="'+ questionAnswer.qid +'"' +
+                                                '>' +
+                                                questionAnswer.label
+                                                + '</option>' + '\n';
+                                            }
+
                                         }
 
 
@@ -241,13 +260,6 @@ define(
                                             calculationBlockCompiled += logic.rules[rule].calculationBlocksCompiled[calcBlock].replace('[[[questionValues]]]', questionOptionsCompiled) + '\n';
                                         }
 
-                                        answerOptionsCompiled = '';
-                                        for (var aIndex in window.questionModel.answerValues)
-                                        {
-                                            answerOptionsCompiled += '<option value="'+ window.questionModel.answerValues[aIndex].id +'" data-element="'+ window.questionModel.answerValues[aIndex].element +'">' +
-                                            window.questionModel.answerValues[aIndex].label
-                                            + '</option>' + '\n';
-                                        }
 
                                         var ruleCompiledReplacement = logic.rules[rule].ruleCompiled.replace('[[[calculationBlocks]]]', calculationBlockCompiled);
                                         ruleCompiledReplacement = ruleCompiledReplacement.replace('[[[answerValues]]]', answerOptionsCompiled);
@@ -432,7 +444,7 @@ define(
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
 
-                        cellView.model.toFront({deep: true, links: true});
+                        //cellView.model.toFront({deep: true});
 
                         switch(cellView.model.attributes.ktype) {
 
@@ -560,7 +572,6 @@ define(
                                     });
 
                                 // When we select an answer I want to also select simultaneously the parent question.
-
 
 
                                 attrs = window.selectedQuestion.model.get('attrs');

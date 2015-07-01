@@ -41,11 +41,11 @@ define(
                     //'click #btnQuestionAdd': 'addQuestion',
                     //'keyup #questionValue': 'questionUpdate',
                     //'change #questionType': 'changeQuestionTypeDropdown',
-
+                    'change': 'changeHandler',
                     'click': 'addHandler',
                     // rule for add rule...
                     'click #logic-header-button-add-rule': 'addRule',
-                    'click #logic-header-button-add-action': 'addAction',
+                    'click #logic-header-button-add-action': 'addAction'
                     // rule for add action...
                 },
                 render: function () {
@@ -58,7 +58,8 @@ define(
                 addHandler: function(e)
                 {
 
-                    //console.log(' add handler - click ', this.$(e.target).data('action'));
+                    console.log(' add handler - click ', this.$(e.target).data('action'));
+
                     var logic = window.selectedQuestion.model.get('logic');
 
                     var templateData;
@@ -76,7 +77,7 @@ define(
                                 templateData.ruleNum = logic.rules.length + 1;
                                 templateData.ruleSortIndex = logic.rules.length + 1;
                                 templateData.questions = window.questionModel.questions;
-                                templateData.answerValues = window.questionModel.answerValues.sort(helpers.questionCompare);
+                                templateData.answerValues = window.questionModel.answerValues; // .sort(helpers.questionCompare);
 
                                 templateData.calculationNum = 1; // first calculation block of rule is added here and will always be 1
 
@@ -132,7 +133,8 @@ define(
 
                                     console.log(' logic connect id ', elementLogicWrapperID, elementAnswerID );
 
-                                    if (elementLogicWrapperID != undefined  && elementAnswerID != undefined) {
+                                    //
+                                    if (elementLogicWrapperID.length > 0  && elementAnswerID.length > 0) {
 
                                         var newLogicOutportAnswerLink = new joint.shapes.devs.Link({
                                             source: {
@@ -147,6 +149,21 @@ define(
                                         graph.addCells(
                                             [newLogicOutportAnswerLink]
                                         );
+
+
+                                        //get ports from logicwrapper...
+                                        //elementLogicWrapperID
+
+                                        var parentLogicWrapper = graph.getCell(elementLogicWrapperID);
+                                        var outports = parentLogicWrapper.attributes.outPorts;
+
+                                        var actionBlockCompiled = HRT.templates['logicAction.hbs']({ actionNum: outports.length, actionLabel: newOutportName });
+
+                                        // Could add this into it's own action attrib but just want to check adding as a rule...
+                                        logic.rules.push({
+                                            ruleCompiled: actionBlockCompiled,
+                                            calculationBlocksCompiled: []
+                                        });
 
                                     }
 
@@ -192,7 +209,61 @@ define(
 
                     }
 
+                },
+                changeHandler: function(e)
+                {
 
+
+                    // Split the control name and get the rule num. The control id's must all start with rule_1 for this to work
+                    var ruleNumber = $(e.target).attr('id').split('_')[1];
+                    //
+                    //console.log('changed something', this.$(e.target).data('calculation-control'));
+                    var selectedLogicRuleQuestionNumber;
+
+                    switch(this.$(e.target).data('calculation-control'))
+                    {
+
+                        case 'operandAnswerOf':
+
+                            selectedLogicRuleQuestionNumber = this.$(e.target).find('option:selected').val();
+
+                            //console.log('selected Q ', selectedQ);
+
+                            // Now I'm going to loop through the questionModel answerValues and disable options in the
+                            // drop down answer options array.
+
+                            // But to map to it I want the 'closest' select (within this rule) with data('calculation-control') of suffixAnswerValue
+
+                            this.$('#rule_'+ruleNumber+'_suffix_answer_value > option').each(function(g,h) {
+
+                                //console.log(this.text, this.value,g,h);
+                                //console.log('loop qid ', $(this).data('question'));
+
+                                $(this).removeAttr('selected');
+
+                                if ($(this).data('question') == selectedLogicRuleQuestionNumber)
+                                {
+                                    $(this).removeAttr('disabled');
+                                }
+                                else
+                                {
+                                    $(this).attr('disabled','disabled');
+                                }
+
+                            });
+
+
+                        break;
+
+                    }
+
+                    //switch (this.$(e.target).attr('id')) {
+                    //
+                    //    case '':
+                    //
+                    //    break;
+                    //
+                    //}
 
                 }
             }

@@ -273,12 +273,35 @@ textarea:focus {
   font-size: 0.75em;
   color: #777;
 }
+#simplemodal-container span.ruleWrapperBlockTitle.sort {
+  color: #333;
+}
 #simplemodal-container .logic-rule {
-  border-bottom: 1px dashed #aaa;
+  border-bottom: 1px dashed #333;
   padding: 4px 0;
 }
 #simplemodal-container .logic-rule button {
   color: black;
+}
+#simplemodal-container .logic-action {
+  border-bottom: 1px dashed #333;
+  padding: 4px 0;
+  margin: 4px 0;
+}
+#simplemodal-container .logic-action .logic-circle {
+  background-color: white;
+  border: 3px solid #aaa;
+  border-radius: 50%;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin: 0 4px 0 0;
+}
+#simplemodal-container .logic-action span {
+  display: inline-block;
+  color: #333;
+  padding: 5px;
 }
 #simplemodal-container button {
   border: 1px solid black;
@@ -298,6 +321,22 @@ textarea:focus {
   padding: 4px 4px 4px 4px;
 }
 #simplemodal-container .ruleWrapper.ruleWrapper--block span.ruleWrapperBlockTitle {
+  color: #888;
+}
+#simplemodal-container .actionWrapper {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 10px;
+  padding-top: 4px;
+  margin-left: 54px;
+  margin-bottom: 4px;
+}
+#simplemodal-container .actionWrapper.actionWrapper--block {
+  border-radius: 5px;
+  background-color: #ccc;
+  padding: 4px;
+}
+#simplemodal-container .actionWrapper.actionWrapper--block span.actionWrapperBlockTitle {
   color: #888;
 }
 #simplemodal-container .ruleWrapperBlock {

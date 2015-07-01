@@ -75,6 +75,8 @@ $json = (object) [
     'logicOperatorNormal' =>
     [
         (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
+        (object) ['id' => '12','data-symbol' => '==','label' => 'IS EQUAL TO', 'data-type' => '1'],
+        (object) ['id' => '13','data-symbol' => '!=','label' => 'IS NOT EQUAL TO', 'data-type' => '1'],
         (object) ['id' => '4','data-symbol' => '<','label' => 'LESS THAN', 'data-type' => '1'],
         (object) ['id' => '5','data-symbol' => '<=','label' => 'LESS THAN OR EQUAL', 'data-type' => '1'],
         (object) ['id' => '6','data-symbol' => '>','label' => 'GREATER THAN', 'data-type' => '1'],
@@ -83,8 +85,6 @@ $json = (object) [
         (object) ['id' => '9','data-symbol' => '-','label' => 'MINUS', 'data-type' => '1'],
         (object) ['id' => '10','data-symbol' => '*','label' => 'MULTIPLY', 'data-type' => '1'],
         (object) ['id' => '11','data-symbol' => '/','label' => 'DIVIDE', 'data-type' => '1'],
-        (object) ['id' => '12','data-symbol' => '==','label' => 'EQUAL', 'data-type' => '1'],
-        (object) ['id' => '13','data-symbol' => '!=','label' => 'NOT EQUAL', 'data-type' => '1'],
         (object) ['id' => '14','data-symbol' => 'sum([VALUES])','label' => 'SUM', 'data-type' => '1'],
         (object) ['id' => '15','data-symbol' => 'mean([VALUES])','label' => 'MEAN', 'data-type' => '1'],
         (object) ['id' => '16','data-symbol' => 'mode([VALUES])','label' => 'MODE', 'data-type' => '1'],

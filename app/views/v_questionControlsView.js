@@ -363,12 +363,14 @@ define(
                             [answer]
                         );
 
-                        answerValues.push({
+                        if (!answerValues[questionNumber]) answerValues[questionNumber] = [];
+
+                        answerValues[questionNumber][(a+1)] = {
                             qid: questionNumber,
-                            id: a,
+                            id: (a+1),
                             label: "Q" + questionNumber + ", A" + (a+1) + " - (" + wraptext.substring(0, 8) + "...)",
                             element: answer.id
-                        });
+                        };
 
                         var link = new joint.dia.Link({
                             smooth: true,
@@ -541,12 +543,12 @@ define(
 
                     var answerValues = this.model.answerValues;
 
-                    answerValues.push({
+                    answerValues[window.selectedQuestion.model.get('questionNumber')][newAnswerNumber] = {
                         qid: window.selectedQuestion.model.get('questionNumber'),
                         id: newAnswerNumber,
                         label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + newAnswerNumber + " - (" + wraptext.substring(0, 8) + "...)",
                         element: newAnswer.id
-                    });
+                    };
 
                     this.model.answerValues = answerValues;
                     this.model.set('answerAdded', true);

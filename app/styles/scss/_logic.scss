@@ -21,6 +21,8 @@
     }
 }
 
+
+
 /* Container */
 #simplemodal-container {
 
@@ -116,17 +118,50 @@
     span.ruleWrapperBlockTitle
     {
 //        display: block;
+
+        &.sort
+        {
+            color: #333;
+        }
     }
 
     .logic-rule
     {
-        border-bottom: 1px dashed #aaa; padding: 4px 0;
+        border-bottom: 1px dashed #333; padding: 4px 0;
 
         button
         {
             color: black;
         }
 
+
+    }
+
+    .logic-action
+    {
+
+//        border-left: 2px solid #333;
+        border-bottom: 1px dashed #333; padding: 4px 0;
+        margin: 4px 0;
+
+        .logic-circle
+        {
+            background-color: white;
+            border: 3px solid #aaa;
+            border-radius: 50%;
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            float: left;
+            margin: 0 4px 0 0;
+        }
+
+        span
+        {
+            display: inline-block;
+            color: #333;
+            padding: 5px;
+        }
 
     }
 
@@ -155,6 +190,32 @@
                 {
                     color: #888;
                 }
+            }
+        }
+
+        .actionWrapper {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+            padding-top: 4px;
+            margin-left: 54px;
+            margin-bottom: 4px;
+
+            &.actionWrapper--block {
+//                border: 1px solid grey;
+                border-radius: 5px;
+                background-color: #ccc;
+                padding: 4px;
+
+                span.actionWrapperBlockTitle
+                {
+                    color: #888;
+                }
+            }
+
+            .actionWrapperBlock
+            {
+                //
             }
         }
 
