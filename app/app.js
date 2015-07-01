@@ -495,6 +495,10 @@ define(
 
                                 helpers.resetElementStyles('question');
 
+                                helpers.resetElementStyles('answer'); // clear styles of sub answers too.
+                                window.selectedAnswer = null;
+                                $('.formAnswerOptions').css('opacity', 0); // turn off the answer panel as deselecting answer
+
                                 // adjust style of clicked element
                                 attrs = cellView.model.get('attrs');
                                 attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
@@ -584,7 +588,7 @@ define(
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('.formAnswerOptions h3').text('Edit Answer - A' + window.selectedAnswer.model.get('answerNumber'));
+                                $('.formAnswerOptions h3').text('Edit Answer - Q'+ window.selectedQuestion.model.get('questionNumber') +', A' + window.selectedAnswer.model.get('answerNumber'));
                                 $('#logic-modal').show();
 
 
