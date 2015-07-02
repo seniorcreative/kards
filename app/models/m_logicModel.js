@@ -5,7 +5,8 @@ define(
 
         var logicModel = Backbone.Model.extend(
             {
-                logicRuleTemplate: ''
+                logicRuleTemplate: '',
+                questionLogic: []
             }
         );
 

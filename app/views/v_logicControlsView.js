@@ -106,6 +106,35 @@ define(
                                 $('#logic-header-button-add-action').removeClass('btnDisabled');
                                 $('#logic-header-button-add-action').removeAttr('disabled');
 
+
+                                //
+
+                                var questionLogic = window.logicModel.questionLogic;
+
+                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules.push(
+                                    { // Adding a rule will add this.
+                                         sortIndex: 0,
+                                         prefixOperator: '',
+                                         calculationBlocks: [
+                                             { // Adding a calculation block will add another one of this.
+                                                 sortIndex: 0,
+                                                 calculationOperator: '',
+                                                 questionOperand: '',
+                                                 customValueType: '',
+                                                 customValue: ''
+                                             }
+                                         ],
+                                         suffixOperator: '',
+                                         suffixAnswerOperands: [],
+                                         suffixCustomValueType: '',
+                                         suffixCustomValue: ''
+                                    }
+                                );
+
+                                window.logicModel.set('questionLogic', questionLogic);
+
+                                //console.log('Logic after new rule added', window.logicModel.questionLogic);
+
                                 break;
 
                             case 'logicAction':
@@ -248,49 +277,37 @@ define(
                     switch(this.$(e.target).data('calculation-control'))
                     {
 
-                        case 'operandAnswerOf':
+                        case 'questionOperand':
 
                             window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
                             selectedLogicRuleQuestionNumber = this.$(e.target).find('option:selected').val();
 
-                            //console.log('selected Q ', selectedQ);
-
                             // Now I'm going to loop through the questionModel answerValues and disable options in the
                             // drop down answer options array.
-
                             // But to map to it I want the 'closest' select (within this rule) with data('calculation-control') of suffixAnswerValue
 
                             this.$('#rule_'+window.selectedRule+'_suffix_answer_value > option').each(function(g,h) {
-
-                                //console.log(this.text, this.value,g,h);
-                                //console.log('loop qid ', $(this).data('question'));
-
                                 $(this).removeAttr('selected');
 
-                                if ($(this).data('question') == selectedLogicRuleQuestionNumber)
-                                {
-                                    $(this).removeAttr('disabled');
-                                }
-                                else
-                                {
-                                    $(this).attr('disabled','disabled');
-                                }
+                                if ($(this).data('question') == selectedLogicRuleQuestionNumber) $(this).removeAttr('disabled');
+                                else $(this).attr('disabled','disabled');
 
                             });
+
+                            // Now save this selection into the logicModel.
+                            var questionLogic = window.logicModel.questionLogic;
+
+                            questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule - 1].calculationBlocks[window.selectedCalculation -1].questionOperand = selectedLogicRuleQuestionNumber;
+
+                            window.logicModel.set('questionLogic', questionLogic);
+
+                            console.log("questionLogic after selected question", window.logicModel.questionLogic);
 
 
                         break;
 
                     }
-
-                    //switch (this.$(e.target).attr('id')) {
-                    //
-                    //    case '':
-                    //
-                    //    break;
-                    //
-                    //}
 
                 }
             }

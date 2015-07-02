@@ -307,11 +307,47 @@ define(
                         question
                     ]);
 
+
+                    // Add question to questions model.
+
                     this.model.questions.push({
                         id: questionNumber,
                         element: question.id,
                         parent: logicWrapper.id
                     });
+
+
+                    // Lay down logic / rule / calculation selections roadmap for this question in the logic model.
+
+                    var questionLogic = window.logicModel.questionLogic;
+
+                    //console.log('questionLogic', questionLogic);
+
+                     questionLogic[questionNumber] = {
+                         rules:[
+                            /*{ // Adding a rule will add this.
+                                 sortIndex: 0,
+                                 prefixOperator: '',
+                                 calculationBlocks: [
+                                     { // Adding a calculation block will add another one of this.
+                                         sortIndex: 0,
+                                         calculationOperator: '',
+                                         questionOperand: '',
+                                         customValueType: '',
+                                         customValue: ''
+                                     }
+                                 ],
+                                 suffixOperator: '',
+                                 suffixAnswerOperands: [],
+                                 suffixCustomValueType: '',
+                                 suffixCustomValue: ''
+                             }*/
+                         ]
+                     };
+
+                     window.logicModel.set('questionLogic', questionLogic);
+
+                    //console.log(window.logicModel.questionLogic);
 
                     logicWrapper.embed(question);
 
@@ -419,19 +455,16 @@ define(
                     $('#logic-modal h3').text('Logic - Q' + questionNumber);
 
 
-                    // Finally - move the new question somewhere, with a transition... (not working...)
+                    // If you want to move the new question somewhere, with a transition... (not working...)
 
-                    /*logicWrapper.model.transition('position', 250, {
-                            delay: 100,
-                            duration: 500,
-                            timingFunction: function() { return },
-                            valueFunction: function() { return {
-                                x: 300,
-                                y: 300
-                            }}
-                        }
-                    );
-*/
+
+                    //logicWrapper.transition('position/x', 250, {
+                    // delay: 100,
+                    // duration: 500,
+                    // timingFunction: function(t) { return t*t; },
+                    // valueFunction: function(a, b) { return function(t) { return a + (b - a) * t }}
+                    // });
+
                     //$('#logic-modal').show();
 
                 },
