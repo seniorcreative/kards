@@ -209,7 +209,7 @@ define(
 
                             questionControls.listenTo(window.questionModel, "change", function(){
 
-                                console.log('changed something in question model , answer Values', window.questionModel.answerValues);
+                                //console.log('changed something in question model , answer Values', window.questionModel.answerValues);
 
                                 if (window.selectedQuestion != null) {
 

@@ -56,7 +56,7 @@ define(
 
                     //
 
-                    console.log('applying changes after model has changed');
+                    //console.log('applying changes after model has changed');
 
                     // Now apply mapped selections, by looping over logicModel questionLogic
 
@@ -195,18 +195,18 @@ define(
                                 //if (window.selectedQuestion != null) {
 
                                     // Go from question element
-                                    var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_operand_answer option:selected').attr('data-parent');
+                                    var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand option:selected').attr('data-parent');
 
                                     // To answer element
                                     var elementAnswerIDArray = [];
 
-                                    $('#rule_'+ window.selectedRule +'_suffix_answer_value option:selected').each(function(a,b){
+                                    $('#rule_'+ window.selectedRule +'_suffixansweroperands option:selected').each(function(a,b){
 
                                         elementAnswerIDArray.push($(this).attr('data-element'));
 
                                     });
 
-                                    //console.log(' logic connect id ', elementLogicWrapperID, elementAnswerID );
+                                    console.log(' logic connect id ', window.selectedRule, window.selectedCalculation, elementLogicWrapperID, elementAnswerIDArray );
 
                                     //
                                     if (elementLogicWrapperID && elementAnswerIDArray.length > 0) {
@@ -343,7 +343,7 @@ define(
                         window.selectedRule = $(e.target).attr('id').split('_')[1];
 
                         //
-                        console.log('changed something', this.$(e.target).data('calculation-control'));
+                        //console.log('changed something', this.$(e.target).data('calculation-control'));
 
 
 
@@ -356,7 +356,6 @@ define(
                         // Now save this selection into the logicModel.
                         var questionLogic = window.logicModel.questionLogic;
 
-                        window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
 
                         switch (this.$(e.target).data('calculation-control')) {
@@ -426,6 +425,8 @@ define(
 
                             case 'calculationoperator':
 
+                                window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
+
                                 selectedCalculationOperator = this.$(e.target).find('option:selected').val();
 
                                 questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].calculationOperator = selectedCalculationOperator;
@@ -434,6 +435,8 @@ define(
                                 break;
 
                             case 'questionoperand':
+
+                                window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
                                 selectedQuestionOperand = this.$(e.target).find('option:selected').val();
 
@@ -450,6 +453,8 @@ define(
 
                             case 'operandcustomvaluetype':
 
+                                window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
+
                                 selectedCustomValueType = this.$(e.target).find('option:selected').val();
 
                                 questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].customValueType = selectedCustomValueType;
@@ -457,6 +462,8 @@ define(
                                 break;
 
                             case 'operandcustomvalue':
+
+                                window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
                                 customValue = this.$(e.target).val();
 
