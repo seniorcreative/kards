@@ -81,11 +81,19 @@ define(
 
                             calcObj = ruleObj.calculationBlocks[c];
 
+                            $('#rule_'+r+'_calculationblock_'+c+'_calculationoperator').val(calcObj.calculationOperator);
                             $('#rule_'+r+'_calculationblock_'+c+'_questionoperand').val(calcObj.questionOperand);
+                            $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvaluetype').val(calcObj.customValueType);
+                            $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvalue').val(calcObj.customValue);
 
-                            console.log('should be setting ', '#rule_'+r+'_calculationblock_'+c+'_questionoperand', ' to ', calcObj.questionOperand);
 
-                            //
+                            //sortIndex: 0,
+                            //calculationOperator: '',
+                            //questionOperand: '',
+                            //customValueType: '',
+                            //customValue: ''
+
+
 
                         }
 
@@ -275,15 +283,20 @@ define(
                             case 'calculationBlock':
 
 
+                                // Add a new calculation block.
+
+
                                 window.selectedRule = parseInt(this.$(e.target).attr('id').split('logic-header-button-add-calculation-block-rule-')[1]);
 
                                  //var templateData;
                                  templateData = window.loadedData;
 
+                                 var newCalculationBlockNumber = logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].length + 1;
+
                                  // Add dynamic vars to the template.
                                  templateData.ruleNum = window.selectedRule;
                                  templateData.ruleSortIndex = window.selectedRule;
-                                 templateData.calculationNum = logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].length + 1; // first calc block of rule added here , will always be 1
+                                 templateData.calculationNum = newCalculationBlockNumber; //
 
                                 //Let's add a calculation to the template - from another template!
                                 var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
@@ -293,6 +306,20 @@ define(
 
                                  // And finally, add the logic as a property of the selected Question
                                  window.selectedQuestion.model.set('logic', logic);
+
+
+                                var questionLogic = window.logicModel.questionLogic;
+
+                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[newCalculationBlockNumber] =
+                                {
+                                    sortIndex: 0,
+                                    calculationOperator: '',
+                                    questionOperand: '',
+                                    customValueType: '',
+                                    customValue: ''
+                                };
+
+                                window.logicModel.set('questionLogic', questionLogic);
 
                                 // Notify App of calc block added.
                                 window.questionModel.set('calculationBlockAdded', true); // I only want to append a calc block
@@ -309,46 +336,74 @@ define(
                 {
 
 
-                    window.selectedRule = $(e.target).attr('id').split('_')[1];
+                    if (window.selectedQuestion != null) {
 
-                    //
-                    //console.log('changed something', this.$(e.target).data('calculation-control'));
-                    var selectedLogicRuleQuestionNumber;
+                        var selectedQuestionNumber = window.selectedQuestion.model.get('questionNumber');
 
-                    switch(this.$(e.target).data('calculation-control'))
-                    {
+                        window.selectedRule = $(e.target).attr('id').split('_')[1];
 
-                        case 'questionOperand':
+                        //
+                        //console.log('changed something', this.$(e.target).data('calculation-control'));
 
-                            window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
+                        var selectedCalculationOperator, selectedQuestionOperand, selectedCustomValueType, customValue;
 
-                            selectedLogicRuleQuestionNumber = this.$(e.target).find('option:selected').val();
+                        // Now save this selection into the logicModel.
+                        var questionLogic = window.logicModel.questionLogic;
 
-                            // Now I'm going to loop through the questionModel answerValues and disable options in the
-                            // drop down answer options array.
-                            // But to map to it I want the 'closest' select (within this rule) with data('calculation-control') of suffixAnswerValue
-
-                            this.$('#rule_'+window.selectedRule+'_suffix_answer_value > option').each(function(g,h) {
-                                $(this).removeAttr('selected');
-
-                                if ($(this).data('question') == selectedLogicRuleQuestionNumber) $(this).removeAttr('disabled');
-                                else $(this).attr('disabled','disabled');
-
-                            });
-
-                            // Now save this selection into the logicModel.
-                            var questionLogic = window.logicModel.questionLogic;
-
-                            questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].questionOperand = selectedLogicRuleQuestionNumber;
-
-                            window.logicModel.set('questionLogic', questionLogic);
-
-                            console.log("questionLogic after selected question", window.logicModel.questionLogic);
+                        window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
 
-                        break;
+                        switch (this.$(e.target).data('calculation-control')) {
+
+                            case 'calculationoperator':
+
+                                selectedCalculationOperator = this.$(e.target).find('option:selected').val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].calculationOperator = selectedCalculationOperator;
+
+
+                                break;
+
+                            case 'questionoperand':
+
+                                selectedQuestionOperand = this.$(e.target).find('option:selected').val();
+
+                                this.$('#rule_' + window.selectedRule + '_suffix_answer_value > option').each(function (g, h) {
+                                    $(this).removeAttr('selected');
+
+                                    if ($(this).data('question') == selectedQuestionOperand) $(this).removeAttr('disabled');
+                                    else $(this).attr('disabled', 'disabled');
+                                });
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].questionOperand = selectedQuestionOperand;
+
+                                break;
+
+                            case 'operandcustomvaluetype':
+
+                                selectedCustomValueType = this.$(e.target).find('option:selected').val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].customValueType = selectedCustomValueType;
+
+                                break;
+
+                            case 'operandcustomvalue':
+
+                                customValue = this.$(e.target).val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].customValue = customValue;
+
+
+                                break;
+
+                        }
+
+                        window.logicModel.set('questionLogic', questionLogic);
+
+                        console.log("questionLogic after changes", window.logicModel.questionLogic);
 
                     }
+
 
                 }
             }
