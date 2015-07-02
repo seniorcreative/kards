@@ -343,7 +343,7 @@ define(
                         window.selectedRule = $(e.target).attr('id').split('_')[1];
 
                         //
-                        //console.log('changed something', this.$(e.target).data('calculation-control'));
+                        console.log('changed something', this.$(e.target).data('calculation-control'));
 
 
 
@@ -375,7 +375,7 @@ define(
 
                                 rulePrefixOperator = this.$(e.target).find('option:selected').val();
 
-                                console.log(selectedQuestionNumber, questionLogic[selectedQuestionNumber], window.selectedRule, questionLogic[selectedQuestionNumber].rules[window.selectedRule]);
+                                //console.log(selectedQuestionNumber, questionLogic[selectedQuestionNumber], window.selectedRule, questionLogic[selectedQuestionNumber].rules[window.selectedRule]);
 
                                 questionLogic[selectedQuestionNumber].rules[window.selectedRule].prefixOperator = rulePrefixOperator;
 
@@ -437,7 +437,7 @@ define(
 
                                 selectedQuestionOperand = this.$(e.target).find('option:selected').val();
 
-                                this.$('#rule_' + window.selectedRule + '_suffix_answer_value > option').each(function (g, h) {
+                                this.$('#rule_' + window.selectedRule + '_suffixansweroperands > option').each(function (g, h) {
                                     $(this).removeAttr('selected');
 
                                     if ($(this).data('question') == selectedQuestionOperand) $(this).removeAttr('disabled');

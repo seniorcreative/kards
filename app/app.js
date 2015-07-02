@@ -243,7 +243,7 @@ define(
                                                 questionAnswer = window.questionModel.answerValues[window.questionModel.questions[qIndex].id][aIndex];
 
                                                 answerOptionsCompiled += '<option ' +
-                                                'value="'+ questionAnswer.id +'" ' +
+                                                'value="'+ questionAnswer.qid + '_' + questionAnswer.id +'" ' +
                                                 'data-element="'+ questionAnswer.element +'"' +
                                                 'data-question="'+ questionAnswer.qid +'"' +
                                                 '>' +
