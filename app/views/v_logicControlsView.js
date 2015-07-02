@@ -42,6 +42,7 @@ define(
                     //'keyup #questionValue': 'questionUpdate',
                     //'change #questionType': 'changeQuestionTypeDropdown',
                     'change': 'changeHandler',
+                    'keyup': 'changeHandler',
                     'click': 'addHandler'
                     // rule for add rule...
                     //'click #logic-header-button-add-rule': 'addRule',
@@ -76,6 +77,13 @@ define(
 
                         console.log('looking at rule', r, selectedQuestionRules[r]);
 
+                        $('#rule_'+r+'_sortindex').val(ruleObj.sortIndex);
+                        $('#rule_'+r+'_prefixoperator').val(ruleObj.prefixOperator);
+                        $('#rule_'+r+'_suffixoperator').val(ruleObj.suffixOperator);
+                        $('#rule_'+r+'_suffixansweroperands').val(ruleObj.suffixAnswerOperands);
+                        $('#rule_'+r+'_suffixcustomvaluetype').val(ruleObj.suffixCustomValueType);
+                        $('#rule_'+r+'_suffixcustomvalue').val(ruleObj.suffixCustomValue);
+
                         for (var c in ruleObj.calculationBlocks)
                         {
 
@@ -85,14 +93,6 @@ define(
                             $('#rule_'+r+'_calculationblock_'+c+'_questionoperand').val(calcObj.questionOperand);
                             $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvaluetype').val(calcObj.customValueType);
                             $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvalue').val(calcObj.customValue);
-
-
-                            //sortIndex: 0,
-                            //calculationOperator: '',
-                            //questionOperand: '',
-                            //customValueType: '',
-                            //customValue: ''
-
 
 
                         }
@@ -163,20 +163,20 @@ define(
 
                                 questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[ruleNumber] =
                                     { // Adding a rule will add this.
-                                         sortIndex: 0,
-                                         prefixOperator: '',
+                                         sortIndex: templateData.ruleNum,
+                                         prefixOperator: templateData.logicOperatorPrefix[0]['id'], // set as first value from data provider
                                          calculationBlocks: {
                                              1: { // Adding a calculation block will add another one of this.
-                                                 sortIndex: 0,
-                                                 calculationOperator: '',
+                                                 sortIndex: 1,
+                                                 calculationOperator: templateData.logicOperatorNormal[0]['id'],
                                                  questionOperand: '',
-                                                 customValueType: '',
+                                                 customValueType: templateData.valueDataTypesDropdown[0]['id'],
                                                  customValue: ''
                                              }
                                          },
-                                         suffixOperator: '',
+                                         suffixOperator: templateData.logicOperatorNormal[0]['id'],
                                          suffixAnswerOperands: [],
-                                         suffixCustomValueType: '',
+                                         suffixCustomValueType: templateData.valueDataTypesDropdown[0]['id'],
                                          suffixCustomValue: ''
                                     };
 
@@ -312,10 +312,10 @@ define(
 
                                 questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[newCalculationBlockNumber] =
                                 {
-                                    sortIndex: 0,
-                                    calculationOperator: '',
+                                    sortIndex: templateData.calculationNum,
+                                    calculationOperator: templateData.logicOperatorNormal[0]['id'],
                                     questionOperand: '',
-                                    customValueType: '',
+                                    customValueType: templateData.valueDataTypesDropdown[0]['id'],
                                     customValue: ''
                                 };
 
@@ -345,6 +345,12 @@ define(
                         //
                         //console.log('changed something', this.$(e.target).data('calculation-control'));
 
+
+
+                        //
+                        var ruleSortIndex, rulePrefixOperator, ruleSuffixOperator, ruleSuffixAnswerOperands, ruleSuffixCustomValueType, ruleSuffixCustomValue;
+
+                        // Calculation operator
                         var selectedCalculationOperator, selectedQuestionOperand, selectedCustomValueType, customValue;
 
                         // Now save this selection into the logicModel.
@@ -354,6 +360,69 @@ define(
 
 
                         switch (this.$(e.target).data('calculation-control')) {
+
+                            // Rule specific
+
+                            case 'sortindex':
+
+                                ruleSortIndex = this.$(e.target).val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].sortIndex = ruleSortIndex;
+
+                                break;
+
+                            case 'prefixoperator':
+
+                                rulePrefixOperator = this.$(e.target).find('option:selected').val();
+
+                                console.log(selectedQuestionNumber, questionLogic[selectedQuestionNumber], window.selectedRule, questionLogic[selectedQuestionNumber].rules[window.selectedRule]);
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].prefixOperator = rulePrefixOperator;
+
+                                break;
+
+                            case 'suffixoperator':
+
+                                ruleSuffixOperator = this.$(e.target).find('option:selected').val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].suffixOperator = ruleSuffixOperator;
+
+                                break;
+
+                            case 'suffixansweroperands':
+
+                                ruleSuffixAnswerOperands = [];
+
+                                this.$(e.target).find('option:selected').each(function (g, h) {
+
+                                    ruleSuffixAnswerOperands.push($(this).val());
+
+                                });
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].suffixAnswerOperands = ruleSuffixAnswerOperands;
+
+                                break;
+
+                            case 'suffixcustomvaluetype':
+
+                                ruleSuffixCustomValueType = this.$(e.target).find('option:selected').val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].suffixCustomValueType = ruleSuffixCustomValueType;
+
+                                break;
+
+                            case 'suffixcustomvalue':
+
+                                ruleSuffixCustomValue = this.$(e.target).val();
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].suffixCustomValue = ruleSuffixCustomValue;
+
+                            break;
+
+
+
+                            // Calculation specific
+
 
                             case 'calculationoperator':
 
