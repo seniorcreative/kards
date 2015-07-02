@@ -511,8 +511,8 @@ define(
                                 //selectedQuestion = cellView;
 
                                 helpers.resetElementStyles('question');
-
                                 helpers.resetElementStyles('answer'); // clear styles of sub answers too.
+
                                 window.selectedAnswer = null;
                                 $('.formAnswerOptions').css('opacity', 0); // turn off the answer panel as deselecting answer
 

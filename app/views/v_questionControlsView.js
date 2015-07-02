@@ -317,38 +317,6 @@ define(
                     });
 
 
-                    // Lay down logic / rule / calculation selections roadmap for this question in the logic model.
-
-                    var questionLogic = window.logicModel.questionLogic;
-
-                    //console.log('questionLogic', questionLogic);
-
-                     questionLogic[questionNumber] = {
-                         rules:[
-                            /*{ // Adding a rule will add this.
-                                 sortIndex: 0,
-                                 prefixOperator: '',
-                                 calculationBlocks: [
-                                     { // Adding a calculation block will add another one of this.
-                                         sortIndex: 0,
-                                         calculationOperator: '',
-                                         questionOperand: '',
-                                         customValueType: '',
-                                         customValue: ''
-                                     }
-                                 ],
-                                 suffixOperator: '',
-                                 suffixAnswerOperands: [],
-                                 suffixCustomValueType: '',
-                                 suffixCustomValue: ''
-                             }*/
-                         ]
-                     };
-
-                     window.logicModel.set('questionLogic', questionLogic);
-
-                    //console.log(window.logicModel.questionLogic);
-
                     logicWrapper.embed(question);
 
                     logicWrapper.toBack();
@@ -444,8 +412,7 @@ define(
 
                     window.selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
-                    // We need to call a change on the model here so that views that use this model are updated - such as logicControlsView
-                    this.model.trigger('change');
+
 
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnShowLogic').removeClass('hidden');
@@ -454,6 +421,44 @@ define(
                     $('.formQuestionOptions h3').text('Edit Question - Q' + questionNumber);
                     $('#logic-modal h3').text('Logic - Q' + questionNumber);
 
+
+
+
+                    // Lay down logic / rule / calculation selections roadmap for this question in the logic model.
+
+                    var questionLogic = window.logicModel.questionLogic;
+
+                    //console.log('questionLogic', questionLogic);
+
+                    questionLogic[questionNumber] = {
+                        rules: {
+                            /*{ // Adding a rule will add this.
+                             sortIndex: 0,
+                             prefixOperator: '',
+                             calculationBlocks: [
+                             { // Adding a calculation block will add another one of this.
+                             sortIndex: 0,
+                             calculationOperator: '',
+                             questionOperand: '',
+                             customValueType: '',
+                             customValue: ''
+                             }
+                             ],
+                             suffixOperator: '',
+                             suffixAnswerOperands: [],
+                             suffixCustomValueType: '',
+                             suffixCustomValue: ''
+                             }*/
+                        }
+                    };
+
+                    window.logicModel.set('questionLogic', questionLogic);
+
+                    //console.log(window.logicModel.questionLogic);
+
+
+                    // We need to call a change on the model here so that views that use this model are updated - such as logicControlsView
+                    this.model.trigger('change');
 
                     // If you want to move the new question somewhere, with a transition... (not working...)
 

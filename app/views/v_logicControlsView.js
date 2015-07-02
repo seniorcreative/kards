@@ -53,6 +53,46 @@ define(
 
                     this.$el.find('#logic-rules').html(this.model.get('logicRuleTemplate'));
 
+                    //
+
+                    console.log('applying changes after model has changed');
+
+                    // Now apply mapped selections, by looping over logicModel questionLogic
+
+                    //console.log(window.logicModel, window.logicModel.questionLogic, window.logicModel.get('questionLogic'))
+
+                    var questionLogic = window.logicModel.questionLogic;
+
+                    var selectedQuestionRules = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules;
+
+                    // loop each rule.
+
+                    var ruleObj, calcObj;
+
+                    for (var r in selectedQuestionRules)
+                    {
+
+                        ruleObj = selectedQuestionRules[r];
+
+                        console.log('looking at rule', r, selectedQuestionRules[r]);
+
+                        for (var c in ruleObj.calculationBlocks)
+                        {
+
+                            calcObj = ruleObj.calculationBlocks[c];
+
+                            $('#rule_'+r+'_calculationblock_'+c+'_questionoperand').val(calcObj.questionOperand);
+
+                            console.log('should be setting ', '#rule_'+r+'_calculationblock_'+c+'_questionoperand', ' to ', calcObj.questionOperand);
+
+                            //
+
+                        }
+
+                    }
+
+
+
                     return this;
                 },
                 addHandler: function(e)
@@ -73,9 +113,11 @@ define(
 
                                 templateData = window.loadedData;
 
+                                var ruleNumber  = logic.rules.length + 1;
+
                                 // Add dynamic vars to the template.
-                                templateData.ruleNum = logic.rules.length + 1;
-                                templateData.ruleSortIndex = logic.rules.length + 1;
+                                templateData.ruleNum = ruleNumber;
+                                templateData.ruleSortIndex = ruleNumber;
                                 templateData.questions = window.questionModel.questions;
                                 templateData.answerValues = window.questionModel.answerValues; // .sort(helpers.questionCompare);
 
@@ -111,25 +153,24 @@ define(
 
                                 var questionLogic = window.logicModel.questionLogic;
 
-                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules.push(
+                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[ruleNumber] =
                                     { // Adding a rule will add this.
                                          sortIndex: 0,
                                          prefixOperator: '',
-                                         calculationBlocks: [
-                                             { // Adding a calculation block will add another one of this.
+                                         calculationBlocks: {
+                                             1: { // Adding a calculation block will add another one of this.
                                                  sortIndex: 0,
                                                  calculationOperator: '',
                                                  questionOperand: '',
                                                  customValueType: '',
                                                  customValue: ''
                                              }
-                                         ],
+                                         },
                                          suffixOperator: '',
                                          suffixAnswerOperands: [],
                                          suffixCustomValueType: '',
                                          suffixCustomValue: ''
-                                    }
-                                );
+                                    };
 
                                 window.logicModel.set('questionLogic', questionLogic);
 
@@ -298,7 +339,7 @@ define(
                             // Now save this selection into the logicModel.
                             var questionLogic = window.logicModel.questionLogic;
 
-                            questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule - 1].calculationBlocks[window.selectedCalculation -1].questionOperand = selectedLogicRuleQuestionNumber;
+                            questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].questionOperand = selectedLogicRuleQuestionNumber;
 
                             window.logicModel.set('questionLogic', questionLogic);
 
