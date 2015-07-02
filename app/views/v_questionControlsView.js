@@ -86,8 +86,11 @@ define(
 
                     layout.set('newQuestionType', $('#questionType option:selected').text().toLowerCase());
 
-                    var newQuestionText = $('#questionValue').val() == '' ? layout.get('newQuestionType') + ' question *' : $('#questionValue').val();
+                    var newQuestionText = ($('#questionValue').val() == '') ? layout.get('newQuestionType') + ' question *' : $('#questionValue').val();
+                    //var newQuestionText = layout.get('newQuestionType') + ' question *';
                     $('#questionValue').val(newQuestionText);
+
+                    this.model.set('questionValue', newQuestionText);
 
                     newQuestionX = parseInt(layout.stage.centerX - ((layout.question[layout.get('newQuestionType')].qSize.width)/2));
                     newQuestionY = parseInt(layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2));
@@ -634,7 +637,31 @@ define(
                     console.log(JSON.stringify(graph.toJSON()));
                 },
                 showLogic: function () {
+
+                    // I want to hide the 'add action' button if the logic for this newly selected question has no rules
+
+                    var questionLogic = window.logicModel.get('questionLogic');
+
+                    if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
+                        $('#logic-header-button-add-action').addClass('btnDisabled');
+                        $('#logic-header-button-add-action').attr('disabled', 'disabled');
+                    }
+                    else
+                    {
+
+
+                        // get the last rule in the logic display.
+
+                        // check whether the questionoperand and answervalues operands selects have any selected values.
+
+
+                        $('#logic-header-button-add-action').removeClass('btnDisabled');
+                        $('#logic-header-button-add-action').removeAttr('disabled');
+                    }
+
                     $('#logic-modal').show();
+
+
                 }
             }
         );

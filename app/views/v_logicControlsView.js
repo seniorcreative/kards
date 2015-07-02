@@ -15,6 +15,18 @@ define(
         var paper;
 
 
+
+
+        // Rule options
+        var ruleSortIndex, rulePrefixOperator, ruleSuffixOperator, ruleSuffixAnswerOperands, ruleSuffixCustomValueType, ruleSuffixCustomValue;
+
+        // Calculation operator
+        var selectedCalculationOperator, selectedQuestionOperand, selectedCustomValueType, customValue;
+
+
+
+
+
         var layoutControlsView = Backbone.View.extend(
             {
                 initialize: function () {
@@ -129,10 +141,10 @@ define(
                                 templateData.questions = window.questionModel.questions;
                                 templateData.answerValues = window.questionModel.answerValues; // .sort(helpers.questionCompare);
 
-                                templateData.calculationNum = 1; // first calculation block of rule is added here and will always be 1
+                                //templateData.calculationNum = 1; // first calculation block of rule is added here and will always be 1
 
                                 // Let's add a calculation to the template - from another template!
-                                var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
+                                //var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
 
                                 //templateData.calculationBlocks = calculationBlockCompiled; // Add it as a returnedHTML variable to data (check it gets parsed that way in the .hbs file)
 
@@ -143,7 +155,7 @@ define(
                                 // Pump the template into questions logic rules array.
                                 logic.rules.push({
                                     ruleCompiled: ruleCompiled,
-                                    calculationBlocksCompiled: [calculationBlockCompiled]
+                                    calculationBlocksCompiled: [] // calculationBlockCompiled]
                                 });
 
                                 // And finally, add the logic as a property of the selected Question
@@ -153,10 +165,8 @@ define(
 
                                 window.questionModel.set('ruleAdded', true);
 
-                                $('#logic-header-button-add-action').removeClass('btnDisabled');
-                                $('#logic-header-button-add-action').removeAttr('disabled');
-
-
+                                $('#logic-header-button-add-action').addClass('btnDisabled');
+                                $('#logic-header-button-add-action').attr('disabled','disabled');
                                 //
 
                                 var questionLogic = window.logicModel.questionLogic;
@@ -166,13 +176,13 @@ define(
                                          sortIndex: templateData.ruleNum,
                                          prefixOperator: templateData.logicOperatorPrefix[0]['id'], // set as first value from data provider
                                          calculationBlocks: {
-                                             1: { // Adding a calculation block will add another one of this.
+                                            /* 1: { // Adding a calculation block will add another one of this.
                                                  sortIndex: 1,
                                                  calculationOperator: templateData.logicOperatorNormal[0]['id'],
                                                  questionOperand: '',
                                                  customValueType: templateData.valueDataTypesDropdown[0]['id'],
                                                  customValue: ''
-                                             }
+                                             }*/
                                          },
                                          suffixOperator: templateData.logicOperatorNormal[0]['id'],
                                          suffixAnswerOperands: [],
@@ -206,7 +216,7 @@ define(
 
                                     });
 
-                                    console.log(' logic connect id ', window.selectedRule, window.selectedCalculation, elementLogicWrapperID, elementAnswerIDArray );
+                                    //console.log(' logic connect id ', window.selectedRule, window.selectedCalculation, elementLogicWrapperID, elementAnswerIDArray );
 
                                     //
                                     if (elementLogicWrapperID && elementAnswerIDArray.length > 0) {
@@ -346,13 +356,6 @@ define(
                         //console.log('changed something', this.$(e.target).data('calculation-control'));
 
 
-
-                        //
-                        var ruleSortIndex, rulePrefixOperator, ruleSuffixOperator, ruleSuffixAnswerOperands, ruleSuffixCustomValueType, ruleSuffixCustomValue;
-
-                        // Calculation operator
-                        var selectedCalculationOperator, selectedQuestionOperand, selectedCustomValueType, customValue;
-
                         // Now save this selection into the logicModel.
                         var questionLogic = window.logicModel.questionLogic;
 
@@ -474,9 +477,22 @@ define(
 
                         }
 
+
+
+                        if (ruleSuffixAnswerOperands && selectedQuestionOperand) {
+                            $('#logic-header-button-add-action').removeClass('btnDisabled');
+                            $('#logic-header-button-add-action').removeAttr('disabled');
+                        }
+                        else
+                        {
+                            $('#logic-header-button-add-action').addClass('btnDisabled');
+                            $('#logic-header-button-add-action').attr('disabled','disabled');
+                        }
+
+
                         window.logicModel.set('questionLogic', questionLogic);
 
-                        console.log("questionLogic after changes", window.logicModel.questionLogic);
+                        //console.log("questionLogic after changes", window.logicModel.questionLogic);
 
                     }
 

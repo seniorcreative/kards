@@ -284,6 +284,32 @@ define(
 
                                     logicControls.render().el;
 
+                                    var questionLogic = window.logicModel.get('questionLogic');
+
+                                    if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
+
+                                        $('#logic-header-button-add-action').addClass('btnDisabled');
+                                        $('#logic-header-button-add-action').attr('disabled', 'disabled');
+                                    }
+                                    else
+                                    {
+
+
+                                        // get the last rule in the logic display.
+
+
+                                        var lastLogicRuleID = $('#logic-rules .logic-rule').last().attr('id').split('rule-')[1];
+
+                                        var lastCalculationBlockID = $('#logic-rules .calculationBlockWrapper').last().attr('id').split('calculation-')[1];
+
+                                        //console.log('lastLogicRuleID', lastLogicRuleID, 'lastCalculationBlockID', lastCalculationBlockID);
+                                        // check whether the questionoperand and answervalues operands selects have any selected values.
+
+
+                                        $('#logic-header-button-add-action').removeClass('btnDisabled');
+                                        $('#logic-header-button-add-action').removeAttr('disabled');
+                                    }
+
                                 }
 
                             });
@@ -443,7 +469,7 @@ define(
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
-                        console.log('cellView.model ', cellView.model);
+                        //console.log('cellView.model ', cellView.model);
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
