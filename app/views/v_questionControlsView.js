@@ -43,12 +43,14 @@ define(
 
                     }, this);
 
+
                 },
                 events: {
                     'click #btnQuestionAdd': 'addQuestion',
                     'click #btnLogGraph': 'saveGraph',
                     'click #btnShowLogic': 'showLogic',
                     'click #btnAddAnswer': 'addAnswer',
+                    'click #btnDeleteQuestion': 'deleteHandler',
                     'keyup #questionValue': 'questionUpdate',
                     'change #questionType': 'changeQuestionTypeDropdown',
                     'change #questionVariableType': 'changeQuestionVariableTypeDropdown',
@@ -142,7 +144,7 @@ define(
                     // Set up answers and positions.
 
                     var newX;
-                    var mca;
+                    var mca = 0;
                     var newY =  parseInt(layout.stage.centerY + (layout.logicCenterHeight / 2));
                     var answerWidth = layout.question[layout.get('newQuestionType')].aSize.width;
 
@@ -157,7 +159,7 @@ define(
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
                             answerDataTypesProvider = [this.model.get('valueDataTypes')['boolean'], this.model.get('valueDataTypes')['boolean']]; // boolean (can also use layout.get('newQuestionType') switch case here)
                             answerValueProvider     = [[1], [0]]; // Note that the answer value can expect an array of 2 values
-                            answerLabelProvider     = ['true', 'false'];
+                            answerLabelProvider     = [this.model.defaultValues.boolean[0], this.model.defaultValues.boolean[1]];
 
                             if ($('#questionUnknownAnswerAllowed').is(":checked"))
                             {
@@ -182,9 +184,6 @@ define(
 
 
                             }
-
-                            //console.log('answer position calculation layout', layout.get('newQuestionType'), layout.question[layout.get('newQuestionType')], layout.question[layout.get('newQuestionType')].answers);
-
 
                             break;
 
@@ -402,10 +401,11 @@ define(
 
                     window.selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
-
+                    $('#questionValue').focus();
 
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnShowLogic').removeClass('hidden');
+                    $('#btnDeleteQuestion').removeClass('hidden');
                     $('#btnQuestionAdd').addClass('hidden');
 
                     $('.formQuestionOptions h3').text('Edit Question - Q' + questionNumber);
@@ -426,21 +426,9 @@ define(
 
                     //console.log(window.logicModel.questionLogic);
 
-
                     // We need to call a change on the model here so that views that use this model are updated - such as logicControlsView
                     this.model.trigger('change');
 
-                    // If you want to move the new question somewhere, with a transition... (not working...)
-
-
-                    //logicWrapper.transition('position/x', 250, {
-                    // delay: 100,
-                    // duration: 500,
-                    // timingFunction: function(t) { return t*t; },
-                    // valueFunction: function(a, b) { return function(t) { return a + (b - a) * t }}
-                    // });
-
-                    //$('#logic-modal').show();
 
                 },
                 questionUpdate: function(e)
@@ -599,6 +587,7 @@ define(
                     window.selectedAnswer =  paper.findViewByModel(newAnswer); // make so is selected straight away.
 
                     $('.formAnswerOptions').css('opacity', 1);
+                    $('.formAnswerOptions').css('pointer-events', 'auto');
                 },
                 saveGraph: function () {
                     console.log(JSON.stringify(graph.toJSON()));
@@ -621,13 +610,44 @@ define(
 
                         // check whether the questionoperand and answervalues operands selects have any selected values.
 
-
                         $('#logic-header-button-add-action').removeClass('btnDisabled');
                         $('#logic-header-button-add-action').removeAttr('disabled');
                     }
 
                     $('#logic-modal').show();
 
+
+                },
+                deleteHandler: function()
+                {
+
+                    if (window.selectedQuestion != null)
+                    {
+
+                        // Want to get the parent and the children of the question...
+
+                        var parentLogicWrapper = graph.getCell(window.selectedQuestion.model.get('parent'));
+                        parentLogicWrapper.remove(); // Yeay remove also remove embeds.
+
+                        var tmpArray = [];
+
+                        for (var q in this.model.questions)
+                        {
+
+                            if (this.model.questions[q]['element'] != window.selectedQuestion.model.id)
+                            {
+                                tmpArray.push(this.model.questions[q]);
+                            }
+                        }
+
+                        this.model.questions = tmpArray;
+
+
+                        // Now reset interface
+
+                        helpers.clearSelections();
+
+                    }
 
                 }
             }

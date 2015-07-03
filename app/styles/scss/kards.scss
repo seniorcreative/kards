@@ -105,6 +105,7 @@ form
     &.faded
     {
         opacity: 0;
+        pointer-events: none;
     }
 
 
@@ -206,15 +207,14 @@ form
     {
 
         width: 100%;
-        padding: 10px;
-        border-radius: 2px;
+        padding: 4px 10px;
+        border-radius: 4px;
         border: none;
         color: white;
         background-color: #222;
-        margin: 2px 0 0 0;
+        margin: 1px 0;
         font-family: $font-regular;
-        font-size: 1.1em;
-
+        font-size: 1em;
 
         &.button-add
         {

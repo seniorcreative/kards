@@ -117,6 +117,9 @@ define(
                     $('.formQuestionOptions').css('opacity', 1);
                     $('.formContentOptions').css('opacity', 1);
 
+                    $('.formQuestionOptions').css('pointer-events', 'auto');
+                    $('.formContentOptions').css('pointer-events', 'auto');
+
 
                 },
                 sectionUpdate: function(e)

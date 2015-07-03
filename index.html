@@ -130,6 +130,7 @@
               <label for="questionDataPoint">Data point</label>
               <select class="" id="questionDataPoint" name="questionDataPoint" size="4">
                   <!-- populate this with data service (or work out nested handlebars templates .hbs looping) -->
+                  <option value="">None</option>
                   <optgroup label="EHR Data">
                       <option value="1">Age</option>
                       <option value="2">Gender</option>
@@ -159,6 +160,9 @@
               </div>
               <div class="form-controls  form-controls--width-full" >
                   <button type="button" id="btnShowLogic" class="button-add  hidden">Show logic</button>
+              </div>
+              <div class="form-controls  form-controls--width-full" >
+                  <button type="button" id="btnDeleteQuestion" class="button-add  hidden">Delete</button>
               </div>
               <!--<button type="button" id="btnLogGraph" class="button-add">Console log graph</button>-->
           </div>

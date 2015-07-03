@@ -14,7 +14,8 @@ define(
                 questionDatapointID: '',
                 choicesAccepted: 1,
                 questions: [],
-                answerValues: []
+                answerValues: [],
+                defaultValues: { boolean: ['yes', 'no']}
             }
         );
 

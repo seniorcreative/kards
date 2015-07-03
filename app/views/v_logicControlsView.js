@@ -198,12 +198,6 @@ define(
 
                             case 'logicAction':
 
-                                //var ruleNumber = parseInt(this.$(e.target).attr('id').split('logic-header-button-add-calculation-block-rule-')[1]);
-
-                                //console.log('rule calc block num', ruleNumber);
-
-                                //if (window.selectedQuestion != null) {
-
                                     // Go from question element
                                     var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand option:selected').attr('data-parent');
 
@@ -276,16 +270,12 @@ define(
 
                                     }
 
-                                //}
-
                                 // Once a new action is added, we must disable adding action until after another rule is added
 
                                 $('#logic-header-button-add-action').addClass('btnDisabled');
                                 $('#logic-header-button-add-action').attr('disabled', 'disabled');
 
                                 window.questionModel.set('actionAdded', true);
-
-
 
                             break;
 

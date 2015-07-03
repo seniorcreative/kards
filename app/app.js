@@ -290,11 +290,11 @@ define(
                                     );
 
                                     window.questionModel.set('questionAdded', false);
-                                    //window.questionModel.set('questionUpdated', false);
                                     window.questionModel.set('ruleAdded', false);
                                     window.questionModel.set('calculationBlockAdded', false);
                                     window.questionModel.set('answerAdded', false);
                                     window.questionModel.set('answerUpdated', false);
+                                    window.questionModel.set('actionAdded', false);
 
                                     logicControls.render().el;
 
@@ -392,11 +392,8 @@ define(
 
                             case 'question':
 
-                                //console.log('full text', _element.model.get('questionFull'));
-
                                 window.questionModel.set(
                                     {
-                                        //questionValue: attrs.text.text,
                                         questionValue: _element.model.get('questionFull'),
                                         questionTypeID: _element.model.get('question_type_id'),
                                         questionDatapointID: _element.model.get('ehr_datapoint_id'),
@@ -408,13 +405,16 @@ define(
                                 window.questionModel.trigger('change');
 
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('.formQuestionOptions').css('pointer-events', 'auto');
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
                                 $('#btnShowLogic').removeClass('hidden');
+                                $('#btnDeleteQuestion').removeClass('hidden');
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                //$('#logic-modal').show();
+
+                                $('#questionValue').focus();
 
                             break;
 
@@ -430,62 +430,7 @@ define(
                     paper.on('blank:pointerdown', function(evt, x, y)
                     {
 
-                        helpers.resetElementStyles('all');
-
-                        // Don't reset the selectedReport once we have one.
-                        window.selectedContent  = null;
-                        window.selectedSection  = null;
-                        window.selectedQuestion = null;
-                        window.selectedAnswer   = null;
-                        window.selectedEndPoint = null;
-
-                        $('#btnAddAnswer').addClass('hidden');
-                        $('#btnShowLogic').addClass('hidden');
-
-                        $('.formAnswerOptions').css('opacity', 0);
-                        //$('.formQuestionOptions').css('opacity', 0);
-                        $('#btnQuestionAdd').removeClass('hidden');
-                        //$('#btnAddAnswer').addClass('hidden');
-
-                        // Clear the appropriate  model values
-                        window.sectionModel.set(
-                            {
-                                sectionTitle: ''
-                            }
-                        );
-                        window.sectionModel.trigger('change');
-
-                        window.questionModel.set(
-                            {
-                                questionValue: ''
-                            }
-                        );
-                        window.questionModel.trigger('change');
-
-                        window.answerModel.set(
-                            {
-                                answerLabel: ''
-                            }
-                        );
-                        window.answerModel.trigger('change');
-
-                        window.contentModel.set(
-                            {
-                                contentText: ''
-                            }
-                        );
-                        window.contentModel.trigger('change');
-
-
-                        window.endPointModel.set(
-                            {
-                                endPointTitle: ''
-                            }
-                        );
-                        window.endPointModel.trigger('change');
-
-                        $('.formQuestionOptions h3').text('Add Question');
-                        $('#logic-modal').hide();
+                        helpers.clearSelections();
 
 
                     });
@@ -547,9 +492,12 @@ define(
                                 window.sectionModel.trigger('change');
 
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('.formQuestionOptions').css('pointer-events', 'auto');
                                 $('#btnQuestionAdd').removeClass('hidden');
                                 $('#btnAddAnswer').addClass('hidden');
                                 $('#btnShowLogic').addClass('hidden');
+                                $('#btnDeleteQuestion').addClass('hidden');
+
 
                                 $('.formQuestionOptions h3').text('Add Question');
 
@@ -564,6 +512,7 @@ define(
 
                                 window.selectedAnswer = null;
                                 $('.formAnswerOptions').css('opacity', 0); // turn off the answer panel as deselecting answer
+                                $('.formAnswerOptions').css('pointer-events', 'none');
 
                                 // adjust style of clicked element
                                 attrs = cellView.model.get('attrs');
@@ -585,14 +534,18 @@ define(
                                 //console.log('selected question', cellView);
 
                                 $('.formQuestionOptions').css('opacity', 1);
+                                $('.formQuestionOptions').css('pointer-events', 'auto');
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
                                 $('#btnShowLogic').removeClass('hidden');
+                                $('#btnDeleteQuestion').removeClass('hidden');
 
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
                                 //$('#logic-modal').show();
+
+                                $('#questionValue').focus();
 
                                 break;
 
@@ -648,9 +601,14 @@ define(
 
                                 $('.formAnswerOptions').css('opacity', 1);
                                 $('.formQuestionOptions').css('opacity', 1);
+
+                                $('.formQuestionOptions').css('pointer-events', 'auto');
+                                $('.formAnswerOptions').css('pointer-events', 'auto');
+
                                 $('#btnQuestionAdd').addClass('hidden');
                                 $('#btnAddAnswer').removeClass('hidden');
                                 $('#btnShowLogic').removeClass('hidden');
+                                $('#btnDeleteQuestion').removeClass('hidden');
 
 
                                 $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));

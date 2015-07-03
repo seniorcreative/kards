@@ -103,6 +103,7 @@ define(
                     window.selectedReport = paper.findViewByModel(report); // Assign the selected report after it is first added.
 
                     $('.formSectionOptions').css('opacity', 1);
+                    $('.formSectionOptions').css('pointer-events', 'auto');
 
                 },
                 reportUpdate: function (e) {

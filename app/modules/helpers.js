@@ -116,6 +116,72 @@ define(
             return 0;
         };
 
+
+        var clearSelections = function()
+        {
+
+            resetElementStyles('all');
+
+            // Don't reset the selectedReport once we have one.
+            window.selectedContent  = null;
+            window.selectedSection  = null;
+            window.selectedQuestion = null;
+            window.selectedAnswer   = null;
+            window.selectedEndPoint = null;
+
+            $('#btnAddAnswer').addClass('hidden');
+            $('#btnShowLogic').addClass('hidden');
+            $('#btnDeleteQuestion').addClass('hidden');
+
+            $('.formAnswerOptions').css('opacity', 0);
+            $('.formAnswerOptions').css('pointer-events', 'none');
+
+            //$('.formQuestionOptions').css('opacity', 0);
+            $('#btnQuestionAdd').removeClass('hidden');
+            //$('#btnAddAnswer').addClass('hidden');
+
+            // Clear the appropriate  model values
+            window.sectionModel.set(
+                {
+                    sectionTitle: ''
+                }
+            );
+            window.sectionModel.trigger('change');
+
+            window.questionModel.set(
+                {
+                    questionValue: ''
+                }
+            );
+            window.questionModel.trigger('change');
+
+            window.answerModel.set(
+                {
+                    answerLabel: ''
+                }
+            );
+            window.answerModel.trigger('change');
+
+            window.contentModel.set(
+                {
+                    contentText: ''
+                }
+            );
+            window.contentModel.trigger('change');
+
+
+            window.endPointModel.set(
+                {
+                    endPointTitle: ''
+                }
+            );
+            window.endPointModel.trigger('change');
+
+            $('.formQuestionOptions h3').text('Add Question');
+            $('#logic-modal').hide();
+
+        };
+
         //objs.sort(compare);
 
         return {
@@ -123,7 +189,10 @@ define(
             setTotalWidthAnswers: setTotalWidthAnswers,
             resetElementStyles: resetElementStyles,
             autocompleteSearch: autocompleteSearch,
-            questionCompare: questionCompare
+            questionCompare: questionCompare,
+            clearSelections: clearSelections
         }
+
+
     }
 );

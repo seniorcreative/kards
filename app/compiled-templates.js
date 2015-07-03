@@ -88,7 +88,7 @@ templates['cmsContentCategories.hbs'] = template({"1":function(depth0,helpers,pa
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
-  return "<label for=\"cmsContentCategoryID\">CMS content category</label>\n<select class=\"\" id=\"cmsContentCategoryID\" name=\"cmsContentCategoryID\" size=\"1\">\n"
+  return "<label for=\"cmsContentCategoryID\">Content category</label>\n<select class=\"\" id=\"cmsContentCategoryID\" name=\"cmsContentCategoryID\" size=\"1\">\n"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.cmsContentCategories : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "</select>";
 },"useData":true});
@@ -103,7 +103,7 @@ templates['cmsContentTypes.hbs'] = template({"1":function(depth0,helpers,partial
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
-  return "<label for=\"cmsContentTypeID\">CMS content type</label>\n<select class=\"\" id=\"cmsContentTypeID\" name=\"cmsContentTypeID\" size=\"1\">\n"
+  return "<label for=\"cmsContentTypeID\">Content type</label>\n<select class=\"\" id=\"cmsContentTypeID\" name=\"cmsContentTypeID\" size=\"1\">\n"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.cmsContentTypes : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "</select>";
 },"useData":true});
