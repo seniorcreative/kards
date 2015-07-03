@@ -386,21 +386,8 @@ define(
                             target: { id: answer.id }
                         });
 
-                        // I was originally adding by default a first out port and a link from the default answers
-                        // to that outport but have now commented out as will be getting created by the logic instead
-
-                        /*var lolink = new joint.shapes.devs.Link({
-                            source: {
-                                id: logicWrapper.id,
-                                port: 'out 1' // This is potentially one of many, so suffix with count of 1
-                            },
-                            target: {
-                                id: answer.id
-                            }
-                        });
-*/
                         graph.addCells(
-                            [link] // , lolink]
+                            [link]
                         );
 
                         logicWrapper.embed(answer);
@@ -425,8 +412,6 @@ define(
                     $('#logic-modal h3').text('Logic - Q' + questionNumber);
 
 
-
-
                     // Lay down logic / rule / calculation selections roadmap for this question in the logic model.
 
                     var questionLogic = window.logicModel.questionLogic;
@@ -434,25 +419,7 @@ define(
                     //console.log('questionLogic', questionLogic);
 
                     questionLogic[questionNumber] = {
-                        rules: {
-                            /*{ // Adding a rule will add this.
-                             sortIndex: 0,
-                             prefixOperator: '',
-                             calculationBlocks: [
-                             { // Adding a calculation block will add another one of this.
-                             sortIndex: 0,
-                             calculationOperator: '',
-                             questionOperand: '',
-                             customValueType: '',
-                             customValue: ''
-                             }
-                             ],
-                             suffixOperator: '',
-                             suffixAnswerOperands: [],
-                             suffixCustomValueType: '',
-                             suffixCustomValue: ''
-                             }*/
-                        }
+                        rules: {}
                     };
 
                     window.logicModel.set('questionLogic', questionLogic);

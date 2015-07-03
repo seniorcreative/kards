@@ -16,12 +16,14 @@ define(
         'models/m_answerModel',
         'models/m_contentModel',
         'models/m_logicModel',
+        'models/m_endPointModel',
         'views/v_reportControlsView',
         'views/v_sectionControlsView',
         'views/v_questionControlsView',
         'views/v_answerControlsView',
         'views/v_contentControlsView',
         'views/v_logicControlsView',
+        'views/v_endPointControlsView',
         'modules/style',
         'modules/layout',
         'modules/papercontrols',
@@ -30,7 +32,7 @@ define(
         'compiled-templates'
     ],
 
-    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, contentModel, logicModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, contentControlsView, logicControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
+    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
 
 
 
@@ -38,7 +40,7 @@ define(
         var paper, graph;
 
         var loopedElements;
-        var reportControls, sectionControls, questionControls, answerControls, contentControls, logicControls;
+        var reportControls, sectionControls, questionControls, answerControls, contentControls, logicControls, endPointControls;
 
 
         var run = function () {
@@ -80,6 +82,7 @@ define(
                     window.selectedQuestion     = null;
                     window.selectedAnswer       = null;
                     window.selectedContent      = null;
+                    window.selectedEndPoint      = null;
 
                     //
                     // Set up a reference within this object scope of each model.
@@ -89,6 +92,7 @@ define(
                     window.answerModel    = new answerModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
                     window.contentModel   = new contentModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
                     window.logicModel     = new logicModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.endPointModel  = new endPointModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -120,7 +124,8 @@ define(
                             $('.formSectionOptions').animate({'left': -400}, 250);
                             $('.formQuestionOptions').animate({'left': -400}, 250);
                             $('.formAnswerOptions').animate({'right': -400}, 250);
-                            $('.formContentOptions').animate({'right': -400}, 250);
+                            $('.formContentOptions').animate({'bottom': -400}, 250);
+                            $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
                         }
@@ -130,7 +135,8 @@ define(
                             $('.formSectionOptions').animate({'left': 10}, 250);
                             $('.formQuestionOptions').animate({'left': 10}, 250);
                             $('.formAnswerOptions').animate({'right': 10}, 250);
-                            $('.formContentOptions').animate({'right': 10}, 250);
+                            $('.formContentOptions').animate({'bottom': 10}, 250);
+                            $('.formEndPointOptions').animate({'right': 10}, 250);
                             //$('.formPanelControls').animate({'left': 10}, 250);
 
                         }
@@ -157,6 +163,7 @@ define(
                             window.answerModel.set({'valueDataTypeTemplate': HRT.templates['valueDataTypes.hbs'](window.loadedData)});
                             window.contentModel.set({'contentTypeTemplate': HRT.templates['cmsContentTypes.hbs'](window.loadedData)});
                             window.contentModel.set({'contentCategoryTemplate': HRT.templates['cmsContentCategories.hbs'](window.loadedData)});
+                            window.endPointModel.set({'endPointTypeTemplate': HRT.templates['endPointTypes.hbs'](window.loadedData)});
 
 
                             reportControls = new reportControlsView(
@@ -191,6 +198,13 @@ define(
                                 {
                                     model: window.contentModel,
                                     el: '.formContentOptions'
+                                }
+                            );
+
+                            endPointControls = new endPointControlsView(
+                                {
+                                    model: window.endPointModel,
+                                    el: '.formEndPointOptions'
                                 }
                             );
 
@@ -423,6 +437,7 @@ define(
                         window.selectedSection  = null;
                         window.selectedQuestion = null;
                         window.selectedAnswer   = null;
+                        window.selectedEndPoint = null;
 
                         $('#btnAddAnswer').addClass('hidden');
                         $('#btnShowLogic').addClass('hidden');
@@ -461,6 +476,14 @@ define(
                         );
                         window.contentModel.trigger('change');
 
+
+                        window.endPointModel.set(
+                            {
+                                endPointTitle: ''
+                            }
+                        );
+                        window.endPointModel.trigger('change');
+
                         $('.formQuestionOptions h3').text('Add Question');
                         $('#logic-modal').hide();
 
@@ -493,7 +516,7 @@ define(
                                 window.reportModel.set(
                                     {
                                         reportTitle: attrs.text.text,
-                                        reportCategoryID: cellView.model.get('report_category_id'),
+                                        reportCategoryID: cellView.model.get('report_category_id')
                                     });
 
                                 window.selectedReport = cellView;
@@ -649,21 +672,45 @@ define(
                                 // Check if child is text 'content' model
                                 if (cellView.model.getEmbeddedCells().length) {
 
-                                    //if (cellView.model.getEmbeddedCells()[0].get('ktype') == "content") {
-
-                                        selectChildElement(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]), cellView.model.getEmbeddedCells()[0].get('ktype'));
-
-                                    //}
+                                  selectChildElement(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]), cellView.model.getEmbeddedCells()[0].get('ktype'));
 
                                 }
 
-                                break;
+                            break;
+
+                            case 'endpoint':
+
+                                helpers.resetElementStyles('endpoint');
+
+                                // adjust style of clicked element
+                                attrs = cellView.model.get('attrs');
+                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                cellView.model.set('attrs', attrs);
+                                cellView.render().el;
+
+                                window.endPointModel.set(
+                                    {
+                                        endPointTitle: attrs.text.text,
+                                        endPointTypeID: cellView.model.get('cms_endpoint_type_id')
+                                    });
+
+                                window.selectedEndPoint =  cellView;
+
+                                window.endPointModel.trigger('change');
+
+                                //$('.formQuestionOptions').css('opacity', 1);
+                                //$('#btnQuestionAdd').removeClass('hidden');
+                                //$('#btnAddAnswer').addClass('hidden');
+                                //$('#btnShowLogic').addClass('hidden');
+                                //$('.formQuestionOptions h3').text('Add Question');
+
+                            break;
 
                             default:
 
                                 // link etc?
 
-                                break;
+                            break;
                         }
 
                     });

@@ -58,6 +58,8 @@ define(
                 addContent: function () {
 
 
+                    var contentNumber = this.model.contentArray.length + 1;
+
                     var contentWrapper = new joint.shapes.devs.Model({
                         ktype: 'logicwrapper',
                         position: {
@@ -67,7 +69,7 @@ define(
                         size: {width: layout.content.wrapperSize.width, height: layout.content.wrapperSize.height},
                         attrs: {
                             '.label': {
-                                text: 'CONTENT',
+                                text: 'C ' + contentNumber,
                                 'ref-x': .1,
                                 'ref-y': .1,
                                 'font-size': style.text.fontSize.label
@@ -88,7 +90,7 @@ define(
                     contentWrapper.set('inPorts', ['in']);
                     contentWrapper.set('outPorts', ['out']);
 
-                    var newContentText = $('#contentText').val() == '' ? 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.' : $('#contentText').val();
+                    var newContentText = $('#contentText').val() == '' ? this.model.defaultText : $('#contentText').val();
                     $('#contentText').val(newContentText);
 
                     wraptext = joint.util.breakText(newContentText, {
@@ -124,9 +126,14 @@ define(
 
                     graph.addCells([contentWrapper, content]);
 
+                    this.model.contentArray.push({
+                        id: contentNumber,
+                        element: content.id
+                    });
+
                     contentWrapper.embed(content);
 
-                    window.selectedContent = content;
+                    window.selectedContent = paper.findViewByModel(content);
 
                 },
                 contentUpdate: function (e) {

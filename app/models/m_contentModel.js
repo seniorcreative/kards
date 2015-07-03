@@ -9,11 +9,12 @@ define(
                 contentTypeTemplate: '',
                 contentCategoriesTemplate: '',
                 contentTypeID: '',
-                contentCategoryID: ''
+                contentCategoryID: '',
+                contentArray: [],
+                defaultText: 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.'
             }
         );
 
         return contentModel
-
 
 });

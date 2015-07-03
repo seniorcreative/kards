@@ -4,8 +4,7 @@ define(
         'joint',
         'modules/style',
         'modules/layout',
-        'modules/helpers',
-        'modules/jquery.simplemodal'
+        'modules/helpers'
     ],
 
     function($, Backbone, joint, style, layout, helpers) {
@@ -160,46 +159,6 @@ define(
                             }
                         )
                     }
-
-                },
-                addLogicOutPoint: function()
-                {
-
-                    // Let's add an out port to the parent of the selected answer.
-
-                    //$('#logic-modal').modal();
-
-                    //this.model.set('logicVisible', true);
-
-                    //console.log(this.model, this.model.get('logicVisible'));
-/*
-                    var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
-                    that.loopedElements = paper.findViewsInArea(paperRect);
-
-                    for (var element in that.loopedElements) {
-                        if ((that.loopedElements[element].model.get('ktype') == 'question'))
-                        {
-                            console.log('looping over question ', that.loopedElements[element].model);
-                        }
-                    }
-
-*/
-/*
-                    if (window.selectedAnswer != null) {
-
-                        var parentLogicWrapper = graph.getCell(window.selectedAnswer.model.get('parent'));
-
-                        var newOutports = parentLogicWrapper.attributes.outPorts;
-                        var ar = [];
-                        for (lo in newOutports) {
-                            ar[lo] = newOutports[lo];
-                        }
-
-                        ar.push("out " + (newOutports.length + 1));
-                        parentLogicWrapper.set('outPorts', ar);
-
-                    }
-                    */
 
                 }
             }

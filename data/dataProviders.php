@@ -72,6 +72,17 @@ $json = (object) [
         (object) ['id' => '19','data-symbol' => 'ELSE','label' => 'ELSE', 'data-type' => '2'],
         (object) ['id' => '27','data-symbol' => 'ELSE IF','label' => 'ELSE IF', 'data-type' => '2']
     ],
+    'endPointTypes' =>
+    [
+        (object) ['id' => '1','label' => 'content display'],
+        (object) ['id' => '2','label' => 'question goto'],
+        (object) ['id' => '3','label' => 'answer add'],
+        (object) ['id' => '4','label' => 'logic add'],
+        (object) ['id' => '5','label' => 'section goto'],
+        (object) ['id' => '6','label' => 'outcome add'],
+        (object) ['id' => '7','label' => 'system event'],
+        (object) ['id' => '8','label' => 'report conclude']
+    ],
     'logicOperatorNormal' =>
     [
         (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],

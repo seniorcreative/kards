@@ -236,7 +236,7 @@
 
           <h3>Answer</h3>
 
-          <div class="form-controls  form-controls--width-full">
+          <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-answer">Search (autocomplete)</label>
               <select id="searchFilterAnswer" name="searchFilterAnswer">
                   <option value="">Filter by...</option>
@@ -330,11 +330,11 @@
 
 
 
-      <form method="" action="" class="formContentOptions  faded">
+      <form method="" action="" class="formContentOptions  _faded">
 
           <h3>Content</h3>
 
-          <div class="form-controls  form-controls--width-full">
+          <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-content">Search (autocomplete)</label>
               <select id="searchFilterContent" name="searchFilterContent">
                   <option value="">Filter by...</option>
@@ -351,26 +351,47 @@
               </nav>
           </div>
 
+
+          <div class="form-controls  form-controls--width-full">
+
+              <div id="cmsContentCategoryTemplate"  class="form-controls--inline-left"><!-- Template will be written here --></div>
+              <div id="cmsContentTypeTemplate" class="form-controls--inline-left"><!-- Template will be written here --></div>
+
+          </div>
+
+
           <div class="form-controls  form-controls--width-full">
               <label for="contentText">Content text</label>
-              <textarea id="contentText" name="contentText" rows="12"></textarea>
+              <textarea id="contentText" name="contentText" rows="4"></textarea>
           </div>
 
-          <div class="form-controls  form-controls--width-full">
-
-              <div id="cmsContentCategoryTemplate"><!-- Template will be written here --></div>
-
-          </div>
-
-          <div class="form-controls  form-controls--width-full">
-
-              <div id="cmsContentTypeTemplate"><!-- Template will be written here --></div>
-
-          </div>
 
           <div class="form-controls  form-controls--width-full" >
               <label for="btnAddContent" class="visuallyhidden">Click the button to add the content</label>
               <button type="button" id="btnAddContent" class="button-add">Add content</button>
+          </div>
+
+      </form>
+      
+      <form method="" action="" class="formEndPointOptions  _faded">
+
+          <h3>End points / outcomes</h3>
+
+          <div class="form-controls  form-controls--width-full">
+
+              <div id="endPointTypeTemplate"  class="form-controls--inline-left"><!-- Template will be written here --></div>
+
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="endPointTitle">End point title</label>
+              <textarea id="endPointTitle" name="endPointTitle" rows="4"></textarea>
+          </div>
+
+
+          <div class="form-controls  form-controls--width-full" >
+              <label for="btnAddEndPoint" class="visuallyhidden">Click the button to add the end point</label>
+              <button type="button" id="btnAddEndPoint" class="button-add">Add end point</button>
           </div>
 
       </form>

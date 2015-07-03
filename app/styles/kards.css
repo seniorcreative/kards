@@ -494,7 +494,7 @@ textarea:focus {
 }
 
 html, body {
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   font-size: 16px;
 }
 
@@ -594,6 +594,14 @@ form.formAnswerOptions {
 form.formContentOptions {
   display: block;
   padding: 5px;
+  width: 900px;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -450px;
+}
+form.formEndPointOptions {
+  display: block;
+  padding: 5px;
   width: 275px;
   bottom: 10px;
   right: 10px;
@@ -603,7 +611,7 @@ form h3 {
   margin: 4px 0 2px 0;
 }
 form input {
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   padding: 3px 2px;
   font-size: 1.1em;
   color: #555;
@@ -611,8 +619,11 @@ form input {
   border-radius: 2px;
   background-color: #CFF6F4;
 }
+form input[type="text"] {
+  width: 265px;
+}
 form textarea {
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   padding: 3px 2px;
   width: 100%;
   font-size: 1.1em;
@@ -629,7 +640,7 @@ form button {
   color: white;
   background-color: #222;
   margin: 2px 0 0 0;
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   font-size: 1.1em;
 }
 form label {
@@ -662,6 +673,12 @@ form div.form-controls--width-half {
 }
 form div.form-controls--width-half input {
   width: 75px;
+}
+form div.form-controls--inline-left {
+  display: inline-block;
+  float: left;
+  margin-right: 20px;
+  padding: 5px 0;
 }
 form .pull-left {
   float: left;

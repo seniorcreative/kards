@@ -46,7 +46,7 @@ define(
                 },
                 addSection: function()
                 {
-                    var newSectionTitle = $('#sectionTitle').val() == '' ? 'New section *' : $('#sectionTitle').val();
+                    var newSectionTitle = $('#sectionTitle').val() == '' ? this.model.sectionTitle : $('#sectionTitle').val();
                     $('#sectionTitle').val(newSectionTitle);
 
                     helpers.resetElementStyles('section');
@@ -56,12 +56,14 @@ define(
                         height: layout.section.size.height
                     });
 
+                    var sectionNumber = this.model.sections.length + 1;
+
                     var section = new joint.shapes.devs.Model({
                         ktype: 'section',
                         position: { x: parseInt(layout.stage.centerX + layout.section.startX), y: parseInt(layout.section.startY) }, // layout.stage.centerX - (layout.section.size.width / 2), layout.stage.centerY - (layout.section.size.height / 2)
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
-                            '.label': { text: 'S', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
+                            '.label': { text: 'S ' + sectionNumber, 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
                                 fill: style.node.fill.normal,
                                 'fill-opacity': style.node.fillOpacity.normal,
@@ -85,20 +87,30 @@ define(
 
                     graph.addCells([section]);
 
-                    //console.log('try to add link from ',section.id,'to', window.selectedReport.model.get('id'));
+                    // Add question to questions model.
 
-                    var link = new joint.shapes.devs.Link({
-                        source: {
-                            id: section.id,
-                            port: 'in'
-                        },
-                        target: {
-                            id: window.selectedReport.model.get('id'),
-                            port: 'out'
-                        }
+                    this.model.sections.push({
+                        id: sectionNumber,
+                        element: section.id
                     });
-                    // Assume graph has the srcModel and dstModel with in and out ports.
-                    graph.addCell(link);
+
+                    //console.log('try to add link from ',section.id,'to', window.selectedReport.model.get('id'));
+                    if (sectionNumber == 1) {
+
+                        var link = new joint.shapes.devs.Link({
+                            source: {
+                                id: section.id,
+                                port: 'in'
+                            },
+                            target: {
+                                id: window.selectedReport.model.get('id'),
+                                port: 'out'
+                            }
+                        });
+                        // Assume graph has the srcModel and dstModel with in and out ports.
+                        graph.addCell(link);
+
+                    }
 
                     window.selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
 
