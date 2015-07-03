@@ -95,7 +95,7 @@ define(
                     this.model.set('questionValue', newQuestionText);
 
                     newQuestionX = parseInt(layout.stage.centerX - ((layout.question[layout.get('newQuestionType')].qSize.width)/2));
-                    newQuestionY = parseInt(layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2));
+                    newQuestionY = parseInt(layout.stage.centerY - layout.question[layout.get('newQuestionType')].qSize.height - (layout.logicCenterHeight / 2) + 5);
 
                     //console.log('newQuestionY ', newQuestionY);
                     helpers.resetElementStyles('question');
@@ -147,7 +147,8 @@ define(
                     var mca = 0;
                     var newY =  parseInt(layout.stage.centerY + (layout.logicCenterHeight / 2));
                     var answerWidth = layout.question[layout.get('newQuestionType')].aSize.width;
-
+                       // Let's reset the list of all the answers.
+                    layout.question[layout.get('newQuestionType')].answers = [];
 
                     switch(layout.get('newQuestionType'))
                     {
@@ -172,6 +173,7 @@ define(
 
                             // calculate the answer positions.
                             helpers.setTotalWidthAnswers(numAnswers, answerWidth);
+
 
                             for (mca = 0; mca < numAnswers; mca++)
                             {
@@ -233,6 +235,8 @@ define(
                             var numericStep = parseInt(this.$('#questionNumStep').val());
                             var step = numericStep;
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
+
+                            console.log('num answers ', numAnswers);
 
                             // Initial loop
                             for (mca = 0; mca < numAnswers; mca++) {
@@ -329,6 +333,8 @@ define(
                     //var questionModelArray = this.model.get('questions');
 
                     var answerValues = this.model.answerValues;
+
+                    //console.log('adding answer loop', layout.question[layout.get('newQuestionType')].answers.length, layout.get('newQuestionType'));
 
                     for (var a=0; a < layout.question[layout.get('newQuestionType')].answers.length; a++) {
 
@@ -433,6 +439,8 @@ define(
                 },
                 questionUpdate: function(e)
                 {
+
+                    this.model.set('questionValue', this.$(e.target).val());
 
                     if (window.selectedQuestion != null)
                     {
