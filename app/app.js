@@ -128,6 +128,8 @@ define(
                             $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
+                            console.log(JSON.stringify(graph.toJSON()));
+
                         }
                         else
                         {
@@ -501,7 +503,9 @@ define(
 
                                 $('.formQuestionOptions h3').text('Add Question');
 
-                                break;
+                                $('#sectionTitle').focus();
+
+                            break;
 
                             case 'question':
 
@@ -616,12 +620,15 @@ define(
                                 $('.formAnswerOptions h3').text('Edit Answer - Q'+ window.selectedQuestion.model.get('questionNumber') +', A' + window.selectedAnswer.model.get('answerNumber'));
                                 //$('#logic-modal').show();
 
+                                $('#answerLabel').focus();
 
                                 break;
 
                             case 'content':
 
                                 selectChildElement(cellView, 'content');
+
+                                $('#contentText').focus();
 
                                 break;
 
@@ -656,11 +663,7 @@ define(
 
                                 window.endPointModel.trigger('change');
 
-                                //$('.formQuestionOptions').css('opacity', 1);
-                                //$('#btnQuestionAdd').removeClass('hidden');
-                                //$('#btnAddAnswer').addClass('hidden');
-                                //$('#btnShowLogic').addClass('hidden');
-                                //$('.formQuestionOptions h3').text('Add Question');
+                                $('#endPointTitle').focus();
 
                             break;
 
