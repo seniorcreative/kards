@@ -101,7 +101,7 @@ define(
 
                     // Disable the add button.
                     this.$('#btnAddReport').attr('disabled', 'disabled');
-                    this.$('#btnAddReport').slideUp('slow');
+                    this.$('#btnAddReport').addClass('hidden');
 
                     window.selectedReport = paper.findViewByModel(report); // Assign the selected report after it is first added.
 
@@ -165,16 +165,32 @@ define(
 
                                 graph.fromJSON(data.chartLayout);
 
-                                window.selectedReport = paper.findViewByModel(data.selectedReport.id);
-                                window.selectedSection = paper.findViewByModel(data.selectedSection.id);
-                                window.selectedQuestion = paper.findViewByModel(data.selectedQuestion.id);
-                                window.selectedAnswer = paper.findViewByModel(data.selectedAnswer.id);
-                                window.selectedContent = paper.findViewByModel(data.selectedContent.id);
-                                window.selectedEndPoint = paper.findViewByModel(data.selectedEndPoint.id);
+                                 if (data.selectedReport != undefined) window.selectedReport = paper.findViewByModel(data.selectedReport.id);
+                                 if (data.selectedSection != undefined) window.selectedSection = paper.findViewByModel(data.selectedSection.id);
+                                 if (data.selectedQuestion != undefined) window.selectedQuestion = paper.findViewByModel(data.selectedQuestion.id);
+                                 if (data.selectedAnswer != undefined) window.selectedAnswer = paper.findViewByModel(data.selectedAnswer.id);
+                                 if (data.selectedContent != undefined) window.selectedContent = paper.findViewByModel(data.selectedContent.id);
+                                 if (data.selectedEndPoint != undefined) window.selectedEndPoint = paper.findViewByModel(data.selectedEndPoint.id);
 
-                                window.questionModel.questions      = data.questions;
-                                window.questionModel.answerValues   = data.answers;
-                                window.logicModel.questionLogic     = data.logic;
+                                 if (data.questions) window.questionModel.questions      = data.questions;
+                                 if (data.answers)window.questionModel.answerValues   = data.answers;
+                                 if (data.logic) window.logicModel.questionLogic     = data.logic;
+
+                                 paper.scale(data.paper.scaleX, data.paper.scaleY); // set scale from saved settings
+                                 paper.setOrigin(data.paper.originX, data.paper.originY);
+                                 paper.setDimensions(data.paper.width, data.paper.height);
+                                 paper.options.gridSize = data.paper.gridSize;
+
+                                 //paper.options = data.paper.options; // set other options (grid etc) from saved paper settings
+
+
+                                 $('#btnAddReport').attr('disabled', 'disabled');
+                                 $('#btnAddReport').addClass('hidden');
+
+                                 //$('.formSectionOptions').css('opacity', 1);
+                                 //$('.formSectionOptions').css('pointer-events', 'auto');
+
+                                 $('#btnSaveReport').removeClass('hidden');
 
                              }
                          });
@@ -200,11 +216,20 @@ define(
                     jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
                     jsonSaveObject += "\"logic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
 
+                    jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";
+                    jsonSaveObject += "\"originX\": "+ $('#ox').val() +",\"originY\": "+ $('#oy').val() +",";
+                    jsonSaveObject += "\"width\": "+ $('#width').val() +",\"height\": "+ $('#height').val() +",";
+                    jsonSaveObject += "\"gridSize\": "+ $('#grid').val() + "},";
+
                     jsonSaveObject += "\"chartLayout\": " + JSON.stringify(graph.toJSON()) + " ";
 
                     jsonSaveObject += "}";
 
+                    //console.log('paper scale', paper.options);
+
                     console.log(jsonSaveObject);
+
+
 
                 }
             }

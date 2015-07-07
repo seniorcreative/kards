@@ -275,11 +275,13 @@ function(joint) {
 
             scale: function(sx, sy) {
 
-                $sx.val(sx).next().text(sx.toFixed(2));
-                $sy.val(sy).next().text(sy.toFixed(2));
+                if (sx && sy) {
+                    $sx.val(sx).next().text(sx.toFixed(2));
+                    $sy.val(sy).next().text(sy.toFixed(2));
 
-                var grid = $grid.val();
-                paper.$el.css('background-image', 'url("' + getGridBackgroundImage(grid * sx, grid * sy) + '")');
+                    var grid = $grid.val();
+                    paper.$el.css('background-image', 'url("' + getGridBackgroundImage(grid * sx, grid * sy) + '")');
+                }
 
                 svgContainer.hideAll();
             },

@@ -536,7 +536,7 @@ define(
                                 window.selectedQuestion =  cellView;
                                 window.questionModel.trigger('change');
 
-                                //console.log('selected question', cellView);
+                                console.log('selected question', cellView);
 
                                 $('.formQuestionOptions').css('opacity', 1);
                                 $('.formQuestionOptions').css('pointer-events', 'auto');
