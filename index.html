@@ -49,9 +49,21 @@
               <button type="button" id="btnAddReport" class="button-add">Add report</button>
           </div>
 
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnSaveReport" class="button-add  hidden">Save report</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <select id="reportJSON" name="reportJSON" size="1">
+                  <option value="">Select a report to load</option>
+                  <option value="cervicalcancerscreening.json">Cervical cancer screening</option>
+                  <option value="test.json">Test swap</option>
+              </select>
+          </div>
+
       </form>
 
-      <form method="" action="" class="formSectionOptions  faded">
+      <form method="" action="" class="formSectionOptions  _faded">
 
           <h3>Section</h3>
 
@@ -81,7 +93,7 @@
 
           <h3>Question</h3>
 
-          <div class="form-controls  form-controls--width-full">
+          <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-question">Search (autocomplete)</label>
               <select id="searchFilterQuestion" name="searchFilterQuestion">
                   <option value="">Filter by...</option>
@@ -199,12 +211,12 @@
                           <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
                           <output for="sy"></output>
                       </div>
-                      <div class="form-group  visuallyhidden">
+                      <div class="form-group  ">
                           <label for="width" data-tooltip="Width of the paper in pixels">Width</label>
                           <input id="width" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
                           <output for="width"></output>
                       </div>
-                      <div class="form-group  visuallyhidden">
+                      <div class="form-group  ">
                           <label for="height" data-tooltip="Height of the paper in pixels">Height</label>
                           <input id="height" class="form-control" type="range" value="2400" min="100" max="6000" autocomplete="off">
                           <output for="height"></output>

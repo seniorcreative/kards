@@ -138,6 +138,9 @@ define(
                 },
                 contentUpdate: function (e) {
 
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
+                    this.model.set('contentText', this.$(e.target).val());
+
                     if (window.selectedContent != null) {
                         attrs = window.selectedContent.model.get('attrs');
 

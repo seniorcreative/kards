@@ -76,6 +76,8 @@ define(
 
                     var questionLogic = window.logicModel.questionLogic;
 
+                    console.log('window.selectedQuestion ', window.selectedQuestion);
+
                     var selectedQuestionRules = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules;
 
                     // loop each rule.
@@ -87,7 +89,7 @@ define(
 
                         ruleObj = selectedQuestionRules[r];
 
-                        console.log('looking at rule', r, selectedQuestionRules[r]);
+                        //console.log('looking at rule', r, selectedQuestionRules[r]);
 
                         $('#rule_'+r+'_sortindex').val(ruleObj.sortIndex);
                         $('#rule_'+r+'_prefixoperator').val(ruleObj.prefixOperator);

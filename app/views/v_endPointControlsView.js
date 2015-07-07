@@ -109,6 +109,9 @@ define(
                 },
                 endPointUpdate: function (e) {
 
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
+                    this.model.set('endPointTitle', this.$(e.target).val());
+
                     if (window.selectedEndPoint != null) {
                         attrs = window.selectedEndPoint.model.get('attrs');
 

@@ -1,0 +1,1054 @@
+{
+    "reportTitle": "New report *",
+    "selectedReport": {
+        "type": "devs.Model",
+        "size": {
+            "width": 200,
+            "height": 75
+        },
+        "inPorts": [""],
+        "outPorts": ["out"],
+        "position": {
+            "x": 565,
+            "y": 100
+        },
+        "angle": 0,
+        "ktype": "report",
+        "reportFull": "New report *",
+        "report_category_id": "1",
+        "interactive": true,
+        "id": "e1e5c6c5-6d5b-40ae-8ef9-8a220ac71bb1",
+        "z": 1,
+        "attrs": {
+            "text": {
+                "text": "New report *",
+                "fill": "rgb(0,0,0)"
+            },
+            ".label": {
+                "text": "R",
+                "ref-x": 0.1,
+                "ref-y": 0.1,
+                "font-size": "8px"
+            },
+            "rect": {
+                "fill": "rgb(255,255,255)",
+                "fill-opacity": 1,
+                "stroke-width": 2,
+                "stroke": "rgb(0,0,0)",
+                "stroke-opacity": 1,
+                "stroke-dasharray": "2,3",
+                "style": {
+                    "pointer-events": ""
+                }
+            },
+            ".inPorts circle": {
+                "fill": "rgba(0,0,0,0)",
+                "stroke": "rgba(0,0,0,0)",
+                "style": {
+                    "pointer-events": "none"
+                }
+            },
+            ".outPorts circle": {
+                "fill": "#cccccc"
+            },
+            ".inPorts>.port0>.port-label": {
+                "text": ""
+            },
+            ".inPorts>.port0>.port-body": {
+                "port": {
+                    "id": "in5",
+                    "type": "in"
+                }
+            },
+            ".inPorts>.port0": {
+                "ref": ".body",
+                "ref-x": 0.5
+            },
+            ".outPorts>.port0>.port-label": {
+                "text": "out"
+            },
+            ".outPorts>.port0>.port-body": {
+                "port": {
+                    "id": "out",
+                    "type": "out"
+                }
+            },
+            ".outPorts>.port0": {
+                "ref": ".body",
+                "ref-x": 0.5,
+                "ref-dy": 0
+            }
+        }
+    },
+    "selectedSection": {
+        "type": "devs.Model",
+        "size": {
+            "width": 120,
+            "height": 75
+        },
+        "inPorts": ["in"],
+        "outPorts": ["out"],
+        "position": {
+            "x": 415,
+            "y": 200
+        },
+        "angle": 0,
+        "ktype": "section",
+        "sectionFull": "New section *",
+        "interactive": true,
+        "id": "ca8ad882-27af-4a4a-92df-6c7a6530a859",
+        "z": 2,
+        "attrs": {
+            "text": {
+                "text": "New section *",
+                "fill": "rgb(0,0,0)"
+            },
+            ".label": {
+                "text": "S 1",
+                "ref-x": 0.1,
+                "ref-y": 0.1,
+                "font-size": "8px"
+            },
+            "rect": {
+                "fill": "rgb(255,255,255)",
+                "fill-opacity": 1,
+                "stroke-width": 2,
+                "stroke": "rgb(0,0,0)",
+                "stroke-dasharray": "2,3",
+                "style": {
+                    "pointer-events": ""
+                }
+            },
+            ".inPorts circle": {
+                "fill": "#cccccc"
+            },
+            ".outPorts circle": {
+                "fill": "#cccccc"
+            },
+            ".inPorts>.port0>.port-label": {
+                "text": "in"
+            },
+            ".inPorts>.port0>.port-body": {
+                "port": {
+                    "id": "in",
+                    "type": "in"
+                }
+            },
+            ".inPorts>.port0": {
+                "ref": ".body",
+                "ref-x": 0.5
+            },
+            ".outPorts>.port0>.port-label": {
+                "text": "out"
+            },
+            ".outPorts>.port0>.port-body": {
+                "port": {
+                    "id": "out",
+                    "type": "out"
+                }
+            },
+            ".outPorts>.port0": {
+                "ref": ".body",
+                "ref-x": 0.5,
+                "ref-dy": 0
+            }
+        }
+    },
+    "selectedQuestion": {
+        "type": "html.Element",
+        "position": {
+            "x": 510,
+            "y": 438
+        },
+        "size": {
+            "width": 120,
+            "height": 75
+        },
+        "angle": 0,
+        "ktype": "question",
+        "questionFull": "boolean question *",
+        "questionNumber": 1,
+        "question_type_id": 1,
+        "question_variable_type_id": 1,
+        "ehr_datapoint_id": null,
+        "logic": {
+            "rules": [{
+                "ruleCompiled": "<div id=\"rule-1\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_1_sortindex\">\n                <input type=\"number\" value=\"1\" class=\"short\" name=\"rule_1_sortindex\" id=\"rule_1_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_1_prefixoperator\" id=\"rule_1_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-1\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_1_suffixoperator\" id=\"rule_1_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_1_suffixansweroperands\" id=\"rule_1_suffixansweroperands\" size=\"5\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_1_suffixcustomvaluetype\" id=\"rule_1_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_1_suffixcustomvalue\" id=\"rule_1_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
+                "calculationBlocksCompiled": ["<div id=\"calculation-1\" class=\"calculationBlockWrapper\">\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_1_calculationblock_1_calculationoperator\" id=\"rule_1_calculationblock_1_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_1_calculationblock_1_questionoperand\" id=\"rule_1_calculationblock_1_questionoperand\" size=\"5\" data-calculation-control=\"questionoperand\" multiple>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"911a579f-a848-4084-9274-f09e19150400\" data-parent=\"a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_1_calculationblock_1_operandcustomvaluetype\" id=\"rule_1_calculationblock_1_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_1_calculationblock_1_operandcustomvalue\" id=\"rule_1_calculationblock_1_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>"]
+            }, {
+                "ruleCompiled": "<div id=\"action-1\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_2_sortindex\">\n            <input type=\"number\" value=\"2\" class=\"short\" name=\"rule_2_sortindex\" id=\"rule_2_sortindex\">\n        </label>\n\n    </div>\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic 1 - out 1</span>\n        </div>\n\n    </div>\n\n</div>",
+                "calculationBlocksCompiled": []
+            }]
+        },
+        "choices_accepted": 1,
+        "id": "911a579f-a848-4084-9274-f09e19150400",
+        "z": -1,
+        "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+        "attrs": {
+            "rect": {
+                "stroke": "rgb(0,0,0)",
+                "fill-opacity": 1,
+                "fill": "rgb(255,255,255)",
+                "stroke-width": 2,
+                "stroke-dasharray": "2,3",
+                "style": {
+                    "pointer-events": ""
+                }
+            },
+            "text": {
+                "text": "boolean\nquestion *",
+                "fill": "rgb(0,0,0)"
+            },
+            ".label": {
+                "text": "Q1",
+                "ref-x": 0.1,
+                "ref-y": 0.1,
+                "font-size": "8px"
+            }
+        }
+    },
+    "selectedAnswer": {
+        "type": "html.Element",
+        "position": {
+            "x": 580,
+            "y": 528
+        },
+        "size": {
+            "width": 120,
+            "height": 50
+        },
+        "angle": 0,
+        "ktype": "answer",
+        "answerFull": "no",
+        "answer_value_datatype_id": 2,
+        "answer_value": 0,
+        "answer_parent_question": "911a579f-a848-4084-9274-f09e19150400",
+        "ehr_datapoint_id": "",
+        "answerNumber": 2,
+        "id": "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1",
+        "z": 6,
+        "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+        "attrs": {
+            "rect": {
+                "stroke": "rgb(0,0,0)",
+                "fill-opacity": 1,
+                "fill": "rgb(255,255,255)",
+                "stroke-width": 2,
+                "style": {
+                    "pointer-events": ""
+                },
+                "stroke-dasharray": "2,3"
+            },
+            "text": {
+                "text": "no",
+                "fill": "rgb(0,0,0)"
+            },
+            ".label": {
+                "text": "A2",
+                "ref-x": 0.1,
+                "ref-y": 0.1,
+                "font-size": "8px"
+            }
+        }
+    },
+    "selectedContent": {
+        "type": "html.Element",
+        "position": {
+            "x": 435,
+            "y": 810
+        },
+        "size": {
+            "width": 320,
+            "height": 90
+        },
+        "angle": 0,
+        "ktype": "content",
+        "contentFull": "lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.",
+        "interactive": false,
+        "cms_content_type_id": 1,
+        "cms_content_category_id": 1,
+        "id": "f2b82900-34ad-4ba1-9131-dc99ea23a9b3",
+        "z": 11,
+        "parent": "3ee32f15-1aa5-4b0a-9a31-699e0629940f",
+        "attrs": {
+            "rect": {
+                "stroke": "rgb(0,0,0)",
+                "fill-opacity": 1,
+                "fill": "rgb(255,255,255)",
+                "stroke-width": 2,
+                "stroke-dasharray": "2,3",
+                "style": {
+                    "pointer-events": ""
+                }
+            },
+            "text": {
+                "text": "lorem ipsum dolor sit amet nonummy\nnunquam necessit dolor ad pisicing.\nlorem ipsum dolor sit amet nonummy...",
+                "fill": "rgb(0,0,0)"
+            }
+        }
+    },
+    "selectedEndPoint": {
+        "type": "devs.Model",
+        "size": {
+            "width": 180,
+            "height": 100
+        },
+        "inPorts": ["in"],
+        "outPorts": [],
+        "position": {
+            "x": 810,
+            "y": 795
+        },
+        "angle": 0,
+        "ktype": "endpoint",
+        "endPointFull": "New endpoint *",
+        "interactive": false,
+        "cms_endpoint_type_id": 1,
+        "id": "0a2fb479-c97d-491b-977d-2ed597f99e4d",
+        "z": 12,
+        "attrs": {
+            "text": {
+                "text": "New endpoint *...",
+                "fill": "rgb(0,0,0)"
+            },
+            ".label": {
+                "text": "E 1",
+                "ref-x": 0.1,
+                "ref-y": 0.1,
+                "font-size": "8px"
+            },
+            "rect": {
+                "fill": "rgb(255,255,255)",
+                "fill-opacity": 1,
+                "stroke-width": 2,
+                "stroke": "rgb(0,0,0)",
+                "stroke-dasharray": "2,3",
+                "style": {
+                    "pointer-events": ""
+                }
+            },
+            ".inPorts circle": {
+                "fill": "#cccccc"
+            },
+            ".outPorts circle": {
+                "fill": "#cccccc"
+            },
+            ".inPorts>.port0>.port-label": {
+                "text": "in"
+            },
+            ".inPorts>.port0>.port-body": {
+                "port": {
+                    "id": "in",
+                    "type": "in"
+                }
+            },
+            ".inPorts>.port0": {
+                "ref": ".body",
+                "ref-x": 0.5
+            }
+        }
+    },
+    "questions": [{
+        "id": 1,
+        "element": "911a579f-a848-4084-9274-f09e19150400",
+        "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b"
+    }],
+    "answers": {
+        "1": {
+            "1": {
+                "qid": 1,
+                "id": 1,
+                "label": "Q1, A1 - (yes...)",
+                "element": "67349d0a-fb8c-42c4-8f43-e8db3d9f0a77"
+            },
+            "2": {
+                "qid": 1,
+                "id": 2,
+                "label": "Q1, A2 - (no...)",
+                "element": "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1"
+            }
+        }
+    },
+    "logic": {
+        "1": {
+            "rules": {
+                "1": {
+                    "sortIndex": 1,
+                    "prefixOperator": "1",
+                    "calculationBlocks": {
+                        "1": {
+                            "sortIndex": 1,
+                            "calculationOperator": "27",
+                            "questionOperand": "1",
+                            "customValueType": 1,
+                            "customValue": ""
+                        }
+                    },
+                    "suffixOperator": "27",
+                    "suffixAnswerOperands": ["1_2"],
+                    "suffixCustomValueType": 1,
+                    "suffixCustomValue": ""
+                }
+            }
+        }
+    },
+    "chartLayout": {
+        "cells": [{
+            "type": "devs.Model",
+            "size": {
+                "width": 300,
+                "height": 225
+            },
+            "inPorts": ["in"],
+            "outPorts": ["out 1"],
+            "position": {
+                "x": 420,
+                "y": 405
+            },
+            "angle": 0,
+            "ktype": "logicwrapper",
+            "id": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+            "z": -2,
+            "embeds": ["911a579f-a848-4084-9274-f09e19150400", "67349d0a-fb8c-42c4-8f43-e8db3d9f0a77", "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1"],
+            "originalPosition": {
+                "x": 420,
+                "y": 405
+            },
+            "originalSize": {
+                "width": 300,
+                "height": 225
+            },
+            "attrs": {
+                ".label": {
+                    "text": "LOGIC",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                },
+                "rect": {
+                    "fill": "rgb(255,255,255)",
+                    "fill-opacity": 0.5,
+                    "stroke-width": 2,
+                    "stroke": "rgb(0,0,0)",
+                    "stroke-dasharray": "",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                ".inPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".outPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".inPorts>.port0>.port-label": {
+                    "text": "in"
+                },
+                ".inPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "in",
+                        "type": "in"
+                    }
+                },
+                ".inPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5
+                },
+                ".outPorts>.port0>.port-label": {
+                    "text": "out 1"
+                },
+                ".outPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "out 1",
+                        "type": "out"
+                    }
+                },
+                ".outPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5,
+                    "ref-dy": 0
+                }
+            }
+        }, {
+            "type": "html.Element",
+            "position": {
+                "x": 510,
+                "y": 438
+            },
+            "size": {
+                "width": 120,
+                "height": 75
+            },
+            "angle": 0,
+            "ktype": "question",
+            "questionFull": "boolean question *",
+            "questionNumber": 1,
+            "question_type_id": 1,
+            "question_variable_type_id": 1,
+            "ehr_datapoint_id": null,
+            "logic": {
+                "rules": [{
+                    "ruleCompiled": "<div id=\"rule-1\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_1_sortindex\">\n                <input type=\"number\" value=\"1\" class=\"short\" name=\"rule_1_sortindex\" id=\"rule_1_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_1_prefixoperator\" id=\"rule_1_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-1\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_1_suffixoperator\" id=\"rule_1_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_1_suffixansweroperands\" id=\"rule_1_suffixansweroperands\" size=\"5\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_1_suffixcustomvaluetype\" id=\"rule_1_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_1_suffixcustomvalue\" id=\"rule_1_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
+                    "calculationBlocksCompiled": ["<div id=\"calculation-1\" class=\"calculationBlockWrapper\">\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_1_calculationblock_1_calculationoperator\" id=\"rule_1_calculationblock_1_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_1_calculationblock_1_questionoperand\" id=\"rule_1_calculationblock_1_questionoperand\" size=\"5\" data-calculation-control=\"questionoperand\" multiple>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"911a579f-a848-4084-9274-f09e19150400\" data-parent=\"a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_1_calculationblock_1_operandcustomvaluetype\" id=\"rule_1_calculationblock_1_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_1_calculationblock_1_operandcustomvalue\" id=\"rule_1_calculationblock_1_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>"]
+                }, {
+                    "ruleCompiled": "<div id=\"action-1\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_2_sortindex\">\n            <input type=\"number\" value=\"2\" class=\"short\" name=\"rule_2_sortindex\" id=\"rule_2_sortindex\">\n        </label>\n\n    </div>\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic 1 - out 1</span>\n        </div>\n\n    </div>\n\n</div>",
+                    "calculationBlocksCompiled": []
+                }]
+            },
+            "choices_accepted": 1,
+            "id": "911a579f-a848-4084-9274-f09e19150400",
+            "z": -1,
+            "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+            "attrs": {
+                "rect": {
+                    "stroke": "rgb(0,0,0)",
+                    "fill-opacity": 1,
+                    "fill": "rgb(255,255,255)",
+                    "stroke-width": 2,
+                    "stroke-dasharray": "2,3",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                "text": {
+                    "text": "boolean\nquestion *",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "Q1",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                }
+            }
+        }, {
+            "type": "devs.Model",
+            "size": {
+                "width": 200,
+                "height": 75
+            },
+            "inPorts": [""],
+            "outPorts": ["out"],
+            "position": {
+                "x": 565,
+                "y": 100
+            },
+            "angle": 0,
+            "ktype": "report",
+            "reportFull": "New report *",
+            "report_category_id": "1",
+            "interactive": true,
+            "id": "e1e5c6c5-6d5b-40ae-8ef9-8a220ac71bb1",
+            "z": 1,
+            "attrs": {
+                "text": {
+                    "text": "New report *",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "R",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                },
+                "rect": {
+                    "fill": "rgb(255,255,255)",
+                    "fill-opacity": 1,
+                    "stroke-width": 2,
+                    "stroke": "rgb(0,0,0)",
+                    "stroke-opacity": 1,
+                    "stroke-dasharray": "2,3",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                ".inPorts circle": {
+                    "fill": "rgba(0,0,0,0)",
+                    "stroke": "rgba(0,0,0,0)",
+                    "style": {
+                        "pointer-events": "none"
+                    }
+                },
+                ".outPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".inPorts>.port0>.port-label": {
+                    "text": ""
+                },
+                ".inPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "in5",
+                        "type": "in"
+                    }
+                },
+                ".inPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5
+                },
+                ".outPorts>.port0>.port-label": {
+                    "text": "out"
+                },
+                ".outPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "out",
+                        "type": "out"
+                    }
+                },
+                ".outPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5,
+                    "ref-dy": 0
+                }
+            }
+        }, {
+            "type": "devs.Model",
+            "size": {
+                "width": 120,
+                "height": 75
+            },
+            "inPorts": ["in"],
+            "outPorts": ["out"],
+            "position": {
+                "x": 415,
+                "y": 200
+            },
+            "angle": 0,
+            "ktype": "section",
+            "sectionFull": "New section *",
+            "interactive": true,
+            "id": "ca8ad882-27af-4a4a-92df-6c7a6530a859",
+            "z": 2,
+            "attrs": {
+                "text": {
+                    "text": "New section *",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "S 1",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                },
+                "rect": {
+                    "fill": "rgb(255,255,255)",
+                    "fill-opacity": 1,
+                    "stroke-width": 2,
+                    "stroke": "rgb(0,0,0)",
+                    "stroke-dasharray": "2,3",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                ".inPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".outPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".inPorts>.port0>.port-label": {
+                    "text": "in"
+                },
+                ".inPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "in",
+                        "type": "in"
+                    }
+                },
+                ".inPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5
+                },
+                ".outPorts>.port0>.port-label": {
+                    "text": "out"
+                },
+                ".outPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "out",
+                        "type": "out"
+                    }
+                },
+                ".outPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5,
+                    "ref-dy": 0
+                }
+            }
+        }, {
+            "type": "devs.Link",
+            "smooth": true,
+            "source": {
+                "id": "ca8ad882-27af-4a4a-92df-6c7a6530a859",
+                "port": "in"
+            },
+            "target": {
+                "id": "e1e5c6c5-6d5b-40ae-8ef9-8a220ac71bb1",
+                "port": "out"
+            },
+            "id": "ec9ff725-ecd9-48b7-9bb8-6577d066ffbb",
+            "z": 3,
+            "attrs": {}
+        }, {
+            "type": "html.Element",
+            "position": {
+                "x": 440,
+                "y": 528
+            },
+            "size": {
+                "width": 120,
+                "height": 50
+            },
+            "angle": 0,
+            "ktype": "answer",
+            "answerFull": "yes",
+            "answer_value_datatype_id": 2,
+            "answer_value": 1,
+            "answer_parent_question": "911a579f-a848-4084-9274-f09e19150400",
+            "ehr_datapoint_id": "",
+            "answerNumber": 1,
+            "id": "67349d0a-fb8c-42c4-8f43-e8db3d9f0a77",
+            "z": 4,
+            "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+            "attrs": {
+                "rect": {
+                    "stroke": "rgb(0,0,0)",
+                    "fill-opacity": 1,
+                    "fill": "rgb(255,255,255)",
+                    "stroke-width": 2,
+                    "style": {
+                        "pointer-events": ""
+                    },
+                    "stroke-dasharray": ""
+                },
+                "text": {
+                    "text": "yes",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "A1",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                }
+            }
+        }, {
+            "type": "link",
+            "source": {
+                "id": "911a579f-a848-4084-9274-f09e19150400"
+            },
+            "target": {
+                "id": "67349d0a-fb8c-42c4-8f43-e8db3d9f0a77"
+            },
+            "smooth": true,
+            "id": "3ba05193-46fd-49f9-84b1-7f036e980e89",
+            "z": 5,
+            "attrs": {}
+        }, {
+            "type": "html.Element",
+            "position": {
+                "x": 580,
+                "y": 528
+            },
+            "size": {
+                "width": 120,
+                "height": 50
+            },
+            "angle": 0,
+            "ktype": "answer",
+            "answerFull": "no",
+            "answer_value_datatype_id": 2,
+            "answer_value": 0,
+            "answer_parent_question": "911a579f-a848-4084-9274-f09e19150400",
+            "ehr_datapoint_id": "",
+            "answerNumber": 2,
+            "id": "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1",
+            "z": 6,
+            "parent": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+            "attrs": {
+                "rect": {
+                    "stroke": "rgb(0,0,0)",
+                    "fill-opacity": 1,
+                    "fill": "rgb(255,255,255)",
+                    "stroke-width": 2,
+                    "style": {
+                        "pointer-events": ""
+                    },
+                    "stroke-dasharray": "2,3"
+                },
+                "text": {
+                    "text": "no",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "A2",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                }
+            }
+        }, {
+            "type": "link",
+            "source": {
+                "id": "911a579f-a848-4084-9274-f09e19150400"
+            },
+            "target": {
+                "id": "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1"
+            },
+            "smooth": true,
+            "id": "aa88eea4-cab6-43ed-9041-83ecf749ca43",
+            "z": 7,
+            "attrs": {}
+        }, {
+            "type": "link",
+            "source": {
+                "id": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "in"
+            },
+            "target": {
+                "id": "ca8ad882-27af-4a4a-92df-6c7a6530a859",
+                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "out"
+            },
+            "smooth": true,
+            "id": "bfbf1d2a-1d2e-4248-a05a-3723d7b6a218",
+            "embeds": "",
+            "z": 8,
+            "attrs": {
+                ".connection": {
+                    "stroke-width": 5,
+                    "stroke-linecap": "round",
+                    "opacity": 0.5
+                }
+            }
+        }, {
+            "type": "devs.Link",
+            "smooth": true,
+            "source": {
+                "id": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+                "port": "out 1"
+            },
+            "target": {
+                "id": "50b1d916-be5b-4c61-bc94-b03c2e5f4bb1"
+            },
+            "id": "e020e0e1-d632-4d33-ab0b-5743e07d62e4",
+            "z": 9,
+            "attrs": {}
+        }, {
+            "type": "devs.Model",
+            "size": {
+                "width": 350,
+                "height": 150
+            },
+            "inPorts": ["in"],
+            "outPorts": ["out"],
+            "position": {
+                "x": 420,
+                "y": 780
+            },
+            "angle": 0,
+            "ktype": "logicwrapper",
+            "id": "3ee32f15-1aa5-4b0a-9a31-699e0629940f",
+            "z": 10,
+            "embeds": ["f2b82900-34ad-4ba1-9131-dc99ea23a9b3"],
+            "originalPosition": {
+                "x": 420,
+                "y": 780
+            },
+            "originalSize": {
+                "width": 350,
+                "height": 150
+            },
+            "attrs": {
+                ".label": {
+                    "text": "C 1",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                },
+                "rect": {
+                    "fill": "rgb(255,255,255)",
+                    "fill-opacity": 0.5,
+                    "stroke-width": 2,
+                    "stroke": "rgb(0,0,0)",
+                    "rx": 2,
+                    "ry": 4,
+                    "stroke-dasharray": ""
+                },
+                ".inPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".outPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".inPorts>.port0>.port-label": {
+                    "text": "in"
+                },
+                ".inPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "in",
+                        "type": "in"
+                    }
+                },
+                ".inPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5
+                },
+                ".outPorts>.port0>.port-label": {
+                    "text": "out"
+                },
+                ".outPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "out",
+                        "type": "out"
+                    }
+                },
+                ".outPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5,
+                    "ref-dy": 0
+                }
+            }
+        }, {
+            "type": "html.Element",
+            "position": {
+                "x": 435,
+                "y": 810
+            },
+            "size": {
+                "width": 320,
+                "height": 90
+            },
+            "angle": 0,
+            "ktype": "content",
+            "contentFull": "lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.",
+            "interactive": false,
+            "cms_content_type_id": 1,
+            "cms_content_category_id": 1,
+            "id": "f2b82900-34ad-4ba1-9131-dc99ea23a9b3",
+            "z": 11,
+            "parent": "3ee32f15-1aa5-4b0a-9a31-699e0629940f",
+            "attrs": {
+                "rect": {
+                    "stroke": "rgb(0,0,0)",
+                    "fill-opacity": 1,
+                    "fill": "rgb(255,255,255)",
+                    "stroke-width": 2,
+                    "stroke-dasharray": "2,3",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                "text": {
+                    "text": "lorem ipsum dolor sit amet nonummy\nnunquam necessit dolor ad pisicing.\nlorem ipsum dolor sit amet nonummy...",
+                    "fill": "rgb(0,0,0)"
+                }
+            }
+        }, {
+            "type": "devs.Model",
+            "size": {
+                "width": 180,
+                "height": 100
+            },
+            "inPorts": ["in"],
+            "outPorts": [],
+            "position": {
+                "x": 810,
+                "y": 795
+            },
+            "angle": 0,
+            "ktype": "endpoint",
+            "endPointFull": "New endpoint *",
+            "interactive": false,
+            "cms_endpoint_type_id": 1,
+            "id": "0a2fb479-c97d-491b-977d-2ed597f99e4d",
+            "z": 12,
+            "attrs": {
+                "text": {
+                    "text": "New endpoint *...",
+                    "fill": "rgb(0,0,0)"
+                },
+                ".label": {
+                    "text": "E 1",
+                    "ref-x": 0.1,
+                    "ref-y": 0.1,
+                    "font-size": "8px"
+                },
+                "rect": {
+                    "fill": "rgb(255,255,255)",
+                    "fill-opacity": 1,
+                    "stroke-width": 2,
+                    "stroke": "rgb(0,0,0)",
+                    "stroke-dasharray": "2,3",
+                    "style": {
+                        "pointer-events": ""
+                    }
+                },
+                ".inPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".outPorts circle": {
+                    "fill": "#cccccc"
+                },
+                ".inPorts>.port0>.port-label": {
+                    "text": "in"
+                },
+                ".inPorts>.port0>.port-body": {
+                    "port": {
+                        "id": "in",
+                        "type": "in"
+                    }
+                },
+                ".inPorts>.port0": {
+                    "ref": ".body",
+                    "ref-x": 0.5
+                }
+            }
+        }, {
+            "type": "link",
+            "source": {
+                "id": "3ee32f15-1aa5-4b0a-9a31-699e0629940f",
+                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "in"
+            },
+            "target": {
+                "id": "a67a2523-0e4e-4ef0-9b57-75f0bcbfe20b",
+                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "out 1"
+            },
+            "smooth": true,
+            "id": "56ef10f9-c234-4f49-9620-aaa9a4bcb4e7",
+            "embeds": "",
+            "z": 13,
+            "attrs": {
+                ".connection": {
+                    "stroke-width": 5,
+                    "stroke-linecap": "round",
+                    "opacity": 0.5
+                }
+            }
+        }, {
+            "type": "link",
+            "source": {
+                "id": "3ee32f15-1aa5-4b0a-9a31-699e0629940f",
+                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "out"
+            },
+            "target": {
+                "id": "0a2fb479-c97d-491b-977d-2ed597f99e4d",
+                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
+                "port": "in"
+            },
+            "smooth": true,
+            "id": "ffc455dd-8993-4634-8b5d-5560f1ddec89",
+            "embeds": "",
+            "z": 14,
+            "attrs": {
+                ".connection": {
+                    "stroke-width": 5,
+                    "stroke-linecap": "round",
+                    "opacity": 0.5
+                }
+            }
+        }]
+    }
+}

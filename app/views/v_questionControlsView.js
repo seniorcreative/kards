@@ -39,7 +39,13 @@ define(
 
                     this.model.on('change', function(){
 
-                        this.render()
+                        //
+
+                        //console.log('model change triggered in question ');
+                        //this.$el.find('#questionType').trigger('change');
+
+                        this.render();
+
 
                     }, this);
 
@@ -68,6 +74,7 @@ define(
                     if (this.model.get('questionTypeID') != undefined) {
                         //console.log('supposed to be setting your question type value to ', this.model.get('questionTypeID'));
                         this.$el.find('#questionType').val(this.model.get('questionTypeID'));
+                        this.$el.find('#questionType').trigger('change'); // need to propagate this through to the select control
                     }
 
                     if (this.model.get('questionVariableTypeID') != undefined) {
@@ -376,7 +383,7 @@ define(
                             [answer]
                         );
 
-                        if (!answerValues[questionNumber]) answerValues[questionNumber] = [];
+                        if (!answerValues[questionNumber]) answerValues[questionNumber] = {};
 
                         answerValues[questionNumber][(a+1)] = {
                             qid: questionNumber,
@@ -440,6 +447,7 @@ define(
                 questionUpdate: function(e)
                 {
 
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
                     this.model.set('questionValue', this.$(e.target).val());
 
                     if (window.selectedQuestion != null)

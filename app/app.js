@@ -128,7 +128,6 @@ define(
                             $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
-                            console.log(JSON.stringify(graph.toJSON()));
 
                         }
                         else
@@ -258,6 +257,7 @@ define(
                                             {
                                                 questionAnswer = window.questionModel.answerValues[window.questionModel.questions[qIndex].id][aIndex];
 
+                                                console.log('question answer loop ', aIndex, window.questionModel.questions[qIndex].id, window.questionModel.questions[qIndex], window.questionModel.answerValues )
                                                 answerOptionsCompiled += '<option ' +
                                                 'value="'+ questionAnswer.qid + '_' + questionAnswer.id +'" ' +
                                                 'data-element="'+ questionAnswer.element +'"' +
@@ -300,7 +300,7 @@ define(
 
                                     logicControls.render().el;
 
-                                    var questionLogic = window.logicModel.get('questionLogic');
+                                    var questionLogic = window.logicModel.questionLogic;
 
                                     if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
 
@@ -361,7 +361,8 @@ define(
 
                         //var selectedContent = _element;
 
-                        var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
+                        //var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
+                        var paperRect = {x:0,y:0,width:6000,height:6000};
                         loopedElements = paper.findViewsInArea(paperRect);
 
                         // reset all looped elements (slightly different to resetElementStyles)
@@ -439,7 +440,7 @@ define(
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
-                        //console.log('cellView.model ', cellView.model);
+                        console.log('cellView.model ', cellView.model);
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
@@ -462,7 +463,7 @@ define(
 
                                 window.reportModel.set(
                                     {
-                                        reportTitle: attrs.text.text,
+                                        reportTitle: cellView.model.get('reportFull'),
                                         reportCategoryID: cellView.model.get('report_category_id')
                                     });
 
@@ -486,7 +487,7 @@ define(
 
                                 window.sectionModel.set(
                                     {
-                                        sectionTitle: attrs.text.text
+                                        sectionTitle: cellView.model.get('sectionFull')
                                     });
 
                                 window.selectedSection =  cellView;
@@ -550,6 +551,10 @@ define(
                                 //$('#logic-modal').show();
 
                                 $('#questionValue').focus();
+
+                                // Select this question in the last visible logic rule calculation block question
+                                $('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
+                                $('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
 
                                 break;
 
@@ -655,7 +660,7 @@ define(
 
                                 window.endPointModel.set(
                                     {
-                                        endPointTitle: attrs.text.text,
+                                        endPointTitle: cellView.model.get('endPointFull'),
                                         endPointTypeID: cellView.model.get('cms_endpoint_type_id')
                                     });
 

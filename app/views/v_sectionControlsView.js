@@ -79,6 +79,7 @@ define(
                             '.outPorts circle': { fill: style.port.out.fill.normal }
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
+                        sectionFull: newSectionTitle,
                         interactive: true
                     });
 
@@ -124,8 +125,12 @@ define(
                 },
                 sectionUpdate: function(e)
                 {
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
+                    this.model.set('sectionTitle', this.$(e.target).val());
+
                     if (window.selectedSection != null)
                     {
+
                         attrs = window.selectedSection.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
@@ -135,6 +140,7 @@ define(
 
                         attrs.text.text = wraptext;
                         window.selectedSection.model.set('attrs', attrs);
+                        window.selectedSection.model.set('sectionFull', this.$(e.target).val());
                         window.selectedSection.render().el;
                     }
                 }

@@ -575,21 +575,21 @@ form.formSectionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 210px;
+  top: 260px;
   left: 10px;
 }
 form.formQuestionOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 342px;
+  top: 410px;
   left: 10px;
 }
 form.formAnswerOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  top: 40px;
+  top: 60px;
   right: 10px;
 }
 form.formContentOptions {

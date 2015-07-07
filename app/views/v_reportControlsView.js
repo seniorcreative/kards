@@ -33,8 +33,10 @@ define(
                 },
                 events: {
                     'click #btnAddReport': 'addReport',
+                    'click #btnSaveReport': 'saveReport',
                     'keyup #reportTitle': 'reportUpdate',
-                    'change #reportCategory': 'reportCategoryUpdate'
+                    'change #reportCategory': 'reportCategoryUpdate',
+                    'change #reportJSON': 'loadChartFromJSON'
                 },
                 render: function () {
 
@@ -87,6 +89,7 @@ define(
                                 fill: style.port.out.fill.normal
                             }
                         },
+                        reportFull: newReportTitle,
                         report_category_id: this.$('#reportCategory option:selected').val(),
                         interactive: true
                     });
@@ -105,9 +108,16 @@ define(
                     $('.formSectionOptions').css('opacity', 1);
                     $('.formSectionOptions').css('pointer-events', 'auto');
 
+                    $('#btnSaveReport').removeClass('hidden');
+
                 },
                 reportUpdate: function (e) {
+
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
+                    this.model.set('reportTitle', this.$(e.target).val());
+
                     if (window.selectedReport != null) {
+
                         attrs = window.selectedReport.model.get('attrs');
 
                         var wraptext = joint.util.breakText(this.$(e.target).val(), {
@@ -117,7 +127,9 @@ define(
 
                         attrs.text.text = wraptext;
                         window.selectedReport.model.set('attrs', attrs);
+                        window.selectedReport.model.set('reportFull', this.$(e.target).val());
                         window.selectedReport.render().el;
+
                     }
                 },
                 reportCategoryUpdate: function () {
@@ -128,6 +140,72 @@ define(
                             }
                         );
                     }
+                },
+                loadChartFromJSON: function(e)
+                {
+
+                    //console.log('changed report', $(e.target).val());
+
+                     if ($(e.target).val() != '')
+                     {
+
+                         //console.log('gonna load', "data/" + $(e.target).val());
+
+                         //wherever you need to do the ajax
+                         Backbone.ajax({
+                             dataType: "json",
+                             url: "data/" + $(e.target).val(),
+                             data: "",
+                             success: function (data) {
+
+                                 //console.log('loaded chart', data);
+
+                                 // At this point here we want to set up our app (selected items)
+                                 // and models (questions, answers, logic rules etc(
+
+                                graph.fromJSON(data.chartLayout);
+
+                                window.selectedReport = paper.findViewByModel(data.selectedReport.id);
+                                window.selectedSection = paper.findViewByModel(data.selectedSection.id);
+                                window.selectedQuestion = paper.findViewByModel(data.selectedQuestion.id);
+                                window.selectedAnswer = paper.findViewByModel(data.selectedAnswer.id);
+                                window.selectedContent = paper.findViewByModel(data.selectedContent.id);
+                                window.selectedEndPoint = paper.findViewByModel(data.selectedEndPoint.id);
+
+                                window.questionModel.questions      = data.questions;
+                                window.questionModel.answerValues   = data.answers;
+                                window.logicModel.questionLogic     = data.logic;
+
+                             }
+                         });
+
+                     }
+
+                },
+                saveReport: function()
+                {
+
+                    //console.log(window.selectedQuestion.model, window.selectedQuestion);
+
+                    var jsonSaveObject = "{";
+
+                    if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ window.reportModel.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
+                    if (window.selectedSection != null) jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
+                    if (window.selectedQuestion != null) jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
+                    if (window.selectedAnswer != null) jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
+                    if (window.selectedContent != null) jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
+                    if (window.selectedEndPoint != null) jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
+
+                    jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
+                    jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
+                    jsonSaveObject += "\"logic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
+
+                    jsonSaveObject += "\"chartLayout\": " + JSON.stringify(graph.toJSON()) + " ";
+
+                    jsonSaveObject += "}";
+
+                    console.log(jsonSaveObject);
+
                 }
             }
         );

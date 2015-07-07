@@ -32,7 +32,8 @@ define(
         var resetElementStyles = function (elementKType) {
 
 
-            var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
+            //var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
+            var paperRect = {x: 0, y: 0, width: 6000, height: 6000}; // max width, max height... had objects going outside of this causing issues not deselecting
             that.loopedElements = paper.findViewsInArea(paperRect);
 
             for (var element in that.loopedElements) {
