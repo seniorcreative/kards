@@ -76,7 +76,7 @@ define(
 
                     var questionLogic = window.logicModel.questionLogic;
 
-                    console.log('window.selectedQuestion ', window.selectedQuestion);
+                    //console.log('window.selectedQuestion ', window.selectedQuestion);
 
                     var selectedQuestionRules = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules;
 
@@ -438,12 +438,12 @@ define(
 
                                 this.$(e.target).find('option:selected').each(function(a,b){
 
-                                    console.log('loop each selected', a, b);
+                                    //console.log('loop each selected', a, b);
 
                                     selectedQuestionOperand.push(parseInt($(this).val()));
                                 });
 
-                                console.log('selected question operands', selectedQuestionOperand);
+                                //console.log('selected question operands', selectedQuestionOperand);
 
                                 this.$('#rule_' + window.selectedRule + '_suffixansweroperands > option').each(function (g, h) {
                                     $(this).removeAttr('selected');

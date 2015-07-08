@@ -205,9 +205,11 @@ textarea:focus {
   top: 20px;
   left: 50%;
   margin-left: -625px;
+  z-index: 100;
 }
 #logic-modal h3 {
   min-width: 1244px;
+  color: white;
 }
 
 /* Container */
@@ -511,7 +513,14 @@ header h1 {
   position: fixed;
   width: 100%;
   pointer-events: none;
-  top: 10px;
+  top: 0px;
+  text-align: center;
+}
+header h2 {
+  position: fixed;
+  width: 100%;
+  pointer-events: none;
+  top: 40px;
   text-align: center;
 }
 header input.reportTitle {

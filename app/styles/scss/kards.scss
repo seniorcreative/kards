@@ -38,7 +38,17 @@ header {
         pointer-events: none;
 //        left: 50%;
 //        margin-left: -76px;
-        top: 10px;
+        top: 0px;
+        text-align: center;
+    }
+
+    h2 {
+        position: fixed;
+        width: 100%;
+        pointer-events: none;
+//        left: 50%;
+//        margin-left: -76px;
+        top: 40px;
         text-align: center;
     }
 

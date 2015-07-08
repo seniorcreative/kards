@@ -14,10 +14,12 @@
     top: 20px;
     left: 50%;
     margin-left: -625px;
+    z-index: 100;
 
     h3
     {
         min-width: 1244px;
+        color: white;
     }
 }
 

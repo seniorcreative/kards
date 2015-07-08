@@ -43,7 +43,8 @@ define(
 
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
-                    this.$el.find('#reportTitle').val(this.model.get('reportTitle'));
+                    this.$el.find('#reportTitle').val(this.model.reportTitle);
+                    $('#reportName').text(this.model.reportTitle);
 
                     if (this.model.get('reportCategoryID') != undefined) {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
@@ -54,8 +55,9 @@ define(
                 },
                 addReport: function () {
 
-                    var newReportTitle = $('#reportTitle').val() == '' ? 'New report *' : $('#reportTitle').val();
+                    var newReportTitle = $('#reportTitle').val() == '' ? this.model.reportTitle : $('#reportTitle').val();
                     $('#reportTitle').val(newReportTitle);
+                    $('#reportName').text(newReportTitle);
 
                     var wraptext = joint.util.breakText(newReportTitle, {
                         width: layout.report.size.width,
@@ -114,7 +116,9 @@ define(
                 reportUpdate: function (e) {
 
                     // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
-                    this.model.set('reportTitle', this.$(e.target).val());
+                    this.model.reportTitle = this.$(e.target).val();
+
+                    $('#reportName').text(this.$(e.target).val());
 
                     if (window.selectedReport != null) {
 
@@ -183,6 +187,8 @@ define(
 
                                  //paper.options = data.paper.options; // set other options (grid etc) from saved paper settings
 
+                                 $('#reportName').text(data.reportTitle);
+                                 $('#reportTitle').val(data.reportTitle);
 
                                  $('#btnAddReport').attr('disabled', 'disabled');
                                  $('#btnAddReport').addClass('hidden');
@@ -205,7 +211,7 @@ define(
 
                     var jsonSaveObject = "{";
 
-                    if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ window.reportModel.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
+                    if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
                     if (window.selectedSection != null) jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
                     if (window.selectedQuestion != null) jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
                     if (window.selectedAnswer != null) jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
