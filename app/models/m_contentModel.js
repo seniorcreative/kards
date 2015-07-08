@@ -11,7 +11,7 @@ define(
                 contentTypeID: '',
                 contentCategoryID: '',
                 contentArray: [],
-                defaultText: 'lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.'
+                defaultText: 'Medical content placeholder'
             }
         );
 

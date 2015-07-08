@@ -77,8 +77,8 @@ define(
                         attrs           = window.selectedAnswer.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[layout.get('newQuestionType')].qSize.width,
-                            height: layout.question[layout.get('newQuestionType')].qSize.height
+                            width: layout.question[layout.get('newQuestionTypeID')].qSize.width,
+                            height: layout.question[layout.get('newQuestionTypeID')].qSize.height
                         });
 
                         attrs.text.text = wraptext;
@@ -130,7 +130,6 @@ define(
                 changeValueDataTypeDropdown: function()
                 {
                     //var newValueDataType = this.$('#valueDataType option:selected').text().toLowerCase();
-                    //console.log(' q type ', newQuestionType);
 
                     if (window.selectedQuestion != null && window.selectedAnswer != null) {
                         window.selectedAnswer.model.set(

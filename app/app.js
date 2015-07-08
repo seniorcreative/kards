@@ -124,7 +124,7 @@ define(
                             $('.formSectionOptions').animate({'left': -400}, 250);
                             $('.formQuestionOptions').animate({'left': -400}, 250);
                             $('.formAnswerOptions').animate({'right': -400}, 250);
-                            $('.formContentOptions').animate({'bottom': -400}, 250);
+                            $('.formContentOptions').animate({'bottom': -500}, 250);
                             $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
@@ -316,7 +316,15 @@ define(
 
                                         var lastLogicRuleID = $('#logic-rules .logic-rule').last().attr('id').split('rule-')[1];
 
-                                        var lastCalculationBlockID = $('#logic-rules .calculationBlockWrapper').last().attr('id').split('calculation-')[1];
+                                        var lastCalculationBlockID;
+
+                                        if ($('#logic-rules .calculationBlockWrapper').length > 0) {
+                                            lastCalculationBlockID = $('#logic-rules .calculationBlockWrapper').last().attr('id').split('calculation-')[1];
+                                        }
+                                        else
+                                        {
+                                            lastCalculationBlockID = 1;
+                                        }
 
                                         //console.log('lastLogicRuleID', lastLogicRuleID, 'lastCalculationBlockID', lastCalculationBlockID);
                                         // check whether the questionoperand and answervalues operands selects have any selected values.

@@ -96,7 +96,7 @@ define(
                     });
 
                     //console.log('try to add link from ',section.id,'to', window.selectedReport.model.get('id'));
-                    if (sectionNumber == 1) {
+                    if (sectionNumber == 1  && window.selectedReport != null) {
 
                         var link = new joint.shapes.devs.Link({
                             source: {
@@ -116,10 +116,10 @@ define(
                     window.selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
 
                     $('.formQuestionOptions').css('opacity', 1);
-                    $('.formContentOptions').css('opacity', 1);
+                    //$('.formContentOptions').css('opacity', 1);
 
                     $('.formQuestionOptions').css('pointer-events', 'auto');
-                    $('.formContentOptions').css('pointer-events', 'auto');
+                    //$('.formContentOptions').css('pointer-events', 'auto');
 
 
                 },

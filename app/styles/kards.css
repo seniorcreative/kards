@@ -199,7 +199,7 @@ textarea:focus {
 #logic-modal {
   display: none;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   border-radius: 5px;
   top: 20px;
@@ -277,7 +277,7 @@ textarea:focus {
   color: #777;
 }
 #simplemodal-container span.ruleWrapperBlockTitle.sort {
-  color: #333;
+  color: #ccc;
 }
 #simplemodal-container .logic-rule {
   border-bottom: 1px dashed #333;
@@ -595,10 +595,10 @@ form.formAnswerOptions {
 form.formContentOptions {
   display: block;
   padding: 5px;
-  width: 900px;
+  width: 800px;
   bottom: 10px;
   left: 50%;
-  margin-left: -450px;
+  margin-left: -400px;
 }
 form.formEndPointOptions {
   display: block;
@@ -614,7 +614,7 @@ form h3 {
 form input {
   font-family: "Varela Round", sans-serif;
   padding: 3px 2px;
-  font-size: 1.1em;
+  font-size: 0.75em;
   color: #555;
   border: none;
   border-radius: 2px;
@@ -627,7 +627,7 @@ form textarea {
   font-family: "Varela Round", sans-serif;
   padding: 3px 2px;
   width: 100%;
-  font-size: 1.1em;
+  font-size: 0.75em;
   color: #555;
   border: none;
   border-radius: 2px;

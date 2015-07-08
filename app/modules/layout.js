@@ -9,19 +9,19 @@ define(['jquery','backbone'], function ($,Backbone) {
             centerY: parseInt(window.innerHeight / 2)
         },
         question: {
-            boolean: {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
+            '1': {
+                qSize: {width: 180, height: 50},
+                aSize: {width: 100, height: 40},
                 answers: []
             },
-            'multiple choice': {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
+            '2': {
+                qSize: {width: 180, height: 50},
+                aSize: {width: 100, height: 40},
                 answers: []
             },
-            'numeric': {
-                qSize: {width: 120, height: 75},
-                aSize: {width: 120, height: 50},
+            '3': {
+                qSize: {width: 180, height: 50},
+                aSize: {width: 100, height: 10},
                 answers: []
             }
         },
@@ -31,20 +31,20 @@ define(['jquery','backbone'], function ($,Backbone) {
             bodySize: {width: 320, height: 90}
         },
         report: {
-            size: {width: 200, height: 75},
+            size: {width: 180, height: 50},
             startX: 0,
             startY: 100
         },
         section: {
-            size: {width: 120, height: 75},
+            size: {width: 140, height: 50},
             startX: -250,
             startY: 200
         },
         endpoint: {
-            size: {width: 180, height: 100}
+            size: {width: 140, height: 50}
         },
         answerMargin: 20,
-        logicWrapperPadding: 40,
+        logicWrapperPadding: 30,
         logicCenterHeight: 20
     });
 

@@ -23,7 +23,7 @@ define(
 
             layout.set('totalWidthOfAnswers', _totalWidth);
 
-            var _startX = layout.stage.centerX - (_totalWidth / 2);
+            var _startX = parseInt(layout.stage.centerX - (_totalWidth / 2));
 
             layout.set('startX', _startX);
 
