@@ -55,7 +55,7 @@ define(
                     //'change #questionType': 'changeQuestionTypeDropdown',
                     'change': 'changeHandler',
                     'keyup': 'changeHandler',
-                    'click': 'addHandler'
+                    'click': 'clickHandler'
                     // rule for add rule...
                     //'click #logic-header-button-add-rule': 'addRule',
                     //'click #logic-header-button-add-action': 'addAction'
@@ -101,12 +101,14 @@ define(
                         for (var c in ruleObj.calculationBlocks)
                         {
 
-                            calcObj = ruleObj.calculationBlocks[c];
+                            if (c != null) {
+                                calcObj = ruleObj.calculationBlocks[c];
 
-                            $('#rule_'+r+'_calculationblock_'+c+'_calculationoperator').val(calcObj.calculationOperator);
-                            $('#rule_'+r+'_calculationblock_'+c+'_questionoperand').val(calcObj.questionOperand);
-                            $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvaluetype').val(calcObj.customValueType);
-                            $('#rule_'+r+'_calculationblock_'+c+'_operandcustomvalue').val(calcObj.customValue);
+                                $('#rule_' + r + '_calculationblock_' + c + '_calculationoperator').val(calcObj.calculationOperator);
+                                $('#rule_' + r + '_calculationblock_' + c + '_questionoperand').val(calcObj.questionOperand);
+                                $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvaluetype').val(calcObj.customValueType);
+                                $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvalue').val(calcObj.customValue);
+                            }
 
 
                         }
@@ -117,10 +119,10 @@ define(
 
                     return this;
                 },
-                addHandler: function(e)
+                clickHandler: function(e)
                 {
 
-                    //console.log(' add handler - click ', this.$(e.target).data('action'));
+                    console.log(' click handler ', this.$(e.target).data('action'));
 
                     var logic = window.selectedQuestion.model.get('logic');
 
@@ -329,6 +331,86 @@ define(
 
                                 break;
 
+
+
+                            case 'removeRule':
+
+                                // Remove a whole rule and all its calculations. click target index must start with rule_1
+
+                                var ruleRemoveIndex = this.$(e.target).attr('id').split('_')[1];
+
+                                break;
+
+                            case 'removeCalculation':
+
+                                // Remove a calculation from a rule. click target index must start with rule_1_
+
+                                window.selectedRule = this.$(e.target).attr('id').split('_')[1];
+
+                                var calculationToRemove = this.$(e.target).attr('id').split('_')[3];
+
+                                console.log('going to try to remove rule ', window.selectedRule, ', calc', calculationToRemove);
+
+
+
+                                // Either loop here or set the value at this index to null.
+
+                                var questionLogic = window.logicModel.get('questionLogic');
+
+                                // I need to delete the calculation out of the rules' calculation blocks.
+
+                                var tmpQuestionLogic = {};
+
+                                for (var calcObject in questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks)
+                                {
+
+                                    if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks.hasOwnProperty(calcObject)) {
+
+                                        console.log('compare in remove of c to calcnum', calcObject, calculationToRemove);
+
+
+                                       if (calcObject != calculationToRemove)
+                                       {
+                                            console.log('keep calc ', calcObject);
+
+                                            tmpQuestionLogic[calcObject] = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[calcObject];
+                                       }
+
+                                    }
+
+                                }
+
+                                //
+                                //console.log('question logic before', questionLogic);
+                                //
+                                console.log('question logic tmp replacement', tmpQuestionLogic);
+                                //
+                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks = tmpQuestionLogic;
+                                //
+                                window.logicModel.set('questionLogic', questionLogic);
+                                //
+                                console.log('question logic after', window.logicModel.get('questionLogic'));
+//
+
+
+
+                                // Chop out the calc at this location
+
+                                logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].splice((parseInt(calculationToRemove) - 1), 1);
+
+                                //console.log(' calcs after ', logic.rules[window.selectedRule-1]['calculationBlocksCompiled']);
+
+                                // And finally, add the logic as a property of the selected Question
+                                window.selectedQuestion.model.set('logic', logic);
+
+                                // Notify App of calc block removed.
+                                window.questionModel.set('calculationBlockRemoved', true); // I  want to remove a calc block
+
+                                $("#calculation-" + calculationToRemove).remove();
+
+
+                                break;
+
                         }
 
                     }
@@ -345,7 +427,7 @@ define(
                         window.selectedRule = $(e.target).attr('id').split('_')[1];
 
                         //
-                        //console.log('changed something', this.$(e.target).data('calculation-control'));
+                        console.log('changed something', this.$(e.target).data('calculation-control'));
 
 
                         // Now save this selection into the logicModel.
@@ -433,6 +515,7 @@ define(
 
                                 window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
+console.log('made selected calc', window.selectedCalculation);
 
                                 selectedQuestionOperand = [];
 

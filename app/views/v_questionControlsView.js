@@ -620,6 +620,8 @@ define(
 
                     var questionLogic = window.logicModel.get('questionLogic');
 
+                    console.log('selected question\'s logic', questionLogic, window.selectedQuestion.model.get('questionNumber'));
+
                     if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
                         $('#logic-header-button-add-action').addClass('btnDisabled');
                         $('#logic-header-button-add-action').attr('disabled', 'disabled');

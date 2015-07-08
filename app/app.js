@@ -257,7 +257,7 @@ define(
                                             {
                                                 questionAnswer = window.questionModel.answerValues[window.questionModel.questions[qIndex].id][aIndex];
 
-                                                console.log('question answer loop ', aIndex, window.questionModel.questions[qIndex].id, window.questionModel.questions[qIndex], window.questionModel.answerValues )
+                                                //console.log('question answer loop ', aIndex, window.questionModel.questions[qIndex].id, window.questionModel.questions[qIndex], window.questionModel.answerValues )
                                                 answerOptionsCompiled += '<option ' +
                                                 'value="'+ questionAnswer.qid + '_' + questionAnswer.id +'" ' +
                                                 'data-element="'+ questionAnswer.element +'"' +
@@ -294,6 +294,7 @@ define(
                                     window.questionModel.set('questionAdded', false);
                                     window.questionModel.set('ruleAdded', false);
                                     window.questionModel.set('calculationBlockAdded', false);
+                                    window.questionModel.set('calculationBlockRemoved', false);
                                     window.questionModel.set('answerAdded', false);
                                     window.questionModel.set('answerUpdated', false);
                                     window.questionModel.set('actionAdded', false);
@@ -561,8 +562,8 @@ define(
                                 $('#questionValue').focus();
 
                                 // Select this question in the last visible logic rule calculation block question
-                                $('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
-                                $('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
+                                //$('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
+                                //$('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
 
                                 break;
 
