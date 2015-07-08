@@ -433,12 +433,22 @@ define(
 
                                 window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
-                                selectedQuestionOperand = this.$(e.target).find('option:selected').val();
+
+                                selectedQuestionOperand = [];
+
+                                this.$(e.target).find('option:selected').each(function(a,b){
+
+                                    console.log('loop each selected', a, b);
+
+                                    selectedQuestionOperand.push(parseInt($(this).val()));
+                                });
+
+                                console.log('selected question operands', selectedQuestionOperand);
 
                                 this.$('#rule_' + window.selectedRule + '_suffixansweroperands > option').each(function (g, h) {
                                     $(this).removeAttr('selected');
 
-                                    if ($(this).data('question') == selectedQuestionOperand) $(this).removeAttr('disabled');
+                                    if (selectedQuestionOperand.indexOf(parseInt($(this).data('question'))) != -1) $(this).removeAttr('disabled');
                                     else $(this).attr('disabled', 'disabled');
                                 });
 
