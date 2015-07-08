@@ -337,7 +337,46 @@ define(
 
                                 // Remove a whole rule and all its calculations. click target index must start with rule_1
 
-                                var ruleRemoveIndex = this.$(e.target).attr('id').split('_')[1];
+                                window.selectedRule = this.$(e.target).attr('id').split('_')[1];
+
+                                var questionLogic = window.logicModel.get('questionLogic');
+
+
+                                // I need to delete the rule out of the question's logic.
+
+                                var tmpQuestionLogic = {};
+
+                                for (var ruleObject in questionLogic[window.selectedQuestion.model.get('questionNumber')].rules)
+                                {
+
+                                    if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules.hasOwnProperty(ruleObject)) {
+
+                                        if (ruleObject != window.selectedRule)
+                                        {
+                                            tmpQuestionLogic[ruleObject] = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[ruleObject];
+                                        }
+
+                                    }
+
+                                }
+
+                                questionLogic[window.selectedQuestion.model.get('questionNumber')].rules = tmpQuestionLogic;
+                                //
+                                window.logicModel.set('questionLogic', questionLogic);
+
+                                //
+
+                                // Chop out the rule at this location
+
+                                logic.rules.splice((parseInt(window.selectedRule) - 1), 1);
+
+
+                                // And finally, add the logic as a property of the selected Question
+                                window.selectedQuestion.model.set('logic', logic);
+
+                                // Notify App of calc block removed.
+                                window.questionModel.set('ruleRemoved', true); // I  want to remove a rule block
+
 
                                 break;
 
@@ -348,10 +387,6 @@ define(
                                 window.selectedRule = this.$(e.target).attr('id').split('_')[1];
 
                                 var calculationToRemove = this.$(e.target).attr('id').split('_')[3];
-
-                                console.log('going to try to remove rule ', window.selectedRule, ', calc', calculationToRemove);
-
-
 
                                 // Either loop here or set the value at this index to null.
 
@@ -366,12 +401,8 @@ define(
 
                                     if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks.hasOwnProperty(calcObject)) {
 
-                                        console.log('compare in remove of c to calcnum', calcObject, calculationToRemove);
-
-
                                        if (calcObject != calculationToRemove)
                                        {
-                                            console.log('keep calc ', calcObject);
 
                                             tmpQuestionLogic[calcObject] = questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks[calcObject];
                                        }
@@ -380,19 +411,9 @@ define(
 
                                 }
 
-                                //
-                                //console.log('question logic before', questionLogic);
-                                //
-                                console.log('question logic tmp replacement', tmpQuestionLogic);
-                                //
                                 questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[window.selectedRule].calculationBlocks = tmpQuestionLogic;
                                 //
                                 window.logicModel.set('questionLogic', questionLogic);
-                                //
-                                console.log('question logic after', window.logicModel.get('questionLogic'));
-//
-
-
 
                                 // Chop out the calc at this location
 
@@ -405,8 +426,6 @@ define(
 
                                 // Notify App of calc block removed.
                                 window.questionModel.set('calculationBlockRemoved', true); // I  want to remove a calc block
-
-                                $("#calculation-" + calculationToRemove).remove();
 
 
                                 break;
@@ -427,7 +446,7 @@ define(
                         window.selectedRule = $(e.target).attr('id').split('_')[1];
 
                         //
-                        console.log('changed something', this.$(e.target).data('calculation-control'));
+                        //console.log('changed something', this.$(e.target).data('calculation-control'));
 
 
                         // Now save this selection into the logicModel.

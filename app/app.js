@@ -293,6 +293,7 @@ define(
 
                                     window.questionModel.set('questionAdded', false);
                                     window.questionModel.set('ruleAdded', false);
+                                    window.questionModel.set('ruleRemoved', false);
                                     window.questionModel.set('calculationBlockAdded', false);
                                     window.questionModel.set('calculationBlockRemoved', false);
                                     window.questionModel.set('answerAdded', false);
