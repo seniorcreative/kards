@@ -237,9 +237,10 @@ define(
 
                                     for(var rule in logic.rules)
                                     {
-                                        questionOptionsCompiled = '';
 
-                                        answerOptionsCompiled = '';
+                                        questionOptionsCompiled = '';
+                                        answerOptionsCompiled   = '';
+
                                         for (var qIndex in window.questionModel.questions)
                                         {
                                             questionOptionsCompiled += '<option ' +
@@ -278,8 +279,8 @@ define(
 
 
                                         var ruleCompiledReplacement = logic.rules[rule].ruleCompiled.replace('[[[calculationBlocks]]]', calculationBlockCompiled);
-                                        ruleCompiledReplacement = ruleCompiledReplacement.replace('[[[answerValues]]]', answerOptionsCompiled);
-                                        ruleCompiledReplacement = ruleCompiledReplacement.replace('[[[questionValues]]]', questionOptionsCompiled);
+                                        ruleCompiledReplacement     = ruleCompiledReplacement.replace('[[[answerValues]]]', answerOptionsCompiled);
+                                        ruleCompiledReplacement     = ruleCompiledReplacement.replace('[[[questionValues]]]', questionOptionsCompiled);
 
                                         rulesCompiled += ruleCompiledReplacement; // ran into difficulties with nested handlebarring here
                                     }

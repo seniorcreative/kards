@@ -144,7 +144,7 @@ define(
                         question_type_id: parseInt(this.$('#questionType option:selected').val()),
                         question_variable_type_id: parseInt(this.$('#questionVariableType option:selected').val()),
                         ehr_datapoint_id: parseInt(this.$('#questionDataPoint option:selected').val()),
-                        logic: {rules: []} // { ruleCompiled: '', calculationBlocksCompiled: []}
+                        logic: {rules: {}} // { ruleCompiled: '', calculationBlocksCompiled: []}
                     };
 
 
@@ -622,7 +622,9 @@ define(
 
                     console.log('selected question\'s logic', questionLogic, window.selectedQuestion.model.get('questionNumber'));
 
-                    if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
+                    // Use Object.keys(obj).length to check length of rules object after it got changed from array.
+
+                    if (Object.keys(questionLogic[window.selectedQuestion.model.get('questionNumber')].rules).length) {
                         $('#logic-header-button-add-action').addClass('btnDisabled');
                         $('#logic-header-button-add-action').attr('disabled', 'disabled');
                     }

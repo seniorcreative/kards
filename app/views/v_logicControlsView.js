@@ -122,7 +122,7 @@ define(
                 clickHandler: function(e)
                 {
 
-                    console.log(' click handler ', this.$(e.target).data('action'));
+                    //console.log(' click handler ', this.$(e.target).data('action'));
 
                     var logic = window.selectedQuestion.model.get('logic');
 
@@ -137,13 +137,23 @@ define(
 
                                 templateData = window.loadedData;
 
-                                var ruleNumber  = logic.rules.length + 1;
+
+                                // Get the maximum rule number from the array.
+                                // If we had 4 rules and deleted the middle 2
+                                // then the array (of keys) would be 1, 4 and we would need value 5
+                                var maxkey = 0;
+                                _.each(logic.rules, function(value, key) {
+                                    if (maxkey == null || key > maxkey) { maxkey = key; }
+                                });
+                                var ruleNumber = parseInt(maxkey)+1;
+
+                                //var ruleNumber  = logic.rules.length + 1;
 
                                 // Add dynamic vars to the template.
-                                templateData.ruleNum = ruleNumber;
-                                templateData.ruleSortIndex = ruleNumber;
-                                templateData.questions = window.questionModel.questions;
-                                templateData.answerValues = window.questionModel.answerValues; // .sort(helpers.questionCompare);
+                                templateData.ruleNum        = ruleNumber;
+                                templateData.ruleSortIndex  = ruleNumber;
+                                templateData.questions      = window.questionModel.questions;
+                                templateData.answerValues   = window.questionModel.answerValues; // .sort(helpers.questionCompare);
 
                                 //templateData.calculationNum = 1; // first calculation block of rule is added here and will always be 1
 
@@ -157,10 +167,10 @@ define(
                                 var ruleCompiled = HRT.templates['logicRule.hbs'](templateData); // .replace('[[[calculationBlocks]]]', calculationBlockCompiled);
 
                                 // Pump the template into questions logic rules array.
-                                logic.rules.push({
+                                logic.rules[ruleNumber] = {
                                     ruleCompiled: ruleCompiled,
-                                    calculationBlocksCompiled: [] // calculationBlockCompiled]
-                                });
+                                    calculationBlocksCompiled: {} // calculationBlockCompiled]
+                                };
 
                                 // And finally, add the logic as a property of the selected Question
                                 window.selectedQuestion.model.set('logic', logic);
@@ -262,15 +272,23 @@ define(
                                         var parentLogicWrapper = graph.getCell(elementLogicWrapperID);
                                         var outports = parentLogicWrapper.attributes.outPorts;
 
-                                        var newActionNumber = logic.rules.length + 1;
+
+                                        // Get the maximum rule number from the array.
+                                        // If we had 4 rules and deleted the middle 2
+                                        // then the array (of keys) would be 1, 4 and we would need value 5
+                                        var maxkey = 0;
+                                        _.each(logic.rules, function(value, key) {
+                                            if (maxkey == null || key > maxkey) { maxkey = key; }
+                                        });
+                                        var newActionNumber = parseInt(maxkey)+1;
 
                                         var actionBlockCompiled = HRT.templates['logicAction.hbs']({ ruleNum: newActionNumber, ruleSortIndex: newActionNumber,actionNum: outports.length, actionLabel: newOutportName });
 
                                         // Could add this into it's own action attrib but just want to check adding as a rule...
-                                        logic.rules.push({
+                                        logic.rules[newActionNumber] = {
                                             ruleCompiled: actionBlockCompiled,
-                                            calculationBlocksCompiled: []
-                                        });
+                                            calculationBlocksCompiled: {}
+                                        };
 
                                     }
 
@@ -295,7 +313,13 @@ define(
                                  //var templateData;
                                  templateData = window.loadedData;
 
-                                 var newCalculationBlockNumber = logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].length + 1;
+                                var maxkey = 0;
+                                _.each(logic.rules[window.selectedRule]['calculationBlocksCompiled'], function(value, key) {
+                                    if (maxkey == null || key > maxkey) { maxkey = key; }
+                                });
+                                var newCalculationBlockNumber = parseInt(maxkey)+1;
+
+                                 //var newCalculationBlockNumber = logic.rules[window.selectedRule]['calculationBlocksCompiled'].length + 1;
 
                                  // Add dynamic vars to the template.
                                  templateData.ruleNum = window.selectedRule;
@@ -306,7 +330,7 @@ define(
                                 var calculationBlockCompiled = HRT.templates['calculationBlock.hbs'](templateData);
 
 
-                                logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].push(calculationBlockCompiled);
+                                logic.rules[window.selectedRule]['calculationBlocksCompiled'][newCalculationBlockNumber] = calculationBlockCompiled;
 
                                  // And finally, add the logic as a property of the selected Question
                                  window.selectedQuestion.model.set('logic', logic);
@@ -368,7 +392,26 @@ define(
 
                                 // Chop out the rule at this location
 
-                                logic.rules.splice((parseInt(window.selectedRule) - 1), 1);
+                                //logic.rules.splice((parseInt(window.selectedRule) - 1), 1);
+
+                                var tmpLogic = {};
+
+                                for (var ruleObject in logic.rules)
+                                {
+
+                                    if (logic.rules.hasOwnProperty(ruleObject)) {
+
+                                        if (ruleObject != window.selectedRule)
+                                        {
+
+                                            tmpLogic[ruleObject] = logic.rules[ruleObject];
+                                        }
+
+                                    }
+
+                                }
+
+                                logic.rules = tmpLogic;
 
 
                                 // And finally, add the logic as a property of the selected Question
@@ -387,6 +430,15 @@ define(
                                 window.selectedRule = this.$(e.target).attr('id').split('_')[1];
 
                                 var calculationToRemove = this.$(e.target).attr('id').split('_')[3];
+
+
+
+
+
+
+
+
+                                // We'll set a temp array and loop the delete the object.
 
                                 // Either loop here or set the value at this index to null.
 
@@ -415,11 +467,39 @@ define(
                                 //
                                 window.logicModel.set('questionLogic', questionLogic);
 
+
+
+
+
+
+
+
+
                                 // Chop out the calc at this location
 
-                                logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].splice((parseInt(calculationToRemove) - 1), 1);
+                                //logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].splice((parseInt(calculationToRemove) - 1), 1);
 
-                                //console.log(' calcs after ', logic.rules[window.selectedRule-1]['calculationBlocksCompiled']);
+
+                                var tmpLogic = {};
+
+
+                                for (var calcObject in logic.rules[window.selectedRule]['calculationBlocksCompiled'])
+                                {
+
+                                    if (logic.rules[window.selectedRule]['calculationBlocksCompiled'].hasOwnProperty(calcObject)) {
+
+                                        if (calcObject != calculationToRemove)
+                                        {
+
+                                            tmpLogic[calcObject] = logic.rules[window.selectedRule]['calculationBlocksCompiled'][calcObject];
+                                        }
+
+                                    }
+
+                                }
+
+                                logic.rules[window.selectedRule]['calculationBlocksCompiled'] = tmpLogic;
+
 
                                 // And finally, add the logic as a property of the selected Question
                                 window.selectedQuestion.model.set('logic', logic);
