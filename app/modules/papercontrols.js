@@ -1,9 +1,10 @@
 // Controls
 
 define(
-    ['joint'],
+    ['joint',
+    'modules/layout'],
 
-function(joint) {
+function(joint, layout) {
 
 
     var init = function(graph, paper) {
@@ -318,10 +319,100 @@ function(joint) {
         updateBBox();
 
         setTimeout(function() {
-            $grid.val(15);
             //console.log(paper.$el);
-            paper.$el.css('background-image', 'url("' + getGridBackgroundImage(15 * $sx.val(), 15 * $sy.val()) + '")');
-            $('output[for="grid"]').text(15);
+
+            paper.$el.css('background-image', 'url("' + getGridBackgroundImage(layout.paper.defaults.gridSize.value * $sx.val(), layout.paper.defaults.gridSize.value * $sy.val()) + '")');
+
+            $('#grid').attr('min', layout.paper.defaults.gridSize.min);
+            $('#grid').attr('max', layout.paper.defaults.gridSize.max);
+            $('#grid').val(layout.paper.defaults.gridSize.value);
+            $('output[for="grid"]').text(layout.paper.defaults.gridSize.value);
+
+           /* paper:
+            {
+                defaults:
+                {
+                    gridSize: {
+                        min: 1,
+                            max: 50,
+                            value: 1
+                    },
+                    width: {
+                        min: 1200,
+                            max: 6000,
+                            value: 2400
+                    },
+                    height: {
+                        min: 1200,
+                            max: 6000,
+                            value: 1800
+                    },
+                    origin:
+                    {
+                        x: {
+                            min: -3000,
+                                max: 3000,
+                                value: 0
+                        },
+                        y: {
+                            min: -3000,
+                                max: 3000,
+                                value: 0
+                        }
+                    },
+                    scale:
+                    {
+                        min: 0.1,
+                            max: 3,
+                        value: 1,
+                        step: 0.1
+                    }
+
+                }
+            },*/
+
+            $('#width').attr('min', layout.paper.defaults.width.min);
+            $('#width').attr('max', layout.paper.defaults.width.max);
+            $('#width').val(layout.paper.defaults.width.value);
+            $('output[for="width"]').text(layout.paper.defaults.width.value);
+
+            $('#height').attr('min', layout.paper.defaults.height.min);
+            $('#height').attr('max', layout.paper.defaults.height.max);
+            $('#height').val(layout.paper.defaults.height.value);
+            $('output[for="height"]').text(layout.paper.defaults.height.value);
+
+            $('#ox').attr('min', layout.paper.defaults.origin.x.min);
+            $('#ox').attr('max', layout.paper.defaults.origin.x.max);
+            $('#ox').val(layout.paper.defaults.origin.x.value);
+            $('output[for="ox"]').text(layout.paper.defaults.origin.x.value);
+
+            $('#oy').attr('min', layout.paper.defaults.origin.y.min);
+            $('#oy').attr('max', layout.paper.defaults.origin.y.max);
+            $('#oy').val(layout.paper.defaults.origin.y.value);
+            $('output[for="oy"]').text(layout.paper.defaults.origin.y.value);
+
+            $('#sx').attr('min', layout.paper.defaults.scale.min);
+            $('#sx').attr('max', layout.paper.defaults.scale.max);
+            $('#sx').val(layout.paper.defaults.scale.value);
+            $('output[for="sx"]').text(layout.paper.defaults.scale.value);
+
+            /*<output for="ox"></output>
+            <output for="oy"></output>
+            <output for="sx"></output>
+            <output for="sy"></output>
+            <output for="width"></output>
+            <output for="height"></output>
+            <output for="grid">1</output>
+
+            <input id="ox" name="ox" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+            <input id="oy" type="range" value="0" min="-3000" max="3000" autocomplete="off">
+            <input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+            <input id="sy" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+            <input id="width" class="form-control" type="range" value="2400" min="1200" max="6000" autocomplete="off">
+            <input id="height" class="form-control" type="range" value="1800" min="1200" max="6000" autocomplete="off">
+            <input id="grid" class="range" type="range" value="1" min="1" max="50" autocomplete="off">*/
+
+
         }, 25);
 
         /*$('[data-tooltip]').each(function() {

@@ -3,6 +3,48 @@ define(['jquery','backbone'], function ($,Backbone) {
 
     var layout = Backbone.Model.extend({
 
+        paper:
+        {
+            defaults:
+            {
+                gridSize: {
+                    min: 1,
+                    max: 50,
+                    value: 1
+                },
+                width: {
+                    min: 1200,
+                    max: 6000,
+                    value: 2400
+                },
+                height: {
+                    min: 1200,
+                    max: 6000,
+                    value: 2400
+                },
+                origin:
+                {
+                    x: {
+                        min: -3000,
+                        max: 3000,
+                        value: 0
+                    },
+                    y: {
+                        min: -3000,
+                        max: 3000,
+                        value: 0
+                    }
+                },
+                scale:
+                {
+                    min: 0.1,
+                    max: 3,
+                    value: 1,
+                    step: 0.1
+                }
+
+            }
+        },
         stage:
         {
             centerX: parseInt(window.innerWidth / 2),

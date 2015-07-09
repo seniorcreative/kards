@@ -61,10 +61,10 @@ define(
 
                     paper = new joint.dia.Paper({
                         el: $('#canvas'),
-                        width: 2400,
-                        height: 2400,
+                        width: layout.paper.defaults.width.value,
+                        height: layout.paper.defaults.height.value,
                         model: graph,
-                        gridSize: 15,
+                        gridSize: layout.paper.defaults.gridSize.value,
                         defaultLink: new joint.dia.Link({
                             smooth: true,
                             attrs: {
