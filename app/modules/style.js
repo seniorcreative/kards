@@ -15,7 +15,8 @@ function (Backbone) {
             fill:
             {
                 normal: 'rgb(255,255,255)',
-                wrapper: 'rgb(255,255,255)'
+                wrapper: 'rgb(255,255,255)',
+                endPoint: 'rgb(255,190,190)'
             },
             fillOpacity:
             {

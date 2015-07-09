@@ -8,11 +8,6 @@
             {{#each logicOperatorNormal}}
                 <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
             {{/each}}
-            <!--<option value="1">VALUE OF</option>-->
-            <!--<option value="2">SUM</option>-->
-            <!--<option value="3">PLUS</option>-->
-            <!--<option value="4">MINUS</option>-->
-            <!--<option value="5">MULTIPLY</option>-->
         </select>
 
     </div>
@@ -25,16 +20,7 @@
 
             <select name="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_questionoperand" id="rule_{{ ruleNum }}_calculationblock_{{ calculationNum }}_questionoperand" size="8" data-calculation-control="questionoperand" multiple>
                 <option value="">None</option>
-                <!--<option value="1">Q1 - True</option>-->
-                <!--<option value="2">Q1 - False</option>-->
-                <!--<option value="3">Q1 - Unknown</option>-->
                 [[[questionValues]]]
-                <!--{{#each questions}}
-                    <option value="{{id}}" data-element="{{element}}" data-parent="{{parent}}">Q{{id}}</option>
-                {{/each}}-->
-                <!--<option value="3">Q3</option>-->
-                <!--<option value="4">Q4</option>-->
-                <!--<option value="5">Q5</option>-->
             </select>
 
         </div>
@@ -47,10 +33,6 @@
                 {{#each valueDataTypesDropdown}}
                     <option value="{{id}}">{{label}}</option>
                 {{/each}}
-                <!--<option value="1">integer</option>-->
-                <!--<option value="2">boolean</option>-->
-                <!--<option value="3">float</option>-->
-                <!--<option value="4">string</option>-->
             </select>
 
         </div>

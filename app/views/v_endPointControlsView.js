@@ -70,7 +70,7 @@ define(
                         attrs: {
                             '.label': { text: 'E ' + endPointNumber, 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
-                                fill: style.node.fill.normal,
+                                fill: style.node.fill.endPoint,
                                 'fill-opacity': style.node.fillOpacity.normal,
                                 'stroke-width': style.node.strokeWidth.normal,
                                 stroke: style.node.stroke.normal,

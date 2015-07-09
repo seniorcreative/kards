@@ -3,13 +3,13 @@
     "selectedReport": {
         "type": "devs.Model",
         "size": {
-            "width": 200,
-            "height": 75
+            "width": 180,
+            "height": 50
         },
         "inPorts": [""],
         "outPorts": ["out"],
         "position": {
-            "x": 565,
+            "x": 749,
             "y": 100
         },
         "angle": 0,
@@ -17,7 +17,7 @@
         "reportFull": "New report *",
         "report_category_id": "1",
         "interactive": true,
-        "id": "13f1ac22-0ab6-4b22-a4f7-83da64cec9b5",
+        "id": "f020bb72-c90e-4547-a7d5-b17831f06447",
         "z": 1,
         "attrs": {
             "text": {
@@ -82,8 +82,8 @@
     },
     "questions": [{
         "id": 1,
-        "element": "12b3fab5-163c-48f1-8097-4b32286ae8db",
-        "parent": "8ce247e4-d580-42ad-bf1c-fbd07c70281b"
+        "element": "fb96382f-eb41-4b5c-8581-5d68a902c568",
+        "parent": "cc6ae580-149d-4d77-9fe4-7703f7d2d25e"
     }],
     "answers": {
         "1": {
@@ -91,13 +91,13 @@
                 "qid": 1,
                 "id": 1,
                 "label": "Q1, A1 - (yes...)",
-                "element": "c81d1148-1b7b-423b-afe3-76de325de7f4"
+                "element": "ccb35e82-b289-44ee-8611-8040054effd0"
             },
             "2": {
                 "qid": 1,
                 "id": 2,
                 "label": "Q1, A2 - (no...)",
-                "element": "2338bb3b-ac6a-4101-964e-46e7df60de33"
+                "element": "89977402-19c3-46f1-8180-7b19c73e20fa"
             }
         }
     },
@@ -111,20 +111,35 @@
                         "1": {
                             "sortIndex": 1,
                             "calculationOperator": "27",
-                            "questionOperand": "1",
+                            "questionOperand": "",
                             "customValueType": 1,
                             "customValue": ""
                         }
                     },
                     "suffixOperator": "27",
-                    "suffixAnswerOperands": ["1_2"],
+                    "suffixAnswerOperands": [],
                     "suffixCustomValueType": 1,
                     "suffixCustomValue": ""
                 },
-                "4": {
-                    "sortIndex": 4,
+                "2": {
+                    "sortIndex": 2,
                     "prefixOperator": "1",
-                    "calculationBlocks": {},
+                    "calculationBlocks": {
+                        "1": {
+                            "sortIndex": 1,
+                            "calculationOperator": "27",
+                            "questionOperand": "",
+                            "customValueType": 1,
+                            "customValue": ""
+                        },
+                        "2": {
+                            "sortIndex": 2,
+                            "calculationOperator": "27",
+                            "questionOperand": "",
+                            "customValueType": 1,
+                            "customValue": ""
+                        }
+                    },
                     "suffixOperator": "27",
                     "suffixAnswerOperands": [],
                     "suffixCustomValueType": 1,
@@ -134,39 +149,39 @@
         }
     },
     "paper": {
-        "scaleX": 0.8,
-        "scaleY": 0.8,
-        "originX": 414,
+        "scaleX": 1,
+        "scaleY": 1,
+        "originX": 0,
         "originY": 0,
         "width": 2400,
         "height": 2400,
-        "gridSize": 15
+        "gridSize": 1
     },
     "chartLayout": {
         "cells": [{
             "type": "devs.Model",
             "size": {
-                "width": 300,
-                "height": 225
+                "width": 250,
+                "height": 170
             },
             "inPorts": ["in"],
-            "outPorts": ["out 1", "out 2"],
+            "outPorts": [],
             "position": {
-                "x": 510,
-                "y": 345
+                "x": 644,
+                "y": 370
             },
             "angle": 0,
             "ktype": "logicwrapper",
-            "id": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
+            "id": "cc6ae580-149d-4d77-9fe4-7703f7d2d25e",
             "z": -2,
-            "embeds": ["12b3fab5-163c-48f1-8097-4b32286ae8db", "c81d1148-1b7b-423b-afe3-76de325de7f4", "2338bb3b-ac6a-4101-964e-46e7df60de33"],
+            "embeds": ["fb96382f-eb41-4b5c-8581-5d68a902c568", "ccb35e82-b289-44ee-8611-8040054effd0", "89977402-19c3-46f1-8180-7b19c73e20fa"],
             "originalPosition": {
-                "x": 510,
-                "y": 345
+                "x": 644,
+                "y": 370
             },
             "originalSize": {
-                "width": 300,
-                "height": 225
+                "width": 250,
+                "height": 170
             },
             "attrs": {
                 ".label": {
@@ -203,72 +218,46 @@
                 ".inPorts>.port0": {
                     "ref": ".body",
                     "ref-x": 0.5
-                },
-                ".outPorts>.port0>.port-label": {
-                    "text": "out 1"
-                },
-                ".outPorts>.port0>.port-body": {
-                    "port": {
-                        "id": "out 1",
-                        "type": "out"
-                    }
-                },
-                ".outPorts>.port0": {
-                    "ref": ".body",
-                    "ref-x": 0.25,
-                    "ref-dy": 0
-                },
-                ".outPorts>.port1>.port-label": {
-                    "text": "out 2"
-                },
-                ".outPorts>.port1>.port-body": {
-                    "port": {
-                        "id": "out 2",
-                        "type": "out"
-                    }
-                },
-                ".outPorts>.port1": {
-                    "ref": ".body",
-                    "ref-x": 0.75,
-                    "ref-dy": 0
                 }
             }
         }, {
             "type": "html.Element",
             "position": {
-                "x": 600,
-                "y": 378
+                "x": 679,
+                "y": 400
             },
             "size": {
-                "width": 120,
-                "height": 75
+                "width": 180,
+                "height": 50
             },
             "angle": 0,
             "ktype": "question",
-            "questionFull": "boolean question *",
+            "questionFull": "New true or false question *",
             "questionNumber": 1,
             "question_type_id": 1,
             "question_variable_type_id": 1,
             "ehr_datapoint_id": null,
             "logic": {
-                "rules": [{
-                    "ruleCompiled": "<div id=\"rule-1\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_1_sortindex\">\n                <input type=\"number\" value=\"1\" class=\"short\" name=\"rule_1_sortindex\" id=\"rule_1_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_1_prefixoperator\" id=\"rule_1_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-1\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_1_suffixoperator\" id=\"rule_1_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_1_suffixansweroperands\" id=\"rule_1_suffixansweroperands\" size=\"5\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_1_suffixcustomvaluetype\" id=\"rule_1_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_1_suffixcustomvalue\" id=\"rule_1_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
-                    "calculationBlocksCompiled": ["<div id=\"calculation-1\" class=\"calculationBlockWrapper\">\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_1_calculationblock_1_calculationoperator\" id=\"rule_1_calculationblock_1_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_1_calculationblock_1_questionoperand\" id=\"rule_1_calculationblock_1_questionoperand\" size=\"5\" data-calculation-control=\"questionoperand\" multiple>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"12b3fab5-163c-48f1-8097-4b32286ae8db\" data-parent=\"8ce247e4-d580-42ad-bf1c-fbd07c70281b\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_1_calculationblock_1_operandcustomvaluetype\" id=\"rule_1_calculationblock_1_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_1_calculationblock_1_operandcustomvalue\" id=\"rule_1_calculationblock_1_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>"]
-                }, {
-                    "ruleCompiled": "<div id=\"action-1\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_2_sortindex\">\n            <input type=\"number\" value=\"2\" class=\"short\" name=\"rule_2_sortindex\" id=\"rule_2_sortindex\">\n        </label>\n\n    </div>\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic 1 - out 1</span>\n        </div>\n\n    </div>\n\n</div>",
-                    "calculationBlocksCompiled": []
-                }, {
-                    "ruleCompiled": "<div id=\"action-2\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_3_sortindex\">\n            <input type=\"number\" value=\"3\" class=\"short\" name=\"rule_3_sortindex\" id=\"rule_3_sortindex\">\n        </label>\n\n    </div>\n\n    <div class=\"actionWrapper  actionWrapper--block\">\n\n        <div class=\"actionWrapperBlock\">\n            <div class=\"logic-circle\"></div><span>Logic 2 - out 2</span>\n        </div>\n\n    </div>\n\n</div>",
-                    "calculationBlocksCompiled": []
-                }, {
-                    "ruleCompiled": "<div id=\"rule-4\" class=\"logic-rule\">\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_4_sortindex\">\n                <input type=\"number\" value=\"4\" class=\"short\" name=\"rule_4_sortindex\" id=\"rule_4_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_4_prefixoperator\" id=\"rule_4_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-4\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_4_suffixoperator\" id=\"rule_4_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_4_suffixansweroperands\" id=\"rule_4_suffixansweroperands\" size=\"5\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <!--<option value=\"1\">Q1 - A1 - True</option>-->\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_4_suffixcustomvaluetype\" id=\"rule_4_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_4_suffixcustomvalue\" id=\"rule_4_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
-                    "calculationBlocksCompiled": []
-                }]
+                "rules": {
+                    "1": {
+                        "ruleCompiled": "<div id=\"rule-1\" class=\"logic-rule\">\n\n    <a href=\"#\" id=\"rule_1_remove\" data-action=\"removeRule\">remove (x)</a>\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_1_sortindex\">\n                <input type=\"number\" value=\"1\" class=\"short\" name=\"rule_1_sortindex\" id=\"rule_1_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_1_prefixoperator\" id=\"rule_1_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-1\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_1_suffixoperator\" id=\"rule_1_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_1_suffixansweroperands\" id=\"rule_1_suffixansweroperands\" size=\"10\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <option value=\"\">None</option>\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_1_suffixcustomvaluetype\" id=\"rule_1_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_1_suffixcustomvalue\" id=\"rule_1_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
+                        "calculationBlocksCompiled": {
+                            "1": "<div id=\"calculation-1\" class=\"calculationBlockWrapper\">\n\n    <a href=\"#\" id=\"rule_1_calculation_1_remove\" data-action=\"removeCalculation\">remove (x)</a>\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_1_calculationblock_1_calculationoperator\" id=\"rule_1_calculationblock_1_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_1_calculationblock_1_questionoperand\" id=\"rule_1_calculationblock_1_questionoperand\" size=\"8\" data-calculation-control=\"questionoperand\" multiple>\n                <option value=\"\">None</option>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"fb96382f-eb41-4b5c-8581-5d68a902c568\" data-parent=\"cc6ae580-149d-4d77-9fe4-7703f7d2d25e\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_1_calculationblock_1_operandcustomvaluetype\" id=\"rule_1_calculationblock_1_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_1_calculationblock_1_operandcustomvalue\" id=\"rule_1_calculationblock_1_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>"
+                        }
+                    },
+                    "2": {
+                        "ruleCompiled": "<div id=\"rule-2\" class=\"logic-rule\">\n\n    <a href=\"#\" id=\"rule_2_remove\" data-action=\"removeRule\">remove (x)</a>\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_2_sortindex\">\n                <input type=\"number\" value=\"2\" class=\"short\" name=\"rule_2_sortindex\" id=\"rule_2_sortindex\" data-calculation-control=\"sortindex\">\n            </label>\n\n        </div>\n\n        <div class=\"ruleWrapper ruleWrapper--block\">\n\n            <div class=\"ruleWrapperBlock prefix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Prefix</span>\n\n                <select name=\"rule_2_prefixoperator\" id=\"rule_2_prefixoperator\" size=\"1\" data-calculation-control=\"prefixoperator\">\n                        <option value=\"1\" data-symbol=\"IF\" data-type=\"2\">IF</option>\n                        <option value=\"2\" data-symbol=\"&amp;&amp;\" data-type=\"2\">AND</option>\n                        <option value=\"3\" data-symbol=\"||\" data-type=\"2\">OR</option>\n                        <option value=\"19\" data-symbol=\"ELSE\" data-type=\"2\">ELSE</option>\n                        <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"2\">ELSE IF</option>\n                    <!--<option value=\"1\">IF</option>-->\n                    <!--<option value=\"2\">AND</option>-->\n                    <!--<option value=\"3\">ELSE</option>-->\n                    <!--<option value=\"4\">ELSE IF</option>-->\n                    <!--<option value=\"5\">OR</option>-->\n                </select>\n\n            </div>\n\n            <div class=\"ruleWrapperBlock  calculations\">\n\n                <span class=\"ruleWrapperBlockTitle\">Calculation Blocks</span>\n\n                <div class=\"ruleWrapperBlockCalculationBlocks\">\n\n                    <div class=\"ruleWrapperBlockCalculationBlockWrapper\">\n\n                        <header>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operation</span>\n\n                        </div>\n\n                        <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n                            <span class=\"ruleWrapperCalculationBlockTitle\">Operands</span>\n\n                        </div>\n\n                        </header>\n\n                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->\n                        <!-- &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->\n\n                    </div>\n\n                    <button class=\"btnAddCalcBlock\" data-action=\"calculationBlock\" id=\"logic-header-button-add-calculation-block-rule-2\">Add calculation block</button>\n\n\n                </div>\n\n\n            </div>\n\n\n            <div class=\"ruleWrapperBlock suffix\">\n\n                <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin\">Suffix</span>\n\n                <div class=\"ruleWrapperBlockSuffixBlock condition\">\n\n                    <select name=\"rule_2_suffixoperator\" id=\"rule_2_suffixoperator\" size=\"1\" data-calculation-control=\"suffixoperator\">\n                            <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                            <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                            <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                            <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                            <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                            <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                            <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                            <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                            <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                            <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                            <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                            <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                            <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                            <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                            <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                            <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                            <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                            <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                            <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                            <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                            <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                            <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n                        <!--<option value=\"1\">IS</option>-->\n                        <!--<option value=\"2\">GREATER THAN</option>-->\n                        <!--<option value=\"3\">LESS THAN</option>-->\n                        <!--<option value=\"4\">GREATER THAN OR EQUAL TO</option>-->\n                        <!--<option value=\"5\">LESS THAN OR EQUAL TO</option>-->\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  answer\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Select answer</span>\n\n                    <select name=\"rule_2_suffixansweroperands\" id=\"rule_2_suffixansweroperands\" size=\"10\" data-calculation-control=\"suffixansweroperands\" multiple>\n                        <option value=\"\">None</option>\n                        <!--<option value=\"2\">Q1 - A2 - True</option>-->\n                        <!--<option value=\"3\">Q1 - A3 - Unknown</option>-->\n                        <!--<option value=\"4\">Q2 - A1 - Psychogenic</option>-->\n                        [[[answerValues]]]\n                        <!--\n                            <option value=\"\" data-element=\"\" data-question=\"\"></option>\n                        -->\n                    </select>\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalueType\">\n\n                    <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n                    <select name=\"rule_2_suffixcustomvaluetype\" id=\"rule_2_suffixcustomvaluetype\" size=\"1\" data-calculation-control=\"suffixcustomvaluetype\">\n                            <option value=\"1\">unknown</option>\n                            <option value=\"2\">boolean</option>\n                            <option value=\"3\">integer</option>\n                            <option value=\"4\">float</option>\n                            <option value=\"5\">scalar</option>\n                            <option value=\"6\">string</option>\n                            <option value=\"7\">temporal</option>\n                            <option value=\"8\">increase</option>\n                            <option value=\"9\">decrease</option>\n                            <option value=\"10\">no change</option>\n                            <option value=\"11\">ehr data point</option>\n                            <option value=\"12\">range</option>\n                            <option value=\"13\">high</option>\n                            <option value=\"14\">low</option>\n                            <option value=\"15\">none of the above</option>\n                    </select>\n\n\n                </div>\n\n                <div class=\"ruleWrapperBlockSuffixBlock  topMargin  customvalue\">\n\n                    <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n                    <input type=\"text\" value=\"\" name=\"rule_2_suffixcustomvalue\" id=\"rule_2_suffixcustomvalue\" data-calculation-control=\"suffixcustomvalue\">\n\n                </div>\n\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n</div>",
+                        "calculationBlocksCompiled": {
+                            "1": "<div id=\"calculation-1\" class=\"calculationBlockWrapper\">\n\n    <a href=\"#\" id=\"rule_2_calculation_1_remove\" data-action=\"removeCalculation\">remove (x)</a>\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_2_calculationblock_1_calculationoperator\" id=\"rule_2_calculationblock_1_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_2_calculationblock_1_questionoperand\" id=\"rule_2_calculationblock_1_questionoperand\" size=\"8\" data-calculation-control=\"questionoperand\" multiple>\n                <option value=\"\">None</option>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"fb96382f-eb41-4b5c-8581-5d68a902c568\" data-parent=\"cc6ae580-149d-4d77-9fe4-7703f7d2d25e\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_2_calculationblock_1_operandcustomvaluetype\" id=\"rule_2_calculationblock_1_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_2_calculationblock_1_operandcustomvalue\" id=\"rule_2_calculationblock_1_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>",
+                            "2": "<div id=\"calculation-2\" class=\"calculationBlockWrapper\">\n\n    <a href=\"#\" id=\"rule_2_calculation_2_remove\" data-action=\"removeCalculation\">remove (x)</a>\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_2_calculationblock_2_calculationoperator\" id=\"rule_2_calculationblock_2_calculationoperator\" data-calculation-control=\"calculationoperator\" size=\"1\">\n                <option value=\"27\" data-symbol=\"valueof([VALUES])\" data-type=\"1\">VALUE OF</option>\n                <option value=\"12\" data-symbol=\"==\" data-type=\"1\">IS EQUAL TO</option>\n                <option value=\"13\" data-symbol=\"!=\" data-type=\"1\">IS NOT EQUAL TO</option>\n                <option value=\"4\" data-symbol=\"&lt;\" data-type=\"1\">LESS THAN</option>\n                <option value=\"5\" data-symbol=\"&lt;=\" data-type=\"1\">LESS THAN OR EQUAL</option>\n                <option value=\"6\" data-symbol=\"&gt;\" data-type=\"1\">GREATER THAN</option>\n                <option value=\"7\" data-symbol=\"&gt;=\" data-type=\"1\">GREATER THAN OR EQUAL</option>\n                <option value=\"8\" data-symbol=\"+\" data-type=\"1\">PLUS</option>\n                <option value=\"9\" data-symbol=\"-\" data-type=\"1\">MINUS</option>\n                <option value=\"10\" data-symbol=\"*\" data-type=\"1\">MULTIPLY</option>\n                <option value=\"11\" data-symbol=\"/\" data-type=\"1\">DIVIDE</option>\n                <option value=\"14\" data-symbol=\"sum([VALUES])\" data-type=\"1\">SUM</option>\n                <option value=\"15\" data-symbol=\"mean([VALUES])\" data-type=\"1\">MEAN</option>\n                <option value=\"16\" data-symbol=\"mode([VALUES])\" data-type=\"1\">MODE</option>\n                <option value=\"17\" data-symbol=\"median([VALUES])\" data-type=\"1\">MEDIAN</option>\n                <option value=\"18\" data-symbol=\"sd([VALUES])\" data-type=\"1\">STANDARD DEVIATION</option>\n                <option value=\"20\" data-symbol=\"range([VALUES])\" data-type=\"1\">RANGE</option>\n                <option value=\"25\" data-symbol=\"contains([VALUES])\" data-type=\"1\">CONTAINS</option>\n                <option value=\"26\" data-symbol=\"!contains([VALUES])\" data-type=\"1\">DOES NOT CONTAIN</option>\n                <option value=\"27\" data-symbol=\"ELSE IF\" data-type=\"1\">ELSE IF</option>\n                <option value=\"29\" data-symbol=\"&amp;&amp;\" data-type=\"1\">AND</option>\n                <option value=\"30\" data-symbol=\"||\" data-type=\"1\">OR</option>\n            <!--<option value=\"1\">VALUE OF</option>-->\n            <!--<option value=\"2\">SUM</option>-->\n            <!--<option value=\"3\">PLUS</option>-->\n            <!--<option value=\"4\">MINUS</option>-->\n            <!--<option value=\"5\">MULTIPLY</option>-->\n        </select>\n\n    </div>\n\n    <div class=\"ruleWrapperBlockCalculationBlock  operand\">\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Answer of question</span>\n\n            <select name=\"rule_2_calculationblock_2_questionoperand\" id=\"rule_2_calculationblock_2_questionoperand\" size=\"8\" data-calculation-control=\"questionoperand\" multiple>\n                <option value=\"\">None</option>\n                <!--<option value=\"1\">Q1 - True</option>-->\n                <!--<option value=\"2\">Q1 - False</option>-->\n                <!--<option value=\"3\">Q1 - Unknown</option>-->\n                [[[questionValues]]]\n                <!--\n                    <option value=\"1\" data-element=\"fb96382f-eb41-4b5c-8581-5d68a902c568\" data-parent=\"cc6ae580-149d-4d77-9fe4-7703f7d2d25e\">Q1</option>\n                -->\n                <!--<option value=\"3\">Q3</option>-->\n                <!--<option value=\"4\">Q4</option>-->\n                <!--<option value=\"5\">Q5</option>-->\n            </select>\n\n        </div>\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\"><strong>OR</strong> Custom value type</span>\n\n            <select name=\"rule_2_calculationblock_2_operandcustomvaluetype\" id=\"rule_2_calculationblock_2_operandcustomvaluetype\" data-calculation-control=\"operandcustomvaluetype\"size=\"1\">\n                    <option value=\"1\">unknown</option>\n                    <option value=\"2\">boolean</option>\n                    <option value=\"3\">integer</option>\n                    <option value=\"4\">float</option>\n                    <option value=\"5\">scalar</option>\n                    <option value=\"6\">string</option>\n                    <option value=\"7\">temporal</option>\n                    <option value=\"8\">increase</option>\n                    <option value=\"9\">decrease</option>\n                    <option value=\"10\">no change</option>\n                    <option value=\"11\">ehr data point</option>\n                    <option value=\"12\">range</option>\n                    <option value=\"13\">high</option>\n                    <option value=\"14\">low</option>\n                    <option value=\"15\">none of the above</option>\n                <!--<option value=\"1\">integer</option>-->\n                <!--<option value=\"2\">boolean</option>-->\n                <!--<option value=\"3\">float</option>-->\n                <!--<option value=\"4\">string</option>-->\n            </select>\n\n        </div>\n\n\n        <div class=\"ruleWrapperBlockCalculationOperandBlock\">\n\n            <span class=\"ruleWrapperBlockLabel\">Value</span>\n\n            <input type=\"text\" value=\"\" name=\"rule_2_calculationblock_2_operandcustomvalue\" id=\"rule_2_calculationblock_2_operandcustomvalue\" data-calculation-control=\"operandcustomvalue\">\n\n        </div>\n\n    </div>\n\n</div>"
+                        }
+                    }
+                }
             },
             "choices_accepted": 1,
-            "id": "12b3fab5-163c-48f1-8097-4b32286ae8db",
+            "id": "fb96382f-eb41-4b5c-8581-5d68a902c568",
             "z": -1,
-            "parent": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
+            "parent": "cc6ae580-149d-4d77-9fe4-7703f7d2d25e",
             "attrs": {
                 "rect": {
                     "stroke": "rgb(0,0,0)",
@@ -281,7 +270,7 @@
                     }
                 },
                 "text": {
-                    "text": "boolean\nquestion *",
+                    "text": "New true or false\nquestion *",
                     "fill": "rgb(0,0,0)"
                 },
                 ".label": {
@@ -294,13 +283,13 @@
         }, {
             "type": "devs.Model",
             "size": {
-                "width": 200,
-                "height": 75
+                "width": 180,
+                "height": 50
             },
             "inPorts": [""],
             "outPorts": ["out"],
             "position": {
-                "x": 565,
+                "x": 749,
                 "y": 100
             },
             "angle": 0,
@@ -308,7 +297,7 @@
             "reportFull": "New report *",
             "report_category_id": "1",
             "interactive": true,
-            "id": "13f1ac22-0ab6-4b22-a4f7-83da64cec9b5",
+            "id": "f020bb72-c90e-4547-a7d5-b17831f06447",
             "z": 1,
             "attrs": {
                 "text": {
@@ -373,20 +362,20 @@
         }, {
             "type": "devs.Model",
             "size": {
-                "width": 120,
-                "height": 75
+                "width": 140,
+                "height": 50
             },
             "inPorts": ["in"],
             "outPorts": ["out"],
             "position": {
-                "x": 415,
+                "x": 589,
                 "y": 200
             },
             "angle": 0,
             "ktype": "section",
             "sectionFull": "New section *",
             "interactive": true,
-            "id": "1ef4c420-71e7-4ea3-a874-ec72dbd383f8",
+            "id": "fdba6be6-7ba0-486f-8f07-9aa459b9fc3e",
             "z": 2,
             "attrs": {
                 "text": {
@@ -447,37 +436,37 @@
             "type": "devs.Link",
             "smooth": true,
             "source": {
-                "id": "1ef4c420-71e7-4ea3-a874-ec72dbd383f8",
+                "id": "fdba6be6-7ba0-486f-8f07-9aa459b9fc3e",
                 "port": "in"
             },
             "target": {
-                "id": "13f1ac22-0ab6-4b22-a4f7-83da64cec9b5",
+                "id": "f020bb72-c90e-4547-a7d5-b17831f06447",
                 "port": "out"
             },
-            "id": "10424c94-ef3c-403a-bb8e-34e86dbb2c31",
+            "id": "eae4d22c-d204-475e-8add-7c873cbc6269",
             "z": 3,
             "attrs": {}
         }, {
             "type": "html.Element",
             "position": {
-                "x": 530,
-                "y": 468
+                "x": 659,
+                "y": 465
             },
             "size": {
-                "width": 120,
-                "height": 50
+                "width": 100,
+                "height": 40
             },
             "angle": 0,
             "ktype": "answer",
             "answerFull": "yes",
             "answer_value_datatype_id": 2,
             "answer_value": 1,
-            "answer_parent_question": "12b3fab5-163c-48f1-8097-4b32286ae8db",
+            "answer_parent_question": "fb96382f-eb41-4b5c-8581-5d68a902c568",
             "ehr_datapoint_id": "",
             "answerNumber": 1,
-            "id": "c81d1148-1b7b-423b-afe3-76de325de7f4",
+            "id": "ccb35e82-b289-44ee-8611-8040054effd0",
             "z": 4,
-            "parent": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
+            "parent": "cc6ae580-149d-4d77-9fe4-7703f7d2d25e",
             "attrs": {
                 "rect": {
                     "stroke": "rgb(0,0,0)",
@@ -503,36 +492,36 @@
         }, {
             "type": "link",
             "source": {
-                "id": "12b3fab5-163c-48f1-8097-4b32286ae8db"
+                "id": "fb96382f-eb41-4b5c-8581-5d68a902c568"
             },
             "target": {
-                "id": "c81d1148-1b7b-423b-afe3-76de325de7f4"
+                "id": "ccb35e82-b289-44ee-8611-8040054effd0"
             },
             "smooth": true,
-            "id": "d713c2e0-8cbd-428a-a262-3f1147e1c19c",
+            "id": "4f7257e7-23bf-4cf4-add3-fc24daebba62",
             "z": 5,
             "attrs": {}
         }, {
             "type": "html.Element",
             "position": {
-                "x": 670,
-                "y": 468
+                "x": 779,
+                "y": 465
             },
             "size": {
-                "width": 120,
-                "height": 50
+                "width": 100,
+                "height": 40
             },
             "angle": 0,
             "ktype": "answer",
             "answerFull": "no",
             "answer_value_datatype_id": 2,
             "answer_value": 0,
-            "answer_parent_question": "12b3fab5-163c-48f1-8097-4b32286ae8db",
+            "answer_parent_question": "fb96382f-eb41-4b5c-8581-5d68a902c568",
             "ehr_datapoint_id": "",
             "answerNumber": 2,
-            "id": "2338bb3b-ac6a-4101-964e-46e7df60de33",
+            "id": "89977402-19c3-46f1-8180-7b19c73e20fa",
             "z": 6,
-            "parent": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
+            "parent": "cc6ae580-149d-4d77-9fe4-7703f7d2d25e",
             "attrs": {
                 "rect": {
                     "stroke": "rgb(0,0,0)",
@@ -558,280 +547,15 @@
         }, {
             "type": "link",
             "source": {
-                "id": "12b3fab5-163c-48f1-8097-4b32286ae8db"
+                "id": "fb96382f-eb41-4b5c-8581-5d68a902c568"
             },
             "target": {
-                "id": "2338bb3b-ac6a-4101-964e-46e7df60de33"
+                "id": "89977402-19c3-46f1-8180-7b19c73e20fa"
             },
             "smooth": true,
-            "id": "02376884-077c-4cac-a13f-e271bda96a09",
+            "id": "47e3b049-10d4-44b7-bbff-b0afeb3aca4e",
             "z": 7,
             "attrs": {}
-        }, {
-            "type": "link",
-            "source": {
-                "id": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
-                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "in"
-            },
-            "target": {
-                "id": "1ef4c420-71e7-4ea3-a874-ec72dbd383f8",
-                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "out"
-            },
-            "smooth": true,
-            "id": "9a527b82-7e78-47a8-ae8e-0674ba2f3c9d",
-            "embeds": "",
-            "z": 8,
-            "attrs": {
-                ".connection": {
-                    "stroke-width": 5,
-                    "stroke-linecap": "round",
-                    "opacity": 0.5
-                }
-            }
-        }, {
-            "type": "devs.Link",
-            "smooth": true,
-            "source": {
-                "id": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
-                "port": "out 1"
-            },
-            "target": {
-                "id": "2338bb3b-ac6a-4101-964e-46e7df60de33"
-            },
-            "id": "7d65f248-b7ed-41ac-be1b-2056a497eed9",
-            "z": 9,
-            "attrs": {}
-        }, {
-            "type": "devs.Link",
-            "smooth": true,
-            "source": {
-                "id": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
-                "port": "out 2"
-            },
-            "target": {
-                "id": "2338bb3b-ac6a-4101-964e-46e7df60de33"
-            },
-            "id": "76250c37-eaf5-4d08-9a96-376845c77c32",
-            "z": 10,
-            "attrs": {}
-        }, {
-            "type": "devs.Model",
-            "size": {
-                "width": 350,
-                "height": 150
-            },
-            "inPorts": ["in"],
-            "outPorts": ["out"],
-            "position": {
-                "x": 420,
-                "y": 660
-            },
-            "angle": 0,
-            "ktype": "logicwrapper",
-            "id": "c3ed52e0-07da-4d22-ac61-b5efb67dc208",
-            "z": 11,
-            "embeds": ["024f1a8c-03ea-4264-83da-1775a5a322d5"],
-            "originalPosition": {
-                "x": 420,
-                "y": 660
-            },
-            "originalSize": {
-                "width": 350,
-                "height": 150
-            },
-            "attrs": {
-                ".label": {
-                    "text": "C 1",
-                    "ref-x": 0.1,
-                    "ref-y": 0.1,
-                    "font-size": "8px"
-                },
-                "rect": {
-                    "fill": "rgb(255,255,255)",
-                    "fill-opacity": 0.5,
-                    "stroke-width": 2,
-                    "stroke": "rgb(0,0,0)",
-                    "rx": 2,
-                    "ry": 4,
-                    "stroke-dasharray": ""
-                },
-                ".inPorts circle": {
-                    "fill": "#cccccc"
-                },
-                ".outPorts circle": {
-                    "fill": "#cccccc"
-                },
-                ".inPorts>.port0>.port-label": {
-                    "text": "in"
-                },
-                ".inPorts>.port0>.port-body": {
-                    "port": {
-                        "id": "in",
-                        "type": "in"
-                    }
-                },
-                ".inPorts>.port0": {
-                    "ref": ".body",
-                    "ref-x": 0.5
-                },
-                ".outPorts>.port0>.port-label": {
-                    "text": "out"
-                },
-                ".outPorts>.port0>.port-body": {
-                    "port": {
-                        "id": "out",
-                        "type": "out"
-                    }
-                },
-                ".outPorts>.port0": {
-                    "ref": ".body",
-                    "ref-x": 0.5,
-                    "ref-dy": 0
-                }
-            }
-        }, {
-            "type": "html.Element",
-            "position": {
-                "x": 435,
-                "y": 690
-            },
-            "size": {
-                "width": 320,
-                "height": 90
-            },
-            "angle": 0,
-            "ktype": "content",
-            "contentFull": "lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing. lorem ipsum dolor sit amet nonummy nunquam necessit dolor ad pisicing.",
-            "interactive": false,
-            "cms_content_type_id": 1,
-            "cms_content_category_id": 1,
-            "id": "024f1a8c-03ea-4264-83da-1775a5a322d5",
-            "z": 12,
-            "parent": "c3ed52e0-07da-4d22-ac61-b5efb67dc208",
-            "attrs": {
-                "rect": {
-                    "stroke": "rgb(0,0,0)",
-                    "fill-opacity": 1,
-                    "fill": "rgb(255,255,255)",
-                    "stroke-width": 2,
-                    "stroke-dasharray": "",
-                    "style": {
-                        "pointer-events": ""
-                    }
-                },
-                "text": {
-                    "text": "lorem ipsum dolor sit amet nonummy\nnunquam necessit dolor ad pisicing.\nlorem ipsum dolor sit amet nonummy...",
-                    "fill": "rgb(0,0,0)"
-                }
-            }
-        }, {
-            "type": "link",
-            "source": {
-                "id": "c3ed52e0-07da-4d22-ac61-b5efb67dc208",
-                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "in"
-            },
-            "target": {
-                "id": "8ce247e4-d580-42ad-bf1c-fbd07c70281b",
-                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "out 1"
-            },
-            "smooth": true,
-            "id": "a15f9856-4e38-429d-bfdd-2b9f2687dec8",
-            "embeds": "",
-            "z": 13,
-            "attrs": {
-                ".connection": {
-                    "stroke-width": 5,
-                    "stroke-linecap": "round",
-                    "opacity": 0.5
-                }
-            }
-        }, {
-            "type": "devs.Model",
-            "size": {
-                "width": 180,
-                "height": 100
-            },
-            "inPorts": ["in"],
-            "outPorts": [],
-            "position": {
-                "x": 900,
-                "y": 750
-            },
-            "angle": 0,
-            "ktype": "endpoint",
-            "endPointFull": "New endpoint *",
-            "interactive": false,
-            "cms_endpoint_type_id": 1,
-            "id": "14d5a8fb-6e43-4454-870c-7df027bc3a2f",
-            "z": 14,
-            "attrs": {
-                "text": {
-                    "text": "New endpoint *...",
-                    "fill": "rgb(0,0,0)"
-                },
-                ".label": {
-                    "text": "E 1",
-                    "ref-x": 0.1,
-                    "ref-y": 0.1,
-                    "font-size": "8px"
-                },
-                "rect": {
-                    "fill": "rgb(255,255,255)",
-                    "fill-opacity": 1,
-                    "stroke-width": 2,
-                    "stroke": "rgb(0,0,0)",
-                    "stroke-dasharray": "",
-                    "style": {
-                        "pointer-events": ""
-                    }
-                },
-                ".inPorts circle": {
-                    "fill": "#cccccc"
-                },
-                ".outPorts circle": {
-                    "fill": "#cccccc"
-                },
-                ".inPorts>.port0>.port-label": {
-                    "text": "in"
-                },
-                ".inPorts>.port0>.port-body": {
-                    "port": {
-                        "id": "in",
-                        "type": "in"
-                    }
-                },
-                ".inPorts>.port0": {
-                    "ref": ".body",
-                    "ref-x": 0.5
-                }
-            }
-        }, {
-            "type": "link",
-            "source": {
-                "id": "14d5a8fb-6e43-4454-870c-7df027bc3a2f",
-                "selector": "g:nth-child(1) g:nth-child(3) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "in"
-            },
-            "target": {
-                "id": "c3ed52e0-07da-4d22-ac61-b5efb67dc208",
-                "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     ",
-                "port": "out"
-            },
-            "smooth": true,
-            "id": "4cd5dfab-13a5-4865-bd06-48cb7ba9b2f4",
-            "embeds": "",
-            "z": 15,
-            "attrs": {
-                ".connection": {
-                    "stroke-width": 5,
-                    "stroke-linecap": "round",
-                    "opacity": 0.5
-                }
-            }
         }]
     }
 }

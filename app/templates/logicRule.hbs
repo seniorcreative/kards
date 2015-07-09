@@ -24,11 +24,6 @@
                     {{#each logicOperatorPrefix}}
                         <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
                     {{/each}}
-                    <!--<option value="1">IF</option>-->
-                    <!--<option value="2">AND</option>-->
-                    <!--<option value="3">ELSE</option>-->
-                    <!--<option value="4">ELSE IF</option>-->
-                    <!--<option value="5">OR</option>-->
                 </select>
 
             </div>
@@ -57,8 +52,7 @@
 
                         </header>
 
-                        [[[calculationBlocks]]] <!-- use triple square brackets for returned HTML , swap automatically. -->
-                        <!--{{{calculationBlocks}}} &lt;!&ndash; use triple brackets for returned HTML as we're passing in another template &ndash;&gt;-->
+                        [[[calculationBlocks]]]
 
                     </div>
 
@@ -81,11 +75,6 @@
                         {{#each logicOperatorNormal}}
                             <option value="{{id}}" data-symbol="{{data-symbol}}" data-type="{{data-type}}">{{label}}</option>
                         {{/each}}
-                        <!--<option value="1">IS</option>-->
-                        <!--<option value="2">GREATER THAN</option>-->
-                        <!--<option value="3">LESS THAN</option>-->
-                        <!--<option value="4">GREATER THAN OR EQUAL TO</option>-->
-                        <!--<option value="5">LESS THAN OR EQUAL TO</option>-->
                     </select>
 
 
@@ -97,13 +86,7 @@
 
                     <select name="rule_{{ ruleNum }}_suffixansweroperands" id="rule_{{ ruleNum }}_suffixansweroperands" size="10" data-calculation-control="suffixansweroperands" multiple>
                         <option value="">None</option>
-                        <!--<option value="2">Q1 - A2 - True</option>-->
-                        <!--<option value="3">Q1 - A3 - Unknown</option>-->
-                        <!--<option value="4">Q2 - A1 - Psychogenic</option>-->
                         [[[answerValues]]]
-                        <!--{{#each answerValues}}
-                            <option value="{{id}}" data-element="{{element}}" data-question="{{question}}">{{label}}</option>
-                        {{/each}}-->
                     </select>
 
                 </div>
@@ -135,6 +118,5 @@
         </div>
 
     </div>
-
 
 </div>

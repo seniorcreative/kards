@@ -618,7 +618,7 @@ define(
 
                     // I want to hide the 'add action' button if the logic for this newly selected question has no rules
 
-                    var questionLogic = window.logicModel.get('questionLogic');
+                    var questionLogic = window.logicModel.questionLogic;
 
                     console.log('selected question\'s logic', questionLogic, window.selectedQuestion.model.get('questionNumber'));
 
