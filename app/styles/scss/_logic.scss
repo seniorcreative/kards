@@ -71,6 +71,32 @@
         opacity: 0.5;
     }
 
+    // BEM unnested
+
+    .btnRemove {
+        background-color: #555555;
+        display: inline-block;
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: white;
+        text-decoration: none;
+        font-size: 0.75em;
+        position: absolute;
+
+    }
+
+        .btnRemove--rule {
+            right: 10px;
+            margin-top: 5px;
+        }
+
+        .btnRemove--calculation {
+            left: 668px;
+            margin-top: 126px;
+        }
+
+    //
+
 
     input {
 
@@ -246,6 +272,9 @@
             .calculationBlockWrapper
             {
                 @include clearfix();
+
+                padding-top: 4px;
+                border-top: 1px dotted #999;
             }
 
         .ruleWrapperBlockCalculationBlocks {

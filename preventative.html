@@ -1,0 +1,51 @@
+<html>
+
+    <head>
+
+        <title>Basic preventative test</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+        <script type="text/javascript" src="app/modules/preventative.js"></script>
+
+        <style>
+            
+
+            body
+            {
+                font-family: 'arial', sans-serif;
+            }
+
+            h1
+            {
+                color: teal;
+            }
+
+
+        </style>
+
+    </head>
+
+
+    <body>
+
+    <h1>Basic preventative test</h1>
+
+
+        <h3>First name</h3>
+        <input type="text" id="firstname" name="firstname" value="" placeholder="firstname"  />
+
+        <h3>Gender</h3>
+        <label>Male&nbsp;<input type="radio" id="gender_m" name="gender" value="male" checked="checked" /></label><br>
+        <label>Female&nbsp;<input type="radio" id="gender_f" name="gender" value="female" /></label>
+
+        <h3>Age</h3>
+        <input type="number" id="age" name="age" min="0" max="250" step="1" value="75"  />
+
+
+        <h3>Outcome</h3>
+        <textarea name="outcome" id="outcome" rows="20" cols="400" placeholder="outcome will be displayed here" style="font-size:2em"></textarea>
+
+    </body>
+
+</html>

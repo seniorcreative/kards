@@ -128,6 +128,8 @@ define(
 
                     var templateData;
 
+                    var removeAction = false;
+
                     if (this.$(e.target).data('action') != undefined) {
 
 
@@ -213,6 +215,8 @@ define(
                             case 'logicAction':
 
                                     // Go from question element
+
+                                // NB this is only going to work for one selected question operand for now. Need to loop selected options if you want further complexity.
                                     var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand option:selected').attr('data-parent');
 
                                     // To answer element
@@ -356,12 +360,15 @@ define(
                                 break;
 
 
-
+                            case 'removeAction':
+                                removeAction = true;
+                                var actionToRemove = parseInt(this.$(e.target).attr('id').split('_')[3]) -1; // offset index for array.
                             case 'removeRule':
 
                                 // Remove a whole rule and all its calculations. click target index must start with rule_1
 
                                 window.selectedRule = this.$(e.target).attr('id').split('_')[1];
+
 
                                 var questionLogic = window.logicModel.get('questionLogic');
 
@@ -419,6 +426,41 @@ define(
 
                                 // Notify App of calc block removed.
                                 window.questionModel.set('ruleRemoved', true); // I  want to remove a rule block
+
+
+
+
+                                // Deleting a rule and an action are the same in terms of removing the rule block html
+                                // but for an action we need to also remove the outport(s) & link(s) from the joint
+
+                                if (removeAction)
+                                {
+
+                                    var parentLogicWrapper = graph.getCell(window.selectedQuestion.model.get('parent'));
+
+                                    console.log(' remove action ', parentLogicWrapper);
+
+                                    var currentOutports = parentLogicWrapper.attributes.outPorts;
+
+
+
+                                    var ar = [];
+
+                                    for (lo in currentOutports) {
+
+                                        console.log(' compare for remove action ', lo, actionToRemove);
+
+                                        if (lo != actionToRemove)
+                                        {
+                                            ar[lo] = currentOutports[lo];
+                                        }
+
+                                    }
+
+                                    parentLogicWrapper.set('outPorts', ar);
+
+
+                                }
 
 
                                 break;
@@ -509,6 +551,18 @@ define(
 
 
                                 break;
+
+
+                            /*case 'removeAction':
+
+                                // Remove an action rule. click target index must start with rule_1_
+
+                                window.selectedRule = this.$(e.target).attr('id').split('_')[1];
+
+                                var actionToRemove = this.$(e.target).attr('id').split('_')[3];
+
+
+                                break;*/
 
                         }
 

@@ -29,7 +29,7 @@ templates['calculationBlock.hbs'] = template({"1":function(depth0,helpers,partia
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculation_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
-    + "_remove\" data-action=\"removeCalculation\">remove (x)</a>\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_"
+    + "_remove\" data-action=\"removeCalculation\" class=\"btnRemove  btnRemove--calculation\" >remove</a>\n\n    <div class=\"ruleWrapperBlockCalculationBlock operation\">\n\n        <select name=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_calculationblock_"
     + alias3(((helper = (helper = helpers.calculationNum || (depth0 != null ? depth0.calculationNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"calculationNum","hash":{},"data":data}) : helper)))
@@ -117,7 +117,11 @@ templates['logicAction.hbs'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main"
 
   return "<div id=\"action-"
     + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
-    + "\" class=\"logic-action\">\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_"
+    + "\" class=\"logic-action\">\n\n    <a href=\"#\" id=\"rule_"
+    + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
+    + "_action_"
+    + alias3(((helper = (helper = helpers.actionNum || (depth0 != null ? depth0.actionNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"actionNum","hash":{},"data":data}) : helper)))
+    + "_remove\" data-action=\"removeAction\" class=\"btnRemove  btnRemove--rule\" >remove</a>\n\n    <div class=\"ruleWrapper\">\n\n        <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n        <label for=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_sortindex\">\n            <input type=\"number\" value=\""
     + alias3(((helper = (helper = helpers.ruleSortIndex || (depth0 != null ? depth0.ruleSortIndex : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleSortIndex","hash":{},"data":data}) : helper)))
@@ -170,7 +174,7 @@ templates['logicRule.hbs'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "\" class=\"logic-rule\">\n\n    <a href=\"#\" id=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
-    + "_remove\" data-action=\"removeRule\">remove (x)</a>\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_"
+    + "_remove\" data-action=\"removeRule\" class=\"btnRemove  btnRemove--rule\" >remove</a>\n\n    <div id=\"\" class=\"ruleForm\">\n\n        <div class=\"ruleWrapper\">\n\n            <span class=\"ruleWrapperBlockTitle  ruleWrapperBlockTitle--bottomMargin  sort\">Sort</span>\n\n            <label for=\"rule_"
     + alias3(((helper = (helper = helpers.ruleNum || (depth0 != null ? depth0.ruleNum : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleNum","hash":{},"data":data}) : helper)))
     + "_sortindex\">\n                <input type=\"number\" value=\""
     + alias3(((helper = (helper = helpers.ruleSortIndex || (depth0 != null ? depth0.ruleSortIndex : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ruleSortIndex","hash":{},"data":data}) : helper)))

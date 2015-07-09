@@ -246,6 +246,24 @@ textarea:focus {
 #simplemodal-container .btnDisabled {
   opacity: 0.5;
 }
+#simplemodal-container .btnRemove {
+  background-color: #555555;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.75em;
+  position: absolute;
+}
+#simplemodal-container .btnRemove--rule {
+  right: 10px;
+  margin-top: 5px;
+}
+#simplemodal-container .btnRemove--calculation {
+  left: 668px;
+  margin-top: 126px;
+}
 #simplemodal-container input {
   width: 80px;
   padding: 5px;
@@ -364,6 +382,8 @@ textarea:focus {
 }
 #simplemodal-container .calculationBlockWrapper {
   *zoom: 1;
+  padding-top: 4px;
+  border-top: 1px dotted #999;
 }
 #simplemodal-container .calculationBlockWrapper:before, #simplemodal-container .calculationBlockWrapper:after {
   content: " ";
