@@ -86,7 +86,9 @@ define(
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         endPointFull: newEndPointText,
                         interactive: false,
-                        cms_endpoint_type_id: parseInt(this.$('#endPointTypeID option:selected').val())
+                        cms_endpoint_type_id: parseInt(this.$('#endPointTypeID option:selected').val()),
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     endPoint.set('inPorts', ['in']);

@@ -504,6 +504,11 @@ define(
                                         for (var cl in graph.getConnectedLinks(cellView.model))
                                         {
 
+                                            console.log('looping connected links of answer that you clicked', cl, graph.getConnectedLinks(cellView.model), graph.getConnectedLinks(cellView.model)[cl]);
+
+
+                                            // Steve you need to fix this Monday July 13
+                                            
                                             answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].get('attrs');
 
                                             console.log('clcked an answer', answerLinkRuleAttrObject);
