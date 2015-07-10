@@ -7,7 +7,8 @@ define(
         var reportModel = Backbone.Model.extend(
             {
                 reportTitle: 'New report *',
-                reportCategoryID: ''
+                reportCategoryID: '',
+                mode: 'build'
             }
         );
 

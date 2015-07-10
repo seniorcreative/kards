@@ -10,33 +10,39 @@ function (Backbone) {
             strokeDashArray:
             {
                 selected: '2,3',
-                deselected: ''
+                deselected: '',
+                testDeselected:''
             },
             fill:
             {
                 normal: 'rgb(255,255,255)',
                 wrapper: 'rgb(255,255,255)',
-                endPoint: 'rgb(255,190,190)'
+                endPoint: 'rgb(255,190,190)',
+                testDeselected: 'rgba(255,255,255)'
             },
             fillOpacity:
             {
                 normal: 1,
-                wrapper: 0.5
+                wrapper: 0.5,
+                testDeselected: 0.2
             },
             strokeWidth:
             {
                 normal: 2,
-                wrapper: 2
+                wrapper: 2,
+                testDeselected: 1
             },
             stroke:
             {
                 normal: 'rgb(0,0,0)',
-                wrapper: 'rgb(0,0,0)'
+                wrapper: 'rgb(0,0,0)',
+                testDeselected: 'rgba(0,0,0,0.5)'
             },
             strokeOpacity:
             {
                 normal: 1,
-                wrapper: 0.5
+                wrapper: 0.5,
+                testDeselected: 0.2
             }
         },
         port:
@@ -72,7 +78,8 @@ function (Backbone) {
         {
             fill:
             {
-                normal: 'rgb(0,0,0)'
+                normal: 'rgb(0,0,0)',
+                testDeselected: 'rgba(0,0,0,0.5)'
             },
             fontSize:
             {

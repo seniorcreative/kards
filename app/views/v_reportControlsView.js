@@ -189,6 +189,7 @@ define(
 
                                  $('#reportName').text(data.reportTitle);
                                  $('#reportTitle').val(data.reportTitle);
+                                 window.reportModel.reportTitle = data.reportTitle;
 
                                  $('#btnAddReport').attr('disabled', 'disabled');
                                  $('#btnAddReport').addClass('hidden');
@@ -233,20 +234,19 @@ define(
 
                     //console.log('paper scale', paper.options);
 
-                    //console.log(jsonSaveObject);
+                    console.log(JSON.stringify(graph.toJSON()));
 
                     //wherever you need to do the ajax
                     $.ajax({
                         type: "POST",
                         url: "data/savechart.php",
-                        data: "reportTitle=" + this.model.reportTitle + "&chartData=" + jsonSaveObject,
+                        data: "reportTitle=" + this.model.reportTitle + "&chartData=" + encodeURIComponent(jsonSaveObject), // make sure to encode those ampersands and other special chars. no need to decode when loading back in...
                         datatype:"json",
                         success: function (data) {
 
                             var parsedData = $.parseJSON(data);
 
-                            console.log('saved chart result', parsedData);
-
+                            //console.log('saved chart result', parsedData);
                             // Now need to loop and update the reportJSON select
 
                             $('#reportJSON').html(parsedData.options);

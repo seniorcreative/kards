@@ -120,6 +120,8 @@ define(
 
                         if ($('#testCheckBox').is(':checked')) {
 
+                            // test mode
+
                             $('.formReportOptions').animate({'left': -400}, 250);
                             $('.formSectionOptions').animate({'left': -400}, 250);
                             $('.formQuestionOptions').animate({'left': -400}, 250);
@@ -128,10 +130,14 @@ define(
                             $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
+                            window.reportModel.mode = "test";
 
                         }
                         else
                         {
+
+                            // build mode
+
                             $('.formReportOptions').animate({'left': 10}, 250);
                             $('.formSectionOptions').animate({'left': 10}, 250);
                             $('.formQuestionOptions').animate({'left': 10}, 250);
@@ -139,6 +145,8 @@ define(
                             $('.formContentOptions').animate({'bottom': 10}, 250);
                             $('.formEndPointOptions').animate({'right': 10}, 250);
                             //$('.formPanelControls').animate({'left': 10}, 250);
+
+                            window.reportModel.mode = "build";
 
                         }
 
@@ -453,243 +461,282 @@ define(
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
+                        console.log("MODE", window.reportModel.mode);
                         console.log('cellView.model ', cellView.model);
                         //console.log('linked neighbours', graph.getNeighbors(cellView.model));
                         //console.log('parent', cellView.model.get('parent'));
                         //console.log('element', cellView.el);
-
                         //cellView.model.toFront({deep: true});
 
-                        switch(cellView.model.attributes.ktype) {
 
-                            case 'report':
+                        //
 
-                                //console.log('click on report', that, that.reportModel);
+                        switch(window.reportModel.mode)
+                        {
 
-                                var reportCategoryID = cellView.model.get('report_category_id');
-
-                                // adjust style of clicked element
-                                attrs = cellView.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                cellView.model.set('attrs', attrs);
-                                cellView.render().el;
-
-                                window.reportModel.set(
-                                    {
-                                        reportTitle: cellView.model.get('reportFull'),
-                                        reportCategoryID: cellView.model.get('report_category_id')
-                                    });
-
-                                window.selectedReport = cellView;
-
-                                window.reportModel.trigger('change');
-
-                                break;
-
-                            case 'section':
-
-                                //selectedSection = cellView;
-
-                                helpers.resetElementStyles('section');
-
-                                // adjust style of clicked element
-                                attrs = cellView.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                cellView.model.set('attrs', attrs);
-                                cellView.render().el;
-
-                                window.sectionModel.set(
-                                    {
-                                        sectionTitle: cellView.model.get('sectionFull')
-                                    });
-
-                                window.selectedSection =  cellView;
-
-                                window.sectionModel.trigger('change');
-
-                                $('.formQuestionOptions').css('opacity', 1);
-                                $('.formQuestionOptions').css('pointer-events', 'auto');
-                                $('#btnQuestionAdd').removeClass('hidden');
-                                $('#btnAddAnswer').addClass('hidden');
-                                $('#btnShowLogic').addClass('hidden');
-                                $('#btnDeleteQuestion').addClass('hidden');
+                            case 'test':
 
 
-                                $('.formQuestionOptions h3').text('Add Question');
+                                switch(cellView.model.attributes.ktype) {
 
-                                $('#sectionTitle').focus();
+                                    case 'question':
 
-                            break;
+// adjust style of clicked element
 
-                            case 'question':
+                                        helpers.deselectElementStylesForTest();
 
-                                //selectedQuestion = cellView;
+                                        /*attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;*/
 
-                                helpers.resetElementStyles('question');
-                                helpers.resetElementStyles('answer'); // clear styles of sub answers too.
-
-                                window.selectedAnswer = null;
-                                $('.formAnswerOptions').css('opacity', 0); // turn off the answer panel as deselecting answer
-                                $('.formAnswerOptions').css('pointer-events', 'none');
-
-                                // adjust style of clicked element
-                                attrs = cellView.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                cellView.model.set('attrs', attrs);
-                                cellView.render().el;
-
-                                window.questionModel.set(
-                                    {
-                                        questionValue: cellView.model.get('questionFull'),
-                                        questionTypeID: cellView.model.get('question_type_id'),
-                                        questionDatapointID: cellView.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: cellView.model.get('question_variable_type_id')
-                                    });
-
-                                window.selectedQuestion =  cellView;
-                                window.questionModel.trigger('change');
-
-                                console.log('selected question', cellView);
-
-                                $('.formQuestionOptions').css('opacity', 1);
-                                $('.formQuestionOptions').css('pointer-events', 'auto');
-                                $('#btnQuestionAdd').addClass('hidden');
-                                $('#btnAddAnswer').removeClass('hidden');
-                                $('#btnShowLogic').removeClass('hidden');
-                                $('#btnDeleteQuestion').removeClass('hidden');
-
-
-                                $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                //$('#logic-modal').show();
-
-                                $('#questionValue').focus();
-
-                                // Select this question in the last visible logic rule calculation block question
-                                //$('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
-                                //$('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
-
-                                break;
-
-                            case 'answer':
-
-                                //selectedAnswer = cellView;
-
-                                // Also set the parent question (both need to be set if we're editing answer controls)
-
-                                window.selectedAnswer   = cellView;
-                                window.selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question')); // Note we are setting the selected question i
-
-                                helpers.resetElementStyles('answer');
-                                helpers.resetElementStyles('question');
-
-                                // adjust style of clicked element
-                                // highlight node method?
-
-                                attrs = cellView.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                cellView.model.set('attrs', attrs);
-                                cellView.render().el;
-
-                                window.answerModel.set(
-                                    {
-                                        //answerLabel: attrs.text.text,
-                                        answerLabel: cellView.model.get('answerFull'),
-                                        answerValue: cellView.model.get('answer_value'),
-                                        answerValue2: cellView.model.get('answer_value2'),
-                                        answerDatapointID: cellView.model.get('ehr_datapoint_id'),
-                                        answerValueDataTypeID: cellView.model.get('answer_value_datatype_id'),
-                                    });
-
-                                // When we select an answer I want to also select simultaneously the parent question.
-
-
-                                attrs = window.selectedQuestion.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                window.selectedQuestion.model.set('attrs', attrs);
-                                window.selectedQuestion.render().el;
-
-                                window.questionModel.set(
-                                    {
-                                        questionValue: attrs.text.text,
-                                        questionTypeID: window.selectedQuestion.model.get('question_type_id'),
-                                        questionDatapointID: window.selectedQuestion.model.get('ehr_datapoint_id'),
-                                        questionVariableTypeID: window.selectedQuestion.model.get('question_variable_type_id'),
-                                    });
-
-                                //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
-                                window.answerModel.trigger('change');
-                                window.questionModel.trigger('change');
-
-                                $('.formAnswerOptions').css('opacity', 1);
-                                $('.formQuestionOptions').css('opacity', 1);
-
-                                $('.formQuestionOptions').css('pointer-events', 'auto');
-                                $('.formAnswerOptions').css('pointer-events', 'auto');
-
-                                $('#btnQuestionAdd').addClass('hidden');
-                                $('#btnAddAnswer').removeClass('hidden');
-                                $('#btnShowLogic').removeClass('hidden');
-                                $('#btnDeleteQuestion').removeClass('hidden');
-
-
-                                $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
-                                $('.formAnswerOptions h3').text('Edit Answer - Q'+ window.selectedQuestion.model.get('questionNumber') +', A' + window.selectedAnswer.model.get('answerNumber'));
-                                //$('#logic-modal').show();
-
-                                $('#answerLabel').focus();
-
-                                break;
-
-                            case 'content':
-
-                                selectChildElement(cellView, 'content');
-
-                                $('#contentText').focus();
-
-                                break;
-
-                            case 'logicwrapper':
-
-                                // Check if child is text 'content' model
-                                if (cellView.model.getEmbeddedCells().length) {
-
-                                  selectChildElement(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]), cellView.model.getEmbeddedCells()[0].get('ktype'));
+                                    break;
 
                                 }
 
-                            break;
-
-                            case 'endpoint':
-
-                                helpers.resetElementStyles('endpoint');
-
-                                // adjust style of clicked element
-                                attrs = cellView.model.get('attrs');
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                cellView.model.set('attrs', attrs);
-                                cellView.render().el;
-
-                                window.endPointModel.set(
-                                    {
-                                        endPointTitle: cellView.model.get('endPointFull'),
-                                        endPointTypeID: cellView.model.get('cms_endpoint_type_id')
-                                    });
-
-                                window.selectedEndPoint =  cellView;
-
-                                window.endPointModel.trigger('change');
-
-                                $('#endPointTitle').focus();
 
                             break;
 
-                            default:
 
-                                // link etc?
+                            case 'build':
 
-                            break;
+                                //
+
+                                switch(cellView.model.attributes.ktype) {
+
+                                    case 'report':
+
+                                        //console.log('click on report', that, that.reportModel);
+
+                                        var reportCategoryID = cellView.model.get('report_category_id');
+
+                                        // adjust style of clicked element
+                                        attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;
+
+                                        window.reportModel.set(
+                                            {
+                                                reportTitle: cellView.model.get('reportFull'),
+                                                reportCategoryID: cellView.model.get('report_category_id')
+                                            });
+
+                                        window.selectedReport = cellView;
+
+                                        window.reportModel.trigger('change');
+
+                                        break;
+
+                                    case 'section':
+
+                                        //selectedSection = cellView;
+
+                                        helpers.resetElementStyles('section');
+
+                                        // adjust style of clicked element
+                                        attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;
+
+                                        window.sectionModel.set(
+                                            {
+                                                sectionTitle: cellView.model.get('sectionFull')
+                                            });
+
+                                        window.selectedSection =  cellView;
+
+                                        window.sectionModel.trigger('change');
+
+                                        $('.formQuestionOptions').css('opacity', 1);
+                                        $('.formQuestionOptions').css('pointer-events', 'auto');
+                                        $('#btnQuestionAdd').removeClass('hidden');
+                                        $('#btnAddAnswer').addClass('hidden');
+                                        $('#btnShowLogic').addClass('hidden');
+                                        $('#btnDeleteQuestion').addClass('hidden');
+
+
+                                        $('.formQuestionOptions h3').text('Add Question');
+
+                                        $('#sectionTitle').focus();
+
+                                    break;
+
+                                    case 'question':
+
+                                        //selectedQuestion = cellView;
+
+                                        helpers.resetElementStyles('question');
+                                        helpers.resetElementStyles('answer'); // clear styles of sub answers too.
+
+                                        window.selectedAnswer = null;
+                                        $('.formAnswerOptions').css('opacity', 0); // turn off the answer panel as deselecting answer
+                                        $('.formAnswerOptions').css('pointer-events', 'none');
+
+                                        // adjust style of clicked element
+                                        attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;
+
+                                        window.questionModel.set(
+                                            {
+                                                questionValue: cellView.model.get('questionFull'),
+                                                questionTypeID: cellView.model.get('question_type_id'),
+                                                questionDatapointID: cellView.model.get('ehr_datapoint_id'),
+                                                questionVariableTypeID: cellView.model.get('question_variable_type_id')
+                                            });
+
+                                        window.selectedQuestion =  cellView;
+                                        window.questionModel.trigger('change');
+
+                                        //console.log('selected question', cellView);
+
+                                        $('.formQuestionOptions').css('opacity', 1);
+                                        $('.formQuestionOptions').css('pointer-events', 'auto');
+                                        $('#btnQuestionAdd').addClass('hidden');
+                                        $('#btnAddAnswer').removeClass('hidden');
+                                        $('#btnShowLogic').removeClass('hidden');
+                                        $('#btnDeleteQuestion').removeClass('hidden');
+
+
+                                        $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                        $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                        //$('#logic-modal').show();
+
+                                        $('#questionValue').focus();
+
+                                        // Select this question in the last visible logic rule calculation block question
+                                        //$('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
+                                        //$('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
+
+                                        break;
+
+                                    case 'answer':
+
+                                        //selectedAnswer = cellView;
+
+                                        // Also set the parent question (both need to be set if we're editing answer controls)
+
+                                        window.selectedAnswer   = cellView;
+                                        window.selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question')); // Note we are setting the selected question i
+
+                                        helpers.resetElementStyles('answer');
+                                        helpers.resetElementStyles('question');
+
+                                        // adjust style of clicked element
+                                        // highlight node method?
+
+                                        attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;
+
+                                        window.answerModel.set(
+                                            {
+                                                //answerLabel: attrs.text.text,
+                                                answerLabel: cellView.model.get('answerFull'),
+                                                answerValue: cellView.model.get('answer_value'),
+                                                answerValue2: cellView.model.get('answer_value2'),
+                                                answerDatapointID: cellView.model.get('ehr_datapoint_id'),
+                                                answerValueDataTypeID: cellView.model.get('answer_value_datatype_id'),
+                                            });
+
+                                        // When we select an answer I want to also select simultaneously the parent question.
+
+
+                                        attrs = window.selectedQuestion.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        window.selectedQuestion.model.set('attrs', attrs);
+                                        window.selectedQuestion.render().el;
+
+                                        window.questionModel.set(
+                                            {
+                                                questionValue: attrs.text.text,
+                                                questionTypeID: window.selectedQuestion.model.get('question_type_id'),
+                                                questionDatapointID: window.selectedQuestion.model.get('ehr_datapoint_id'),
+                                                questionVariableTypeID: window.selectedQuestion.model.get('question_variable_type_id'),
+                                            });
+
+                                        //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
+                                        window.answerModel.trigger('change');
+                                        window.questionModel.trigger('change');
+
+                                        $('.formAnswerOptions').css('opacity', 1);
+                                        $('.formQuestionOptions').css('opacity', 1);
+
+                                        $('.formQuestionOptions').css('pointer-events', 'auto');
+                                        $('.formAnswerOptions').css('pointer-events', 'auto');
+
+                                        $('#btnQuestionAdd').addClass('hidden');
+                                        $('#btnAddAnswer').removeClass('hidden');
+                                        $('#btnShowLogic').removeClass('hidden');
+                                        $('#btnDeleteQuestion').removeClass('hidden');
+
+
+                                        $('.formQuestionOptions h3').text('Edit Question - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                        $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
+                                        $('.formAnswerOptions h3').text('Edit Answer - Q'+ window.selectedQuestion.model.get('questionNumber') +', A' + window.selectedAnswer.model.get('answerNumber'));
+                                        //$('#logic-modal').show();
+
+                                        $('#answerLabel').focus();
+
+                                        break;
+
+                                    case 'content':
+
+                                        selectChildElement(cellView, 'content');
+
+                                        $('#contentText').focus();
+
+                                        break;
+
+                                    case 'logicwrapper':
+
+                                        // Check if child is text 'content' model
+                                        if (cellView.model.getEmbeddedCells().length) {
+
+                                          selectChildElement(paper.findViewByModel(cellView.model.getEmbeddedCells()[0]), cellView.model.getEmbeddedCells()[0].get('ktype'));
+
+                                        }
+
+                                    break;
+
+                                    case 'endpoint':
+
+                                        helpers.resetElementStyles('endpoint');
+
+                                        // adjust style of clicked element
+                                        attrs = cellView.model.get('attrs');
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        cellView.model.set('attrs', attrs);
+                                        cellView.render().el;
+
+                                        window.endPointModel.set(
+                                            {
+                                                endPointTitle: cellView.model.get('endPointFull'),
+                                                endPointTypeID: cellView.model.get('cms_endpoint_type_id')
+                                            });
+
+                                        window.selectedEndPoint =  cellView;
+
+                                        window.endPointModel.trigger('change');
+
+                                        $('#endPointTitle').focus();
+
+                                    break;
+
+                                    default:
+
+                                        // link etc?
+
+                                    break;
+                                }
+
+
+                                break;
+
                         }
 
                     });
