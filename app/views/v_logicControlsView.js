@@ -246,6 +246,26 @@ define(
                                         ar.push(newOutportName);
                                         parentLogicWrapper.set('outPorts', ar);
 
+
+                                        // Get the maximum rule number from the array.
+                                        // If we had 4 rules and deleted the middle 2
+                                        // then the array (of keys) would be 1, 4 and we would need value 5
+                                        var maxkey = 0;
+                                        _.each(logic.rules, function(value, key) {
+                                            if (maxkey == null || key > maxkey) { maxkey = key; }
+                                        });
+                                        var newActionNumber = parseInt(maxkey)+1;
+
+                                        var actionBlockCompiled = HRT.templates['logicAction.hbs']({ ruleNum: newActionNumber, ruleSortIndex: newActionNumber,actionNum: (newOutports.length + 1), actionLabel: newOutportName });
+
+                                        // Could add this into it's own action attrib but just want to check adding as a rule...
+                                        logic.rules[newActionNumber] = {
+                                            ruleCompiled: actionBlockCompiled,
+                                            calculationBlocksCompiled: {}
+                                        };
+
+
+
                                         // Now we'll work out the links - and loop over the selected answers.
 
                                         var newLogicOutportAnswerLink;
@@ -263,36 +283,16 @@ define(
 
                                             });
 
+                                            newLogicOutportAnswerLink.attr('rule', {rule: newActionNumber, action: (newOutports.length + 1) , outport: newOutportName });
+
+                                            //console.log('link prop', newLogicOutportAnswerLink, newLogicOutportAnswerLink.attr('rule'));
+
                                             graph.addCells(
                                                 [newLogicOutportAnswerLink]
                                             );
 
                                         }
 
-
-                                        //get ports from logicwrapper...
-                                        //elementLogicWrapperID
-
-                                        var parentLogicWrapper = graph.getCell(elementLogicWrapperID);
-                                        var outports = parentLogicWrapper.attributes.outPorts;
-
-
-                                        // Get the maximum rule number from the array.
-                                        // If we had 4 rules and deleted the middle 2
-                                        // then the array (of keys) would be 1, 4 and we would need value 5
-                                        var maxkey = 0;
-                                        _.each(logic.rules, function(value, key) {
-                                            if (maxkey == null || key > maxkey) { maxkey = key; }
-                                        });
-                                        var newActionNumber = parseInt(maxkey)+1;
-
-                                        var actionBlockCompiled = HRT.templates['logicAction.hbs']({ ruleNum: newActionNumber, ruleSortIndex: newActionNumber,actionNum: outports.length, actionLabel: newOutportName });
-
-                                        // Could add this into it's own action attrib but just want to check adding as a rule...
-                                        logic.rules[newActionNumber] = {
-                                            ruleCompiled: actionBlockCompiled,
-                                            calculationBlocksCompiled: {}
-                                        };
 
                                     }
 

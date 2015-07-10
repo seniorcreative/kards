@@ -93,7 +93,9 @@ define(
                         },
                         reportFull: newReportTitle,
                         report_category_id: this.$('#reportCategory option:selected').val(),
-                        interactive: true
+                        interactive: true,
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     report.set('inPorts', ['']);
@@ -185,8 +187,6 @@ define(
                                  paper.setDimensions(data.paper.width, data.paper.height);
                                  paper.options.gridSize = data.paper.gridSize;
 
-                                 //paper.options = data.paper.options; // set other options (grid etc) from saved paper settings
-
                                  $('#reportName').text(data.reportTitle);
                                  $('#reportTitle').val(data.reportTitle);
                                  window.reportModel.reportTitle = data.reportTitle;
@@ -208,33 +208,29 @@ define(
                 saveReport: function()
                 {
 
-                    //console.log(window.selectedQuestion.model, window.selectedQuestion);
 
                     var jsonSaveObject = "{";
 
-                    if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
-                    if (window.selectedSection != null)         jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
-                    if (window.selectedQuestion != null)        jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
-                    if (window.selectedAnswer != null)          jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
-                    if (window.selectedContent != null)         jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
-                    if (window.selectedEndPoint != null)        jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
+                        if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
+                        if (window.selectedSection != null)         jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
+                        if (window.selectedQuestion != null)        jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
+                        if (window.selectedAnswer != null)          jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
+                        if (window.selectedContent != null)         jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
+                        if (window.selectedEndPoint != null)        jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
 
-                    jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
-                    jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
-                    jsonSaveObject += "\"logic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
+                        jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
+                        jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
+                        jsonSaveObject += "\"logic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
 
-                    jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";
-                    jsonSaveObject += "\"originX\": "+ $('#ox').val() +",\"originY\": "+ $('#oy').val() +",";
-                    jsonSaveObject += "\"width\": "+ $('#width').val() +",\"height\": "+ $('#height').val() +",";
-                    jsonSaveObject += "\"gridSize\": "+ $('#grid').val() + "},";
+                        jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";
+                        jsonSaveObject += "\"originX\": "+ $('#ox').val() +",\"originY\": "+ $('#oy').val() +",";
+                        jsonSaveObject += "\"width\": "+ $('#width').val() +",\"height\": "+ $('#height').val() +",";
+                        jsonSaveObject += "\"gridSize\": "+ $('#grid').val() + "},";
 
-                    jsonSaveObject += "\"chartLayout\": " + JSON.stringify(graph.toJSON()) + " ";
+                        jsonSaveObject += "\"chartLayout\": " + JSON.stringify(graph.toJSON()) + " ";
 
                     jsonSaveObject += "}";
 
-                    //console.log('paper scale', paper.options);
-
-                    console.log(JSON.stringify(graph.toJSON()));
 
                     //wherever you need to do the ajax
                     $.ajax({
@@ -246,7 +242,6 @@ define(
 
                             var parsedData = $.parseJSON(data);
 
-                            //console.log('saved chart result', parsedData);
                             // Now need to loop and update the reportJSON select
 
                             $('#reportJSON').html(parsedData.options);

@@ -479,16 +479,62 @@ define(
 
                                 switch(cellView.model.attributes.ktype) {
 
-                                    case 'question':
+                                    case 'answer':
 
 // adjust style of clicked element
 
                                         helpers.deselectElementStylesForTest();
 
-                                        /*attrs = cellView.model.get('attrs');
+                                        attrs = cellView.model.get('attrs');
                                         attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        attrs.rect['fill']              = style.node.fill.normal;
+                                        attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                        attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                        attrs.rect['stroke']            = style.node.stroke.normal;
+                                        attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                        attrs.text['fill']              = style.text.fill.normal;
                                         cellView.model.set('attrs', attrs);
-                                        cellView.render().el;*/
+                                        cellView.render().el;
+
+                                        //console.log('this answer neighbours', graph.getNeighbors(cellView.model));
+                                        //console.log('this answer connected links ', graph.getConnectedLinks(cellView.model));
+
+                                        var answerLinkRuleAttrObject;
+
+                                        for (var cl in graph.getConnectedLinks(cellView.model))
+                                        {
+
+                                            answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].get('attrs');
+
+                                            console.log('clcked an answer', answerLinkRuleAttrObject);
+
+                                            if (answerLinkRuleAttrObject.rule != undefined)
+                                            {
+                                                console.log('clicked answer link out port and rule ', graph.getConnectedLinks(cellView.model)[cl].get('source').id, answerLinkRuleAttrObject);
+
+                                                var reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
+
+                                                var descendantCell = graph.getCell(reverseCellConnections[answerLinkRuleAttrObject.rule.outport]);
+
+                                                attrs = descendantCell.get('attrs');
+                                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                                attrs.rect['fill']              = style.node.fill.normal;
+                                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                                attrs.rect['stroke']            = style.node.stroke.normal;
+                                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                                attrs.text['fill']              = style.text.fill.normal;
+
+                                                descendantCell.set('attrs', attrs);
+                                                paper.findViewByModel(descendantCell).render().el;
+
+                                                //console.log('reverseCellConnections', reverseCellConnections);
+                                                //answerLinkRuleAttrObject.rule.outport
+
+
+                                            }
+
+                                        }
 
                                     break;
 
@@ -740,6 +786,38 @@ define(
                         }
 
                     });
+
+                    graph.on('change:source change:target', function(link) {
+                        var sourcePort = link.get('source').port;
+                        var sourceId = link.get('source').id;
+                        var targetPort = link.get('target').port;
+                        var targetId = link.get('target').id;
+
+
+                        if (sourcePort != undefined && sourceId != undefined  && targetPort != undefined && targetId != undefined) {
+
+                            var m = [
+                             'The port <b>' + sourcePort,
+                             '</b> of element with ID <b>' + sourceId,
+                             '</b> is connected to port <b>' + targetPort,
+                             '</b> of elemnt with ID <b>' + targetId + '</b>'
+                             ].join('');
+
+                            //console.log(m);
+
+                            var reversedConnectionTargets = graph.getCell(targetId).get('reversedConnectionTargets'); // when we drop a connection from something
+                            var connectionTargets = graph.getCell(targetId).get('connectionTargets'); // when we drop a connection to something
+
+                            reversedConnectionTargets[targetPort] = sourceId;
+                            connectionTargets[sourcePort] = targetId;
+
+                            // target element
+                            graph.getCell(targetId).set('reversedConnectionTargets', reversedConnectionTargets);
+                            graph.getCell(sourceId).set('connectionTargets', connectionTargets);
+
+                        }
+                    });
+
 
                 }
             });

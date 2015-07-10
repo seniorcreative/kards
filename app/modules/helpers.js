@@ -40,6 +40,16 @@ define(
                 if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {
                     attrs = that.loopedElements[element].model.get('attrs');
                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
+
+                    var cellFillType = (that.loopedElements[element].model.get('ktype') == 'logicwrapper') ? 'wrapper' : 'normal';
+
+                    attrs.rect['fill']              = style.node.fill[cellFillType];
+                    attrs.rect['fill-opacity']      = style.node.fillOpacity[cellFillType];
+                    attrs.rect['stroke-width']      = style.node.strokeWidth[cellFillType];
+                    attrs.rect['stroke']            = style.node.stroke[cellFillType];
+                    attrs.rect['stroke-opacity']    = style.node.strokeOpacity[cellFillType];
+                    attrs.text['fill']              = style.text.fill[cellFillType];
+
                     that.loopedElements[element].model.set('attrs', attrs);
                     that.loopedElements[element].render().el;
                 }
@@ -52,60 +62,6 @@ define(
             //var paperRect = {x: 0, y: 0, width: window.innerWidth, height: window.innerHeight};
             var paperRect = {x: 0, y: 0, width: 6000, height: 6000}; // max width, max height... had objects going outside of this causing issues not deselecting
             that.loopedElements = paper.findViewsInArea(paperRect);
-
-
-            /*rect: {
-                fill: style.node.fill.normal,
-                    'fill-opacity': style.node.fillOpacity.normal,
-                    'stroke-width': style.node.strokeWidth.normal,
-                    stroke: style.node.stroke.wrapper,
-                    style:{'pointer-events':''}
-            },
-            text: {
-                text: wraptext,
-                    fill: style.text.fill.normal
-            }*/
-
-
-
-            /*strokeDashArray:
-            {
-                selected: '2,3',
-                    deselected: '',
-                testDeselected:''
-            },
-            fill:
-            {
-                normal: 'rgb(255,255,255)',
-                    wrapper: 'rgb(255,255,255)',
-                endPoint: 'rgb(255,190,190)',
-                testDeselected: 'rgba(255,255,255)'
-            },
-            fillOpacity:
-            {
-                normal: 1,
-                    wrapper: 0.5,
-                testDeselected: 0.2
-            },
-            strokeWidth:
-            {
-                normal: 2,
-                    wrapper: 2,
-                testDeselected: 1
-            },
-            stroke:
-            {
-                normal: 'rgb(0,0,0)',
-                    wrapper: 'rgb(0,0,0)',
-                testDeselected: 'rgba(0,0,0,0.5)'
-            },
-            strokeOpacity:
-            {
-                normal: 1,
-                    wrapper: 0.5,
-                testDeselected: 0.2
-            }*/
-
 
             for (var element in that.loopedElements) {
                 //if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {

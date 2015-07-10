@@ -80,7 +80,9 @@ define(
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         sectionFull: newSectionTitle,
-                        interactive: true
+                        interactive: true,
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     section.set('inPorts', ['in']);

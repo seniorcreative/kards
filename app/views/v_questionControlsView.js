@@ -113,7 +113,7 @@ define(
                     });
 
 
-                    var questionNumber = this.model.questions.length + 1;
+                    var questionNumber = this.model.questions.length + 1; // prob need to change this to an object.
 
                     var questionObject = {
                         ktype: 'question',
@@ -144,7 +144,9 @@ define(
                         question_type_id: parseInt(this.$('#questionType option:selected').val()),
                         question_variable_type_id: parseInt(this.$('#questionVariableType option:selected').val()),
                         ehr_datapoint_id: parseInt(this.$('#questionDataPoint option:selected').val()),
-                        logic: {rules: {}} // { ruleCompiled: '', calculationBlocksCompiled: []}
+                        logic: {rules: {}}, // { ruleCompiled: '', calculationBlocksCompiled: []},
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     };
 
 
@@ -312,7 +314,9 @@ define(
                             },
                             '.inPorts circle': { fill: style.port.in.fill.normal },
                             '.outPorts circle': { fill: style.port.out.fill.normal }
-                        }
+                        },
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     //console.log("wrapper pos ", layout.stage.centerX - (logicWrapperWidth/2), layout.stage.centerY - (logicWrapperHeight / 2));
@@ -381,7 +385,9 @@ define(
                             answer_value2: answerValueProvider[a][1],
                             answer_parent_question: question.id,
                             ehr_datapoint_id: '',
-                            answerNumber: (a+1)
+                            answerNumber: (a+1),
+                            reversedConnectionTargets: {},
+                            connectionTargets: {}
                         });
 
                         graph.addCells(

@@ -84,7 +84,9 @@ define(
                             },
                             '.inPorts circle': {fill: style.port.in.fill.normal},
                             '.outPorts circle': {fill: style.port.out.fill.normal}
-                        }
+                        },
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     contentWrapper.set('inPorts', ['in']);
@@ -121,7 +123,9 @@ define(
                         contentFull: newContentText,
                         interactive: false,
                         cms_content_type_id: parseInt(this.$('#cmsContentTypeID option:selected').val()),
-                        cms_content_category_id: parseInt(this.$('#cmsContentCategoryID option:selected').val())
+                        cms_content_category_id: parseInt(this.$('#cmsContentCategoryID option:selected').val()),
+                        reversedConnectionTargets: {},
+                        connectionTargets: {}
                     });
 
                     graph.addCells([contentWrapper, content]);
