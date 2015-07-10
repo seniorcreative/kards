@@ -212,11 +212,11 @@ define(
                     var jsonSaveObject = "{";
 
                     if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
-                    if (window.selectedSection != null) jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
-                    if (window.selectedQuestion != null) jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
-                    if (window.selectedAnswer != null) jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
-                    if (window.selectedContent != null) jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
-                    if (window.selectedEndPoint != null) jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
+                    if (window.selectedSection != null)         jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
+                    if (window.selectedQuestion != null)        jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
+                    if (window.selectedAnswer != null)          jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
+                    if (window.selectedContent != null)         jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
+                    if (window.selectedEndPoint != null)        jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
 
                     jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
                     jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
@@ -233,7 +233,27 @@ define(
 
                     //console.log('paper scale', paper.options);
 
-                    console.log(jsonSaveObject);
+                    //console.log(jsonSaveObject);
+
+                    //wherever you need to do the ajax
+                    $.ajax({
+                        type: "POST",
+                        url: "data/savechart.php",
+                        data: "reportTitle=" + this.model.reportTitle + "&chartData=" + jsonSaveObject,
+                        datatype:"json",
+                        success: function (data) {
+
+                            var parsedData = $.parseJSON(data);
+
+                            console.log('saved chart result', parsedData);
+
+                            // Now need to loop and update the reportJSON select
+
+                            $('#reportJSON').html(parsedData.options);
+
+                        }
+
+                    });
 
 
 

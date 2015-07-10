@@ -45,12 +45,12 @@ function (Backbone) {
             {
                 fill:
                 {
-                    normal: '#cccccc',
+                    normal: 'rgb(190,190,190)',
                     hidden: 'rgba(0,0,0,0)'
                 },
                 stroke:
                 {
-                    normal: '#cccccc',
+                    normal: 'rgb(190,190,190)',
                     hidden: 'rgba(0,0,0,0)'
                 }
             },
@@ -58,12 +58,12 @@ function (Backbone) {
             {
                 fill:
                 {
-                    normal: '#cccccc',
+                    normal: 'rgb(190,190,190)',
                     hidden: 'rgba(0,0,0,0)'
                 },
                 stroke:
                 {
-                    normal: '#cccccc',
+                    normal: 'rgb(190,190,190)',
                     hidden: 'rgba(0,0,0,0)'
                 }
             }

@@ -447,6 +447,8 @@ define(
                         helpers.clearSelections();
 
 
+
+
                     });
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {

@@ -55,10 +55,27 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
+              <label for="reportJSON">Load a saved report</label>
               <select id="reportJSON" name="reportJSON" size="1">
                   <option value="">Select a report to load</option>
-                  <option value="cervicalcancerscreening.json">Cervical cancer screening</option>
-                  <option value="test.json">Test</option>
+                  <?php
+
+                if ($handle = opendir('data/charts')) {
+//                    echo "Directory handle: $handle\n";
+//                    echo "Entries:\n";
+
+                    /* This is the correct way to loop over the directory. */
+                    while (false !== ($entry = readdir($handle))  )  {
+
+                        if ($entry != '.' && $entry != '..') {
+                            echo "<option value='charts/" . $entry . "'>" . $entry . "</option>\n";
+                        }
+
+                    }
+
+                    closedir($handle);
+                }
+                ?>
               </select>
           </div>
 
