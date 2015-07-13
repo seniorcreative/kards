@@ -403,11 +403,41 @@
 
 
           <div class="form-controls  form-controls--width-full" >
-              <label for="btnAddContent" class="visuallyhidden">Click the button to add the content</label>
               <button type="button" id="btnAddContent" class="button-add">Add content</button>
           </div>
 
       </form>
+
+
+
+      <form method="" action="" class="formAnswerInputOptions  faded">
+
+          <h3>Answer input required</h3>
+
+          <div id="answerInputControls-date" class="form-controls  form-controls--width-full  form-controls--toggle  hidden">
+              <label for="answerInput-date">Date</label>
+              <input type="date" value="" data-type="5" name="answerInput-date" id="answerInput-date"   >
+          </div>
+
+          <div id="answerInputControls-string" class="form-controls  form-controls--width-full  form-controls--toggle  hidden">
+              <label for="answerInput-string">Word or letter</label>
+              <input type="text" value="" data-type="6" name="answerInput-string" id="answerInput-string" placeholder="Enter a word or letter">
+          </div>
+
+          <div id="answerInputControls-checkbox" class="form-controls  form-controls--width-full  form-controls--toggle  hidden">
+              <label for="answerInput-checkbox">
+                  <input type="checkbox" value="" data-type="2" name="answerInput-checkbox" id="answerInput-checkbox">
+                  Selected
+              </label>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnAnswerInputConfirm" class="button-add">Confirm answer</button>
+          </div>
+
+      </form>
+
+
       
       <form method="" action="" class="formEndPointOptions  _faded">
 

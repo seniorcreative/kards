@@ -613,6 +613,13 @@ form.formQuestionOptions {
   top: 410px;
   left: 10px;
 }
+form.formAnswerInputOptions {
+  display: block;
+  padding: 5px;
+  width: 275px;
+  bottom: 300px;
+  right: 10px;
+}
 form.formAnswerOptions {
   display: block;
   padding: 5px;

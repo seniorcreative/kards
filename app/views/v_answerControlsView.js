@@ -237,6 +237,13 @@ define(
                                 answer_value_datatype_id: this.$('#valueDataType option:selected').val()
                             }
                         );
+
+                        // also pass to the answer input in case we need to show that.
+                        window.answerInputModel.set(
+                            {
+                                answerInputValueDatatypeID: this.$('#valueDataType option:selected').val()
+                            }
+                        );
                     }
 
                 },

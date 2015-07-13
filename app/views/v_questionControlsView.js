@@ -386,6 +386,7 @@ define(
                             answer_parent_question: question.id,
                             ehr_datapoint_id: '',
                             answerNumber: (a+1),
+                            answerKey: questionNumber + "_" + (a+1),
                             reversedConnectionTargets: {},
                             connectionTargets: {}
                         });
@@ -579,6 +580,7 @@ define(
                     newAnswer.set('position', pos);
                     newAnswer.set('answerFull', newAnswerText);
                     newAnswer.set('answerNumber', newAnswerNumber);
+                    newAnswer.set('answerKey', window.selectedQuestion.model.get('questionNumber') + "_" + newAnswerNumber);
 
                     graph.addCell(newAnswer);
 

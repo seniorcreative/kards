@@ -243,6 +243,10 @@ define(
             $('.formAnswerOptions').css('opacity', 0);
             $('.formAnswerOptions').css('pointer-events', 'none');
 
+            $('.formAnswerInputOptions').css('opacity', 0);
+            $('.formAnswerInputOptions').css('pointer-events', 'none');
+            $('.formAnswerInputOptions').animate({'right': -400}, 250);
+
             //$('.formQuestionOptions').css('opacity', 0);
             $('#btnQuestionAdd').removeClass('hidden');
             //$('#btnAddAnswer').addClass('hidden');
@@ -328,6 +332,17 @@ define(
 
         };
 
+        var showAlert = function(string, delay)
+        {
+
+            $('body').prepend('<div class="alert" style="opacity: 0"><em>'+ string +'</em></div>');
+            $('.alert').animate({'opacity': 1}, 500);
+            setTimeout(function () {
+                $('.alert').remove()
+            }, delay);
+
+        };
+
         //objs.sort(compare);
 
         return {
@@ -340,7 +355,8 @@ define(
             clearSelections: clearSelections,
             getPrefixOperatorByID: getPrefixOperatorByID,
             getNormalOperatorByID: getNormalOperatorByID,
-            getCustomValueTypeByID: getCustomValueTypeByID
+            getCustomValueTypeByID: getCustomValueTypeByID,
+            showAlert: showAlert
         }
 
 

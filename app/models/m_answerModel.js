@@ -11,6 +11,7 @@ define(
                 answerValueDataTypeID: 1,
                 answerDatapointID: '',
                 answerParentQuestion: '',
+                answerInputValues: {},
                 logicVisible: false
             }
         );

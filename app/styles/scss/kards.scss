@@ -137,6 +137,7 @@ form
         left: 10px;
 
     }
+
     &.formQuestionOptions {
 
         display: block;
@@ -144,6 +145,16 @@ form
         width: 275px;
         top: 410px;
         left: 10px;
+
+    }
+
+    &.formAnswerInputOptions {
+
+        display: block;
+        padding: 5px;
+        width: 275px;
+        bottom: 300px;
+        right: 10px;
 
     }
 

@@ -36,6 +36,7 @@ $json = (object) [
         (object) ['id' => 2, 'label' => 'true or false'],
         (object) ['id' => 3, 'label' => 'whole number'],
         (object) ['id' => 4, 'label' => 'decimal number'],
+        (object) ['id' => 5, 'label' => 'date'],
         (object) ['id' => 6, 'label' => 'word or letter'],
         (object) ['id' => 8, 'label' => 'increase'],
         (object) ['id' => 9, 'label' => 'decrease'],

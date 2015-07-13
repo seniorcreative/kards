@@ -14,6 +14,7 @@ define(
         'models/m_sectionModel',
         'models/m_questionModel',
         'models/m_answerModel',
+        'models/m_answerInputModel',
         'models/m_contentModel',
         'models/m_logicModel',
         'models/m_endPointModel',
@@ -21,6 +22,7 @@ define(
         'views/v_sectionControlsView',
         'views/v_questionControlsView',
         'views/v_answerControlsView',
+        'views/v_answerInputControlsView',
         'views/v_contentControlsView',
         'views/v_logicControlsView',
         'views/v_endPointControlsView',
@@ -32,7 +34,7 @@ define(
         'compiled-templates'
     ],
 
-    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
+    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, answerInputModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, answerInputControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
 
 
 
@@ -40,7 +42,7 @@ define(
         var paper, graph;
 
         var loopedElements;
-        var reportControls, sectionControls, questionControls, answerControls, contentControls, logicControls, endPointControls;
+        var reportControls, sectionControls, questionControls, answerControls, answerInputControls, contentControls, logicControls, endPointControls;
 
 
         var run = function () {
@@ -86,13 +88,14 @@ define(
 
                     //
                     // Set up a reference within this object scope of each model.
-                    window.reportModel    = new reportModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.sectionModel   = new sectionModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.questionModel  = new questionModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.answerModel    = new answerModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.contentModel   = new contentModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.logicModel     = new logicModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
-                    window.endPointModel  = new endPointModel({ that: this, collection: window.kardsModelCollection, graph: graph, paper: paper });
+                    window.reportModel    = new reportModel({ that: this, graph: graph, paper: paper });
+                    window.sectionModel   = new sectionModel({ that: this, graph: graph, paper: paper });
+                    window.questionModel  = new questionModel({ that: this, graph: graph, paper: paper });
+                    window.answerModel    = new answerModel({ that: this, graph: graph, paper: paper });
+                    window.answerInputModel = new answerInputModel({ that: this, graph: graph, paper: paper });
+                    window.contentModel   = new contentModel({ that: this, graph: graph, paper: paper });
+                    window.logicModel     = new logicModel({ that: this, graph: graph, paper: paper });
+                    window.endPointModel  = new endPointModel({ that: this, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -105,7 +108,6 @@ define(
                      paperSmall.scale(0.25);
                      paperSmall.$el.css('pointer-events', 'none');*/
 
-                    //graph.fromJSON(val);
 
                     helpers.init(that, paper, graph);
 
@@ -121,32 +123,34 @@ define(
                         if ($('#testCheckBox').is(':checked')) {
 
                             // test mode
+                            window.reportModel.mode = "test";
 
                             $('.formReportOptions').animate({'left': -400}, 250);
                             $('.formSectionOptions').animate({'left': -400}, 250);
                             $('.formQuestionOptions').animate({'left': -400}, 250);
                             $('.formAnswerOptions').animate({'right': -400}, 250);
+                            $('.formAnswerInputOptions').animate({'right': -400}, 250);
                             $('.formContentOptions').animate({'bottom': -500}, 250);
                             $('.formEndPointOptions').animate({'right': -400}, 250);
                             //$('.formPanelControls').animate({'left': -400}, 250);
 
-                            window.reportModel.mode = "test";
 
                         }
                         else
                         {
 
                             // build mode
+                            window.reportModel.mode = "build";
 
                             $('.formReportOptions').animate({'left': 10}, 250);
                             $('.formSectionOptions').animate({'left': 10}, 250);
                             $('.formQuestionOptions').animate({'left': 10}, 250);
                             $('.formAnswerOptions').animate({'right': 10}, 250);
+                            $('.formAnswerInputOptions').animate({'right': 10}, 250);
                             $('.formContentOptions').animate({'bottom': 10}, 250);
                             $('.formEndPointOptions').animate({'right': 10}, 250);
                             //$('.formPanelControls').animate({'left': 10}, 250);
 
-                            window.reportModel.mode = "build";
 
                         }
 
@@ -200,6 +204,13 @@ define(
                                 {
                                     model: window.answerModel,
                                     el: '.formAnswerOptions'
+                                }
+                            );
+
+                            answerControls = new answerInputControlsView(
+                                {
+                                    model: window.answerInputModel,
+                                    el: '.formAnswerInputOptions'
                                 }
                             );
 
@@ -365,12 +376,7 @@ define(
 
                     //var that = this; // this is the 'router'
 
-
-                    $('body').prepend('<div class="alert" style="opacity: 0"><em>Data ready</em></div>');
-                    $('.alert').animate({'opacity': 1}, 500);
-                    setTimeout(function () {
-                        $('.alert').remove()
-                    }, 2500);
+                    helpers.showAlert('Data ready', 2500);
 
 
                     //
@@ -499,12 +505,36 @@ define(
                                         //console.log('this answer neighbours', graph.getNeighbors(cellView.model));
                                         //console.log('this answer connected links ', graph.getConnectedLinks(cellView.model));
 
+
+                                        // Need to apply logic machine here based on rules and content.
+
+                                        // how to show the answer input if needed....
+
+                                        $('.formAnswerInputOptions').css('opacity', 1);
+                                        $('.formAnswerInputOptions').css('pointer-events', 'auto');
+                                        $('.formAnswerInputOptions').animate({'right': 10}, 250);
+
+                                        window.answerInputModel.set('answerInputValueDatatypeID', cellView.model.get('answer_value_datatype_id'));
+
+
+                                        var answerInputValues = window.answerModel.answerInputValues;
+
+                                        console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
+
+                                        if (!answerInputValues[cellView.model.get('answerKey')]) {
+
+                                            helpers.showAlert('Answer input needed', 2500);
+
+                                            return;
+
+                                        }
+
                                         var answerLinkRuleAttrObject;
 
                                         for (var cl in graph.getConnectedLinks(cellView.model))
                                         {
 
-                                            console.log('looping connected links of answer that you clicked', cl, graph.getConnectedLinks(cellView.model), graph.getConnectedLinks(cellView.model)[cl]);
+                                            //console.log('looping connected links of answer that you clicked', cl, graph.getConnectedLinks(cellView.model), graph.getConnectedLinks(cellView.model)[cl]);
 
                                             answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
 
@@ -709,6 +739,8 @@ define(
                                         //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
                                         //window.answerModel.trigger('change');
                                         //window.questionModel.trigger('change');
+
+                                        window.answerInputModel.trigger('change');
 
                                         $('.formAnswerOptions').css('opacity', 1);
                                         $('.formQuestionOptions').css('opacity', 1);
