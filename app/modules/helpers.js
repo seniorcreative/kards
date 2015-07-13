@@ -37,22 +37,58 @@ define(
             that.loopedElements = paper.findViewsInArea(paperRect);
 
             for (var element in that.loopedElements) {
-                if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {
-                    attrs = that.loopedElements[element].model.get('attrs');
-                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
 
-                    var cellFillType = (that.loopedElements[element].model.get('ktype') == 'logicwrapper') ? 'wrapper' : 'normal';
+                //if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {
 
-                    attrs.rect['fill']              = style.node.fill[cellFillType];
-                    attrs.rect['fill-opacity']      = style.node.fillOpacity[cellFillType];
-                    attrs.rect['stroke-width']      = style.node.strokeWidth[cellFillType];
-                    attrs.rect['stroke']            = style.node.stroke[cellFillType];
-                    attrs.rect['stroke-opacity']    = style.node.strokeOpacity[cellFillType];
-                    attrs.text['fill']              = style.text.fill[cellFillType];
+                attrs = that.loopedElements[element].model.get('attrs');
 
-                    that.loopedElements[element].model.set('attrs', attrs);
-                    that.loopedElements[element].render().el;
+                switch(that.loopedElements[element].model.get('ktype')) {
+
+                    case 'question':
+                    case 'answer':
+                    case 'content':
+                    case 'report':
+                    case 'section':
+
+                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.deselected;
+                        attrs.rect['fill'] = style.node.fill.normal;
+                        attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                        attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                        attrs.rect['stroke'] = style.node.stroke.normal;
+                        attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+
+                        break;
+
+                    case 'contentwrapper':
+                    case 'logicwrapper':
+
+                        attrs.rect['stroke-dasharray'] = style.wrapper.strokeDashArray.deselected;
+                        attrs.rect['fill'] = style.wrapper.fill.normal;
+                        attrs.rect['fill-opacity'] = style.wrapper.fillOpacity.normal;
+                        attrs.rect['stroke-width'] = style.wrapper.strokeWidth.normal;
+                        attrs.rect['stroke'] = style.wrapper.stroke.normal;
+                        attrs.rect['stroke-opacity'] = style.wrapper.strokeOpacity.normal;
+
+                        break;
+
+                    case 'endpoint':
+
+                        attrs.rect['stroke-dasharray'] = style.endpoint.strokeDashArray.deselected;
+                        attrs.rect['fill'] = style.endpoint.fill.normal;
+                        attrs.rect['fill-opacity'] = style.endpoint.fillOpacity.normal;
+                        attrs.rect['stroke-width'] = style.endpoint.strokeWidth.normal;
+                        attrs.rect['stroke'] = style.endpoint.stroke.normal;
+                        attrs.rect['stroke-opacity'] = style.endpoint.strokeOpacity.normal;
+
+                        break;
+
                 }
+
+                attrs.text['fill'] = style.text.fill.normal;
+                that.loopedElements[element].model.set('attrs', attrs);
+                that.loopedElements[element].render().el;
+
+                //}
             }
         };
 
@@ -64,18 +100,55 @@ define(
             that.loopedElements = paper.findViewsInArea(paperRect);
 
             for (var element in that.loopedElements) {
-                //if ((that.loopedElements[element].model.get('ktype') == elementKType || elementKType == 'all') && that.loopedElements[element].model.get('ktype') != 'report') {
+
                     attrs = that.loopedElements[element].model.get('attrs');
-                    attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.testDeselected;
-                    attrs.rect['fill']              = style.node.fill.testDeselected;
-                    attrs.rect['fill-opacity']      = style.node.fillOpacity.testDeselected;
-                    attrs.rect['stroke-width']      = style.node.strokeWidth.testDeselected;
-                    attrs.rect['stroke']            = style.node.stroke.testDeselected;
-                    attrs.rect['stroke-opacity']    = style.node.strokeOpacity.testDeselected;
-                    attrs.text['fill']              = style.text.fill.testDeselected;
+
+                    switch(that.loopedElements[element].model.get('ktype')) {
+
+                        case 'question':
+                        case 'answer':
+                        case 'content':
+                        case 'report':
+                        case 'section':
+
+                            attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.testDeselected;
+                            attrs.rect['fill'] = style.node.fill.testDeselected;
+                            attrs.rect['fill-opacity'] = style.node.fillOpacity.testDeselected;
+                            attrs.rect['stroke-width'] = style.node.strokeWidth.testDeselected;
+                            attrs.rect['stroke'] = style.node.stroke.testDeselected;
+                            attrs.rect['stroke-opacity'] = style.node.strokeOpacity.testDeselected;
+
+                        break;
+
+                        case 'contentwrapper':
+                        case 'logicwrapper':
+
+                            attrs.rect['stroke-dasharray'] = style.wrapper.strokeDashArray.testDeselected;
+                            attrs.rect['fill'] = style.wrapper.fill.testDeselected;
+                            attrs.rect['fill-opacity'] = style.wrapper.fillOpacity.testDeselected;
+                            attrs.rect['stroke-width'] = style.wrapper.strokeWidth.testDeselected;
+                            attrs.rect['stroke'] = style.wrapper.stroke.testDeselected;
+                            attrs.rect['stroke-opacity'] = style.wrapper.strokeOpacity.testDeselected;
+
+                        break;
+
+                        case 'endpoint':
+
+                            attrs.rect['stroke-dasharray'] = style.endpoint.strokeDashArray.testDeselected;
+                            attrs.rect['fill'] = style.endpoint.fill.testDeselected;
+                            attrs.rect['fill-opacity'] = style.endpoint.fillOpacity.testDeselected;
+                            attrs.rect['stroke-width'] = style.endpoint.strokeWidth.testDeselected;
+                            attrs.rect['stroke'] = style.endpoint.stroke.testDeselected;
+                            attrs.rect['stroke-opacity'] = style.endpoint.strokeOpacity.testDeselected;
+
+                        break;
+
+                    }
+
+                    attrs.text['fill'] = style.text.fill.testDeselected;
                     that.loopedElements[element].model.set('attrs', attrs);
                     that.loopedElements[element].render().el;
-                //}
+
             }
         };
 

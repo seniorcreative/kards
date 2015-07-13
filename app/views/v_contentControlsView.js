@@ -61,7 +61,7 @@ define(
                     var contentNumber = this.model.contentArray.length + 1;
 
                     var contentWrapper = new joint.shapes.devs.Model({
-                        ktype: 'logicwrapper',
+                        ktype: 'contentwrapper',
                         position: {
                             x: layout.stage.centerX - (layout.content.wrapperSize.width / 2),
                             y: layout.stage.centerY - (layout.content.wrapperSize.height / 2)

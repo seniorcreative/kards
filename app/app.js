@@ -506,16 +506,11 @@ define(
 
                                             console.log('looping connected links of answer that you clicked', cl, graph.getConnectedLinks(cellView.model), graph.getConnectedLinks(cellView.model)[cl]);
 
+                                            answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
 
-                                            // Steve you need to fix this Monday July 13
-                                            
-                                            answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].get('attrs');
-
-                                            console.log('clcked an answer', answerLinkRuleAttrObject);
-
-                                            if (answerLinkRuleAttrObject.rule != undefined)
+                                            if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined)
                                             {
-                                                console.log('clicked answer link out port and rule ', graph.getConnectedLinks(cellView.model)[cl].get('source').id, answerLinkRuleAttrObject);
+                                                //console.log('clicked answer link out port and rule ', graph.getConnectedLinks(cellView.model)[cl].get('source').id, answerLinkRuleAttrObject);
 
                                                 var reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
 
