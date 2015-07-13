@@ -162,7 +162,7 @@ define(
                     switch(layout.get('newQuestionTypeID'))
                     {
                         case '1':
-                            // boolean
+                            // boolean / true or false...
 
                             questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
                             numAnswers = 2;
@@ -305,11 +305,11 @@ define(
                         attrs: {
                             '.label': { text: 'LOGIC', 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
-                                fill: style.node.fill.wrapper,
-                                'fill-opacity': style.node.fillOpacity.wrapper,
-                                'stroke-width': style.node.strokeWidth.wrapper,
-                                stroke: style.node.stroke.wrapper,
-                                'stroke-dasharray':style.node.strokeDashArray.deselected,
+                                fill: style.wrapper.fill.normal,
+                                'fill-opacity': style.wrapper.fillOpacity.normal,
+                                'stroke-width': style.wrapper.strokeWidth.normal,
+                                stroke: style.wrapper.stroke.normal,
+                                'stroke-dasharray':style.wrapper.strokeDashArray.deselected,
                                 style:{'pointer-events':''}
                             },
                             '.inPorts circle': { fill: style.port.in.fill.normal },
@@ -371,7 +371,7 @@ define(
                                     fill: style.node.fill.normal,
                                     'fill-opacity': style.node.fillOpacity.normal,
                                     'stroke-width': style.node.strokeWidth.normal,
-                                    stroke: style.node.stroke.wrapper,
+                                    stroke: style.node.stroke.normal,
                                     style:{'pointer-events':''}
                                 },
                                 text: {

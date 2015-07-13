@@ -70,11 +70,11 @@ define(
                         attrs: {
                             '.label': { text: 'E ' + endPointNumber, 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
                             rect: {
-                                fill: style.node.fill.endPoint,
-                                'fill-opacity': style.node.fillOpacity.normal,
-                                'stroke-width': style.node.strokeWidth.normal,
-                                stroke: style.node.stroke.normal,
-                                'stroke-dasharray':style.node.strokeDashArray.selected,
+                                fill: style.endpoint.fill.normal,
+                                'fill-opacity': style.endpoint.fillOpacity.normal,
+                                'stroke-width': style.endpoint.strokeWidth.normal,
+                                stroke: style.endpoint.stroke.normal,
+                                'stroke-dasharray':style.endpoint.strokeDashArray.selected,
                                 style:{'pointer-events':''}
                             },
                             text: {

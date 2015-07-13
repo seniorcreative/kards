@@ -76,9 +76,9 @@ define(
                             },
                             rect: {
                                 fill: style.node.fill.wrapper,
-                                'fill-opacity': style.node.fillOpacity.wrapper,
-                                'stroke-width': style.node.strokeWidth.wrapper,
-                                stroke: style.node.stroke.wrapper,
+                                'fill-opacity': style.wrapper.fillOpacity.normal,
+                                'stroke-width': style.wrapper.strokeWidth.normal,
+                                stroke: style.wrapper.stroke.normal,
                                 rx: 2,
                                 ry: 4
                             },
