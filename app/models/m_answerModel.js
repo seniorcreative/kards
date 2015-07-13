@@ -10,6 +10,7 @@ define(
                 valueDataTypeTemplate: '',
                 answerValueDataTypeID: 1,
                 answerDatapointID: '',
+                answerParentQuestion: '',
                 logicVisible: false
             }
         );

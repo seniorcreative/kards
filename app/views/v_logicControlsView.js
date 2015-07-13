@@ -166,11 +166,12 @@ define(
 
                                 // or if we're using old fashioned square brackets method.
 
-                                var ruleCompiled = HRT.templates['logicRule.hbs'](templateData); // .replace('[[[calculationBlocks]]]', calculationBlockCompiled);
+                                var ruleCompiled = HRT.templates['logicRule.hbs'](templateData);
 
                                 // Pump the template into questions logic rules array.
                                 logic.rules[ruleNumber] = {
                                     ruleCompiled: ruleCompiled,
+                                    type: 'rule',
                                     calculationBlocksCompiled: {} // calculationBlockCompiled]
                                 };
 
@@ -181,8 +182,8 @@ define(
 
                                 window.questionModel.set('ruleAdded', true);
 
-                                $('#logic-header-button-add-action').addClass('btnDisabled');
-                                $('#logic-header-button-add-action').attr('disabled','disabled');
+                                //$('#logic-header-button-add-action').addClass('btnDisabled');
+                                //$('#logic-header-button-add-action').attr('disabled','disabled');
                                 //
 
                                 var questionLogic = window.logicModel.questionLogic;
@@ -190,6 +191,7 @@ define(
                                 questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[ruleNumber] =
                                     { // Adding a rule will add this.
                                          sortIndex: templateData.ruleNum,
+                                         type: 'rule',
                                          prefixOperator: templateData.logicOperatorPrefix[0]['id'], // set as first value from data provider
                                          calculationBlocks: {
                                             /* 1: { // Adding a calculation block will add another one of this.
@@ -208,27 +210,40 @@ define(
 
                                 window.logicModel.set('questionLogic', questionLogic);
 
-                                //console.log('Logic after new rule added', window.logicModel.questionLogic);
-
                                 break;
 
                             case 'logicAction':
 
                                     // Go from question element
 
-                                // NB this is only going to work for one selected question operand for now. Need to loop selected options if you want further complexity.
                                     var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand option:selected').attr('data-parent');
 
                                     // To answer element
                                     var elementAnswerIDArray = [];
+                                    var elementAllAnswersArray = [];
 
-                                    $('#rule_'+ window.selectedRule +'_suffixansweroperands option:selected').each(function(a,b){
+                                    // Loop all available answers.
+                                    $('#rule_'+ window.selectedRule +'_suffixansweroperands option').each(function(a,b){
 
-                                        elementAnswerIDArray.push($(this).attr('data-element'));
+                                        if ($(this).val() != '')
+                                        {
+                                            elementAllAnswersArray.push($(this).attr('data-element'));
+                                        }
 
                                     });
 
-                                    //console.log(' logic connect id ', window.selectedRule, window.selectedCalculation, elementLogicWrapperID, elementAnswerIDArray );
+                                    // Loop selected answers only.
+                                    $('#rule_'+ window.selectedRule +'_suffixansweroperands option:selected').each(function(a,b){
+
+                                        if ($(this).val() != '')
+                                        {
+                                            elementAnswerIDArray.push($(this).attr('data-element'));
+                                        }
+
+                                    });
+
+                                    // if we haven't selected any individual answers
+                                    if (elementAnswerIDArray.length < 1) elementAnswerIDArray = elementAllAnswersArray;
 
                                     //
                                     if (elementLogicWrapperID && elementAnswerIDArray.length > 0) {
@@ -261,9 +276,10 @@ define(
                                         // Could add this into it's own action attrib but just want to check adding as a rule...
                                         logic.rules[newActionNumber] = {
                                             ruleCompiled: actionBlockCompiled,
+                                            outportName: newOutportName,
+                                            type: 'action',
                                             calculationBlocksCompiled: {}
                                         };
-
 
 
                                         // Now we'll work out the links - and loop over the selected answers.
@@ -294,12 +310,28 @@ define(
                                         }
 
 
+
+
+                                        // Add this action into the main logic rules/actions model
+
+                                        var questionLogic = window.logicModel.questionLogic;
+
+                                        questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[newActionNumber] =
+                                        { // Adding an action will add this.
+                                            sortIndex: newActionNumber,
+                                            type: 'action',
+                                            //ruleCompiled: actionBlockCompiled,
+                                            outportName: newOutportName
+                                        };
+
+                                        window.logicModel.set('questionLogic', questionLogic);
+
                                     }
 
                                 // Once a new action is added, we must disable adding action until after another rule is added
 
-                                $('#logic-header-button-add-action').addClass('btnDisabled');
-                                $('#logic-header-button-add-action').attr('disabled', 'disabled');
+                                //$('#logic-header-button-add-action').addClass('btnDisabled');
+                                //$('#logic-header-button-add-action').attr('disabled', 'disabled');
 
                                 window.questionModel.set('actionAdded', true);
 
@@ -512,11 +544,6 @@ define(
 
 
 
-
-
-
-
-
                                 // Chop out the calc at this location
 
                                 //logic.rules[window.selectedRule-1]['calculationBlocksCompiled'].splice((parseInt(calculationToRemove) - 1), 1);
@@ -542,27 +569,13 @@ define(
 
                                 logic.rules[window.selectedRule]['calculationBlocksCompiled'] = tmpLogic;
 
-
                                 // And finally, add the logic as a property of the selected Question
                                 window.selectedQuestion.model.set('logic', logic);
 
                                 // Notify App of calc block removed.
                                 window.questionModel.set('calculationBlockRemoved', true); // I  want to remove a calc block
 
-
-                                break;
-
-
-                            /*case 'removeAction':
-
-                                // Remove an action rule. click target index must start with rule_1_
-
-                                window.selectedRule = this.$(e.target).attr('id').split('_')[1];
-
-                                var actionToRemove = this.$(e.target).attr('id').split('_')[3];
-
-
-                                break;*/
+                            break;
 
                         }
 
@@ -668,9 +681,9 @@ define(
 
                                 window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
-console.log('made selected calc', window.selectedCalculation);
+//console.log('made selected calc', window.selectedCalculation);
 
-                                selectedQuestionOperand = [];
+                                selectedQuestionOperand = []; // populate with '' for empty value allowing us to select 'none'
 
                                 this.$(e.target).find('option:selected').each(function(a,b){
 
@@ -687,6 +700,9 @@ console.log('made selected calc', window.selectedCalculation);
                                     if (selectedQuestionOperand.indexOf(parseInt($(this).data('question'))) != -1) $(this).removeAttr('disabled');
                                     else $(this).attr('disabled', 'disabled');
                                 });
+
+                                // Still allow us to select the first item (which should be none)
+                                this.$('#rule_' + window.selectedRule + '_suffixansweroperands > option').first().removeAttr('disabled');
 
                                 questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].questionOperand = selectedQuestionOperand;
 
@@ -717,7 +733,7 @@ console.log('made selected calc', window.selectedCalculation);
 
 
 
-                        if (ruleSuffixAnswerOperands && selectedQuestionOperand) {
+                       /* if (ruleSuffixAnswerOperands && selectedQuestionOperand) {
                             $('#logic-header-button-add-action').removeClass('btnDisabled');
                             $('#logic-header-button-add-action').removeAttr('disabled');
                         }
@@ -725,7 +741,7 @@ console.log('made selected calc', window.selectedCalculation);
                         {
                             $('#logic-header-button-add-action').addClass('btnDisabled');
                             $('#logic-header-button-add-action').attr('disabled','disabled');
-                        }
+                        }*/
 
 
                         window.logicModel.set('questionLogic', questionLogic);

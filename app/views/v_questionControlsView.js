@@ -631,8 +631,8 @@ define(
                     // Use Object.keys(obj).length to check length of rules object after it got changed from array.
 
                     if (Object.keys(questionLogic[window.selectedQuestion.model.get('questionNumber')].rules).length) {
-                        $('#logic-header-button-add-action').addClass('btnDisabled');
-                        $('#logic-header-button-add-action').attr('disabled', 'disabled');
+                        //$('#logic-header-button-add-action').addClass('btnDisabled');
+                        //$('#logic-header-button-add-action').attr('disabled', 'disabled');
                     }
                     else
                     {
@@ -642,8 +642,8 @@ define(
 
                         // check whether the questionoperand and answervalues operands selects have any selected values.
 
-                        $('#logic-header-button-add-action').removeClass('btnDisabled');
-                        $('#logic-header-button-add-action').removeAttr('disabled');
+                        //$('#logic-header-button-add-action').removeClass('btnDisabled');
+                        //$('#logic-header-button-add-action').removeAttr('disabled');
                     }
 
                     $('#logic-modal').show();

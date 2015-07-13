@@ -179,8 +179,8 @@ define(
                                  if (data.selectedEndPoint != undefined) window.selectedEndPoint = paper.findViewByModel(data.selectedEndPoint.id);
 
                                  if (data.questions) window.questionModel.questions      = data.questions;
-                                 if (data.answers)window.questionModel.answerValues   = data.answers;
-                                 if (data.logic) window.logicModel.questionLogic     = data.logic;
+                                 if (data.answerValues) window.questionModel.answerValues   = data.answerValues;
+                                 if (data.questionLogic) window.logicModel.questionLogic     = data.questionLogic;
 
                                  paper.scale(data.paper.scaleX, data.paper.scaleY); // set scale from saved settings
                                  paper.setOrigin(data.paper.originX, data.paper.originY);
@@ -219,8 +219,8 @@ define(
                         if (window.selectedEndPoint != null)        jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
 
                         jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
-                        jsonSaveObject += "\"answers\": " + JSON.stringify(window.questionModel.answerValues) + ",";
-                        jsonSaveObject += "\"logic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
+                        jsonSaveObject += "\"answerValues\": " + JSON.stringify(window.questionModel.answerValues) + ",";
+                        jsonSaveObject += "\"questionLogic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
 
                         jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";
                         jsonSaveObject += "\"originX\": "+ $('#ox').val() +",\"originY\": "+ $('#oy').val() +",";
@@ -231,25 +231,31 @@ define(
 
                     jsonSaveObject += "}";
 
+                    $('#reportJSON option').first().html("Saving...");
 
-                    //wherever you need to do the ajax
-                    $.ajax({
-                        type: "POST",
-                        url: "data/savechart.php",
-                        data: "reportTitle=" + this.model.reportTitle + "&chartData=" + encodeURIComponent(jsonSaveObject), // make sure to encode those ampersands and other special chars. no need to decode when loading back in...
-                        datatype:"json",
-                        success: function (data) {
+                    var reportTitle = this.model.reportTitle;
 
-                            var parsedData = $.parseJSON(data);
+                    setTimeout(function(){
 
-                            // Now need to loop and update the reportJSON select
+                        //wherever you need to do the ajax
+                        $.ajax({
+                            type: "POST",
+                            url: "data/savechart.php",
+                            data: "reportTitle=" + reportTitle + "&chartData=" + encodeURIComponent(jsonSaveObject), // make sure to encode those ampersands and other special chars. no need to decode when loading back in...
+                            datatype:"json",
+                            success: function (data) {
 
-                            $('#reportJSON').html(parsedData.options);
+                                var parsedData = $.parseJSON(data);
 
-                        }
+                                // Now need to loop and update the reportJSON select
 
-                    });
+                                $('#reportJSON').html(parsedData.options);
 
+                            }
+
+                        });
+
+                    }, 2000);
 
 
                 }

@@ -315,8 +315,8 @@ define(
 
                                     if (questionLogic[window.selectedQuestion.model.get('questionNumber')].rules[1] == undefined) {
 
-                                        $('#logic-header-button-add-action').addClass('btnDisabled');
-                                        $('#logic-header-button-add-action').attr('disabled', 'disabled');
+                                        //$('#logic-header-button-add-action').addClass('btnDisabled');
+                                        //$('#logic-header-button-add-action').attr('disabled', 'disabled');
                                     }
                                     else
                                     {
@@ -341,8 +341,8 @@ define(
                                         // check whether the questionoperand and answervalues operands selects have any selected values.
 
 
-                                        $('#logic-header-button-add-action').removeClass('btnDisabled');
-                                        $('#logic-header-button-add-action').removeAttr('disabled');
+                                        //$('#logic-header-button-add-action').removeClass('btnDisabled');
+                                        //$('#logic-header-button-add-action').removeAttr('disabled');
                                     }
 
                                 }
@@ -654,8 +654,8 @@ define(
                                         $('#questionValue').focus();
 
                                         // Select this question in the last visible logic rule calculation block question
-                                        //$('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
-                                        //$('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
+                                        $('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
+                                        $('option[data-element="'+ cellView.model.get('id') +'"]').last().parent().trigger('change'); // trigger change on option's parent
 
                                         break;
 
@@ -687,6 +687,7 @@ define(
                                                 answerValue2: cellView.model.get('answer_value2'),
                                                 answerDatapointID: cellView.model.get('ehr_datapoint_id'),
                                                 answerValueDataTypeID: cellView.model.get('answer_value_datatype_id'),
+                                                answerParentQuestion: cellView.model.get('answer_parent_question')
                                             });
 
                                         // When we select an answer I want to also select simultaneously the parent question.
@@ -706,8 +707,8 @@ define(
                                             });
 
                                         //console.log('set the answer model val to ', selectedAnswer.model.get('ehr_datapoint_id')); // , questionModel.get('questionValue'));
-                                        window.answerModel.trigger('change');
-                                        window.questionModel.trigger('change');
+                                        //window.answerModel.trigger('change');
+                                        //window.questionModel.trigger('change');
 
                                         $('.formAnswerOptions').css('opacity', 1);
                                         $('.formQuestionOptions').css('opacity', 1);

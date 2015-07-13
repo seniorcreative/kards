@@ -289,6 +289,45 @@ define(
 
         };
 
+
+        // Getters which loop over loaded data objects.
+
+        var getPrefixOperatorByID = function( id )
+        {
+
+            for(var data in window.loadedData.logicOperatorPrefix)
+            {
+
+                if (window.loadedData.logicOperatorPrefix[data].id == id) return window.loadedData.logicOperatorPrefix[data];
+
+            }
+
+        };
+
+        var getNormalOperatorByID = function( id )
+        {
+
+            for(var data in window.loadedData.logicOperatorNormal)
+            {
+
+                if (window.loadedData.logicOperatorNormal[data].id == id) return window.loadedData.logicOperatorNormal[data];
+
+            }
+
+        };
+
+        var getCustomValueTypeByID = function( id )
+        {
+
+            for(var data in window.loadedData.valueDataTypesDropdown)
+            {
+
+                if (window.loadedData.valueDataTypesDropdown[data].id == id) return window.loadedData.valueDataTypesDropdown[data];
+
+            }
+
+        };
+
         //objs.sort(compare);
 
         return {
@@ -298,7 +337,10 @@ define(
             deselectElementStylesForTest: deselectElementStylesForTest,
             autocompleteSearch: autocompleteSearch,
             questionCompare: questionCompare,
-            clearSelections: clearSelections
+            clearSelections: clearSelections,
+            getPrefixOperatorByID: getPrefixOperatorByID,
+            getNormalOperatorByID: getNormalOperatorByID,
+            getCustomValueTypeByID: getCustomValueTypeByID
         }
 
 

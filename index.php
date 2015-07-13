@@ -327,8 +327,10 @@
             <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
           </div>-->
 
-
-
+          <div class="form-controls  form-controls--width-full">
+                <label>Answer logic rules</label>
+                <div id="answerLogicRules"></div>
+          </div>
 
       </form>
 
@@ -351,7 +353,7 @@
 
               <div class="logic-header-buttons">
                   <button type="button" data-action="logicRule" id="logic-header-button-add-rule">Add Rule</button>
-                  <button type="button" class="btnDisabled" data-action="logicAction" id="logic-header-button-add-action" disabled="disabled">Add Action</button>
+                  <button type="button" class="_btnDisabled" data-action="logicAction" id="logic-header-button-add-action" _disabled="disabled">Add Action</button>
               </div>
 
           </div>

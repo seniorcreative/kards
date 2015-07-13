@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 
 $json = (object) [
     'questionTypes' => [
-        (object) ['id' => 1, 'label' => 'True or False'],
         (object) ['id' => 2, 'label' => 'Multiple choice'],
+        (object) ['id' => 1, 'label' => 'True or False'],
         (object) ['id' => 3, 'label' => 'Numeric']
     ],
     'questionVariableTypes' => [
@@ -33,12 +33,10 @@ $json = (object) [
     ],
     'valueDataTypesDropdown' => [
         (object) ['id' => 1, 'label' => 'unknown'],
-        (object) ['id' => 2, 'label' => 'boolean'],
-        (object) ['id' => 3, 'label' => 'integer'],
-        (object) ['id' => 4, 'label' => 'float'],
-        (object) ['id' => 5, 'label' => 'scalar'],
-        (object) ['id' => 6, 'label' => 'string'],
-        (object) ['id' => 7, 'label' => 'temporal'],
+        (object) ['id' => 2, 'label' => 'true or false'],
+        (object) ['id' => 3, 'label' => 'whole number'],
+        (object) ['id' => 4, 'label' => 'decimal number'],
+        (object) ['id' => 6, 'label' => 'word or letter'],
         (object) ['id' => 8, 'label' => 'increase'],
         (object) ['id' => 9, 'label' => 'decrease'],
         (object) ['id' => 10, 'label' => 'no change'],
@@ -46,7 +44,12 @@ $json = (object) [
         (object) ['id' => 12, 'label' => 'range'],
         (object) ['id' => 13, 'label' => 'high'],
         (object) ['id' => 14, 'label' => 'low'],
-        (object) ['id' => 15, 'label' => 'none of the above']
+        (object) ['id' => 15, 'label' => 'none of the above'],
+        (object) ['id' => 16, 'label' => 'years'],
+        (object) ['id' => 17, 'label' => 'months'],
+        (object) ['id' => 18, 'label' => 'days'],
+        (object) ['id' => 19, 'label' => 'hours'],
+        (object) ['id' => 20, 'label' => 'minutes']
     ],
     'cmsContentCategories' => [
         (object) ['id' => 1, 'label' => 'what is it (definition)'],
@@ -85,13 +88,13 @@ $json = (object) [
     ],
     'logicOperatorNormal' =>
     [
-        (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
         (object) ['id' => '12','data-symbol' => '==','label' => 'IS EQUAL TO', 'data-type' => '1'],
+        (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
         (object) ['id' => '13','data-symbol' => '!=','label' => 'IS NOT EQUAL TO', 'data-type' => '1'],
-        (object) ['id' => '4','data-symbol' => '<','label' => 'LESS THAN', 'data-type' => '1'],
-        (object) ['id' => '5','data-symbol' => '<=','label' => 'LESS THAN OR EQUAL', 'data-type' => '1'],
-        (object) ['id' => '6','data-symbol' => '>','label' => 'GREATER THAN', 'data-type' => '1'],
-        (object) ['id' => '7','data-symbol' => '>=','label' => 'GREATER THAN OR EQUAL', 'data-type' => '1'],
+        (object) ['id' => '4','data-symbol' => '<','label' => 'IS LESS THAN', 'data-type' => '1'],
+        (object) ['id' => '5','data-symbol' => '<=','label' => 'IS LESS THAN OR EQUAL TO', 'data-type' => '1'],
+        (object) ['id' => '6','data-symbol' => '>','label' => 'IS GREATER THAN', 'data-type' => '1'],
+        (object) ['id' => '7','data-symbol' => '>=','label' => 'IS GREATER THAN OR EQUAL TO', 'data-type' => '1'],
         (object) ['id' => '8','data-symbol' => '+','label' => 'PLUS', 'data-type' => '1'],
         (object) ['id' => '9','data-symbol' => '-','label' => 'MINUS', 'data-type' => '1'],
         (object) ['id' => '10','data-symbol' => '*','label' => 'MULTIPLY', 'data-type' => '1'],
