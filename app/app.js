@@ -31,10 +31,11 @@ define(
         'modules/papercontrols',
         'modules/boundinglogicexpansion',
         'modules/helpers',
+        'modules/logicMachine',
         'compiled-templates'
     ],
 
-    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, answerInputModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, answerInputControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, compiledTemplates) {
+    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, answerInputModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, answerInputControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, logicMachine, compiledTemplates) {
 
 
 
@@ -111,6 +112,8 @@ define(
 
                     helpers.init(that, paper, graph);
 
+                    logicMachine.init(that, paper, graph);
+
                     // If you want paper controls.
                     paperControls.init(graph, paper);
 
@@ -125,14 +128,7 @@ define(
                             // test mode
                             window.reportModel.mode = "test";
 
-                            $('.formReportOptions').animate({'left': -400}, 250);
-                            $('.formSectionOptions').animate({'left': -400}, 250);
-                            $('.formQuestionOptions').animate({'left': -400}, 250);
-                            $('.formAnswerOptions').animate({'right': -400}, 250);
-                            $('.formAnswerInputOptions').animate({'right': -400}, 250);
-                            $('.formContentOptions').animate({'bottom': -500}, 250);
-                            $('.formEndPointOptions').animate({'right': -400}, 250);
-                            //$('.formPanelControls').animate({'left': -400}, 250);
+                            helpers.panelsOut();
 
 
                         }
@@ -142,14 +138,7 @@ define(
                             // build mode
                             window.reportModel.mode = "build";
 
-                            $('.formReportOptions').animate({'left': 10}, 250);
-                            $('.formSectionOptions').animate({'left': 10}, 250);
-                            $('.formQuestionOptions').animate({'left': 10}, 250);
-                            $('.formAnswerOptions').animate({'right': 10}, 250);
-                            $('.formAnswerInputOptions').animate({'right': 10}, 250);
-                            $('.formContentOptions').animate({'bottom': 10}, 250);
-                            $('.formEndPointOptions').animate({'right': 10}, 250);
-                            //$('.formPanelControls').animate({'left': 10}, 250);
+                            helpers.panelsIn();
 
 
                         }
@@ -461,21 +450,12 @@ define(
                         helpers.clearSelections();
 
 
-
-
                     });
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
                         console.log("MODE", window.reportModel.mode);
                         console.log('cellView.model ', cellView.model);
-                        //console.log('linked neighbours', graph.getNeighbors(cellView.model));
-                        //console.log('parent', cellView.model.get('parent'));
-                        //console.log('element', cellView.el);
-                        //cellView.model.toFront({deep: true});
-
-
-                        //
 
                         switch(window.reportModel.mode)
                         {
@@ -487,7 +467,11 @@ define(
 
                                     case 'answer':
 
-// adjust style of clicked element
+                                        // Set up selected nodes
+                                        window.selectedAnswer   = cellView;
+                                        window.selectedQuestion = paper.findViewByModel(cellView.model.get('answer_parent_question'));
+
+                                        // adjust style of clicked element
 
                                         helpers.deselectElementStylesForTest();
 
@@ -508,63 +492,10 @@ define(
 
                                         // Need to apply logic machine here based on rules and content.
 
-                                        // how to show the answer input if needed....
+                                        var answered = logicMachine.checkIfAnswerInputNeeded(cellView);
 
-                                        $('.formAnswerInputOptions').css('opacity', 1);
-                                        $('.formAnswerInputOptions').css('pointer-events', 'auto');
-                                        $('.formAnswerInputOptions').animate({'right': 10}, 250);
+                                        if (answered) logicMachine.calculateDescendants(cellView);
 
-                                        window.answerInputModel.set('answerInputValueDatatypeID', cellView.model.get('answer_value_datatype_id'));
-
-
-                                        var answerInputValues = window.answerModel.answerInputValues;
-
-                                        console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
-
-                                        if (!answerInputValues[cellView.model.get('answerKey')]) {
-
-                                            helpers.showAlert('Answer input needed', 2500);
-
-                                            return;
-
-                                        }
-
-                                        var answerLinkRuleAttrObject;
-
-                                        for (var cl in graph.getConnectedLinks(cellView.model))
-                                        {
-
-                                            //console.log('looping connected links of answer that you clicked', cl, graph.getConnectedLinks(cellView.model), graph.getConnectedLinks(cellView.model)[cl]);
-
-                                            answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
-
-                                            if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined)
-                                            {
-                                                //console.log('clicked answer link out port and rule ', graph.getConnectedLinks(cellView.model)[cl].get('source').id, answerLinkRuleAttrObject);
-
-                                                var reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
-
-                                                var descendantCell = graph.getCell(reverseCellConnections[answerLinkRuleAttrObject.rule.outport]);
-
-                                                attrs = descendantCell.get('attrs');
-                                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                                attrs.rect['fill']              = style.node.fill.normal;
-                                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                                                attrs.rect['stroke']            = style.node.stroke.normal;
-                                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                                                attrs.text['fill']              = style.text.fill.normal;
-
-                                                descendantCell.set('attrs', attrs);
-                                                paper.findViewByModel(descendantCell).render().el;
-
-                                                //console.log('reverseCellConnections', reverseCellConnections);
-                                                //answerLinkRuleAttrObject.rule.outport
-
-
-                                            }
-
-                                        }
 
                                     break;
 

@@ -4,10 +4,11 @@ define(
         'joint',
         'modules/style',
         'modules/layout',
-        'modules/helpers'
+        'modules/helpers',
+        'modules/pseudoCode'
     ],
 
-    function($, Backbone, joint, style, layout, helpers) {
+    function($, Backbone, joint, style, layout, helpers, pseudoCode) {
 
         var that;
         var graph;
@@ -24,6 +25,7 @@ define(
                     paper = this.model.get('paper');
 
                     helpers.init(that, paper, graph);
+                    pseudoCode.init(that, paper, graph);
 
                     //console.log('answer controls view inited');
 
@@ -64,103 +66,12 @@ define(
                     }
 
 
-
                     // Now - when this answer is selected, I want to loop through this question's rules
                     // and show a summary of the logic in which this answer is implicated.
 
-                    // First get the selected question from this answer.
+                    var ruleOutput = pseudoCode.answerSelected();
 
-                    if (window.selectedQuestion != null && window.selectedAnswer != null && this.model.get('answerParentQuestion') != undefined) {
-
-                        var ruleOutput = "";
-                        var rule, calc, question;
-                        var ruleObject, calcObject, questionObject;
-
-                        for(rule in window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules'])
-                        {
-
-                            ruleObject = window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules'][rule];
-
-                            switch(ruleObject.type)
-                            {
-
-                                case 'rule':
-
-                                    ruleOutput += helpers.getPrefixOperatorByID(ruleObject.prefixOperator).label + "<br>";
-
-                                    // Now loop calc blocks.
-                                    for (calc in ruleObject.calculationBlocks) {
-
-                                        calcObject = ruleObject.calculationBlocks[calc];
-
-                                        ruleOutput += helpers.getNormalOperatorByID(calcObject.calculationOperator).label + " " ;
-
-                                        if (calcObject.customValue != undefined  && calcObject.customValue != '' )
-                                        {
-                                            ruleOutput += helpers.getCustomValueTypeByID(calcObject.customValueType).label + " " + calcObject.customValue;
-                                        }
-                                        else {
-
-                                            var qOp = [];
-
-                                            for (var qOperand in calcObject.questionOperand)
-                                            {
-                                                qOp.push("Q" + calcObject.questionOperand[qOperand]);
-                                            }
-                                            ruleOutput += " " + qOp.join("&") + " ";
-
-                                        }
-
-                                    }
-
-                                    // Now append suffix.
-                                    ruleOutput += "<br>" + helpers.getNormalOperatorByID(ruleObject.suffixOperator).label + " ";
-
-                                    if (ruleObject.suffixCustomValue != undefined && ruleObject.suffixCustomValue != '' )
-                                    {
-                                        ruleOutput += helpers.getCustomValueTypeByID(ruleObject.suffixCustomValueType).label + " " + ruleObject.suffixCustomValue;
-                                    }
-                                    else {
-
-                                        var sOp = [];
-                                        var sOpSplit;
-
-                                        for (var sAOperand in ruleObject.suffixAnswerOperands)
-                                        {
-                                            // Answer operand value has format 1_2 which means question one, answer two
-                                            sOpSplit = ruleObject.suffixAnswerOperands[sAOperand].split("_");
-                                            sOp.push("Q" + sOpSplit[0] + '-' + "A" + sOpSplit[1]);
-                                        }
-
-                                        ruleOutput += sOp.join(",") + " ";
-
-                                    }
-
-                                    //ruleOutput += "<br><br>}<br><br>";
-
-
-                                break;
-
-                                case 'action':
-
-                                    ruleOutput += " THEN GO TO \"" + ruleObject.outportName + "\"";
-
-                                break;
-
-                            }
-
-                            ruleOutput+= "<br>";
-
-
-                        }
-
-                        this.$el.find('#answerLogicRules').html(ruleOutput);
-
-                    }
-
-
-
-
+                    if (ruleOutput) this.$el.find('#answerLogicRules').html(ruleOutput);
 
 
                     return this;

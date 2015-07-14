@@ -343,7 +343,33 @@ define(
 
         };
 
-        //objs.sort(compare);
+        var panelsOut = function()
+        {
+
+            $('.formReportOptions').animate({'left': -400}, 250);
+            $('.formSectionOptions').animate({'left': -400}, 250);
+            $('.formQuestionOptions').animate({'left': -400}, 250);
+            $('.formAnswerOptions').animate({'right': -400}, 250);
+            $('.formAnswerInputOptions').animate({'right': -400}, 250);
+            $('.formContentOptions').animate({'bottom': -500}, 250);
+            $('.formEndPointOptions').animate({'right': -400}, 250);
+            //$('.formPanelControls').animate({'left': -400}, 250);
+
+        };
+
+        var panelsIn = function()
+        {
+
+            $('.formReportOptions').animate({'left': 10}, 250);
+            $('.formSectionOptions').animate({'left': 10}, 250);
+            $('.formQuestionOptions').animate({'left': 10}, 250);
+            $('.formAnswerOptions').animate({'right': 10}, 250);
+            $('.formAnswerInputOptions').animate({'right': 10}, 250);
+            $('.formContentOptions').animate({'bottom': 10}, 250);
+            $('.formEndPointOptions').animate({'right': 10}, 250);
+            //$('.formPanelControls').animate({'left': 10}, 250);
+
+        };
 
         return {
             init: init,
@@ -356,7 +382,9 @@ define(
             getPrefixOperatorByID: getPrefixOperatorByID,
             getNormalOperatorByID: getNormalOperatorByID,
             getCustomValueTypeByID: getCustomValueTypeByID,
-            showAlert: showAlert
+            showAlert: showAlert,
+            panelsOut: panelsOut,
+            panelsIn: panelsIn
         }
 
 

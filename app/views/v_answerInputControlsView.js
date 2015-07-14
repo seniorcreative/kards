@@ -85,12 +85,14 @@ define(
                 answerUpdate: function(e)
                 {
 
-                    if (window.selectedQuestion != null && window.selectedAnswer != null)
-                    {
+                    //if (window.selectedQuestion != null && window.selectedAnswer != null)
+                    //{
 
                         var answerInputValues = window.answerModel.answerInputValues;
 
                         var answerKey = window.selectedAnswer.model.get('answerKey');
+
+                        console.log('selected answer answer key', answerKey);
 
                         //answerInputValues[answerKey] = '';
 
@@ -128,7 +130,7 @@ define(
 
                         console.log('stored your input ', window.answerModel.get('answerInputValues'), window.answerModel.answerInputValues);
 
-                    }
+                    //}
 
 
                 },

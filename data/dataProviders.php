@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 
 $json = (object) [
     'questionTypes' => [
-        (object) ['id' => 2, 'label' => 'Multiple choice'],
         (object) ['id' => 1, 'label' => 'True or False'],
+        (object) ['id' => 2, 'label' => 'Multiple choice'],
         (object) ['id' => 3, 'label' => 'Numeric']
     ],
     'questionVariableTypes' => [
