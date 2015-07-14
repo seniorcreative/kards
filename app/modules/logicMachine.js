@@ -132,6 +132,7 @@ define(
                             case 27:
                                 // ELSE IF
 
+                                functionLogic += " else if (";
 
                                 break;
 
@@ -538,7 +539,7 @@ define(
 
                         //ruleOutput += " THEN GO TO \"" + ruleObject.outportName + "\"";
 
-                        functionLogic += "{ return '" + ruleObject.outportName + "' } ";
+                        functionLogic += "{ return '" + ruleObject.outportName + "'; } ";
 
                         break;
 
@@ -555,6 +556,9 @@ define(
             }
 
             //console.log('we made some pseudo code', ruleOutput, window.selectedQuestion, window.selectedAnswer); // ,window.selectedAnswer.model.get('answerParentQuestion'));
+
+            console.log('Your function is made ', functionLogic);
+
 
             var evaluationFunction = new Function('eval', functionLogic);
 
