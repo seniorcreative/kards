@@ -46,7 +46,7 @@ define(
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
                     //this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
-                    //console.log('something changed ', parseInt(this.model.get('answerInputValueDatatypeID')));
+                    console.log('something changed ', parseInt(this.model.get('answerInputValueDatatypeID')));
 
                     $('.form-controls--toggle').addClass('hidden');
 

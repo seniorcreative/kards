@@ -71,7 +71,13 @@ define(
 
                     var ruleOutput = pseudoCode.answerSelected();
 
-                    if (ruleOutput) this.$el.find('#answerLogicRules').html(ruleOutput);
+                    if (ruleOutput)
+                    {
+
+                        this.$el.find('#answerLogicRules').html(ruleOutput);
+
+
+                    }
 
 
                     return this;

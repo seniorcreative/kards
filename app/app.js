@@ -494,7 +494,10 @@ define(
 
                                         var answered = logicMachine.checkIfAnswerInputNeeded(cellView);
 
-                                        if (answered) logicMachine.calculateDescendants(cellView);
+                                        if (answered)
+                                        {
+                                            logicMachine.calculateDescendants(cellView);
+                                        }
 
 
                                     break;
