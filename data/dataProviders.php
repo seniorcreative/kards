@@ -20,7 +20,7 @@ $json = (object) [
         'number' => 3,
 //        'float' => 4,
         'date' => 5,
-        'string' => 6,
+//        'string' => 6,
 //        'temporal' => 7,
 //        'increase' => 8,
 //        'decrease' => 9,
@@ -101,10 +101,10 @@ $json = (object) [
         (object) ['id' => '5','data-symbol' => '<=','label' => 'IS LESS THAN OR EQUAL TO', 'data-type' => '1'],
         (object) ['id' => '6','data-symbol' => '>','label' => 'IS GREATER THAN', 'data-type' => '1'],
         (object) ['id' => '7','data-symbol' => '>=','label' => 'IS GREATER THAN OR EQUAL TO', 'data-type' => '1'],
-//        (object) ['id' => '8','data-symbol' => '+','label' => 'PLUS', 'data-type' => '1'],
-//        (object) ['id' => '9','data-symbol' => '-','label' => 'MINUS', 'data-type' => '1'],
-//        (object) ['id' => '10','data-symbol' => '*','label' => 'MULTIPLY', 'data-type' => '1'],
-//        (object) ['id' => '11','data-symbol' => '/','label' => 'DIVIDE', 'data-type' => '1'],
+        (object) ['id' => '8','data-symbol' => '+','label' => 'PLUS', 'data-type' => '1'],
+        (object) ['id' => '9','data-symbol' => '-','label' => 'MINUS', 'data-type' => '1'],
+        (object) ['id' => '10','data-symbol' => '*','label' => 'MULTIPLIED BY', 'data-type' => '1'],
+        (object) ['id' => '11','data-symbol' => '/','label' => 'DIVIDED BY', 'data-type' => '1'],
 //        (object) ['id' => '14','data-symbol' => 'sum([VALUES])','label' => 'SUM', 'data-type' => '1'],
 //        (object) ['id' => '15','data-symbol' => 'mean([VALUES])','label' => 'MEAN', 'data-type' => '1'],
 //        (object) ['id' => '16','data-symbol' => 'mode([VALUES])','label' => 'MODE', 'data-type' => '1'],
@@ -114,8 +114,8 @@ $json = (object) [
 //        (object) ['id' => '25','data-symbol' => 'contains([VALUES])','label' => 'CONTAINS', 'data-type' => '1'],
 //        (object) ['id' => '26','data-symbol' => '!contains([VALUES])','label' => 'DOES NOT CONTAIN', 'data-type' => '1'],
 //        (object) ['id' => '27','data-symbol' => 'ELSE IF','label' => 'ELSE IF', 'data-type' => '1'],
-//        (object) ['id' => '29','data-symbol' => '&&','label' => 'AND', 'data-type' => '1'],
-//        (object) ['id' => '30','data-symbol' => '||','label' => 'OR', 'data-type' => '1']
+        (object) ['id' => '29','data-symbol' => '&&','label' => 'AND', 'data-type' => '1'],
+        (object) ['id' => '30','data-symbol' => '||','label' => 'OR', 'data-type' => '1']
     ]
 ];
 

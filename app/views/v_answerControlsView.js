@@ -138,7 +138,7 @@ define(
                         answerInputValues[window.selectedAnswer.model.get('answerKey')] = this.$(e.target).val();
                         window.answerModel.set('answerInputValues', answerInputValues);
 
-                        console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
+                        //console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
 
                         //window.selectedAnswer.render().el;
                     }
