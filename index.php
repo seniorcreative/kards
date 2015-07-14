@@ -431,7 +431,7 @@
               </label>
           </div>
 
-          <div class="form-controls  form-controls--width-full" >
+          <div class="form-controls  form-controls--width-full  hidden" >
               <button type="button" id="btnAnswerInputConfirm" class="button-add">Confirm answer</button>
           </div>
 

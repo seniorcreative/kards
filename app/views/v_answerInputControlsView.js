@@ -92,35 +92,49 @@ define(
 
                         var answerKey = window.selectedAnswer.model.get('answerKey');
 
-                        console.log('selected answer answer key', answerKey);
+                        //console.log('selected answer answer key', answerKey);
 
                         //answerInputValues[answerKey] = '';
 
-                        console.log('checking for answer value change of ', parseInt(this.$(e.target).data('type')));
+                        //console.log('checking for answer value change of ', parseInt(this.$(e.target).data('type')));
 
                         switch (parseInt(this.$(e.target).data('type'))) {
 
                             case 5:
+                                // date
+                            case 16:
+                                // time
 
                                 answerInputValues[answerKey] = this.$(e.target).val();
+
+                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
 
                                 // date
 
                                 break;
 
+                            case 3:
+                                // number
                             case 6:
-
                                 // string (word or letter)
+
                                 answerInputValues[answerKey] = this.$(e.target).val();
+
+                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
 
                                 break;
 
                             default:
                             case 2:
-
                                 // checkbox (default)
 
                                 answerInputValues[answerKey] = this.$(e.target).is(":checked");
+
+                                // convert to 1 or 0
+                                var switchValue = (this.$(e.target).is(":checked")) ? 1 : 0;
+
+                                window.selectedAnswer.model.set({'answer_value': switchValue});
+
 
                                 break;
 

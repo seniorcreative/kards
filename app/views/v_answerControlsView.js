@@ -16,6 +16,8 @@ define(
 
         var wraptext;
 
+        var answerInputValues;
+
         var answerControlsView = Backbone.View.extend(
             {
                 initialize: function () {
@@ -126,11 +128,18 @@ define(
                 },
                 answerValueUpdate: function(e)
                 {
-                    //console.log('answer value is changing', e, this.$(e.target).val());
+                    console.log('answer value is changing', e, this.$(e.target).val());
                     if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
                         // adjust value of selected answer
                         window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+
+                        answerInputValues = window.answerModel.answerInputValues;
+                        answerInputValues[window.selectedAnswer.model.get('answerKey')] = this.$(e.target).val();
+                        window.answerModel.set('answerInputValues', answerInputValues);
+
+                        console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
+
                         //window.selectedAnswer.render().el;
                     }
                 },
@@ -141,6 +150,11 @@ define(
                     {
                         // adjust value of selected answer
                         window.selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+
+                        answerInputValues = window.answerModel.answerInputValues;
+                        answerInputValues[window.selectedAnswer.model.get('answerKey')] = this.$(e.target).val();
+                        window.answerModel.set('answerInputValue2s', answerInputValues);
+
                         //window.selectedAnswer.render().el;
                     }
                 },

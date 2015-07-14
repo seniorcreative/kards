@@ -523,7 +523,7 @@ define(
                             "   return value;" +
                             "})() "; // make sure polarity is correct (plus+minus makes a minus)
 
-                            // add value from answerValues here to the functionLofic
+                            // add value from answerValues here to the functionLogic
 
                         }
 
@@ -585,12 +585,17 @@ define(
 
                 var outPort = getOutport(cellView)();
 
-                console.log("so dynamically got you an out port! ", outPort);
-
+                console.log("Dynamically got you an out port! ", outPort);
 
                 answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
 
-                if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined)
+
+                // Need the descendant connection to begin from the chosen outport match in the connectedlinks that extend
+                // downward from answers to outports. From these links we can get the reversed connection to get the id
+                // of the joined nodes (which was stored when we dropped the connection on in app.js)
+                // and we also need to move downward recursively through this stream....
+
+                if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined  && answerLinkRuleAttrObject.rule.outport == outPort)
                 {
 
                     var reverseCellConnections  = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
