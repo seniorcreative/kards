@@ -178,9 +178,10 @@ define(
                                  if (data.selectedContent != undefined) window.selectedContent = paper.findViewByModel(data.selectedContent.id);
                                  if (data.selectedEndPoint != undefined) window.selectedEndPoint = paper.findViewByModel(data.selectedEndPoint.id);
 
-                                 if (data.questions) window.questionModel.questions      = data.questions;
-                                 if (data.answerValues) window.questionModel.answerValues   = data.answerValues;
-                                 if (data.questionLogic) window.logicModel.questionLogic     = data.questionLogic;
+                                 if (data.questions) window.questionModel.questions                 = data.questions;
+                                 if (data.answerValues) window.questionModel.answerValues           = data.answerValues;
+                                 if (data.answerInputValues) window.answerModel.answerInputValues   = data.answerInputValues;
+                                 if (data.questionLogic) window.logicModel.questionLogic            = data.questionLogic;
 
                                  paper.scale(data.paper.scaleX, data.paper.scaleY); // set scale from saved settings
                                  paper.setOrigin(data.paper.originX, data.paper.originY);
@@ -220,6 +221,7 @@ define(
 
                         jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
                         jsonSaveObject += "\"answerValues\": " + JSON.stringify(window.questionModel.answerValues) + ",";
+                        jsonSaveObject += "\"answerInputValues\": " + JSON.stringify(window.answerModel.answerInputValues) + ",";
                         jsonSaveObject += "\"questionLogic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
 
                         jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";

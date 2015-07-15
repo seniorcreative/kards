@@ -17,6 +17,7 @@ define(
         var valueDataTypes;
         var answerDataTypesProvider = [];
         var answerValueProvider = [];
+        var answerInputValueProvider = [];
         var answerLabelProvider = [];
 
         var questionControlsView = Backbone.View.extend(
@@ -91,12 +92,10 @@ define(
                 },
                 addQuestion: function (e) {
 
-                    //console.log('setting question type to ', $('#questionType option:selected').text().toLowerCase());
-
                     layout.set('newQuestionTypeID', this.$('#questionType option:selected').val());
 
                     var newQuestionText = ($('#questionValue').val() == '') ? 'New ' + $('#questionType option:selected').text().toLowerCase() + ' question *' : $('#questionValue').val();
-                    //var newQuestionText = layout.get('newQuestionTypeID') + ' question *';
+
                     $('#questionValue').val(newQuestionText);
 
                     this.model.set('questionValue', newQuestionText);
@@ -104,7 +103,6 @@ define(
                     newQuestionX = parseInt(layout.stage.centerX - ((layout.question[layout.get('newQuestionTypeID')].qSize.width)/2));
                     newQuestionY = parseInt(layout.stage.centerY - layout.question[layout.get('newQuestionTypeID')].qSize.height - (layout.logicCenterHeight / 2) + 5);
 
-                    //console.log('newQuestionY ', newQuestionY);
                     helpers.resetElementStyles('question');
 
                     wraptext = joint.util.breakText(newQuestionText, {
@@ -164,12 +162,16 @@ define(
                         case '1':
                             // boolean / true or false...
 
+                            //console.log('whats happened to our data types', this.model.get('valueDataTypes'));
+
                             questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
                             numAnswers = 2;
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
-                            answerDataTypesProvider = [this.model.get('valueDataTypes')['boolean'], this.model.get('valueDataTypes')['boolean']]; // boolean (can also use layout.get('newQuestionTypeID') switch case here)
-                            answerValueProvider     = [[1], [0]]; // Note that the answer value can expect an array of 2 values
+                            answerDataTypesProvider = [this.model.get('valueDataTypes')['true or false'], this.model.get('valueDataTypes')['true or false']]; // boolean (can also use layout.get('newQuestionTypeID') switch case here)
+                            answerValueProvider     = [[true], [false]]; // Note that the answer value can expect an array of 2 values
                             answerLabelProvider     = [this.model.defaultValues.boolean[0], this.model.defaultValues.boolean[1]];
+
+                            answerInputValueProvider = [[true], [false]]; // We will prepopulate the answerInputValues for boolean questions
 
                             if ($('#questionUnknownAnswerAllowed').is(":checked"))
                             {
@@ -193,6 +195,7 @@ define(
                                     label: answerLabelProvider[mca]
                                 };
 
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = answerInputValueProvider[mca][0];
 
                             }
 
@@ -329,7 +332,6 @@ define(
                         question
                     ]);
 
-
                     // Add question to questions model.
 
                     this.model.questions.push({
@@ -337,7 +339,6 @@ define(
                         element: question.id,
                         parent: logicWrapper.id
                     });
-
 
                     logicWrapper.embed(question);
 
@@ -357,9 +358,9 @@ define(
                         var fullAnswerText = layout.question[layout.get('newQuestionTypeID')].answers[a].label;
 
                         wraptext = joint.util.breakText(fullAnswerText, {
-                            width: layout.question[layout.get('newQuestionTypeID')].aSize.width - 10,
-                            height: layout.question[layout.get('newQuestionTypeID')].aSize.height - 10
-                        });
+                            width: layout.question[layout.get('newQuestionTypeID')].aSize.width - 40,
+                            height: layout.question[layout.get('newQuestionTypeID')].aSize.height - 2
+                        }) + '...';
 
                         var answer = new joint.shapes.html.Element({
                             ktype: 'answer',
@@ -390,6 +391,8 @@ define(
                             reversedConnectionTargets: {},
                             connectionTargets: {}
                         });
+
+
 
                         graph.addCells(
                             [answer]
@@ -469,8 +472,8 @@ define(
                         attrs           = window.selectedQuestion.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[layout.get('newQuestionTypeID')].qSize.width,
-                            height: layout.question[layout.get('newQuestionTypeID')].qSize.height
+                            width: layout.question[layout.get('newQuestionTypeID')].qSize.width - 40,
+                            height: layout.question[layout.get('newQuestionTypeID')].qSize.height - 2
                         }) + '...';
 
                         attrs.text.text = wraptext;
@@ -568,9 +571,9 @@ define(
                     attrs               = newAnswer.get('attrs');
 
                     wraptext = joint.util.breakText(newAnswerText, {
-                        width: layout.question[layout.get('newQuestionTypeID')].aSize.width,
-                        height: layout.question[layout.get('newQuestionTypeID')].aSize.height
-                    });
+                        width: layout.question[layout.get('newQuestionTypeID')].aSize.width - 40,
+                        height: layout.question[layout.get('newQuestionTypeID')].aSize.height - 2
+                    }) + '...';
 
                     attrs['.label']['text'] = 'A'+newAnswerNumber;
                     attrs.text.text     = wraptext; // set using wrap utility,
@@ -592,6 +595,12 @@ define(
                         label: "Q" + window.selectedQuestion.model.get('questionNumber') + ", A" + newAnswerNumber + " - (" + wraptext.substring(0, 8) + "...)",
                         element: newAnswer.id
                     };
+
+                    // We might need to add this new answer's value to the answerInputValues.
+                    // But we're not setting the value to anything here (unless it comes from the cloning process)
+                    // window.answerModel.answerInputValues[window.selectedQuestion.model.get('questionNumber') + "_" + newAnswerNumber] = ?
+
+
 
                     this.model.answerValues = answerValues;
                     this.model.set('answerAdded', true);
@@ -619,16 +628,13 @@ define(
                     $('.formAnswerOptions').css('opacity', 1);
                     $('.formAnswerOptions').css('pointer-events', 'auto');
                 },
-                saveGraph: function () {
-                    console.log(JSON.stringify(graph.toJSON()));
-                },
                 showLogic: function () {
 
                     // I want to hide the 'add action' button if the logic for this newly selected question has no rules
 
                     var questionLogic = window.logicModel.questionLogic;
 
-                    console.log('selected question\'s logic', questionLogic, window.selectedQuestion.model.get('questionNumber'));
+                    //console.log('selected question\'s logic', questionLogic, window.selectedQuestion.model.get('questionNumber'));
 
                     // Use Object.keys(obj).length to check length of rules object after it got changed from array.
 

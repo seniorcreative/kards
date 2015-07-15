@@ -96,9 +96,9 @@ define(
                         attrs           = window.selectedAnswer.model.get('attrs');
 
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[layout.get('newQuestionTypeID')].qSize.width,
-                            height: layout.question[layout.get('newQuestionTypeID')].qSize.height
-                        });
+                            width: layout.question[layout.get('newQuestionTypeID')].aSize.width - 40,
+                            height: layout.question[layout.get('newQuestionTypeID')].aSize.height - 2
+                        }) + '...';
 
                         attrs.text.text = wraptext;
                         window.selectedAnswer.model.set('attrs', attrs);
@@ -169,13 +169,13 @@ define(
                             }
                         );
 
-                        // also pass to the answer input in case we need to show that.
-                        window.answerInputModel.set(
-                            {
-                                answerInputValueDatatypeID: this.$('#valueDataType option:selected').val()
-                            }
-                        );
                     }
+
+                    //console.log('setting window.answerInputModel.answerInputValueDatatypeID to', this.$('#valueDataType option:selected').val(),  window.answerInputModel.get('answerInputValueDatatypeID'),  window.answerInputModel.answerInputValueDatatypeID );
+
+                    // also pass to the answer input in case we need to show that.
+                    window.answerInputModel.set('answerInputValueDatatypeID', this.$('#valueDataType option:selected').val());
+
 
                 },
                 changeAnswerDatapointDropdown: function()

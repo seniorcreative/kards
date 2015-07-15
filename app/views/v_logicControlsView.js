@@ -89,25 +89,37 @@ define(
 
                         ruleObj = selectedQuestionRules[r];
 
-                        //console.log('looking at rule', r, selectedQuestionRules[r]);
+                        console.log('looking at rule', r, selectedQuestionRules[r]);
 
                         $('#rule_'+r+'_sortindex').val(ruleObj.sortIndex);
-                        $('#rule_'+r+'_prefixoperator').val(ruleObj.prefixOperator);
-                        $('#rule_'+r+'_suffixoperator').val(ruleObj.suffixOperator);
-                        $('#rule_'+r+'_suffixansweroperands').val(ruleObj.suffixAnswerOperands);
-                        $('#rule_'+r+'_suffixcustomvaluetype').val(ruleObj.suffixCustomValueType);
-                        $('#rule_'+r+'_suffixcustomvalue').val(ruleObj.suffixCustomValue);
 
-                        for (var c in ruleObj.calculationBlocks)
+                        if (ruleObj.type == 'rule')
                         {
 
-                            if (c != null) {
-                                calcObj = ruleObj.calculationBlocks[c];
+                            $('#rule_' + r + '_prefixoperator').val(ruleObj.prefixOperator);
 
-                                $('#rule_' + r + '_calculationblock_' + c + '_calculationoperator').val(calcObj.calculationOperator);
-                                $('#rule_' + r + '_calculationblock_' + c + '_questionoperand').val(calcObj.questionOperand);
-                                $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvaluetype').val(calcObj.customValueType);
-                                $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvalue').val(calcObj.customValue);
+                            for (var c in ruleObj.calculationBlocks) {
+
+                                if (c != null) {
+                                    calcObj = ruleObj.calculationBlocks[c];
+
+                                    $('#rule_' + r + '_calculationblock_' + c + '_calculationoperator').val(calcObj.calculationOperator);
+                                    $('#rule_' + r + '_calculationblock_' + c + '_questionoperand').val(calcObj.questionOperand); // careful - this is calling a change event.
+                                    $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvaluetype').val(calcObj.customValueType);
+                                    $('#rule_' + r + '_calculationblock_' + c + '_operandcustomvalue').val(calcObj.customValue);
+
+                                }
+
+                            }
+
+                            $('#rule_' + r + '_suffixoperator').val(ruleObj.suffixOperator);
+                            $('#rule_' + r + '_suffixcustomvaluetype').val(ruleObj.suffixCustomValueType);
+                            $('#rule_' + r + '_suffixcustomvalue').val(ruleObj.suffixCustomValue);
+
+                            
+                            for (var sao in ruleObj.suffixAnswerOperands) {
+
+                                $('#rule_' + r + '_suffixansweroperands option[value="' + ruleObj.suffixAnswerOperands[sao] + '"]').attr('selected', 'selected');
                             }
 
 
@@ -695,7 +707,8 @@ define(
                                 //console.log('selected question operands', selectedQuestionOperand);
 
                                 this.$('#rule_' + window.selectedRule + '_suffixansweroperands > option').each(function (g, h) {
-                                    $(this).removeAttr('selected');
+
+                                    //$(this).removeAttr('selected');  // clashing with when setting up the logic overlay
 
                                     if (selectedQuestionOperand.indexOf(parseInt($(this).data('question'))) != -1) $(this).removeAttr('disabled');
                                     else $(this).attr('disabled', 'disabled');

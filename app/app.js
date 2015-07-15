@@ -232,7 +232,7 @@ define(
 
                             questionControls.listenTo(window.questionModel, "change", function(){
 
-                                //console.log('changed something in question model , answer Values', window.questionModel.answerValues);
+                                console.log('changed something in question model , answer Values', window.questionModel.answerValues);
 
                                 if (window.selectedQuestion != null) {
 
@@ -454,7 +454,7 @@ define(
 
                     paper.on('cell:pointerclick', function(cellView, evt, x, y) {
 
-                        console.log("MODE", window.reportModel.mode);
+                        //console.log("MODE", window.reportModel.mode);
                         console.log('cellView.model ', cellView.model);
 
                         switch(window.reportModel.mode)
@@ -754,6 +754,11 @@ define(
 
                     });
 
+
+                    // This part of code is important as stores the up and down stream connections
+                    // to and from nodes - we need these to be stored for when we are in test mode
+                    // and need to know which downstream jointjs cellviews to highlight
+
                     graph.on('change:source change:target', function(link) {
                         var sourcePort = link.get('source').port;
                         var sourceId = link.get('source').id;
@@ -767,7 +772,7 @@ define(
                              'The port <b>' + sourcePort,
                              '</b> of element with ID <b>' + sourceId,
                              '</b> is connected to port <b>' + targetPort,
-                             '</b> of elemnt with ID <b>' + targetId + '</b>'
+                             '</b> of element with ID <b>' + targetId + '</b>'
                              ].join('');
 
                             //console.log(m);

@@ -199,7 +199,7 @@ define(
                                         case 2:
                                             // TRUE OR FALSE
 
-                                            functionLogic += "";
+                                            functionLogic += ""; // force a true condition check for checkbox
 
                                             break;
 
@@ -249,7 +249,7 @@ define(
 
                                     // I want to know the answer Value data type and the stored answer from the answerValues using the answer Key
 
-                                    //console.log('data type of this questions answer ', cellView.model.get('answer_value_datatype_id'));
+                                    //console.log('data type of this questions answer ', cellView, cellView.model.get('answer_value_datatype_id'));
 
                                     switch (parseInt(cellView.model.get('answer_value_datatype_id'))) {
 
@@ -271,7 +271,10 @@ define(
                                         case 2:
                                             // TRUE OR FALSE
 
-                                            functionLogic += "";
+                                            //functionLogic += answerInputValues[cellView.model.get('answerKey')];
+                                            /// same as
+                                            functionLogic += answerInputValues[cellView.model.get('answerKey')];
+
 
                                             break;
 
@@ -564,7 +567,7 @@ define(
 
                 //console.log('we made some pseudo code', ruleOutput, window.selectedQuestion, window.selectedAnswer); // ,window.selectedAnswer.model.get('answerParentQuestion'));
 
-                //console.log('Your function is made ', functionLogic);
+                console.log('Your function is made ', functionLogic);
 
 
                 evaluationFunction = new Function("eval", functionLogic);
@@ -645,16 +648,32 @@ define(
 
 
                     // If its an answer we need to get the ports from the parent.
-                    if (cellView.model.get('ktype') == 'answer')
+                    switch(cellView.model.get('ktype'))
                     {
 
-                        reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
+                        case 'answer':
 
-                    }
-                    else
-                    {
+                            reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
 
-                        reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+                            break;
+
+                        case 'endpoint':
+
+                            return;
+
+                            break;
+
+                        case 'logicwrapper':
+
+                            return;
+
+                            break;
+
+                        default:
+
+                            reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                            break;
 
                     }
 
@@ -679,14 +698,34 @@ define(
 
                         // Now we recurse.
 
-                        console.log('going to recurse with ', descendantCellView);
-
-                        if (descendantCellView.model.get('ktype') == 'endpoint')
+                        switch(descendantCellView.model.get('ktype'))
                         {
-                            return;
-                        }
 
-                        calculateDescendants(descendantCellView);
+
+                            case 'endpoint':
+
+                                    return;
+
+                                break;
+
+                            case 'logicwrapper':
+
+                                    return;
+
+                                break;
+
+                            default:
+
+                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                console.log('going to recurse with ', descendantCellView);
+
+                                calculateDescendants(descendantCellView);
+
+                                break;
+
+                        };
+
 
 
 

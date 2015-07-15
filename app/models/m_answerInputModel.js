@@ -6,7 +6,7 @@ define(
         var answerInputModel = Backbone.Model.extend(
             {
                 answerInputValue: undefined,
-                answerInputValueDatatypeID: 2 // date (id 5) or checkbox (id 2)
+                answerInputValueDatatypeID: 0 // date (id 5) or checkbox (id 2)
             }
         );
 
