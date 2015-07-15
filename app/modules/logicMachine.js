@@ -29,7 +29,7 @@ define(
 
             //console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
 
-            if (cellView.model.get('answerKey') in answerInputValues) {
+            if (cellView.model.get('answerKey') in answerInputValues && answerInputValues[cellView.model.get('answerKey')] != '') {
 
                 // Answer value is there, it's ok. Use this in calculations of what to do next.
 
@@ -587,7 +587,7 @@ define(
 
             var answerLinkRuleAttrObject;
 
-            console.log(' connected links when running calculateDescendents ', graph.getConnectedLinks(cellView.model));
+            //console.log(' connected links when running calculateDescendents ', graph.getConnectedLinks(cellView.model));
 
             for (var cl in graph.getConnectedLinks(cellView.model))
             {
