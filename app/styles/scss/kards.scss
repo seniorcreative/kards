@@ -4,6 +4,7 @@
 @import "reset";
 @import "logic";
 @import "html-element";
+@import "hud";
 
 
 .rectangle
@@ -20,7 +21,7 @@ html,body
 
 body
 {
-    background-color: #99ccff;
+    background-color: $background-color;
 }
 
 header {

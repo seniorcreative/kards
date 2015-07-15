@@ -353,7 +353,8 @@ define(
             $('.formAnswerInputOptions').animate({'right': -400}, 250);
             $('.formContentOptions').animate({'bottom': -500}, 250);
             $('.formEndPointOptions').animate({'right': -400}, 250);
-            //$('.formPanelControls').animate({'left': -400}, 250);
+            $('.formPanelControls').animate({'left': -400}, 250);
+            $('#HUD').animate({'bottom': 0}, 250);
 
         };
 
@@ -367,7 +368,8 @@ define(
             $('.formAnswerInputOptions').animate({'right': 10}, 250);
             $('.formContentOptions').animate({'bottom': 10}, 250);
             $('.formEndPointOptions').animate({'right': 10}, 250);
-            //$('.formPanelControls').animate({'left': 10}, 250);
+            $('.formPanelControls').animate({'left': 10}, 250);
+            $('#HUD').animate({'bottom': -150}, 250);
 
         };
 

@@ -27,9 +27,9 @@ define(
 
             var answerInputValues = window.answerModel.answerInputValues;
 
-            //console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
+            console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
 
-            if (cellView.model.get('answerKey') in answerInputValues && answerInputValues[cellView.model.get('answerKey')] != '') {
+            if (answerInputValues[cellView.model.get('answerKey')] != undefined && answerInputValues[cellView.model.get('answerKey')] != '' || answerInputValues[cellView.model.get('answerKey')] === false) {
 
                 // Answer value is there, it's ok. Use this in calculations of what to do next.
 
@@ -291,8 +291,7 @@ define(
                                             // YEARS
 
 
-                                            functionLogic += " " +
-                                            " (function(){" +
+                                            functionLogic += " (function(){" +
                                             "   var parts = '" + answerInputValues[cellView.model.get('answerKey')] + "'.split('-'); " +
                                             "   var mydate = new Date(parts[0],parts[1]-1,parts[2]);" +
                                             "   return mydate;" +
@@ -323,7 +322,8 @@ define(
                                     case 12:
                                         // IS EQUAL TO
 
-                                        functionLogic += " ( ";
+                                        //functionLogic += " ( ";
+                                        functionLogic += " ";
 
                                         break;
 
@@ -496,8 +496,7 @@ define(
                                     case 16:
                                         // YEARS
 
-                                        functionLogic += " " +
-                                        " (function(){" +
+                                        functionLogic += " (function(){" +
                                         "   var now = new Date(); " +
                                         "   var offset = new Date(); " +
                                         "   offset.setYear(now.getFullYear() +(" + ruleObject.suffixCustomValue + "));" +
@@ -527,8 +526,7 @@ define(
 
                                 // I'm only allowing for one answer here for now.
 
-                                functionLogic += " " +
-                                " (function(){" +
+                                functionLogic += " (function(){" +
                                 "   var value = " + answerInputValues[ruleObject.suffixAnswerOperands[0]] + ";" +
                                 "   return value;" +
                                 "})() "; // make sure polarity is correct (plus+minus makes a minus)

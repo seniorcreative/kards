@@ -463,6 +463,30 @@
       </form>
 
 
+
+      <div id="HUD">
+
+          <a href="#" class="btnBack">&lt;</a>
+
+          <ul id="content-nodes">
+              <li>
+                  <a href="#" data-index="1" data-element="abcd-defg-hijk-lmno">C1</a>
+              </li>
+              <li>
+                  <a href="#" data-index="2" data-element="abcd-defg-hijk-lmno">C1</a>
+              </li>
+              <li>
+                  <a href="#" data-index="3" class="selected" data-element="abcd-defg-hijk-lmno">C1</a>
+              </li>
+          </ul>
+
+          <a href="#" class="btnNext">&gt;</a>
+
+          <h3>Content stream</h3>
+
+      </div>
+
+
       <!--<div id="app"></div>-->
   </main>
 

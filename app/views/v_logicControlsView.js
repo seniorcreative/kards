@@ -89,7 +89,7 @@ define(
 
                         ruleObj = selectedQuestionRules[r];
 
-                        console.log('looking at rule', r, selectedQuestionRules[r]);
+                        //console.log('looking at rule', r, selectedQuestionRules[r]);
 
                         $('#rule_'+r+'_sortindex').val(ruleObj.sortIndex);
 
@@ -116,7 +116,7 @@ define(
                             $('#rule_' + r + '_suffixcustomvaluetype').val(ruleObj.suffixCustomValueType);
                             $('#rule_' + r + '_suffixcustomvalue').val(ruleObj.suffixCustomValue);
 
-                            
+
                             for (var sao in ruleObj.suffixAnswerOperands) {
 
                                 $('#rule_' + r + '_suffixansweroperands option[value="' + ruleObj.suffixAnswerOperands[sao] + '"]').attr('selected', 'selected');
