@@ -31,6 +31,8 @@ define(
                         this.render()
                     }, this);
 
+                    this.addSection();
+
                 },
                 events: {
                     'click #btnAddSection': 'addSection',
@@ -75,8 +77,8 @@ define(
                             text: {
                                 text: wraptext, fill: style.text.fill.normal
                             },
-                            '.inPorts circle': { fill: style.port.in.fill.normal },
-                            '.outPorts circle': { fill: style.port.out.fill.normal }
+                            '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' },
+                            '.outPorts circle': { fill: style.port.out.fill.normal, magnet: 'passive', type: 'output' }
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         sectionFull: newSectionTitle,

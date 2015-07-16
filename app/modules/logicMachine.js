@@ -27,7 +27,7 @@ define(
 
             var answerInputValues = window.answerModel.answerInputValues;
 
-            console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
+            //console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
 
             if (answerInputValues[cellView.model.get('answerKey')] != undefined && answerInputValues[cellView.model.get('answerKey')] != '' || answerInputValues[cellView.model.get('answerKey')] === false) {
 
@@ -45,7 +45,7 @@ define(
                 $('.formAnswerInputOptions').css('pointer-events', 'auto');
                 $('.formAnswerInputOptions').animate({'right': 10}, 250);
 
-                helpers.showAlert('Answer input needed', 2500);
+                helpers.showAlert('Answer needs a dynamic value', 2500);
 
                 return false;
 
@@ -77,20 +77,31 @@ define(
             //check the type of the cellView
             // if it's anything other than answer just (bulid a function that returns 'out 1' and keep on going
 
-            console.log('cell view ktype', cellView.model.get('ktype') );
+            console.log('getoutport function is going to look for outports of ', cellView.model.get('ktype') );
 
-            if (cellView.model.get('ktype') == 'contentwrapper')
+            switch(cellView.model.get('ktype'))
             {
 
-                evaluationFunction = new Function("eval", "return 'out';");
+                case 'contentwrapper':
 
-                console.log('defaulting to out 1 as cellview ktype is ', cellView.model.get('ktype') );
+                    evaluationFunction = new Function("eval", "return 'out';");
 
-                return evaluationFunction;
+                    //console.log('defaulting to out as cellview ktype is ', cellView.model.get('ktype') );
 
-            }
-            else {
+                    return evaluationFunction;
 
+                break;
+
+                case 'logicwrapper':
+
+
+                    // Kill the flow here and prompt for a question to be answered.
+
+                    return false;
+
+                break;
+
+                default:
 
                 // We will loop through the rules til we have a rule satisfied and an action outport identifier set
 
@@ -575,6 +586,8 @@ define(
 
                 //}
 
+                break;
+
             }
 
 
@@ -587,8 +600,18 @@ define(
 
             //console.log(' connected links when running calculateDescendents ', graph.getConnectedLinks(cellView.model));
 
-            for (var cl in graph.getConnectedLinks(cellView.model))
+            for (var cl in graph.getConnectedLinks(cellView.model, { inbound: true }))
             {
+
+                //graph.getConnectedLinks(cellView.model)[cl].get('type'))
+
+                //console.log('looping connected links of this answer ', graph.getConnectedLinks(cellView.model)[cl].get('type'));
+
+                if (graph.getConnectedLinks(cellView.model)[cl].get('type') != 'devs.Link') {
+                    if (graph.getConnectedLinks(cellView.model)[cl].get('droppedLink') != true) {
+                        continue;
+                    }
+                }
 
 
                 // I want to know which outport path to go down, based on this answer's value.
@@ -618,8 +641,16 @@ define(
                  */
 
 
-                console.log("Dynamically got you an out port! ", outPort);
+                if (outPort == false) {
 
+
+                    helpers.showAlert("Question needs anwer", 2500);
+
+                    return;
+
+                }
+
+                console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
                 answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
 
@@ -640,6 +671,7 @@ define(
                 if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined  && answerLinkRuleAttrObject.rule.outport == outPort)
                 {
 
+                    console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
 
 
                     var reverseCellConnections;
@@ -663,7 +695,7 @@ define(
 
                         case 'logicwrapper':
 
-                            return;
+                            //
 
                             break;
 
@@ -706,33 +738,69 @@ define(
 
                                 break;
 
-                            case 'logicwrapper':
+                            case 'contentwrapper':
 
-                                    return;
+                                // get content inside
 
-                                break;
+                                console.log('arrived at a contentwrapper');
+
+                                // Need to add this block to the content HUD
+
+                                var descendantChildCell          = descendantCell.getEmbeddedCells()[0];
+
+                                //console.log('child embed cell', descendantChildCell, 'attrs', descendantChildCell.get('attrs'));
+
+                                attrs = descendantChildCell.get('attrs');
+
+                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
+                                attrs.rect['fill']              = style.node.fill.normal;
+                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                attrs.rect['stroke']            = style.node.stroke.normal;
+                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                attrs.text['fill']              = style.text.fill.normal;
+
+                                descendantChildCell.set('attrs', attrs);
+
+                                var descendantChildCellView = paper.findViewByModel(descendantChildCell);
+                                descendantChildCellView.render().el;
+
+                                // Need to add things to 'content stream highlights' too
+
+                                $('#content-nodes').append('<li><a href="#" data-index="'+ descendantChildCell.get('contentNumber') +'" data-element="'+ descendantChildCell.id +'">C'+ descendantChildCell.get('contentNumber') +'</a></li>');
+
+                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                console.log(' going to now recurse from this content cellView which is the child cell of the contentwrapper we found linked to the reversedconnection above ', descendantCellView);
+
+                                calculateDescendants(descendantCellView);
+
+
+                            break;
+
+                            //case 'logicwrapper':
+
+                                    //return;
+
+                                //break;
 
                             default:
 
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 
-                                console.log('going to recurse with ', descendantCellView);
+                                console.log('going to recurse from default with ', descendantCellView);
 
                                 calculateDescendants(descendantCellView);
 
                                 break;
 
-                        };
-
+                        }
 
 
 
                     }
 
                 }
-
-
-
 
 
 

@@ -234,15 +234,12 @@ define(
                                     var elementAnswerIDArray = [];
                                     var elementAllAnswersArray = [];
 
-                                    // Loop all available answers.
-                                    $('#rule_'+ window.selectedRule +'_suffixansweroperands option').each(function(a,b){
+                                    // Loop all available answers (of this question)]
 
-                                        if ($(this).val() != '')
-                                        {
-                                            elementAllAnswersArray.push($(this).attr('data-element'));
-                                        }
-
-                                    });
+                                    for (var childAnswer in graph.getNeighbors(window.selectedQuestion.model))
+                                    {
+                                        elementAllAnswersArray.push(graph.getNeighbors(window.selectedQuestion.model)[childAnswer].id);
+                                    }
 
                                     // Loop selected answers only.
                                     $('#rule_'+ window.selectedRule +'_suffixansweroperands option:selected').each(function(a,b){
@@ -482,7 +479,7 @@ define(
 
                                     var parentLogicWrapper = graph.getCell(window.selectedQuestion.model.get('parent'));
 
-                                    console.log(' remove action ', parentLogicWrapper);
+                                    //console.log(' remove action ', parentLogicWrapper);
 
                                     var currentOutports = parentLogicWrapper.attributes.outPorts;
 
@@ -492,7 +489,7 @@ define(
 
                                     for (lo in currentOutports) {
 
-                                        console.log(' compare for remove action ', lo, actionToRemove);
+                                        //console.log(' compare for remove action ', lo, actionToRemove);
 
                                         if (lo != actionToRemove)
                                         {

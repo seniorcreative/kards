@@ -80,8 +80,8 @@ define(
                             text: {
                                 text: wraptext, fill: style.text.fill.normal
                             },
-                            '.inPorts circle': { fill: style.port.in.fill.normal },
-                            '.outPorts circle': { fill: style.port.out.fill.normal }
+                            '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' }
+                            //'.outPorts circle': { fill: style.port.out.fill.normal, type: 'output' }
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         endPointFull: newEndPointText,

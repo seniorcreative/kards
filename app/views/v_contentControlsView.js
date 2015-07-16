@@ -82,8 +82,8 @@ define(
                                 rx: 2,
                                 ry: 4
                             },
-                            '.inPorts circle': {fill: style.port.in.fill.normal},
-                            '.outPorts circle': {fill: style.port.out.fill.normal}
+                            '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' },
+                            '.outPorts circle': { fill: style.port.out.fill.normal, magnet: 'passive', type: 'output' }
                         },
                         reversedConnectionTargets: {},
                         connectionTargets: {}
@@ -120,6 +120,7 @@ define(
                                 text: wraptext, fill: style.text.fill.normal
                             }
                         },
+                        contentNumber: contentNumber,
                         contentFull: newContentText,
                         interactive: false,
                         cms_content_type_id: parseInt(this.$('#cmsContentTypeID option:selected').val()),

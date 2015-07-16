@@ -73,7 +73,22 @@ define(
                             attrs: {
                                 '.connection' : { 'stroke-width': 5, 'stroke-linecap': 'round', opacity:.5 }
                             }
-                        })
+                        }),
+                        validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
+                            // Prevent linking from input ports.
+                            if (magnetS && magnetS.getAttribute('type') === 'output') return false;
+                            // Prevent linking from output ports to input ports within one element.
+                            if (cellViewS === cellViewT) return false;
+                            // Prevent linking to input ports.
+                            return magnetT && magnetT.getAttribute('type') === 'output';
+                        },
+                        validateMagnet: function(cellView, magnet) {
+                            // Note that this is the default behaviour. Just showing it here for reference.
+                            // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
+                            return magnet.getAttribute('magnet') !== 'passive';
+                        },
+                        // Enable link snapping within 75px lookup radius
+                        snapLinks: { radius: 75 }
                     });
 
                     window.kardsModelCollection = Backbone.Collection.extend();
@@ -766,6 +781,7 @@ define(
                         var targetPort = link.get('target').port;
                         var targetId = link.get('target').id;
 
+                        link.set('droppedLink', true);
 
                         if (sourcePort != undefined && sourceId != undefined  && targetPort != undefined && targetId != undefined) {
 

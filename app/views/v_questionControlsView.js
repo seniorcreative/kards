@@ -315,8 +315,8 @@ define(
                                 'stroke-dasharray':style.wrapper.strokeDashArray.deselected,
                                 style:{'pointer-events':''}
                             },
-                            '.inPorts circle': { fill: style.port.in.fill.normal },
-                            '.outPorts circle': { fill: style.port.out.fill.normal }
+                            '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' },
+                            '.outPorts circle': { fill: style.port.out.fill.normal, magnet: 'passive', type: 'output' }
                         },
                         reversedConnectionTargets: {},
                         connectionTargets: {}

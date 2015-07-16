@@ -30,6 +30,8 @@ define(
                         this.render()
                     }, this);
 
+                    this.addReport();
+
                 },
                 events: {
                     'click #btnAddReport': 'addReport',
@@ -85,10 +87,13 @@ define(
                             '.inPorts circle': {
                                 fill: style.port.in.fill.hidden,
                                 stroke: style.port.in.stroke.hidden,
-                                style: {'pointer-events': 'none'}
+                                style: {'pointer-events': 'none'},
+                                type: 'input'
                             },
                             '.outPorts circle': {
-                                fill: style.port.out.fill.normal
+                                fill: style.port.out.fill.normal,
+                                magnet: 'passive',
+                                type: 'output'
                             }
                         },
                         reportFull: newReportTitle,

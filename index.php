@@ -469,7 +469,7 @@
           <a href="#" class="btnBack">&lt;</a>
 
           <ul id="content-nodes">
-              <li>
+              <!--<li>
                   <a href="#" data-index="1" data-element="abcd-defg-hijk-lmno">C1</a>
               </li>
               <li>
@@ -477,7 +477,7 @@
               </li>
               <li>
                   <a href="#" data-index="3" class="selected" data-element="abcd-defg-hijk-lmno">C1</a>
-              </li>
+              </li>-->
           </ul>
 
           <a href="#" class="btnNext">&gt;</a>
