@@ -1,9 +1,11 @@
 define(
     ['jquery',
     'modules/helpers',
-    'modules/style'],
+    'modules/style',
+    'modules/contentStream'
+    ],
 
-    function($, helpers, style) {
+    function($, helpers, style, contentStream) {
 
         // Setter functions (accept that for global scope) - where 'that' should be
 
@@ -473,10 +475,10 @@ define(
 
                                 switch (parseInt(cellView.model.get('answer_value_datatype_id'))) {
 
-                                    /*(object) ['id' => 2, 'label' => 'true or false'],
-                                     (object) ['id' => 3, 'label' => 'number'],
+                                    /*         (object) ['id' => 2, 'label' => 'true or false'],
+                                               (object) ['id' => 3, 'label' => 'number'],
                                      //        (object) ['id' => 4, 'label' => 'decimal number'],
-                                     (object) ['id' => 5, 'label' => 'date'],
+                                               (object) ['id' => 5, 'label' => 'date'],
                                      //        (object) ['id' => 6, 'label' => 'word or letter'],
                                      //        (object) ['id' => 8, 'label' => 'increase'],
                                      //        (object) ['id' => 9, 'label' => 'decrease'],
@@ -486,7 +488,7 @@ define(
                                      //        (object) ['id' => 13, 'label' => 'high'],
                                      //        (object) ['id' => 14, 'label' => 'low'],
                                      //        (object) ['id' => 15, 'label' => 'none of the above'],
-                                     (object) ['id' => 16, 'label' => 'years'],*/
+                                               (object) ['id' => 16, 'label' => 'years'],*/
 
                                     case 2:
                                         // TRUE OR FALSE
@@ -631,7 +633,8 @@ define(
                  * ========================
                  */
 
-                var outPort = getOutport(cellView)();
+                var outPort;
+                if(typeof(getOutport(cellView)) == 'function') outPort = getOutport(cellView)();
 
                 /*
                  * ========================
@@ -709,6 +712,8 @@ define(
 
 
                     var descendantCell          = graph.getCell(reverseCellConnections[answerLinkRuleAttrObject.rule.outport]);
+
+                    contentStream.addModel(descendantCell);
 
                     if (descendantCell) {
 

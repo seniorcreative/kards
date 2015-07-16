@@ -464,7 +464,7 @@
 
 
 
-      <div id="HUD">
+      <div id="HUD" class="hudControlPanel">
 
           <a href="#" class="btnBack">&lt;</a>
 

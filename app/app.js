@@ -18,6 +18,7 @@ define(
         'models/m_contentModel',
         'models/m_logicModel',
         'models/m_endPointModel',
+        'models/m_hudModel',
         'views/v_reportControlsView',
         'views/v_sectionControlsView',
         'views/v_questionControlsView',
@@ -26,16 +27,18 @@ define(
         'views/v_contentControlsView',
         'views/v_logicControlsView',
         'views/v_endPointControlsView',
+        'views/v_hudControlsView',
         'modules/style',
         'modules/layout',
         'modules/papercontrols',
         'modules/boundinglogicexpansion',
         'modules/helpers',
+        'modules/contentStream',
         'modules/logicMachine',
         'compiled-templates'
     ],
 
-    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, answerInputModel, contentModel, logicModel, endPointModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, answerInputControlsView, contentControlsView, logicControlsView, endPointControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, logicMachine, compiledTemplates) {
+    function ($, Backbone, HRT, joint, reportModel, sectionModel, questionModel, answerModel, answerInputModel, contentModel, logicModel, endPointModel, hudModel, reportControlsView, sectionControlsView, questionControlsView, answerControlsView, answerInputControlsView, contentControlsView, logicControlsView, endPointControlsView, hudControlsView, style, layout, paperControls, boundingLogicExpansion, helpers, contentStream, logicMachine, compiledTemplates) {
 
 
 
@@ -43,7 +46,15 @@ define(
         var paper, graph;
 
         var loopedElements;
-        var reportControls, sectionControls, questionControls, answerControls, answerInputControls, contentControls, logicControls, endPointControls;
+        var reportControls,
+            sectionControls,
+            questionControls,
+            answerControls,
+            answerInputControls,
+            contentControls,
+            logicControls,
+            endPointControls,
+            hudControls;
 
 
         var run = function () {
@@ -112,6 +123,7 @@ define(
                     window.contentModel   = new contentModel({ that: this, graph: graph, paper: paper });
                     window.logicModel     = new logicModel({ that: this, graph: graph, paper: paper });
                     window.endPointModel  = new endPointModel({ that: this, graph: graph, paper: paper });
+                    window.hudModel       = new hudModel({ that: this, graph: graph, paper: paper });
 
                     // smaller paper
                     /*    var paperSmall = new joint.dia.Paper({
@@ -160,6 +172,14 @@ define(
                         }
 
                     });
+
+
+                    hudControls = new hudControlsView(
+                        {
+                            model: window.hudModel,
+                            el: '.hudControlPanel'
+                        }
+                    );
 
 
                     //wherever you need to do the ajax
@@ -212,7 +232,7 @@ define(
                                 }
                             );
 
-                            answerControls = new answerInputControlsView(
+                            answerInputControls = new answerInputControlsView(
                                 {
                                     model: window.answerInputModel,
                                     el: '.formAnswerInputOptions'
@@ -239,11 +259,13 @@ define(
                             // we have access to the scope of other models...
                             //
                             logicControls = new logicControlsView(
-                            {
-                                model: window.logicModel,
-                                    el: '#logic-modal'
-                            }
+                                {
+                                    model: window.logicModel,
+                                        el: '#logic-modal'
+                                }
                             );
+
+
 
 
                             questionControls.listenTo(window.questionModel, "change", function(){
@@ -459,6 +481,7 @@ define(
 
 
 
+
                     // Detect if we're clicking on a blank area of the chart.
                     paper.on('blank:pointerdown', function(evt, x, y)
                     {
@@ -491,9 +514,11 @@ define(
 
                                         helpers.deselectElementStylesForTest();
 
+                                        contentStream.addModel(cellView.model);
+
                                         attrs = cellView.model.get('attrs');
                                         attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                        attrs.rect['fill']              = style.node.fill.normal;
+                                        attrs.rect['fill']              = style.node.fill.test;
                                         attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
                                         attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
                                         attrs.rect['stroke']            = style.node.stroke.normal;
@@ -501,9 +526,6 @@ define(
                                         attrs.text['fill']              = style.text.fill.normal;
                                         cellView.model.set('attrs', attrs);
                                         cellView.render().el;
-
-                                        //console.log('this answer neighbours', graph.getNeighbors(cellView.model));
-                                        //console.log('this answer connected links ', graph.getConnectedLinks(cellView.model));
 
 
                                         // Need to apply logic machine here based on rules and content.
@@ -713,6 +735,7 @@ define(
 
                                         break;
 
+
                                     case 'content':
 
                                         selectChildElement(cellView, 'content');
@@ -721,6 +744,7 @@ define(
 
                                         break;
 
+                                    case 'contentwrapper':
                                     case 'logicwrapper':
 
                                         // Check if child is text 'content' model
@@ -805,6 +829,18 @@ define(
                             graph.getCell(sourceId).set('connectionTargets', connectionTargets);
 
                         }
+                    });
+
+
+
+                    hudControls.listenTo(window.hudModel, "change", function(){
+
+                        console.log('app knows something changed in the hud', window.hudModel.get('contentElement'), window.hudModel.contentElement);
+
+                        selectChildElement(paper.findViewByModel(window.hudModel.get('contentElement')), 'content');
+
+                        $('#contentText').focus();
+
                     });
 
 

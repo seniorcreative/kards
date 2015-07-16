@@ -1,9 +1,11 @@
 define(
     ['jquery',
     'modules/style',
-    'modules/layout'],
+    'modules/layout',
+    'modules/contentStream'
+    ],
 
-    function($, style, layout) {
+    function($, style, layout, contentStream) {
 
         // Setter functions (accept that for global scope) - where 'that' should be
 
@@ -103,51 +105,56 @@ define(
 
                     attrs = that.loopedElements[element].model.get('attrs');
 
-                    switch(that.loopedElements[element].model.get('ktype')) {
+                    // Only deselect if not in the contentstream models array
+                    if (contentStream.getModels().indexOf(that.loopedElements[element].model) == -1) {
 
-                        case 'question':
-                        case 'answer':
-                        case 'content':
-                        case 'report':
-                        case 'section':
+                        switch (that.loopedElements[element].model.get('ktype')) {
 
-                            attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.testDeselected;
-                            attrs.rect['fill'] = style.node.fill.testDeselected;
-                            attrs.rect['fill-opacity'] = style.node.fillOpacity.testDeselected;
-                            attrs.rect['stroke-width'] = style.node.strokeWidth.testDeselected;
-                            attrs.rect['stroke'] = style.node.stroke.testDeselected;
-                            attrs.rect['stroke-opacity'] = style.node.strokeOpacity.testDeselected;
+                            case 'question':
+                            case 'answer':
+                            case 'content':
+                            case 'report':
+                            case 'section':
 
-                        break;
+                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.testDeselected;
+                                attrs.rect['fill'] = style.node.fill.testDeselected;
+                                attrs.rect['fill-opacity'] = style.node.fillOpacity.testDeselected;
+                                attrs.rect['stroke-width'] = style.node.strokeWidth.testDeselected;
+                                attrs.rect['stroke'] = style.node.stroke.testDeselected;
+                                attrs.rect['stroke-opacity'] = style.node.strokeOpacity.testDeselected;
 
-                        case 'contentwrapper':
-                        case 'logicwrapper':
+                                break;
 
-                            attrs.rect['stroke-dasharray'] = style.wrapper.strokeDashArray.testDeselected;
-                            attrs.rect['fill'] = style.wrapper.fill.testDeselected;
-                            attrs.rect['fill-opacity'] = style.wrapper.fillOpacity.testDeselected;
-                            attrs.rect['stroke-width'] = style.wrapper.strokeWidth.testDeselected;
-                            attrs.rect['stroke'] = style.wrapper.stroke.testDeselected;
-                            attrs.rect['stroke-opacity'] = style.wrapper.strokeOpacity.testDeselected;
+                            case 'contentwrapper':
+                            case 'logicwrapper':
 
-                        break;
+                                attrs.rect['stroke-dasharray'] = style.wrapper.strokeDashArray.testDeselected;
+                                attrs.rect['fill'] = style.wrapper.fill.testDeselected;
+                                attrs.rect['fill-opacity'] = style.wrapper.fillOpacity.testDeselected;
+                                attrs.rect['stroke-width'] = style.wrapper.strokeWidth.testDeselected;
+                                attrs.rect['stroke'] = style.wrapper.stroke.testDeselected;
+                                attrs.rect['stroke-opacity'] = style.wrapper.strokeOpacity.testDeselected;
 
-                        case 'endpoint':
+                                break;
 
-                            attrs.rect['stroke-dasharray'] = style.endpoint.strokeDashArray.testDeselected;
-                            attrs.rect['fill'] = style.endpoint.fill.testDeselected;
-                            attrs.rect['fill-opacity'] = style.endpoint.fillOpacity.testDeselected;
-                            attrs.rect['stroke-width'] = style.endpoint.strokeWidth.testDeselected;
-                            attrs.rect['stroke'] = style.endpoint.stroke.testDeselected;
-                            attrs.rect['stroke-opacity'] = style.endpoint.strokeOpacity.testDeselected;
+                            case 'endpoint':
 
-                        break;
+                                attrs.rect['stroke-dasharray'] = style.endpoint.strokeDashArray.testDeselected;
+                                attrs.rect['fill'] = style.endpoint.fill.testDeselected;
+                                attrs.rect['fill-opacity'] = style.endpoint.fillOpacity.testDeselected;
+                                attrs.rect['stroke-width'] = style.endpoint.strokeWidth.testDeselected;
+                                attrs.rect['stroke'] = style.endpoint.stroke.testDeselected;
+                                attrs.rect['stroke-opacity'] = style.endpoint.strokeOpacity.testDeselected;
+
+                                break;
+
+                        }
+
+                        attrs.text['fill'] = style.text.fill.testDeselected;
+                        that.loopedElements[element].model.set('attrs', attrs);
+                        that.loopedElements[element].render().el;
 
                     }
-
-                    attrs.text['fill'] = style.text.fill.testDeselected;
-                    that.loopedElements[element].model.set('attrs', attrs);
-                    that.loopedElements[element].render().el;
 
             }
         };

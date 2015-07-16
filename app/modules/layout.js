@@ -53,17 +53,17 @@ define(['jquery','backbone'], function ($,Backbone) {
         question: {
             '1': {
                 qSize: {width: 200, height: 50},
-                aSize: {width: 100, height: 40},
+                aSize: {width: 150, height: 40},
                 answers: []
             },
             '2': {
                 qSize: {width: 200, height: 50},
-                aSize: {width: 100, height: 40},
+                aSize: {width: 150, height: 40},
                 answers: []
             },
             '3': {
                 qSize: {width: 200, height: 50},
-                aSize: {width: 100, height: 40},
+                aSize: {width: 150, height: 40},
                 answers: []
             }
         },

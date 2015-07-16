@@ -9,6 +9,8 @@ define(
 
         var that, paper, graph;
 
+        var contentPathChosenModels = [];
+
         var init = function (_scope, _paper, _graph) {
 
             that    = _scope;
@@ -19,9 +21,25 @@ define(
 
         };
 
+        // Need to be able to store all models passed over on a recursion stream
+        var addModel = function( model)
+        {
+
+            contentPathChosenModels.push(model);
+
+        };
+
+        var getModels = function()
+        {
+
+           return contentPathChosenModels;
+
+        };
 
         return {
-            init: init
+            init: init,
+            addModel: addModel,
+            getModels: getModels
         }
 
 

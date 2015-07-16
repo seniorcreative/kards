@@ -16,12 +16,13 @@ function (Backbone) {
             fill:
             {
                 normal: 'rgb(255,255,255)',
+                test: 'rgb(202,247,255)',
                 testDeselected: 'rgba(255,255,255)'
             },
             fillOpacity:
             {
                 normal: 1,
-                testDeselected: 0.2
+                testDeselected: 0.4
             },
             strokeWidth:
             {
@@ -36,7 +37,7 @@ function (Backbone) {
             strokeOpacity:
             {
                 normal: 1,
-                testDeselected: 0.2
+                testDeselected: 0.4
             }
         },
         wrapper:
@@ -55,7 +56,7 @@ function (Backbone) {
             fillOpacity:
             {
                 normal: 0.5,
-                testDeselected: 0.2
+                testDeselected: 0.4
             },
             strokeWidth:
             {
@@ -70,7 +71,7 @@ function (Backbone) {
             strokeOpacity:
             {
                 normal: 0.5,
-                testDeselected: 0.2
+                testDeselected: 0.4
             }
         },
         endpoint:
@@ -89,7 +90,7 @@ function (Backbone) {
             fillOpacity:
             {
                 normal: 1,
-                testDeselected: 0.2
+                testDeselected: 0.4
             },
             strokeWidth:
             {
@@ -104,7 +105,7 @@ function (Backbone) {
             strokeOpacity:
             {
                 normal: 1,
-                testDeselected: 0.2
+                testDeselected: 0.4
             }
         },
         port:
