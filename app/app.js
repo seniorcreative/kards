@@ -418,8 +418,16 @@ define(
                         loopedElements = paper.findViewsInArea(paperRect);
 
                         // reset all looped elements (slightly different to resetElementStyles)
+                        switch(window.reportModel.mode) {
 
-                        helpers.resetElementStyles('all');
+                            case 'test':
+                                break;
+
+                            case 'build':
+                                    helpers.resetElementStyles('all');
+                                break;
+
+                        }
 
                         // adjust style of clicked element
                         attrs = _element.model.get('attrs');

@@ -26,22 +26,14 @@ define(
                     this.render()
                 }, this);
 
-                //autocompleteSearch();
 
             },
             events: {
                 'mouseover #content-nodes li a': 'overHandler',
+                'click #content-nodes li a': 'clickHandler',
                 'mouseout #content-nodes li a': 'outHandler'
             },
             render: function () {
-
-                //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
-
-                //this.$el.find('#endPointTitle').val(this.model.get('endPointTitle'));
-                //
-                //if (this.model.get('endPointTypeID') != undefined) {
-                //    this.$el.find('#endPointTypeID').val(this.model.get('endPointTypeID'));
-                //}
 
                 return this;
             },
@@ -54,6 +46,10 @@ define(
                 this.model.set('contentMouseOver', true);
 
                 $('.formContentOptions').animate({'bottom': 175}, 100);
+
+            },
+            clickHandler: function(e)
+            {
 
             },
             outHandler: function (e)
