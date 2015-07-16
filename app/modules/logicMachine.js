@@ -641,14 +641,14 @@ define(
                  */
 
 
-                if (outPort == false) {
-
-
-                    helpers.showAlert("Question needs anwer", 2500);
-
-                    return;
-
-                }
+                //if (outPort == false) {
+                //
+                //
+                //
+                //
+                //    return;
+                //
+                //}
 
                 console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
@@ -728,13 +728,12 @@ define(
 
                         // Now we recurse.
 
-                        switch(descendantCellView.model.get('ktype'))
-                        {
+                        switch(descendantCellView.model.get('ktype')) {
 
 
                             case 'endpoint':
 
-                                    return;
+                                return;
 
                                 break;
 
@@ -746,19 +745,17 @@ define(
 
                                 // Need to add this block to the content HUD
 
-                                var descendantChildCell          = descendantCell.getEmbeddedCells()[0];
-
-                                //console.log('child embed cell', descendantChildCell, 'attrs', descendantChildCell.get('attrs'));
+                                var descendantChildCell = descendantCell.getEmbeddedCells()[0];
 
                                 attrs = descendantChildCell.get('attrs');
 
-                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
-                                attrs.rect['fill']              = style.node.fill.normal;
-                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                                attrs.rect['stroke']            = style.node.stroke.normal;
-                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                                attrs.text['fill']              = style.text.fill.normal;
+                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                attrs.rect['fill'] = style.node.fill.normal;
+                                attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                attrs.rect['stroke'] = style.node.stroke.normal;
+                                attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                attrs.text['fill'] = style.text.fill.normal;
 
                                 descendantChildCell.set('attrs', attrs);
 
@@ -767,22 +764,54 @@ define(
 
                                 // Need to add things to 'content stream highlights' too
 
-                                $('#content-nodes').append('<li><a href="#" data-index="'+ descendantChildCell.get('contentNumber') +'" data-element="'+ descendantChildCell.id +'">C'+ descendantChildCell.get('contentNumber') +'</a></li>');
+                                $('#content-nodes').append('<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>');
 
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 
-                                console.log(' going to now recurse from this content cellView which is the child cell of the contentwrapper we found linked to the reversedconnection above ', descendantCellView);
+                                console.log(' going to now recurse from this contentwrapper we found linked to the reversedconnection above ', descendantCellView);
 
                                 calculateDescendants(descendantCellView);
 
 
-                            break;
+                                break;
 
-                            //case 'logicwrapper':
+                            case 'logicwrapper':
 
-                                    //return;
+                                console.log('arrived at a logicwrapper - will highlight the question inside');
 
-                                //break;
+                                helpers.showAlert("Question needs anwer", 2500);
+
+
+                                var descendantChildCells = descendantCell.getEmbeddedCells();
+
+                                for (var d in descendantChildCells)
+                                {
+                                    attrs = descendantChildCells[d].get('attrs');
+
+                                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                    attrs.rect['fill'] = style.node.fill.normal;
+                                    attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                    attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                    attrs.rect['stroke'] = style.node.stroke.normal;
+                                    attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                    attrs.text['fill'] = style.text.fill.normal;
+
+                                    descendantChildCells[d].set('attrs', attrs);
+
+                                    var descendantChildCellView = paper.findViewByModel(descendantChildCells[d]);
+                                    descendantChildCellView.render().el;
+
+                                }
+
+
+                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                //console.log('going to recurse from default with ', descendantCellView);
+
+                                calculateDescendants(descendantCellView);
+
+                                break;
+
 
                             default:
 
@@ -792,7 +821,7 @@ define(
 
                                 calculateDescendants(descendantCellView);
 
-                                break;
+                            break;
 
                         }
 
