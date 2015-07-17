@@ -632,6 +632,9 @@ define(
 
                                         window.reportModel.trigger('change');
 
+                                        $('#reportTitle').focus();
+                                        $('#reportTitle').select();
+
                                         break;
 
                                     case 'section':
@@ -666,6 +669,7 @@ define(
                                         $('.formQuestionOptions h3').text('Add Question');
 
                                         $('#sectionTitle').focus();
+                                        $('#sectionTitle').select();
 
                                     break;
 
@@ -712,6 +716,7 @@ define(
                                         //$('#logic-modal').show();
 
                                         $('#questionValue').focus();
+                                        $('#questionValue').select();
 
                                         // Select this question in the last visible logic rule calculation block question
                                         $('option[data-element="'+ cellView.model.get('id') +'"]').last().attr('selected', 'selected');
@@ -790,6 +795,7 @@ define(
                                         //$('#logic-modal').show();
 
                                         $('#answerLabel').focus();
+                                        $('#answerLabel').select();
 
                                         break;
 
@@ -799,6 +805,7 @@ define(
                                         selectChildElement(cellView, 'content');
 
                                         $('#contentText').focus();
+                                        $('#contentText').select();
 
                                         break;
 
@@ -835,6 +842,7 @@ define(
                                         window.endPointModel.trigger('change');
 
                                         $('#endPointTitle').focus();
+                                        $('#endPointTitle').select();
 
                                     break;
 

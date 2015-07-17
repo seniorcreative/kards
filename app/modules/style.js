@@ -147,7 +147,7 @@ function (Backbone) {
             fontSize:
             {
                 label: '8px',
-                node: '9px'
+                node: '11px'
             }
         }
     });

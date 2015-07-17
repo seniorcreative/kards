@@ -432,6 +432,7 @@ define(
                     window.selectedQuestion = paper.findViewByModel(question); // Make so is the selected straight away.
 
                     $('#questionValue').focus();
+                    $('#questionValue').select();
 
                     $('#btnAddAnswer').removeClass('hidden');
                     $('#btnShowLogic').removeClass('hidden');
@@ -473,9 +474,13 @@ define(
                         // adjust text of clicked element
                         attrs           = window.selectedQuestion.model.get('attrs');
 
+                        var questionTypeID = window.selectedQuestion.model.get('question_type_id');
+
+                        console.log('wrapping into ', layout.question[questionTypeID].qSize.width,layout.question[questionTypeID].qSize.height);
+
                         wraptext = joint.util.breakText(this.$(e.target).val(), {
-                            width: layout.question[layout.get('newQuestionTypeID')].qSize.width - 40,
-                            height: layout.question[layout.get('newQuestionTypeID')].qSize.height - 2
+                            width: layout.question[questionTypeID].qSize.width,
+                            height: layout.question[questionTypeID].qSize.height
                         }) + '...';
 
                         attrs.text.text = wraptext;

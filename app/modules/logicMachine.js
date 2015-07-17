@@ -717,19 +717,7 @@ define(
 
                     if (descendantCell) {
 
-                        attrs = descendantCell.get('attrs');
-                        attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
-                        attrs.rect['fill']              = style.node.fill.normal;
-                        attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                        attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                        attrs.rect['stroke']            = style.node.stroke.normal;
-                        attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                        attrs.text['fill']              = style.text.fill.normal;
-
-                        descendantCell.set('attrs', attrs);
-
                         var descendantCellView = paper.findViewByModel(descendantCell);
-                        descendantCellView.render().el;
 
                         // Now we recurse.
 
@@ -738,11 +726,40 @@ define(
 
                             case 'endpoint':
 
+                                attrs = descendantCell.get('attrs');
+                                attrs.rect['stroke-dasharray']  = style.endpoint.strokeDashArray.selected;
+                                attrs.rect['fill']              = style.endpoint.fill.normal;
+                                attrs.rect['fill-opacity']      = style.endpoint.fillOpacity.normal;
+                                attrs.rect['stroke-width']      = style.endpoint.strokeWidth.normal;
+                                attrs.rect['stroke']            = style.endpoint.stroke.normal;
+                                attrs.rect['stroke-opacity']    = style.endpoint.strokeOpacity.normal;
+                                attrs.text['fill']              = style.text.fill.normal;
+
+                                descendantCell.set('attrs', attrs);
+
+                                descendantCellView.render().el;
+
                                 return;
 
                                 break;
 
                             case 'contentwrapper':
+
+
+                                attrs = descendantCell.get('attrs');
+                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
+                                attrs.rect['fill']              = style.node.fill.normal;
+                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                attrs.rect['stroke']            = style.node.stroke.normal;
+                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                attrs.text['fill']              = style.text.fill.normal;
+
+                                descendantCell.set('attrs', attrs);
+
+                                descendantCellView.render().el;
+
+
 
                                 // get content inside
 
@@ -794,9 +811,30 @@ define(
 
                             case 'logicwrapper':
 
+
+
                                 console.log('arrived at a logicwrapper - will highlight the question inside');
 
+
+                                attrs = descendantCell.get('attrs');
+                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
+                                attrs.rect['fill']              = style.node.fill.normal;
+                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                attrs.rect['stroke']            = style.node.stroke.normal;
+                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                attrs.text['fill']              = style.text.fill.normal;
+
+                                descendantCell.set('attrs', attrs);
+
+                                descendantCellView.render().el;
+
+
+
                                 helpers.showAlert("Question needs anwer", 2500);
+
+
+
 
 
                                 var descendantChildCells = descendantCell.getEmbeddedCells();
@@ -831,6 +869,22 @@ define(
 
 
                             default:
+
+
+                                attrs = descendantCell.get('attrs');
+                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
+                                attrs.rect['fill']              = style.node.fill.normal;
+                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
+                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
+                                attrs.rect['stroke']            = style.node.stroke.normal;
+                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
+                                attrs.text['fill']              = style.text.fill.normal;
+
+                                descendantCell.set('attrs', attrs);
+
+                                descendantCellView.render().el;
+
+
 
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 
