@@ -701,6 +701,11 @@ form h3 {
   color: #111111;
   margin: 4px 0 2px 0;
 }
+form label.timeLabel {
+  font-style: italic;
+  color: #333;
+  font-size: 0.6em;
+}
 form input {
   font-family: "Varela Round", sans-serif;
   padding: 3px 2px;

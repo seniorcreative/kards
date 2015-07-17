@@ -46,13 +46,14 @@
               <option value="2">Fertility</option>
           </select>
 
-          <div class="form-controls  form-controls--width-full" >
+          <div class="form-controls  form-controls--width-full  hidden" >
               <button type="button" id="btnAddReport" class="button-add">Add report</button>
           </div>
 
           <div class="form-controls  form-controls--width-full" >
               <button type="button" id="btnSaveReport" class="button-add  hidden">Save report</button>
           </div>
+
 
           <div class="form-controls  form-controls--width-full" >
               <label for="reportJSON">Load a saved report</label>
@@ -77,6 +78,10 @@
                 }
                 ?>
               </select>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <label id="reportTimeSaved" class="timeLabel" ></label>
           </div>
 
       </form>
@@ -468,17 +473,7 @@
 
           <a href="#" class="btnBack">&lt;</a>
 
-          <ul id="content-nodes">
-              <!--<li>
-                  <a href="#" data-index="1" data-element="abcd-defg-hijk-lmno">C1</a>
-              </li>
-              <li>
-                  <a href="#" data-index="2" data-element="abcd-defg-hijk-lmno">C1</a>
-              </li>
-              <li>
-                  <a href="#" data-index="3" class="selected" data-element="abcd-defg-hijk-lmno">C1</a>
-              </li>-->
-          </ul>
+          <ul id="content-nodes"></ul>
 
           <a href="#" class="btnNext">&gt;</a>
 

@@ -159,68 +159,6 @@ define(
             }
         };
 
-        var autocompleteSearch = function () {
-
-            console.log('autocompleteSearch called');
-
-            $('#search-field').sonoaAutocomplete(
-                {
-                    TYPE: "GET",
-                    AJAX_URL: 'http://localhost/kards-v1/data/individualisedContent.php',
-                    POST_STRING: {},
-
-                    SUGGESTION_LIST: '.js_autocomplete--list',
-
-                    INPUT_CLEAR_FILL: false,
-
-                    //AUTOCOMPLETE_CLASS	: 'autocomplete-dropdown-nav__options__list',
-
-                    onLoad: function () {
-                    },
-
-                    onKeyup: function () {
-
-                    },
-
-                    beforeSend: function () {
-                        //$('.answer--append').addClass('hidden');
-                        //$('.main-content--message-read').addClass('hidden');
-                        //$('.main-content--message-read__title-profile__heading').addClass('hidden');
-                        //$('.main-content--message-read__message-date').addClass('hidden');
-
-                        //overlay.showSuggestionOverlay();
-                    },
-
-                    success: function (data) {
-
-                        $('#search-field').val($('#search-field').val());
-                    },
-
-                    onClick: function (e) {
-                        //showAnswer( e.id );
-                        //overlay.hideSuggestionOverlay();
-                        //incrementSearchCounter( e.id );
-                    },
-
-                    onEmpty: function () {
-                        $('.main-content--suggestions__cantfind').show();
-                        $('.js_autocomplete--list').html('<ul class="header-search__suggest__list"><li><span class="autocomplete-dropdown-nav__options__span">No questions found</span></li></ul>'); // PLEASE LEAVE THIS!!!! Steve
-                    },
-
-                    onEmptyInput: function () {
-                        if ($('#search-field').val() != undefined) {
-                            if ($('#search-field').val().length <= 0) {
-                                //overlay.hideSuggestionOverlay();
-                            }
-                        }
-                    },
-
-                    error: function (data) {
-                    }
-
-                });
-
-        };
 
         var questionCompare = function(a,b) {
             if (a.qid < b.qid)
@@ -298,6 +236,18 @@ define(
             $('.formQuestionOptions h3').text('Add Question');
             $('#logic-modal').hide();
 
+
+            switch(window.reportModel.mode) {
+
+                case 'test':
+
+                    $('#content-nodes li a').removeClass('selected');
+                    $('.formContentOptions').animate({'bottom': -500}, 100);
+
+                    break;
+
+            }
+
         };
 
 
@@ -363,6 +313,8 @@ define(
             $('.formPanelControls').animate({'left': -400}, 250);
             $('#HUD').animate({'bottom': 0}, 250);
 
+            $('#btnAddContent').hide();
+
         };
 
         var panelsIn = function()
@@ -378,6 +330,8 @@ define(
             $('.formPanelControls').animate({'left': 10}, 250);
             $('#HUD').animate({'bottom': -150}, 250);
 
+            $('#btnAddContent').show();
+
         };
 
         return {
@@ -385,7 +339,6 @@ define(
             setTotalWidthAnswers: setTotalWidthAnswers,
             resetElementStyles: resetElementStyles,
             deselectElementStylesForTest: deselectElementStylesForTest,
-            autocompleteSearch: autocompleteSearch,
             questionCompare: questionCompare,
             clearSelections: clearSelections,
             getPrefixOperatorByID: getPrefixOperatorByID,

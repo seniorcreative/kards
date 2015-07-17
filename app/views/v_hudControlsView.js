@@ -40,7 +40,7 @@ define(
             overHandler: function (e)
             {
 
-                console.log('mouse over a content node', e.currentTarget.dataset.element);
+                //console.log('mouse over a content node', e.currentTarget.dataset.element);
 
                 this.model.set('contentElement', e.currentTarget.dataset.element);
                 this.model.set('contentMouseOver', true);
@@ -51,13 +51,19 @@ define(
             clickHandler: function(e)
             {
 
+                $(e.currentTarget).addClass('selected');
+
             },
             outHandler: function (e)
             {
 
-                console.log('mouse out a content node');
+                //console.log('mouse out a content node');
 
-                $('.formContentOptions').animate({'bottom': -500}, 100);
+                if (!$(e.currentTarget).hasClass('selected')) {
+
+                    $('.formContentOptions').animate({'bottom': -500}, 100);
+
+                }
 
             }
         });

@@ -196,6 +196,21 @@ form
         margin: 4px 0 2px 0;
     }
 
+    label
+    {
+
+        &.timeLabel
+        {
+
+            font-style: italic;
+            color: #333;
+            font-size: 0.6em;
+
+        }
+
+    }
+
+
     input
     {
         font-family: $font-regular;

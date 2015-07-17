@@ -769,7 +769,19 @@ define(
 
                                 // Need to add things to 'content stream highlights' too
 
-                                $('#content-nodes').append('<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>');
+                                var contentElements = window.hudModel.contentElements;
+
+                                if (contentElements.indexOf(descendantChildCell.id) == -1) {
+
+                                    contentElements.push(descendantChildCell.id);
+
+                                    console.log('contentElements', contentElements);
+
+                                    $('#content-nodes').append('<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>');
+
+                                }
+
+                                window.hudModel.contentElements = contentElements;
 
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 

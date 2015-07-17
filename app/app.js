@@ -451,6 +451,8 @@ define(
 
                                 window.selectedContent = _element;
 
+                                $('.formContentOptions h3').text('Edit Content - C' + window.selectedContent.model.get('contentNumber'));
+
                             break;
 
                             case 'question':
@@ -489,12 +491,28 @@ define(
 
 
 
-
                     // Detect if we're clicking on a blank area of the chart.
                     paper.on('blank:pointerdown', function(evt, x, y)
                     {
 
-                        helpers.clearSelections();
+                        switch(window.reportModel.mode)
+                        {
+
+                            case 'test':
+
+                                $('.formAnswerInputOptions').css('opacity', 0);
+                                $('.formAnswerInputOptions').css('pointer-events', 'none');
+                                $('.formAnswerInputOptions').animate({'right': -400}, 250);
+
+                                break;
+
+                            case 'build':
+
+                                helpers.clearSelections();
+
+                                break;
+
+                        }
 
 
                     });
@@ -520,9 +538,13 @@ define(
 
                                         // adjust style of clicked element
 
+                                        // I want to make a snapshot of everything that has been seected up to this question, or revert back to it at this point
+                                        contentStream.decisionSnapshot(window.selectedQuestion);
+
                                         helpers.deselectElementStylesForTest();
 
                                         contentStream.addModel(cellView.model);
+
 
                                         attrs = cellView.model.get('attrs');
                                         attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
@@ -545,6 +567,7 @@ define(
                                             logicMachine.calculateDescendants(cellView);
                                         }
 
+                                        contentStream.contentStreamSnapshot(window.selectedAnswer.model.get('answerKey'));
 
                                     break;
 
@@ -843,7 +866,7 @@ define(
 
                     hudControls.listenTo(window.hudModel, "change", function(){
 
-                        console.log('app knows something changed in the hud', window.hudModel.get('contentElement'), window.hudModel.contentElement);
+                        //console.log('app knows something changed in the hud', window.hudModel.get('contentElement'));
 
                         selectChildElement(paper.findViewByModel(window.hudModel.get('contentElement')), 'content');
 

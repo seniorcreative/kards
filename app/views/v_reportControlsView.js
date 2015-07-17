@@ -34,8 +34,8 @@ define(
 
                 },
                 events: {
-                    'click #btnAddReport': 'addReport',
-                    'click #btnSaveReport': 'saveReport',
+                    //'click #btnAddReport': 'addReport',
+                    'click #btnSaveReport': 'saveReport', // Doing these automatically now.
                     'keyup #reportTitle': 'reportUpdate',
                     'change #reportCategory': 'reportCategoryUpdate',
                     'change #reportJSON': 'loadChartFromJSON'
@@ -118,6 +118,15 @@ define(
                     $('.formSectionOptions').css('pointer-events', 'auto');
 
                     $('#btnSaveReport').removeClass('hidden');
+
+                    // Save what we've done on an interval
+
+                    setInterval(function(){
+
+                        //this.saveReport();
+                        $('#btnSaveReport').trigger('click');
+
+                    }, 1000 * 30);
 
                 },
                 reportUpdate: function (e) {
@@ -215,6 +224,7 @@ define(
                 {
 
 
+
                     var jsonSaveObject = "{";
 
                         if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
@@ -258,11 +268,13 @@ define(
 
                                 $('#reportJSON').html(parsedData.options);
 
+                                $('#reportTimeSaved').html("Last saved " + parsedData.reportTimeSaved);
+
                             }
 
                         });
 
-                    }, 2000);
+                    }, 25);
 
 
                 }

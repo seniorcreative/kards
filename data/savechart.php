@@ -1,7 +1,7 @@
 <?php
 
 
-$filename = strtolower(str_replace(" ", "", $_POST['reportTitle'])) . "-" . date("Y-m-d G:i:s") . ".json";
+$filename = strtolower(str_replace(" ", "-", $_POST['reportTitle'])) . ".json";
 
 $fp = fopen("charts/" . $filename, 'w');
 fwrite($fp, $_POST['chartData']);
@@ -31,6 +31,7 @@ if ($handle = opendir('charts/')) {
 $result = (object) array();
 $result->success = true;
 $result->filename = $filename;
+$result->reportTimeSaved = date("Y-m-d H:i:s");
 $result->options = $options;
 
 echo json_encode($result);
