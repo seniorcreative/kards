@@ -775,9 +775,9 @@ define(
 
                                     contentElements.push(descendantChildCell.id);
 
-                                    console.log('contentElements', contentElements);
+                                    var newContentElement = '<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>';
 
-                                    $('#content-nodes').append('<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>');
+                                    $('#content-nodes').append(newContentElement);
 
                                 }
 

@@ -178,6 +178,15 @@ form
         left: 50%;
         margin-left: -400px;
 
+        a#btnContentControlsClose
+        {
+            display:inline-block;
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            text-decoration: none;
+        }
+
     }
 
     &.formEndPointOptions {

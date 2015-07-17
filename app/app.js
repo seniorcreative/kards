@@ -510,6 +510,11 @@ define(
 
                                 helpers.clearSelections();
 
+                                $('#content-nodes').html('');
+
+                                window.hudModel.contentElements = [];
+
+
                                 break;
 
                         }
@@ -558,6 +563,26 @@ define(
                                         cellView.render().el;
 
 
+
+                                        var hudStreamStartpoints = window.hudModel.hudStreamStartpoints;
+
+                                        if (hudStreamStartpoints.indexOf(window.selectedQuestion.model.get('questionNumber')) != -1) {
+
+                                            $('#content-nodes').html('');
+                                            window.hudModel.contentElements = [];
+
+                                        }
+                                        else
+                                        {
+
+                                            hudStreamStartpoints.push(window.selectedQuestion.model.get('questionNumber'));
+
+                                        }
+
+                                        window.hudModel.hudStreamStartpoints = hudStreamStartpoints;
+
+
+
                                         // Need to apply logic machine here based on rules and content.
 
                                         var answered = logicMachine.checkIfAnswerInputNeeded(cellView);
@@ -567,7 +592,9 @@ define(
                                             logicMachine.calculateDescendants(cellView);
                                         }
 
-                                        contentStream.contentStreamSnapshot(window.selectedAnswer.model.get('answerKey'));
+
+
+
 
                                     break;
 

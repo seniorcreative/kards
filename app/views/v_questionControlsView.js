@@ -134,7 +134,8 @@ define(
                             },
                             text: {
                                 text: wraptext,
-                                fill: style.text.fill.normal
+                                fill: style.text.fill.normal,
+                                'font-size': style.text.fontSize.node
                             }
                         },
                         questionFull: newQuestionText,
@@ -377,7 +378,8 @@ define(
                                 },
                                 text: {
                                     text: wraptext,
-                                    fill: style.text.fill.normal
+                                    fill: style.text.fill.normal,
+                                    'font-size': style.text.fontSize.node
                                 }
                             },
                             answerFull: fullAnswerText,

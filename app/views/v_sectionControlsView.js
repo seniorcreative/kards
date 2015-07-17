@@ -75,7 +75,9 @@ define(
                                 style:{'pointer-events':''}
                             },
                             text: {
-                                text: wraptext, fill: style.text.fill.normal
+                                text: wraptext,
+                                fill: style.text.fill.normal,
+                                'font-size': style.text.fontSize.node
                             },
                             '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' },
                             '.outPorts circle': { fill: style.port.out.fill.normal, magnet: 'passive', type: 'output' }

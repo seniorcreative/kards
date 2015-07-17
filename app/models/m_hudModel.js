@@ -5,7 +5,8 @@ define(
 
         var hudModel = Backbone.Model.extend(
             {
-                contentElements: []
+                contentElements: [],
+                hudStreamStartpoints: []
             }
         );
 

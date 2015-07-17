@@ -72,29 +72,6 @@ define(
 
         };
 
-        var contentStreamSnapshot = function( answerKey )
-        {
-
-            console.log('contentStreamSnapshot rec', answerKey, contentStreamSnapshots, $('#content-nodes').html());
-
-            if (answerKey in contentStreamSnapshots)
-            {
-                console.log('displaying the content element snapshot from answerKey in the hud ', answerKey );
-
-                $('#content-nodes').html(hudContentElements);
-
-            }
-            else
-            {
-
-                console.log('storing the hud content element snapshot for answerKey', answerKey, $('#content-nodes').html() );
-
-                var hudContentElements = (contentStreamSnapshots[answerKey] == undefined) ?  "" : contentStreamSnapshots[answerKey];
-
-                contentStreamSnapshots[answerKey] = $('#content-nodes').html();
-            }
-
-        };
 
         var getModels = function()
         {
@@ -107,8 +84,7 @@ define(
             init: init,
             addModel: addModel,
             getModels: getModels,
-            decisionSnapshot: decisionSnapshot,
-            contentStreamSnapshot: contentStreamSnapshot
+            decisionSnapshot: decisionSnapshot
         };
 
 

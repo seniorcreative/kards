@@ -36,6 +36,7 @@ define(
                 },
                 events: {
                     'click #btnAddContent': 'addContent',
+                    'click #btnContentControlsClose': 'closeControlView',
                     'keyup #contentText': 'contentUpdate',
                     'change #cmsContentTypeID': 'changeContentTypeDropdown',
                     'change #cmsContentCategoryID': 'changeContentCategoryDropdown'
@@ -117,7 +118,9 @@ define(
                                 style: {'pointer-events': ''}
                             },
                             text: {
-                                text: wraptext, fill: style.text.fill.normal
+                                text: wraptext,
+                                fill: style.text.fill.normal,
+                                'font-size': style.text.fontSize.node
                             }
                         },
                         contentNumber: contentNumber,
@@ -194,6 +197,15 @@ define(
                             }
                         )
                     }
+
+                },
+                closeControlView: function (e)
+                {
+
+                    $('#content-nodes li a').removeClass('selected');
+                    $('.formContentOptions').animate({'bottom': -400}, 250);
+
+                    return false;
 
                 }
             });

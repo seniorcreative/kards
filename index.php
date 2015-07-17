@@ -374,6 +374,7 @@
       <form method="" action="" class="formContentOptions  _faded">
 
           <h3>Content</h3>
+          <a href="#" id="btnContentControlsClose">X</a>
 
           <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-content">Search (autocomplete)</label>

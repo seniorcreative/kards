@@ -146,7 +146,8 @@ function (Backbone) {
             },
             fontSize:
             {
-                label: '8px'
+                label: '8px',
+                node: '9px'
             }
         }
     });

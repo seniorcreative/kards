@@ -690,6 +690,13 @@ form.formContentOptions {
   left: 50%;
   margin-left: -400px;
 }
+form.formContentOptions a#btnContentControlsClose {
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  text-decoration: none;
+}
 form.formEndPointOptions {
   display: block;
   padding: 5px;
