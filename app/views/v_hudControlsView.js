@@ -3,9 +3,11 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers',
+        'modules/contentStream'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers, contentStream) {
 
         var that;
         var graph;
@@ -30,7 +32,9 @@ define(
             },
             events: {
                 'mouseover #content-nodes li a': 'overHandler',
-                'click #content-nodes li a': 'clickHandler',
+                'click #content-nodes li a': 'contentNodeClickHandler',
+                'click #btnResetContentStream': 'resetHandler',
+                'click #btnShowIndividualisation': 'showIndividualisationHandler',
                 'mouseout #content-nodes li a': 'outHandler'
             },
             render: function () {
@@ -48,10 +52,28 @@ define(
                 $('.formContentOptions').animate({'bottom': 175}, 100);
 
             },
-            clickHandler: function(e)
+            contentNodeClickHandler: function(e)
             {
 
                 $(e.currentTarget).addClass('selected');
+
+            },
+            resetHandler: function(e)
+            {
+
+                //
+
+                $('#content-nodes').html('');
+                window.hudModel.contentElements = [];
+                contentStream.reset();
+                helpers.deselectElementStylesForTest();
+
+            },
+            showIndividualisationHandler: function(e)
+            {
+
+                //
+                contentStream.getIndividualisation();
 
             },
             outHandler: function (e)

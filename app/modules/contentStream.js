@@ -11,7 +11,7 @@ define(
 
         var contentPathChosenModels = [];
         var decisionSnapshots       = {};
-        var contentStreamSnapshots = {};
+        var individualisation       = [];
 
         var init = function (_scope, _paper, _graph) {
 
@@ -30,6 +30,39 @@ define(
             contentPathChosenModels.push(model);
 
         };
+
+        var individualisationAppend = function ( data )
+        {
+
+            individualisation.push(data);
+
+        };
+
+        var getIndividualisation = function (  )
+        {
+
+            var output = '';
+
+            for(var data in individualisation)
+            {
+
+                output += '\n\n' + individualisation[data].type + ': ' + individualisation[data].content;
+
+                if (individualisation[data].type == 'answer')
+                {
+
+                    output += '\nvalue: ' + individualisation[data].value;
+                    if (individualisation[data].value2) output += '\nvalue2: ' + individualisation[data].value2;
+
+                }
+
+            }
+
+            console.log("Showing your individualisation \n\n " + output);
+
+        };
+
+
 
         var decisionSnapshot = function( selectedQuestion )
         {
@@ -80,11 +113,23 @@ define(
 
         };
 
+        var reset = function()
+        {
+
+            contentPathChosenModels = [];
+            decisionSnapshots       = {};
+            individualisation       = [];
+
+        };
+
         return {
             init: init,
             addModel: addModel,
             getModels: getModels,
-            decisionSnapshot: decisionSnapshot
+            decisionSnapshot: decisionSnapshot,
+            individualisationAppend: individualisationAppend,
+            getIndividualisation: getIndividualisation,
+            reset: reset
         };
 
 

@@ -328,7 +328,7 @@ define(
             $('.formContentOptions').animate({'bottom': 10}, 250);
             $('.formEndPointOptions').animate({'right': 10}, 250);
             $('.formPanelControls').animate({'left': 10}, 250);
-            $('#HUD').animate({'bottom': -150}, 250);
+            $('#HUD').animate({'bottom': -200}, 250);
 
             $('#btnAddContent').show();
 

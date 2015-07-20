@@ -157,6 +157,8 @@ define(
 
                             helpers.panelsOut();
 
+                            helpers.deselectElementStylesForTest();
+
 
                         }
                         else
@@ -451,6 +453,9 @@ define(
 
                                 window.selectedContent = _element;
 
+                                $('#contentText').focus();
+                                //$('#contentText').select();
+
                                 $('.formContentOptions h3').text('Edit Content - C' + window.selectedContent.model.get('contentNumber'));
 
                             break;
@@ -480,6 +485,7 @@ define(
                                 $('#logic-modal h3').text('Logic - Q' + window.selectedQuestion.model.get('questionNumber'));
 
                                 $('#questionValue').focus();
+                                $('#questionValue').select();
 
                             break;
 
@@ -514,6 +520,10 @@ define(
 
                                 window.hudModel.contentElements = [];
 
+                                contentStream.reset();
+
+                                //helpers.deselectElementStylesForTest();
+
 
                                 break;
 
@@ -543,7 +553,9 @@ define(
 
                                         // adjust style of clicked element
 
-                                        // I want to make a snapshot of everything that has been seected up to this question, or revert back to it at this point
+                                        // I want to make a snapshot of everything that has been selected up to this question, or revert back to it at this point
+                                        // Need to apply logic machine here based on rules and content.
+
                                         contentStream.decisionSnapshot(window.selectedQuestion);
 
                                         helpers.deselectElementStylesForTest();
@@ -563,27 +575,6 @@ define(
                                         cellView.render().el;
 
 
-
-                                        var hudStreamStartpoints = window.hudModel.hudStreamStartpoints;
-
-                                        if (hudStreamStartpoints.indexOf(window.selectedQuestion.model.get('questionNumber')) != -1) {
-
-                                            $('#content-nodes').html('');
-                                            window.hudModel.contentElements = [];
-
-                                        }
-                                        else
-                                        {
-
-                                            hudStreamStartpoints.push(window.selectedQuestion.model.get('questionNumber'));
-
-                                        }
-
-                                        window.hudModel.hudStreamStartpoints = hudStreamStartpoints;
-
-
-
-                                        // Need to apply logic machine here based on rules and content.
 
                                         var answered = logicMachine.checkIfAnswerInputNeeded(cellView);
 

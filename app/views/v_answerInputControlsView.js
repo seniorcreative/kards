@@ -41,6 +41,7 @@ define(
                     //'change #answerInput-date': 'answerUpdate',
                     //'keyup #answerInput-string': 'answerUpdate',
                     'change': 'answerUpdate',
+                    'keyup': 'answerUpdate',
                     'click #btnAnswerInputConfirm': 'applyAnswer'
                 },
                 render: function () {
@@ -62,13 +63,21 @@ define(
 
                         break;
 
+                        case 3:
+
+                            // number
+
+                            $('#answerInputControls-number').removeClass('hidden');
+
+                            break;
+
                         case 6:
 
-                            // date - ( date )
+                            // string (word or letter)
 
                             $('#answerInputControls-string').removeClass('hidden');
 
-                        break;
+                            break;
 
                         default:
                         case 2:
@@ -77,7 +86,7 @@ define(
 
                             $('#answerInputControls-checkbox').removeClass('hidden');
 
-                        break;
+                            break;
 
                     }
 
@@ -101,35 +110,10 @@ define(
 
                         switch (parseInt(this.$(e.target).data('type'))) {
 
-                            case 5:
-                                // date
-                            case 16:
-                                // time
-
-                                answerInputValues[answerKey] = this.$(e.target).val();
-
-                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
-
-                                // date
-
-                                break;
-
-                            case 3:
-                                // number
-                            case 6:
-                                // string (word or letter)
-
-                                answerInputValues[answerKey] = this.$(e.target).val();
-
-                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
-
-                                break;
-
-                            default:
                             case 2:
                                 // checkbox (default)
 
-                                answerInputValues[answerKey] = this.$(e.target).is(":checked");
+                                answerInputValues[answerKey] = [this.$(e.target).is(":checked")];
 
                                 // convert to 1 or 0
                                 var switchValue = (this.$(e.target).is(":checked")) ? 1 : 0;
@@ -138,6 +122,32 @@ define(
 
 
                                 break;
+
+
+
+                            case 3:
+                                // number
+
+                                answerInputValues[answerKey] = [parseInt(this.$(e.target).val())];
+
+                                window.selectedAnswer.model.set({'answer_value': parseInt(this.$(e.target).val())});
+
+                               break;
+
+                            default:
+                            case 5:
+                                // date
+                            case 16:
+                                // time
+                            case 6:
+                                // string (word or letter)
+
+                                answerInputValues[answerKey] = [this.$(e.target).val()];
+
+                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+
+                                break;
+
 
                         }
 

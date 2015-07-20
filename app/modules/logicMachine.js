@@ -31,7 +31,7 @@ define(
 
             //console.log("Answer Input ", answerInputValues, answerInputValues[cellView.model.get('answerKey')]);
 
-            if (answerInputValues[cellView.model.get('answerKey')] != undefined && answerInputValues[cellView.model.get('answerKey')] != '' || answerInputValues[cellView.model.get('answerKey')] === false) {
+            if (answerInputValues[cellView.model.get('answerKey')][0] != undefined && answerInputValues[cellView.model.get('answerKey')][0] != '' || answerInputValues[cellView.model.get('answerKey')][0] === false) {
 
                 // Answer value is there, it's ok. Use this in calculations of what to do next.
 
@@ -79,7 +79,7 @@ define(
             //check the type of the cellView
             // if it's anything other than answer just (bulid a function that returns 'out 1' and keep on going
 
-            console.log('getoutport function is going to look for outports of ', cellView.model.get('ktype') );
+            //console.log('getoutport function is going to look for outports of ', cellView.model.get('ktype') );
 
             switch(cellView.model.get('ktype'))
             {
@@ -286,7 +286,7 @@ define(
 
                                             //functionLogic += answerInputValues[cellView.model.get('answerKey')];
                                             /// same as
-                                            functionLogic += answerInputValues[cellView.model.get('answerKey')];
+                                            functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
 
 
                                             break;
@@ -294,7 +294,9 @@ define(
                                         case 3:
                                             // NUMBER
 
-                                            functionLogic += "";
+                                            //functionLogic += "";
+
+                                            functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
 
                                             break;
 
@@ -305,7 +307,7 @@ define(
 
 
                                             functionLogic += " (function(){" +
-                                            "   var parts = '" + answerInputValues[cellView.model.get('answerKey')] + "'.split('-'); " +
+                                            "   var parts = '" + answerInputValues[cellView.model.get('answerKey')][0] + "'.split('-'); " +
                                             "   var mydate = new Date(parts[0],parts[1]-1,parts[2]);" +
                                             "   return mydate;" +
                                             "})() "; // make sure polarity is correct
@@ -500,7 +502,7 @@ define(
                                     case 3:
                                         // NUMBER
 
-                                        functionLogic += "";
+                                        functionLogic += ruleObject.suffixCustomValue;
 
                                         break;
 
@@ -537,10 +539,10 @@ define(
 
                                 //ruleOutput += sOp.join(",") + " ";
 
-                                // I'm only allowing for one answer here for now.
+                                // I'm only allowing for one answer here for now - though I have changed the in
 
                                 functionLogic += " (function(){" +
-                                "   var value = " + answerInputValues[ruleObject.suffixAnswerOperands[0]] + ";" +
+                                "   var value = " + answerInputValues[ruleObject.suffixAnswerOperands[0]][0] + ";" +
                                 "   return value;" +
                                 "})() "; // make sure polarity is correct (plus+minus makes a minus)
 
@@ -653,7 +655,7 @@ define(
                 //
                 //}
 
-                console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
+                //console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
                 answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
 
@@ -674,8 +676,7 @@ define(
                 if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined  && answerLinkRuleAttrObject.rule.outport == outPort)
                 {
 
-                    console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
-
+                    //console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
 
                     var reverseCellConnections;
 
@@ -685,6 +686,19 @@ define(
                     {
 
                         case 'answer':
+
+
+                            // Add the question
+
+                            var answerParentQuestion = graph.getCell(cellView.model.get('answer_parent_question'));
+
+                            contentStream.individualisationAppend({type: 'question', content: answerParentQuestion.get('questionFull')});
+
+                            // Add the answer
+
+                            contentStream.individualisationAppend({type: 'answer', content: cellView.model.get('answerFull'), valueDataType: cellView.model.get('answer_value_datatype_id'), value: cellView.model.get('answer_value'), value2:cellView.model.get('answer_value2') });
+
+                            //
 
                             reverseCellConnections = graph.getCell(cellView.model.get('parent')).get('reversedConnectionTargets');
 
@@ -739,6 +753,8 @@ define(
 
                                 descendantCellView.render().el;
 
+                                contentStream.individualisationAppend({type: 'endpoint', content: descendantCell.get('endPointFull')});
+
                                 return;
 
                                 break;
@@ -763,7 +779,7 @@ define(
 
                                 // get content inside
 
-                                console.log('arrived at a contentwrapper');
+                                //console.log('arrived at a contentwrapper');
 
                                 // Need to add this block to the content HUD
 
@@ -796,15 +812,17 @@ define(
 
                                     $('#content-nodes').append(newContentElement);
 
+                                    contentStream.individualisationAppend({type: 'content', content: descendantChildCell.get('contentFull')});
+
                                 }
 
                                 window.hudModel.contentElements = contentElements;
 
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 
-                                console.log(' going to now recurse from this contentwrapper we found linked to the reversedconnection above ', descendantCellView);
+                                //console.log(' going to now recurse from this contentwrapper we found linked to the reversedconnection above ', descendantCellView);
 
-                                calculateDescendants(descendantCellView);
+                                setTimeout(calculateDescendants(descendantCellView), 250);
 
 
                                 break;
@@ -813,7 +831,7 @@ define(
 
 
 
-                                console.log('arrived at a logicwrapper - will highlight the question inside');
+                                //console.log('arrived at a logicwrapper - will highlight the question inside');
 
 
                                 attrs = descendantCell.get('attrs');
@@ -831,8 +849,7 @@ define(
 
 
 
-                                helpers.showAlert("Question needs anwer", 2500);
-
+                                helpers.showAlert("Please answer question Q" + descendantCell.get('questionNumber'), 2500);
 
 
 
@@ -863,7 +880,7 @@ define(
 
                                 //console.log('going to recurse from default with ', descendantCellView);
 
-                                calculateDescendants(descendantCellView);
+                                setTimeout(calculateDescendants(descendantCellView), 250);
 
                                 break;
 
@@ -885,12 +902,11 @@ define(
                                 descendantCellView.render().el;
 
 
-
                                 reverseCellConnections = cellView.model.get('reversedConnectionTargets');
 
-                                console.log('going to recurse from default with ', descendantCellView);
+                                //console.log('going to recurse from default with ', descendantCellView);
 
-                                calculateDescendants(descendantCellView);
+                                setTimeout(calculateDescendants(descendantCellView), 250);
 
                             break;
 

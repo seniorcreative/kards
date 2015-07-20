@@ -29,7 +29,7 @@
       <!--// Controls for paper scale and grid scale etc.-->
 
       <header>
-          <label class="testMode" for="testCheckBox"><input type="checkbox" id="testCheckBox" value="">Test mode</label>
+          <label class="testMode" for="testCheckBox"><input type="checkbox" id="testCheckBox" value="">Tick to use testing mode</label>
           <h1 id="reportName"></h1>
           <h2>KARDS</h2>
       </header>
@@ -430,6 +430,11 @@
               <input type="text" value="" data-type="6" name="answerInput-string" id="answerInput-string" placeholder="Enter a word or letter">
           </div>
 
+          <div id="answerInputControls-number" class="form-controls  form-controls--width-full  form-controls--toggle  hidden">
+              <label for="answerInput-number">Number</label>
+              <input type="number" value="" data-type="3" name="answerInput-number" id="answerInput-number" placeholder="Enter a number">
+          </div>
+
           <div id="answerInputControls-checkbox" class="form-controls  form-controls--width-full  form-controls--toggle  hidden">
               <label for="answerInput-checkbox">
                   <input type="checkbox" value="" data-type="2" name="answerInput-checkbox" id="answerInput-checkbox">
@@ -462,7 +467,6 @@
 
 
           <div class="form-controls  form-controls--width-full" >
-              <label for="btnAddEndPoint" class="visuallyhidden">Click the button to add the end point</label>
               <button type="button" id="btnAddEndPoint" class="button-add">Add end point</button>
           </div>
 
@@ -472,13 +476,18 @@
 
       <div id="HUD" class="hudControlPanel">
 
-          <a href="#" class="btnBack">&lt;</a>
+          <a href="#" class="btnBack  hidden">&lt;</a>
 
           <ul id="content-nodes"></ul>
 
-          <a href="#" class="btnNext">&gt;</a>
+          <a href="#" class="btnNext  hidden">&gt;</a>
 
           <h3>Content stream</h3>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnResetContentStream" class="">Reset</button>
+              <button type="button" id="btnShowIndividualisation" class="">Show individualisation</button>
+          </div>
 
       </div>
 

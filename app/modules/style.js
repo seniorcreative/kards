@@ -147,7 +147,8 @@ function (Backbone) {
             fontSize:
             {
                 label: '8px',
-                node: '11px'
+                node: '11px',
+                question: '12px'
             }
         }
     });

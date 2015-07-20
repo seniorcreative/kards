@@ -3,9 +3,11 @@ define(
     'backbone',
     'joint',
     'modules/style',
-    'modules/layout'],
+    'modules/layout',
+    'modules/helpers',
+    'modules/contentStream'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers, contentStream) {
 
         var that;
         var graph;
@@ -215,6 +217,17 @@ define(
                                  //$('.formSectionOptions').css('pointer-events', 'auto');
 
                                  $('#btnSaveReport').removeClass('hidden');
+
+
+
+                                 //
+
+                                 helpers.clearSelections();
+                                 $('#content-nodes').html('');
+                                 window.hudModel.contentElements = [];
+                                 contentStream.reset();
+
+
 
                              }
                          });

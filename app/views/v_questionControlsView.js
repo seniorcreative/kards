@@ -120,9 +120,10 @@ define(
                         attrs: {
                             '.label': {
                                 text: 'Q' + questionNumber,
-                                'ref-x': .1,
+                                'ref-x': .5,
                                 'ref-y': .1,
-                                'font-size': style.text.fontSize.label
+                                'font-size': style.text.fontSize.question,
+                                'text-anchor': 'start'
                             },
                             rect: {
                                 fill: style.node.fill.normal,
@@ -196,7 +197,10 @@ define(
                                     label: answerLabelProvider[mca]
                                 };
 
-                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = answerInputValueProvider[mca][0];
+                                // pre-determine stored answer values.
+                                // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0]];
 
                             }
 
@@ -211,7 +215,7 @@ define(
                             // Initial loop
                             for (mca = 0; mca < numAnswers; mca++) {
 
-                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['boolean']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['true or false']; // string is the default for new multiple choice questions. (we can adjust the question after)
                                 answerValueProvider[mca] = [1]; // Might as well be boolean
                                 answerLabelProvider[mca] = 'Answer ' + (mca + 1) + ' *';
 
@@ -237,6 +241,8 @@ define(
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
                                 };
+
+                                // Don't predetermine stored answer value.
                             }
 
 
@@ -251,13 +257,16 @@ define(
                             var step = numericStep;
                             numAnswers = parseInt(this.$('#questionNumAnswers').val());
 
-                            console.log('num answers ', numAnswers);
+                            //console.log('num answers ', numAnswers);
+
+                            answerInputValueProvider = []; // [true], [false]]; // We will prepopulate the answerInputValues for boolean questions
 
                             // Initial loop
                             for (mca = 0; mca < numAnswers; mca++) {
 
-                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['integer']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['number']; // string is the default for new multiple choice questions. (we can adjust the question after)
                                 answerValueProvider[mca] = [step];
+                                answerInputValueProvider[mca] = [step];
                                 answerLabelProvider[mca] = step + ' *';
 
                                 step += numericStep; // increment the step by itself (prob need a start value from the form)
@@ -283,6 +292,10 @@ define(
                                     value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
                                     label: answerLabelProvider[mca]
                                 };
+
+                                // pre-determine stored answer values.
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0]];
                             }
 
                             break;
@@ -319,6 +332,7 @@ define(
                             '.inPorts circle': { fill: style.port.in.fill.normal, type: 'input' },
                             '.outPorts circle': { fill: style.port.out.fill.normal, magnet: 'passive', type: 'output' }
                         },
+                        questionNumber: questionNumber,
                         reversedConnectionTargets: {},
                         connectionTargets: {}
                     });
@@ -363,6 +377,8 @@ define(
                             height: layout.question[layout.get('newQuestionTypeID')].aSize.height - 2
                         }) + '...';
 
+                        var answerKey = questionNumber + "_" + (a+1);
+
                         var answer = new joint.shapes.html.Element({
                             ktype: 'answer',
                             position: layout.question[layout.get('newQuestionTypeID')].answers[a].position,
@@ -389,11 +405,10 @@ define(
                             answer_parent_question: question.id,
                             ehr_datapoint_id: '',
                             answerNumber: (a+1),
-                            answerKey: questionNumber + "_" + (a+1),
+                            answerKey: answerKey,
                             reversedConnectionTargets: {},
                             connectionTargets: {}
                         });
-
 
 
                         graph.addCells(

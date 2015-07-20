@@ -511,7 +511,7 @@ textarea:focus {
 
 div#HUD {
   position: fixed;
-  bottom: -150px;
+  bottom: -170px;
   padding: 30px 0;
   height: auto;
   width: 50%;
@@ -524,7 +524,7 @@ div#HUD {
 }
 div#HUD h3 {
   color: white;
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
 }
 div#HUD a.btnBack, div#HUD a.btnNext {
@@ -563,6 +563,16 @@ div#HUD ul li a:hover, div#HUD ul li a.selected {
   border: 5px solid #333;
   background-color: #99ccff;
 }
+div#HUD button {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  background-color: #222;
+  margin: 1px 0;
+  font-family: "Varela Round", sans-serif;
+  font-size: 1em;
+}
 
 .rectangle {
   position: absolute;
@@ -580,7 +590,7 @@ body {
 
 header .testMode {
   position: fixed;
-  right: 10px;
+  left: 10px;
   top: 10px;
 }
 header h1 {
@@ -672,7 +682,7 @@ form.formAnswerInputOptions {
   display: block;
   padding: 5px;
   width: 275px;
-  bottom: 300px;
+  top: 50px;
   right: 10px;
 }
 form.formAnswerOptions {
@@ -807,9 +817,11 @@ input[type='button'] {
 
 div.alert {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  right: 10px;
   padding: 5px;
+  background-color: white;
+  border-radius: 4px;
 }
 
 /* jointjs elements */
