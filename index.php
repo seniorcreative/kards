@@ -29,7 +29,8 @@
       <!--// Controls for paper scale and grid scale etc.-->
 
       <header>
-          <label class="testMode" for="testCheckBox"><input type="checkbox" id="testCheckBox" value="">Tick to use testing mode</label>
+          <label class="testMode" for="testCheckBox">
+              <input type="checkbox" id="testCheckBox" value="">Tick to use testing mode</label>
           <h1 id="reportName"></h1>
           <h2>KARDS</h2>
       </header>
@@ -344,7 +345,7 @@
         <!-- A basic modal html can live here even though covers the whole page. -->
 
         <!-- modal content -->
-      <div id="simplemodal-container">
+      <div class="simplemodal-container">
           <div id="logic-modal">
 
               <h3>Logic</h3>
@@ -369,12 +370,27 @@
           </div>
       </div>
 
+      <!-- modal content -->
+      <div class="simplemodal-container">
+          <div id="individualisation-modal">
+
+              <h3>Individualisation</h3>
+              <a href="#" id="btnIndividualisationClose"><img src='img/basic/close.png' width="12" height="12" alt=''></a>
+
+              <div id="individualisation-output">
+
+
+              </div>
+
+          </div>
+      </div>
+
 
 
       <form method="" action="" class="formContentOptions  _faded">
 
           <h3>Content</h3>
-          <a href="#" id="btnContentControlsClose">X</a>
+          <a href="#" id="btnContentControlsClose"><img src='img/basic/close.png' width="12" height="12" alt=''></a>
 
           <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-content">Search (autocomplete)</label>

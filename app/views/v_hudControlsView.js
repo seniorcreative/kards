@@ -73,7 +73,8 @@ define(
             {
 
                 //
-                contentStream.getIndividualisation();
+                $('#individualisation-output').html(contentStream.getIndividualisation());
+                $('#individualisation-modal').show();
 
             },
             outHandler: function (e)

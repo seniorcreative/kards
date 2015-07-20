@@ -7,7 +7,7 @@
 
 #logic-modal {
     display:none;
-    position: fixed;
+    position: absolute;
     background-color: rgba(0,0,0,.4);
     padding: 5px;
     border-radius: 5px;
@@ -24,9 +24,35 @@
 }
 
 
+#individualisation-modal {
+    display:none;
+    position: absolute;
+    background-color: rgba(0,0,0,.4);
+    padding: 5px;
+    border-radius: 5px;
+    top: 20px;
+    left: 50%;
+    margin-left: -625px;
+    z-index: 100;
+
+    h3
+    {
+        min-width: 1244px;
+        color: white;
+    }
+
+    .individualisation-output
+    {
+        background-color: white;
+        font-family: "Courier New", monospace;
+        font-style: italic;
+    }
+}
+
+
 
 /* Container */
-#simplemodal-container {
+.simplemodal-container {
 
     height: 75%;
     width: 75%;

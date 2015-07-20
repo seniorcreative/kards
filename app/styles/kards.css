@@ -198,7 +198,7 @@ textarea:focus {
 
 #logic-modal {
   display: none;
-  position: fixed;
+  position: absolute;
   background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   border-radius: 5px;
@@ -212,8 +212,29 @@ textarea:focus {
   color: white;
 }
 
+#individualisation-modal {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+  border-radius: 5px;
+  top: 20px;
+  left: 50%;
+  margin-left: -625px;
+  z-index: 100;
+}
+#individualisation-modal h3 {
+  min-width: 1244px;
+  color: white;
+}
+#individualisation-modal .individualisation-output {
+  background-color: white;
+  font-family: "Courier New", monospace;
+  font-style: italic;
+}
+
 /* Container */
-#simplemodal-container {
+.simplemodal-container {
   height: 75%;
   width: 75%;
   color: #aaa;
@@ -221,10 +242,10 @@ textarea:focus {
   border-radius: 4px;
   padding: 12px;
 }
-#simplemodal-container .simplemodal-data {
+.simplemodal-container .simplemodal-data {
   padding: 8px;
 }
-#simplemodal-container a.modalCloseImg {
+.simplemodal-container a.modalCloseImg {
   background: url(/kards-v1/img/basic/close.png) no-repeat;
   width: 25px;
   height: 25px;
@@ -236,17 +257,17 @@ textarea:focus {
   right: 5px;
   cursor: pointer;
 }
-#simplemodal-container h3 {
+.simplemodal-container h3 {
   margin: 0 0 5px 0;
 }
-#simplemodal-container .logic-header-buttons {
+.simplemodal-container .logic-header-buttons {
   text-align: center;
   margin: 10px auto;
 }
-#simplemodal-container .btnDisabled {
+.simplemodal-container .btnDisabled {
   opacity: 0.5;
 }
-#simplemodal-container .btnRemove {
+.simplemodal-container .btnRemove {
   background-color: #555555;
   display: inline-block;
   padding: 2px 4px;
@@ -256,61 +277,61 @@ textarea:focus {
   font-size: 0.75em;
   position: absolute;
 }
-#simplemodal-container .btnRemove--rule {
+.simplemodal-container .btnRemove--rule {
   right: 10px;
   margin-top: 5px;
 }
-#simplemodal-container .btnRemove--calculation {
+.simplemodal-container .btnRemove--calculation {
   left: 668px;
   margin-top: 126px;
 }
-#simplemodal-container input {
+.simplemodal-container input {
   width: 80px;
   padding: 5px;
   border-radius: 2px;
   border: 0;
 }
-#simplemodal-container input.short {
+.simplemodal-container input.short {
   width: 40px;
 }
-#simplemodal-container select {
+.simplemodal-container select {
   width: 120px;
   font-size: 12px;
   border: 0;
 }
-#simplemodal-container select option {
+.simplemodal-container select option {
   padding: 4px 2;
 }
-#simplemodal-container span {
+.simplemodal-container span {
   display: block;
   color: #aaa;
 }
-#simplemodal-container span strong {
+.simplemodal-container span strong {
   color: #000;
 }
-#simplemodal-container span.ruleWrapperBlockTitle--bottomMargin {
+.simplemodal-container span.ruleWrapperBlockTitle--bottomMargin {
   margin-bottom: 25px;
 }
-#simplemodal-container span.ruleWrapperBlockLabel {
+.simplemodal-container span.ruleWrapperBlockLabel {
   font-size: 0.75em;
   color: #777;
 }
-#simplemodal-container span.ruleWrapperBlockTitle.sort {
+.simplemodal-container span.ruleWrapperBlockTitle.sort {
   color: #ccc;
 }
-#simplemodal-container .logic-rule {
+.simplemodal-container .logic-rule {
   border-bottom: 1px dashed #333;
   padding: 4px 0;
 }
-#simplemodal-container .logic-rule button {
+.simplemodal-container .logic-rule button {
   color: black;
 }
-#simplemodal-container .logic-action {
+.simplemodal-container .logic-action {
   border-bottom: 1px dashed #333;
   padding: 4px 0;
   margin: 4px 0;
 }
-#simplemodal-container .logic-action .logic-circle {
+.simplemodal-container .logic-action .logic-circle {
   background-color: white;
   border: 3px solid #aaa;
   border-radius: 50%;
@@ -320,32 +341,32 @@ textarea:focus {
   float: left;
   margin: 0 4px 0 0;
 }
-#simplemodal-container .logic-action span {
+.simplemodal-container .logic-action span {
   display: inline-block;
   color: #333;
   padding: 5px;
 }
-#simplemodal-container button {
+.simplemodal-container button {
   border: 1px solid black;
   background: white;
   font-size: 1em;
   border-radius: 4px;
 }
-#simplemodal-container .ruleWrapper {
+.simplemodal-container .ruleWrapper {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
   padding-top: 4px;
 }
-#simplemodal-container .ruleWrapper.ruleWrapper--block {
+.simplemodal-container .ruleWrapper.ruleWrapper--block {
   border-radius: 5px;
   background-color: #ccc;
   padding: 4px 4px 4px 4px;
 }
-#simplemodal-container .ruleWrapper.ruleWrapper--block span.ruleWrapperBlockTitle {
+.simplemodal-container .ruleWrapper.ruleWrapper--block span.ruleWrapperBlockTitle {
   color: #888;
 }
-#simplemodal-container .actionWrapper {
+.simplemodal-container .actionWrapper {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
@@ -353,46 +374,46 @@ textarea:focus {
   margin-left: 54px;
   margin-bottom: 4px;
 }
-#simplemodal-container .actionWrapper.actionWrapper--block {
+.simplemodal-container .actionWrapper.actionWrapper--block {
   border-radius: 5px;
   background-color: #ccc;
   padding: 4px;
 }
-#simplemodal-container .actionWrapper.actionWrapper--block span.actionWrapperBlockTitle {
+.simplemodal-container .actionWrapper.actionWrapper--block span.actionWrapperBlockTitle {
   color: #888;
 }
-#simplemodal-container .ruleWrapperBlock {
+.simplemodal-container .ruleWrapperBlock {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper {
+.simplemodal-container .ruleWrapperBlockCalculationBlockWrapper {
   border-bottom: 1px dashed #999;
   margin-bottom: 5px;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header {
+.simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header {
   *zoom: 1;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:before, #simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
+.simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:before, .simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
   content: " ";
   display: table;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
+.simplemodal-container .ruleWrapperBlockCalculationBlockWrapper header:after {
   clear: both;
 }
-#simplemodal-container .calculationBlockWrapper {
+.simplemodal-container .calculationBlockWrapper {
   *zoom: 1;
   padding-top: 4px;
   border-top: 1px dotted #999;
 }
-#simplemodal-container .calculationBlockWrapper:before, #simplemodal-container .calculationBlockWrapper:after {
+.simplemodal-container .calculationBlockWrapper:before, .simplemodal-container .calculationBlockWrapper:after {
   content: " ";
   display: table;
 }
-#simplemodal-container .calculationBlockWrapper:after {
+.simplemodal-container .calculationBlockWrapper:after {
   clear: both;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlocks {
+.simplemodal-container .ruleWrapperBlockCalculationBlocks {
   border: 1px solid #999;
   background-color: #ddd;
   border-radius: 5px;
@@ -400,30 +421,30 @@ textarea:focus {
   vertical-align: top;
   text-align: center;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlock {
+.simplemodal-container .ruleWrapperBlockCalculationBlock {
   display: inline-block;
   vertical-align: top;
   padding-bottom: 10px;
   padding-right: 10px;
   text-align: left;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlock.operation {
+.simplemodal-container .ruleWrapperBlockCalculationBlock.operation {
   width: 130px;
 }
-#simplemodal-container .ruleWrapperBlockCalculationBlock.operand {
+.simplemodal-container .ruleWrapperBlockCalculationBlock.operand {
   width: 380px;
 }
-#simplemodal-container .ruleWrapperBlockCalculationOperandBlock {
+.simplemodal-container .ruleWrapperBlockCalculationOperandBlock {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
 }
-#simplemodal-container .ruleWrapperBlockSuffixBlock {
+.simplemodal-container .ruleWrapperBlockSuffixBlock {
   display: inline-block;
   vertical-align: top;
   padding-right: 10px;
 }
-#simplemodal-container .ruleWrapperBlockSuffixBlock.topMargin {
+.simplemodal-container .ruleWrapperBlockSuffixBlock.topMargin {
   margin-top: -12px;
 }
 

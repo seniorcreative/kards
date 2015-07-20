@@ -46,19 +46,19 @@ define(
             for(var data in individualisation)
             {
 
-                output += '\n\n' + individualisation[data].type + ': ' + individualisation[data].content;
+                output += '<br><br>' + "<strong>" + individualisation[data].type + "</strong>" + ': ' + individualisation[data].content;
 
                 if (individualisation[data].type == 'answer')
                 {
 
-                    output += '\nvalue: ' + individualisation[data].value;
-                    if (individualisation[data].value2) output += '\nvalue2: ' + individualisation[data].value2;
+                    output += '<br>value: ' + individualisation[data].value;
+                    if (individualisation[data].value2) output += '<br>value2: ' + individualisation[data].value2;
 
                 }
 
             }
 
-            console.log("Showing your individualisation \n\n " + output);
+            return "<h4>Showing your individualisation</h4>" + output;
 
         };
 
