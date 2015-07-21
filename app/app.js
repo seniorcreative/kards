@@ -446,6 +446,7 @@ define(
                                 window.contentModel.set(
                                     {
                                         contentText: _element.model.get('contentFull'),
+                                        contentNumber: _element.model.get('contentNumber'),
                                         contentTypeID: _element.model.get('cms_content_type_id'),
                                         contentCategoryID: _element.model.get('cms_content_category_id'),
                                     }
@@ -454,6 +455,8 @@ define(
                                 window.selectedContent = _element;
 
                                 $('#contentText').focus();
+
+                                $('#btnDeleteContent').removeClass('hidden');
                                 //$('#contentText').select();
 
                                 $('.formContentOptions h3').text('Edit Content - C' + window.selectedContent.model.get('contentNumber'));
@@ -655,6 +658,7 @@ define(
                                         $('#btnAddAnswer').addClass('hidden');
                                         $('#btnShowLogic').addClass('hidden');
                                         $('#btnDeleteQuestion').addClass('hidden');
+                                        $('#btnDeleteContent').addClass('hidden');
 
 
                                         $('.formQuestionOptions h3').text('Add Question');
@@ -797,6 +801,8 @@ define(
 
                                         $('#contentText').focus();
                                         $('#contentText').select();
+
+                                        $('#btnDeleteContent').removeClass('hidden');
 
                                         break;
 

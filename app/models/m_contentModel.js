@@ -6,6 +6,7 @@ define(
         var contentModel = Backbone.Model.extend(
             {
                 contentText: '',
+                contentNumber: 1,
                 contentTypeTemplate: '',
                 contentCategoriesTemplate: '',
                 contentTypeID: '',

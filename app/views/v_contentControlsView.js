@@ -3,9 +3,11 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers'
+    ],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers) {
 
         var that;
         var graph;
@@ -37,14 +39,20 @@ define(
                 events: {
                     'click #btnAddContent': 'addContent',
                     'click #btnContentControlsClose': 'closeControlView',
+                    'click #btnDeleteContent': 'deleteHandler',
+                    'click #contentNumber': 'contentNumberUpdate',
                     'keyup #contentText': 'contentUpdate',
+                    'keyup #contentNumber': 'contentNumberUpdate',
                     'change #cmsContentTypeID': 'changeContentTypeDropdown',
+                    'change #contentNumber': 'contentNumberUpdate',
                     'change #cmsContentCategoryID': 'changeContentCategoryDropdown'
                 },
                 render: function () {
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
                     this.$el.find('#contentText').val(this.model.get('contentText'));
+
+                    this.$el.find('#contentNumber').val(this.model.get('contentNumber'));
 
                     if (this.model.get('contentTypeID') != undefined) {
                         this.$el.find('#cmsContentTypeID').val(this.model.get('contentTypeID'));
@@ -96,6 +104,8 @@ define(
                     var newContentText = $('#contentText').val() == '' ? this.model.defaultText : $('#contentText').val();
                     $('#contentText').val(newContentText);
 
+                    $('#contentNumber').val(contentNumber);
+
                     wraptext = joint.util.breakText(newContentText, {
                         width: layout.content.bodySize.width,
                         height: layout.content.bodySize.height
@@ -129,7 +139,8 @@ define(
                         cms_content_type_id: parseInt(this.$('#cmsContentTypeID option:selected').val()),
                         cms_content_category_id: parseInt(this.$('#cmsContentCategoryID option:selected').val()),
                         reversedConnectionTargets: {},
-                        connectionTargets: {}
+                        connectionTargets: {},
+                        parent: contentWrapper
                     });
 
                     graph.addCells([contentWrapper, content]);
@@ -138,6 +149,8 @@ define(
                         id: contentNumber,
                         element: content.id
                     });
+
+                    $('#btnDeleteContent').removeClass('hidden');
 
                     contentWrapper.embed(content);
 
@@ -162,6 +175,35 @@ define(
                         window.selectedContent.model.set('attrs', attrs);
                         window.selectedContent.model.set('contentFull', this.$(e.target).val());
                         window.selectedContent.render().el;
+                    }
+
+                },
+                contentNumberUpdate: function (e) {
+
+                    // Set the initial text in the model so if we change anything else in the view panel this stays in the text field
+                    this.model.set('contentNumber', this.$(e.target).val());
+
+                    if (window.selectedContent != null) {
+
+                        console.log('content parent', window.selectedContent.model.get('parent'));
+
+                        var contentWrapper = graph.getCell(window.selectedContent.model.get('parent'));
+
+
+                        attrs = contentWrapper.get('attrs');
+
+                        console.log('content number attrs', attrs);
+
+                        //wraptext = joint.util.breakText(this.$(e.target).val(), {
+                        //    width: layout.content.bodySize.width,
+                        //    height: layout.content.bodySize.height
+                        //}) + '...';
+
+                        attrs['.label'].text = "C" + this.$(e.target).val();
+
+                        contentWrapper.set('attrs', attrs);
+                        //window.selectedContent.model.set('contentFull', this.$(e.target).val());
+                        paper.findViewByModel(contentWrapper).render().el;
                     }
 
                 },
@@ -206,6 +248,37 @@ define(
                     $('.formContentOptions').animate({'bottom': -400}, 250);
 
                     return false;
+
+                },
+                deleteHandler: function()
+                {
+
+                    if (window.selectedContent != null)
+                    {
+
+                        // Want to get the parent and the children of the question...
+
+                        var parentLogicWrapper = graph.getCell(window.selectedContent.model.get('parent'));
+                        parentLogicWrapper.remove(); // Yeay remove also remove embeds.
+
+                        var tmpArray = [];
+
+                        for (var c in this.model.contentArray)
+                        {
+
+                            if (this.model.contentArray[c]['element'] != window.selectedContent.model.id)
+                            {
+                                tmpArray.push(this.model.contentArray[c]);
+                            }
+                        }
+
+                        this.model.contentArray = tmpArray;
+
+                        // Now reset interface
+
+                        helpers.clearSelections();
+
+                    }
 
                 }
             });

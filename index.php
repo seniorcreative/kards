@@ -424,13 +424,22 @@
 
 
           <div class="form-controls  form-controls--width-full">
+              <label for="contentNumber">Content number</label>
+              <input type="number" value="" id="contentNumber">
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
               <label for="contentText">Content text</label>
-              <textarea id="contentText" name="contentText" rows="15"></textarea>
+              <textarea id="contentText" name="contentText" rows="12"></textarea>
           </div>
 
 
           <div class="form-controls  form-controls--width-full" >
               <button type="button" id="btnAddContent" class="button-add">Add content</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnDeleteContent" class="button-add  hidden">Delete</button>
           </div>
 
       </form>
