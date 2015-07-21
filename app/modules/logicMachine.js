@@ -59,7 +59,7 @@ define(
         var getOutport = function( cellView )
         {
 
-            //console.log('answer selected is getting called', window.selectedQuestion, window.selectedAnswer, window.selectedAnswer.model);
+            console.log('getOutport getting called', window.selectedQuestion, window.selectedAnswer, window.selectedAnswer.model);
 
             // First get the selected question from this answer.
 
@@ -284,9 +284,10 @@ define(
                                         case 2:
                                             // TRUE OR FALSE
 
-                                            //functionLogic += answerInputValues[cellView.model.get('answerKey')];
-                                            /// same as
-                                            functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
+                                        case 15:
+                                            // None of the above
+
+                                            functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
 
 
                                             break;
@@ -294,14 +295,23 @@ define(
                                         case 3:
                                             // NUMBER
 
-                                            //functionLogic += "";
-
                                             functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
 
                                             break;
 
+
+                                        case 6:
+                                            // Word or letter
+
+                                            //functionLogic += "";
+
+                                            functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+
+                                            break;
+
                                         case 5:
-                                        // DATE
+                                            // DATE
+
                                         case 16:
                                             // YEARS
 
@@ -312,7 +322,6 @@ define(
                                             "   return mydate;" +
                                             "})() "; // make sure polarity is correct
 
-                                            //functionLogic += "";
 
                                             break;
 
@@ -325,14 +334,6 @@ define(
 
                                 switch (parseInt(calcOperator.id)) {
 
-                                    /*
-                                     (object) ['id' => '12','data-symbol' => '==','label' => 'IS EQUAL TO', 'data-type' => '1'],
-                                     (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
-                                     (object) ['id' => '13','data-symbol' => '!=','label' => 'IS NOT EQUAL TO', 'data-type' => '1'],
-                                     (object) ['id' => '4','data-symbol' => '<','label' => 'IS LESS THAN', 'data-type' => '1'],
-                                     (object) ['id' => '5','data-symbol' => '<=','label' => 'IS LESS THAN OR EQUAL TO', 'data-type' => '1'],
-                                     (object) ['id' => '6','data-symbol' => '>','label' => 'IS GREATER THAN', 'data-type' => '1'],
-                                     (object) ['id' => '7','data-symbol' => '>=','label' => 'IS GREATER THAN OR EQUAL TO', 'data-type' => '1'],*/
 
                                     case 12:
                                         // IS EQUAL TO
@@ -388,13 +389,6 @@ define(
                             }
 
 
-                            /*if (() <= ())
-                             {
-                             outPort = "out 2";
-                             return outPort;
-                             }*/
-
-
                             // Now append suffix.
 
                             // IS LESS THAN OR EQUAL TO
@@ -405,14 +399,6 @@ define(
 
                             switch (parseInt(suffixOperator.id)) {
 
-                                /*
-                                 (object) ['id' => '12','data-symbol' => '==','label' => 'IS EQUAL TO', 'data-type' => '1'],
-                                 (object) ['id' => '27','data-symbol' => 'valueof([VALUES])','label' => 'VALUE OF', 'data-type' => '1'],
-                                 (object) ['id' => '13','data-symbol' => '!=','label' => 'IS NOT EQUAL TO', 'data-type' => '1'],
-                                 (object) ['id' => '4','data-symbol' => '<','label' => 'IS LESS THAN', 'data-type' => '1'],
-                                 (object) ['id' => '5','data-symbol' => '<=','label' => 'IS LESS THAN OR EQUAL TO', 'data-type' => '1'],
-                                 (object) ['id' => '6','data-symbol' => '>','label' => 'IS GREATER THAN', 'data-type' => '1'],
-                                 (object) ['id' => '7','data-symbol' => '>=','label' => 'IS GREATER THAN OR EQUAL TO', 'data-type' => '1'],*/
 
                                 case 12:
                                     // IS EQUAL TO
@@ -471,34 +457,23 @@ define(
 
                             if (ruleObject.suffixCustomValue != undefined && ruleObject.suffixCustomValue != '') {
 
-                                // years -2
-                                //ruleOutput += suffixValueType.label + " " + ruleObject.suffixCustomValue;
 
 
                                 switch (parseInt(cellView.model.get('answer_value_datatype_id'))) {
 
-                                    /*         (object) ['id' => 2, 'label' => 'true or false'],
-                                               (object) ['id' => 3, 'label' => 'number'],
-                                     //        (object) ['id' => 4, 'label' => 'decimal number'],
-                                               (object) ['id' => 5, 'label' => 'date'],
-                                     //        (object) ['id' => 6, 'label' => 'word or letter'],
-                                     //        (object) ['id' => 8, 'label' => 'increase'],
-                                     //        (object) ['id' => 9, 'label' => 'decrease'],
-                                     //        (object) ['id' => 10, 'label' => 'no change'],
-                                     //        (object) ['id' => 11, 'label' => 'ehr data point'],
-                                     //        (object) ['id' => 12, 'label' => 'range'],
-                                     //        (object) ['id' => 13, 'label' => 'high'],
-                                     //        (object) ['id' => 14, 'label' => 'low'],
-                                     //        (object) ['id' => 15, 'label' => 'none of the above'],
-                                               (object) ['id' => 16, 'label' => 'years'],*/
 
                                     case 2:
                                         // TRUE OR FALSE
+                                    case 15:
+                                        // none of the above
 
                                         functionLogic += "";
 
                                         break;
 
+                                    case 6:
+
+                                        // word or letter
                                     case 3:
                                         // NUMBER
 
@@ -507,7 +482,10 @@ define(
                                         break;
 
                                     case 5:
-                                    // DATE
+
+                                        // date
+
+
                                     case 16:
                                         // YEARS
 
@@ -539,12 +517,38 @@ define(
 
                                 //ruleOutput += sOp.join(",") + " ";
 
-                                // I'm only allowing for one answer here for now - though I have changed the in
+                                // I'm only allowing for one answer here for now
 
-                                functionLogic += " (function(){" +
-                                "   var value = " + answerInputValues[ruleObject.suffixAnswerOperands[0]][0] + ";" +
-                                "   return value;" +
-                                "})() "; // make sure polarity is correct (plus+minus makes a minus)
+                                if (ruleObject.suffixAnswerOperands[0] in answerInputValues) {
+
+                                    functionLogic += " (function(){" +
+                                    "   var value = ";
+
+                                    if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]])) // add quotes around words / letters
+                                    {
+
+                                        functionLogic += "\"";
+
+                                    }
+
+                                    functionLogic += answerInputValues[ruleObject.suffixAnswerOperands[0]][0];
+
+
+                                    if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]])) // add quotes around words / letters
+                                    {
+
+                                        functionLogic += "\"";
+
+                                    }
+
+                                    functionLogic += ";" +
+                                    "   return value;" +
+                                    "})() "; // make sure polarity is correct (plus+minus makes a minus)
+
+                                }
+
+
+                                //console.log('added to your function ', functionLogic, answerInputValues, ruleObject.suffixAnswerOperands[0]);
 
                                 // add value from answerValues here to the functionLogic
 
@@ -582,7 +586,6 @@ define(
 
                 console.log('Your function is made ', functionLogic);
 
-
                 evaluationFunction = new Function("eval", functionLogic);
 
                 return evaluationFunction;
@@ -601,21 +604,24 @@ define(
         {
 
             var answerLinkRuleAttrObject;
-
+            var outPort = '';
             //console.log(' connected links when running calculateDescendents ', graph.getConnectedLinks(cellView.model));
 
-            for (var cl in graph.getConnectedLinks(cellView.model, { inbound: true }))
+            var connectedInboundLinks = graph.getConnectedLinks(cellView.model, { inbound: true });
+
+            for (var cl in connectedInboundLinks)
             {
 
+                //if (outPort != '') continue;
                 //graph.getConnectedLinks(cellView.model)[cl].get('type'))
 
-                //console.log('looping connected links of this answer ', graph.getConnectedLinks(cellView.model)[cl].get('type'));
+                console.log('looping connected links of this answer ', graph.getConnectedLinks(cellView.model)[cl].get('type'));
 
-                if (graph.getConnectedLinks(cellView.model)[cl].get('type') != 'devs.Link') {
+                /*if (graph.getConnectedLinks(cellView.model)[cl].get('type') != 'devs.Link') {
                     if (graph.getConnectedLinks(cellView.model)[cl].get('droppedLink') != true) {
                         continue;
                     }
-                }
+                }*/
 
 
                 // I want to know which outport path to go down, based on this answer's value.
@@ -635,8 +641,9 @@ define(
                  * ========================
                  */
 
-                var outPort;
-                if(typeof(getOutport(cellView)) == 'function') outPort = getOutport(cellView)();
+
+                //if(typeof(getOutport(cellView)) == 'function')
+                outPort = getOutport(cellView)();
 
                 /*
                  * ========================
@@ -655,9 +662,11 @@ define(
                 //
                 //}
 
-                //console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
+                console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
-                answerLinkRuleAttrObject = graph.getConnectedLinks(cellView.model)[cl].attributes.attrs;
+                answerLinkRuleAttrObject = connectedInboundLinks[cl].attributes.attrs;
+
+                console.log("answerLinkRuleAttrObject", answerLinkRuleAttrObject);
 
 
                 // Force a rule into the link so that the condition is satisfied for us to proceed into the statement
@@ -676,7 +685,7 @@ define(
                 if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined  && answerLinkRuleAttrObject.rule.outport == outPort)
                 {
 
-                    //console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
+                    console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
 
                     var reverseCellConnections;
 

@@ -31,12 +31,14 @@ define(
 
         };
 
+
         var individualisationAppend = function ( data )
         {
 
             individualisation.push(data);
 
         };
+
 
         var getIndividualisation = function (  )
         {
@@ -46,22 +48,29 @@ define(
             for(var data in individualisation)
             {
 
-                output += '<br><br>' + "<strong>" + individualisation[data].type + "</strong>" + ': ' + individualisation[data].content;
+                if (individualisation[data].type == 'question' || individualisation[data].type == 'content')
+                {
+
+                    output += '<br><br>';
+
+                }
+
+
+                output += "<strong>" + individualisation[data].type + "</strong>" + ': ' + individualisation[data].content + ' ' ;
 
                 if (individualisation[data].type == 'answer')
                 {
 
-                    output += '<br>value: ' + individualisation[data].value;
-                    if (individualisation[data].value2) output += '<br>value2: ' + individualisation[data].value2;
+                    output += ', <strong>answer value</strong>: ' + individualisation[data].value;
+                    if (individualisation[data].value2) output += ', <strong>answer value2</strong>: ' + individualisation[data].value2;
 
                 }
 
             }
 
-            return "<h4>Showing your individualisation</h4>" + output;
+            return "<h3>Showing individualisation for "+ window.reportModel.reportTitle +"</h3>" + output;
 
         };
-
 
 
         var decisionSnapshot = function( selectedQuestion )

@@ -37,7 +37,7 @@ $json = (object) [
 //        'minutes' => 20
     ],
     'valueDataTypesDropdown' => [
-        (object) ['id' => 1, 'label' => 'unknown'],
+//        (object) ['id' => 1, 'label' => 'unknown'],
         (object) ['id' => 2, 'label' => 'true or false'],
         (object) ['id' => 3, 'label' => 'number'],
 //        (object) ['id' => 4, 'label' => 'decimal number'],

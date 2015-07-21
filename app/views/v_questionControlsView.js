@@ -424,10 +424,12 @@ define(
                             element: answer.id
                         };
 
+
+                        // Make so that links are not inbound to answer (from which downstream logic is calculated)
                         var link = new joint.dia.Link({
                             smooth: true,
-                            source: { id: question.id },
-                            target: { id: answer.id }
+                            source: { id: answer.id },
+                            target: { id: question.id }
                         });
 
                         graph.addCells(
@@ -629,11 +631,11 @@ define(
 
 
                     // Set a new link
-
+                    // Make so that links are not inbound to answer (from which downstream logic is calculated)
                     var linkNew = new joint.dia.Link({
                         smooth: true,
-                        source: { id: window.selectedQuestion.model.id },
-                        target: { id: newAnswer.id }
+                        source: { id: newAnswer.id },
+                        target: { id: window.selectedQuestion.model.id }
                     });
 
                     graph.addCell(linkNew);

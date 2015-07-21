@@ -37,7 +37,9 @@ define(
 
                     this.model.on('change', function(){
 
-                        this.render()
+                        this.render();
+
+
 
                     }, this);
 
@@ -45,7 +47,11 @@ define(
                 events: {
                     'keyup #answerLabel': 'answerUpdate',
                     'keyup #answerValue': 'answerValueUpdate',
+                    'change #answerValue': 'answerValueUpdate',
+                    'click #answerValue': 'answerValueUpdate',
                     'keyup #answerValue2': 'answerValue2Update',
+                    'change #answerValue2': 'answerValue2Update',
+                    'click #answerValue2': 'answerValue2Update',
                     'click #btnAddLogicOutPoint': 'addLogicOutPoint',
                     'change #valueDataType': 'changeValueDataTypeDropdown',
                     'change #answerDataPoint': 'changeAnswerDatapointDropdown'
@@ -54,8 +60,104 @@ define(
                     //this.$el.html(this.template()); // this.$el is a jQuery wrapped el var
 
                     this.$el.find('#answerLabel').val(this.model.get('answerLabel'));
-                    this.$el.find('#answerValue').val(this.model.get('answerValue'));
-                    this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
+
+                    //console.log('this.model.get(answerValueDataTypeID)', this.model.get('answerValueDataTypeID'));
+
+                    if ( this.model.get('answerValueDataTypeID') != undefined) {
+
+                        switch (parseInt(this.model.get('answerValueDataTypeID'))) {
+
+                            case 2:
+                            // TRUE OR FALSE
+                            case 15:
+                                // none of the above
+
+                                $('#answerValue').attr('type', 'checkbox');
+                                $('#answerValue2').attr('type', 'checkbox');
+
+                                break;
+
+                            case 6:
+
+                                // word or letter
+
+
+                                $('#answerValue').attr('type', 'text');
+                                $('#answerValue2').attr('type', 'text');
+
+                                break;
+
+                            case 3:
+                                // NUMBER
+
+                                $('#answerValue').attr('type', 'number');
+                                $('#answerValue2').attr('type', 'number');
+
+                                break;
+
+                            case 5:
+                            // Date
+                            case 16:
+                                // YEARS
+
+                                $('#answerValue').attr('type', 'date');
+                                $('#answerValue2').attr('type', 'date');
+
+                                break;
+
+                        }
+
+                        // Do this differently depending on value type
+
+                        switch (parseInt(this.model.get('answerValueDataTypeID'))) {
+
+                            case 2:
+                            // TRUE OR FALSE
+                            case 15:
+                                // none of the above
+
+                                if (this.model.get('answerValue') == true) {
+                                    this.$el.find('#answerValue').prop('checked', true);
+
+                                    //console.log('setting answerValue to checked');
+                                }
+                                else {
+                                    this.$el.find('#answerValue').prop('checked', false);
+
+                                    //console.log('setting answerValue to unchecked');
+                                }
+
+                                if (this.model.get('answerValue2') == true) {
+                                    this.$el.find('#answerValue2').prop('checked', true);
+
+                                    //console.log('setting answerValue2 to checked');
+                                }
+                                else {
+                                    this.$el.find('#answerValue2').prop('checked', false);
+
+                                    //console.log('setting answerValue2 to unchecked');
+                                }
+
+                                break;
+
+                            case 6:
+                            // WORD OR LETTER
+                            case 3:
+                            // NUMBER
+                            case 5:
+                            // DATE
+                            case 16:
+                                // YEARS
+
+                                this.$el.find('#answerValue').val(this.model.get('answerValue'));
+                                this.$el.find('#answerValue2').val(this.model.get('answerValue2'));
+
+                                break;
+
+                        }
+
+
+                    }
 
                     if (this.model.get('answerValueDataTypeID') != undefined) {
                         //console.log('supposed to be setting your answer value data type id value to ', this.model.get('answerValueDataTypeID'));
@@ -80,6 +182,8 @@ define(
 
 
                     }
+
+
 
 
                     return this;
@@ -131,14 +235,54 @@ define(
                     //console.log('answer value is changing', e, this.$(e.target).val());
                     if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
-                        // adjust value of selected answer
-                        window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
 
                         answerInputValues = window.answerModel.answerInputValues;
-                        answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').val(), this.$('#answerValue2').val()];
+
+
+                        switch(parseInt(this.$('#valueDataType option:selected').val()))
+                        {
+
+                            case 2:
+                                // TRUE OR FALSE
+                            case 15:
+                                // none of the above
+
+                                    answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').is(':checked'), this.$('#answerValue2').is(':checked')];
+
+                                    // adjust value of selected answer
+                                    window.selectedAnswer.model.set({'answer_value': this.$(e.target).is(':checked')});
+
+                                break;
+
+                            case 3:
+                                // NUMBER
+
+                                // adjust value of selected answer
+                                window.selectedAnswer.model.set({'answer_value': parseInt(this.$(e.target).val())});
+
+                                answerInputValues[window.selectedAnswer.model.get('answerKey')] = [parseInt(this.$('#answerValue').val()), parseInt(this.$('#answerValue2').val())];
+
+                                break;
+
+                            case 6:
+                                // WORD OR LETTER
+                            case 5:
+                                // DATE
+                            case 16:
+                                // YEARS
+
+                                    // adjust value of selected answer
+                                    window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+
+                                    answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').val(), this.$('#answerValue2').val()];
+
+                                break;
+
+                        }
+
                         window.answerModel.set('answerInputValues', answerInputValues);
 
-                        //console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
+                        console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
 
                         //window.selectedAnswer.render().el;
                     }
@@ -148,12 +292,67 @@ define(
                     //console.log('answer value is changing', e, this.$(e.target).val());
                     if (window.selectedQuestion != null && window.selectedAnswer != null)
                     {
-                        // adjust value of selected answer
-                        window.selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+
+
+
 
                         answerInputValues = window.answerModel.answerInputValues;
-                        answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').val(), this.$('#answerValue2').val()];
-                        window.answerModel.set('answerInputValue2s', answerInputValues);
+
+
+                        switch(parseInt(this.$('#valueDataType option:selected').val()))
+                        {
+
+                            case 2:
+                            // TRUE OR FALSE
+                            case 15:
+                                // none of the above
+
+                                answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').is(':checked'), this.$('#answerValue2').is(':checked')];
+
+                                // adjust value of selected answer
+                                window.selectedAnswer.model.set({'answer_value2': this.$(e.target).is(':checked')});
+
+                                break;
+
+                            case 3:
+                            // NUMBER
+
+                                // adjust value of selected answer
+                                window.selectedAnswer.model.set({'answer_value2': parseInt(this.$(e.target).val())});
+
+                                answerInputValues[window.selectedAnswer.model.get('answerKey')] = [parseInt(this.$('#answerValue').val()), parseInt(this.$('#answerValue2').val())];
+
+
+                                break;
+
+                            case 6:
+                            // WORD OR LETTER
+                            case 5:
+                            // DATE
+                            case 16:
+                                // YEARS
+
+                                // adjust value of selected answer
+                                window.selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+
+                                answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').val(), this.$('#answerValue2').val()];
+
+                                break;
+
+                        }
+
+                        window.answerModel.set('answerInputValues', answerInputValues);
+
+                        //console.log('changed ', this.model.answerKey, this.model, window.answerModel.answerInputValues);
+
+
+
+                        // adjust value of selected answer
+                        //window.selectedAnswer.model.set({'answer_value2': this.$(e.target).val()});
+                        //
+                        //answerInputValues = window.answerModel.answerInputValues;
+                        //answerInputValues[window.selectedAnswer.model.get('answerKey')] = [this.$('#answerValue').val(), this.$('#answerValue2').val()];
+                        //window.answerModel.set('answerInputValue2s', answerInputValues);
 
                         //window.selectedAnswer.render().el;
                     }
@@ -168,6 +367,49 @@ define(
                                 answer_value_datatype_id: this.$('#valueDataType option:selected').val()
                             }
                         );
+
+                    }
+
+                    switch(parseInt(this.$('#valueDataType option:selected').val()))
+                    {
+
+                        case 2:
+                        // TRUE OR FALSE
+                        case 15:
+                            // none of the above
+
+                            $('#answerValue').attr('type', 'checkbox');
+                            $('#answerValue2').attr('type', 'checkbox');
+
+                        break;
+
+                        case 6:
+
+                        // word or letter
+
+
+                            $('#answerValue').attr('type', 'text');
+                            $('#answerValue2').attr('type', 'text');
+
+                        break;
+
+                        case 3:
+                            // NUMBER
+
+                            $('#answerValue').attr('type', 'number');
+                            $('#answerValue2').attr('type', 'number');
+
+                        break;
+
+                        case 5:
+                            // Date
+                        case 16:
+                            // YEARS
+
+                            $('#answerValue').attr('type', 'date');
+                            $('#answerValue2').attr('type', 'date');
+
+                        break;
 
                     }
 

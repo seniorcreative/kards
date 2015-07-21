@@ -201,6 +201,8 @@ define(
                                  if (data.answerInputValues) window.answerModel.answerInputValues   = data.answerInputValues;
                                  if (data.questionLogic) window.logicModel.questionLogic            = data.questionLogic;
 
+                                 if (data.contentArray) window.contentModel.contentArray            = data.contentArray;
+
                                  paper.scale(data.paper.scaleX, data.paper.scaleY); // set scale from saved settings
                                  paper.setOrigin(data.paper.originX, data.paper.originY);
                                  paper.setDimensions(data.paper.width, data.paper.height);
@@ -253,6 +255,8 @@ define(
                         jsonSaveObject += "\"answerValues\": " + JSON.stringify(window.questionModel.answerValues) + ",";
                         jsonSaveObject += "\"answerInputValues\": " + JSON.stringify(window.answerModel.answerInputValues) + ",";
                         jsonSaveObject += "\"questionLogic\": " + JSON.stringify(window.logicModel.questionLogic) + ",";
+
+                        jsonSaveObject += "\"contentArray\": " + JSON.stringify(window.contentModel.contentArray) + ",";
 
                         jsonSaveObject += "\"paper\": { \"scaleX\": "+ $('#sx').val() +",\"scaleY\": "+ $('#sy').val() +",";
                         jsonSaveObject += "\"originX\": "+ $('#ox').val() +",\"originY\": "+ $('#oy').val() +",";
