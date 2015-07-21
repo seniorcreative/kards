@@ -315,6 +315,11 @@
           </div>
 
           <div class="form-controls  form-controls--width-full">
+              <label for="answerInputNeeded">Dynamic input needed (start empty)</label>
+              <input type="checkbox" id="answerInputNeeded" name="answerInputNeeded" >
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
               <label for="answerValue">Answer value 1</label>
               <input type="text" id="answerValue" name="answerValue">
           </div>
@@ -323,10 +328,9 @@
               <label for="answerValue2">Answer value 2 (for range)</label>
               <input type="text" id="answerValue2" name="answerValue2">
           </div>
-
           <div class="form-controls  form-controls--width-full">
               <label for="answerLabel">Answer text</label>
-              <textarea id="answerLabel" name="answerLabel" rows="5"></textarea>
+              <textarea id="answerLabel" name="answerLabel" rows="3"></textarea>
           </div>
 
           <!--<div class="form-controls  form-controls--width-full" >
