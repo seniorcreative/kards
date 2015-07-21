@@ -1,7 +1,7 @@
 <?php
 
 
-$filename = strtolower(str_replace(" ", "-", $_POST['reportTitle'])) . ".json";
+$filename = strtolower(str_replace(" ", "-", $_POST['reportTitle'])) . "-" . date("Y-m-d H:i:s") . ".json";
 
 $fp = fopen("charts/" . $filename, 'w');
 fwrite($fp, $_POST['chartData']);

@@ -59,7 +59,7 @@ define(
         var getOutport = function( cellView )
         {
 
-            console.log('getOutport getting called', window.selectedQuestion, window.selectedAnswer, window.selectedAnswer.model);
+            //console.log('getOutport getting called', window.selectedQuestion, window.selectedAnswer, window.selectedAnswer.model);
 
             // First get the selected question from this answer.
 
@@ -584,7 +584,7 @@ define(
 
                 //console.log('we made some pseudo code', ruleOutput, window.selectedQuestion, window.selectedAnswer); // ,window.selectedAnswer.model.get('answerParentQuestion'));
 
-                console.log('Your function is made ', functionLogic);
+                console.log('Your function logic is made: ', functionLogic);
 
                 evaluationFunction = new Function("eval", functionLogic);
 
@@ -615,7 +615,7 @@ define(
                 //if (outPort != '') continue;
                 //graph.getConnectedLinks(cellView.model)[cl].get('type'))
 
-                console.log('looping connected links of this answer ', graph.getConnectedLinks(cellView.model)[cl].get('type'));
+                //console.log('looping connected links of this answer ', graph.getConnectedLinks(cellView.model)[cl].get('type'));
 
                 /*if (graph.getConnectedLinks(cellView.model)[cl].get('type') != 'devs.Link') {
                     if (graph.getConnectedLinks(cellView.model)[cl].get('droppedLink') != true) {
@@ -641,8 +641,6 @@ define(
                  * ========================
                  */
 
-
-                //if(typeof(getOutport(cellView)) == 'function')
                 outPort = getOutport(cellView)();
 
                 /*
@@ -662,11 +660,11 @@ define(
                 //
                 //}
 
-                console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
+                //console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
                 answerLinkRuleAttrObject = connectedInboundLinks[cl].attributes.attrs;
 
-                console.log("answerLinkRuleAttrObject", answerLinkRuleAttrObject);
+                //console.log("answerLinkRuleAttrObject", answerLinkRuleAttrObject);
 
 
                 // Force a rule into the link so that the condition is satisfied for us to proceed into the statement
@@ -685,7 +683,7 @@ define(
                 if (answerLinkRuleAttrObject != undefined && answerLinkRuleAttrObject.rule != undefined  && answerLinkRuleAttrObject.rule.outport == outPort)
                 {
 
-                    console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
+                    //console.log('going to get the reversed connections from this ', cellView.model.get('ktype') , ' to see where to go next');
 
                     var reverseCellConnections;
 

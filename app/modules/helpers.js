@@ -221,7 +221,8 @@ define(
 
             window.contentModel.set(
                 {
-                    contentText: ''
+                    contentText: '',
+                    contentNumber: ''
                 }
             );
             window.contentModel.trigger('change');
@@ -234,8 +235,13 @@ define(
             );
             window.endPointModel.trigger('change');
 
+            $('.formSectionOptions h3').text('Add Section');
             $('.formQuestionOptions h3').text('Add Question');
+            $('.formContentOptions h3').text('Add Content');
+            $('.formEndPointOptions h3').text('Add End Point');
+
             $('#logic-modal').hide();
+            $('#individualisation-modal').hide();
 
 
             switch(window.reportModel.mode) {

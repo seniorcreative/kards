@@ -513,6 +513,8 @@ define(
                                 $('.formAnswerInputOptions').css('pointer-events', 'none');
                                 $('.formAnswerInputOptions').animate({'right': -400}, 250);
 
+                                $('#individualisation-modal').hide();
+
                                 break;
 
                             case 'build':
@@ -559,7 +561,7 @@ define(
                                         // I want to make a snapshot of everything that has been selected up to this question, or revert back to it at this point
                                         // Need to apply logic machine here based on rules and content.
 
-                                        contentStream.decisionSnapshot(window.selectedQuestion);
+                                        //contentStream.decisionSnapshot(window.selectedQuestion);
 
                                         helpers.deselectElementStylesForTest();
 
@@ -804,6 +806,9 @@ define(
 
                                         $('#btnDeleteContent').removeClass('hidden');
 
+
+                                        $('.formContentOptions h3').text('Edit Content - C' + window.selectedContent.model.get('contentNumber'));
+
                                         break;
 
                                     case 'contentwrapper':
@@ -837,6 +842,9 @@ define(
                                         window.selectedEndPoint =  cellView;
 
                                         window.endPointModel.trigger('change');
+
+                                        $('.formEndPointOptions h3').text('Edit End Point - E' + window.selectedEndPoint.model.get('endPointNumber'));
+
 
                                         $('#endPointTitle').focus();
                                         $('#endPointTitle').select();

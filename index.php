@@ -89,7 +89,7 @@
 
       <form method="" action="" class="formSectionOptions  _faded">
 
-          <h3>Section</h3>
+          <h3>Add Section</h3>
 
           <input type="text" class="sectionTitle" id="sectionTitle" placeholder="Enter section name">
 
@@ -115,7 +115,7 @@
           <!--<p>Add a new question</p>-->
           <!--<button type="button" class="" id="btnNewQuestion">New question</button>-->
 
-          <h3>Question</h3>
+          <h3>Add Question</h3>
 
           <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-question">Search (autocomplete)</label>
@@ -375,7 +375,7 @@
           <div id="individualisation-modal">
 
               <h3>Individualisation</h3>
-              <a href="#" id="btnIndividualisationClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
+<!--              <a href="#" id="btnIndividualisationClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>-->
 
               <div id="individualisation-output">
 
@@ -394,7 +394,7 @@
 
       <form method="" action="" class="formContentOptions  _faded">
 
-          <h3>Content</h3>
+          <h3>Add Content</h3>
           <a href="#" id="btnContentControlsClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
 
           <div class="form-controls  form-controls--width-full  hidden">
@@ -482,7 +482,7 @@
       
       <form method="" action="" class="formEndPointOptions  _faded">
 
-          <h3>End points / outcomes</h3>
+          <h3>Add End Point</h3>
 
           <div class="form-controls  form-controls--width-full">
 

@@ -846,9 +846,10 @@ form div.form-controls--width-full {
   zoom: 1;
   *display: inline;
   box-sizing: border-box;
-}
-form div.form-controls--width-full input {
-  width: 75px;
+  /*input
+  {
+      width: 75px;
+  }*/
 }
 form div.form-controls--inline-left {
   display: inline-block;

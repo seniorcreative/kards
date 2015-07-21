@@ -48,23 +48,51 @@ define(
             for(var data in individualisation)
             {
 
-                if (individualisation[data].type == 'question' || individualisation[data].type == 'content')
+                if (individualisation[data].type == 'question')
                 {
 
-                    output += '<br><br>';
+                    output += '<br><br><br>';
+
+                    output += "<strong>If question</strong>" + ': ' + individualisation[data].content + ' ' ;
 
                 }
 
-
-                output += "<strong>" + individualisation[data].type + "</strong>" + ': ' + individualisation[data].content + ' ' ;
 
                 if (individualisation[data].type == 'answer')
                 {
 
-                    output += ', <strong>answer value</strong>: ' + individualisation[data].value;
-                    if (individualisation[data].value2) output += ', <strong>answer value2</strong>: ' + individualisation[data].value2;
+                    //output += '<br><br>';
+
+                    output += "<strong> has this answer</strong>" + ': ' + individualisation[data].content + ' ' ;
 
                 }
+
+                if (individualisation[data].type == 'content')
+                {
+
+                    output += '<br><br>';
+
+                    output += "<strong> then show this information</strong>" + ': ' + individualisation[data].content + ' ' ;
+
+                }
+
+                if (individualisation[data].type == 'answer')
+                {
+
+                    output += ', <strong>( answer value  </strong>: ' + individualisation[data].value + " )";
+                    if (individualisation[data].value2) output += ', <strong>Answer range high value</strong>: ' + individualisation[data].value2;
+
+                }
+
+                if (individualisation[data].type == 'endpoint')
+                {
+
+                    output += '<br><br>';
+
+                    output += "<strong> then go to this end point </strong>" + ': ' + individualisation[data].content + ' ' ;
+
+                }
+
 
             }
 

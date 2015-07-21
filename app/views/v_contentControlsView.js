@@ -152,6 +152,8 @@ define(
 
                     $('#btnDeleteContent').removeClass('hidden');
 
+                    $('.formContentOptions h3').text('Edit Content - C' + contentNumber);
+
                     contentWrapper.embed(content);
 
                     window.selectedContent = paper.findViewByModel(content);
@@ -202,7 +204,7 @@ define(
                         attrs['.label'].text = "C" + this.$(e.target).val();
 
                         contentWrapper.set('attrs', attrs);
-                        //window.selectedContent.model.set('contentFull', this.$(e.target).val());
+                        window.selectedContent.model.set('contentNumber', this.$(e.target).val());
                         paper.findViewByModel(contentWrapper).render().el;
                     }
 

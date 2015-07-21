@@ -6,6 +6,7 @@ define(
         var endPointModel = Backbone.Model.extend(
             {
                 endPointTitle: '',
+                endPointNumber: '',
                 endPointTypeTemplate: '',
                 endPointTypeID: '',
                 endPointArray: []

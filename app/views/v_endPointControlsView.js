@@ -87,6 +87,7 @@ define(
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         endPointFull: newEndPointText,
+                        endPointNumber: endPointNumber,
                         interactive: false,
                         cms_endpoint_type_id: parseInt(this.$('#endPointTypeID option:selected').val()),
                         reversedConnectionTargets: {},

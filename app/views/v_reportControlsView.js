@@ -128,9 +128,11 @@ define(
                     setInterval(function(){
 
                         //this.saveReport();
-                        $('#btnSaveReport').trigger('click');
+                        if (window.reportModel.mode == 'build') {
+                            $('#btnSaveReport').trigger('click');
+                        }
 
-                    }, 1000 * 30);
+                    }, 1000 * 60);
 
                 },
                 reportUpdate: function (e) {
