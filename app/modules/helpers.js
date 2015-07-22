@@ -157,6 +157,9 @@ define(
                     }
 
             }
+
+            $('.formAnswerInputOptions')[0].reset();
+
         };
 
 

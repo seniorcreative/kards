@@ -52,7 +52,7 @@ define(
                     'keyup #answerValue2': 'answerValue2Update',
                     'change #answerValue2': 'answerValue2Update',
                     'click #answerValue2': 'answerValue2Update',
-                    'click #btnAddLogicOutPoint': 'addLogicOutPoint',
+                    'click #btnClearAnswerValues': 'clearAnswerValues',
                     'change #valueDataType': 'changeValueDataTypeDropdown',
                     'change #answerDataPoint': 'changeAnswerDatapointDropdown'
                 },
@@ -438,6 +438,70 @@ define(
                             }
                         )
                     }
+
+                },
+                clearAnswerValues: function()
+                {
+
+
+                    switch (parseInt(this.model.get('answerValueDataTypeID'))) {
+
+                        case 2:
+                        // TRUE OR FALSE
+                        case 15:
+                            // none of the above
+
+                            this.$el.find('#answerValue').prop('checked', false);
+                            this.$el.find('#answerValue2').prop('checked', false);
+
+                            this.model.set('answerValue', false);
+                            this.model.set('answerValue2', false);
+
+                            window.selectedAnswer.model.set('answer_value', false);
+                            window.selectedAnswer.model.set('answer_value2', false);
+
+                            break;
+
+                        default:
+                        case 6:
+                        // WORD OR LETTER
+                        case 3:
+                        // NUMBER
+
+                            this.$el.find('#answerValue').val('');
+                            this.$el.find('#answerValue2').val('');
+
+                            this.model.set('answerValue', '');
+                            this.model.set('answerValue2', '');
+
+                            window.selectedAnswer.model.set('answer_value', '');
+                            window.selectedAnswer.model.set('answer_value2', '');
+
+
+
+                        case 5:
+                        // DATE
+                        case 16:
+                            // YEARS
+
+
+                            this.$el.find('#answerValue').val('dd/mm/yyyy');
+                            this.$el.find('#answerValue2').val('dd/mm/yyyy');
+
+                            this.model.set('answerValue', 'dd/mm/yyyy');
+                            this.model.set('answerValue2', 'dd/mm/yyyy');
+
+                            window.selectedAnswer.model.set('answer_value', '');
+                            window.selectedAnswer.model.set('answer_value2', '');
+
+                            break;
+
+                    }
+
+                    window.answerModel.answerInputValues[window.selectedAnswer.model.get('answerKey')] = ['', ''];
+
+                    $('.formAnswerInputOptions')[0].reset();
+
 
                 }
             }

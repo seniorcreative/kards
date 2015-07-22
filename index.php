@@ -344,12 +344,12 @@
               <textarea id="answerLabel" name="answerLabel" rows="3"></textarea>
           </div>
 
-          <!--<div class="form-controls  form-controls--width-full" >
-            <button type="button" id="btnAddLogicOutPoint" class="button-add">Add logic out point</button>
-          </div>-->
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnClearAnswerValues" class="button-add">Clear answer values</button>
+          </div>
 
           <div class="form-controls  form-controls--width-full">
-                <label>Answer logic rules</label>
+                <label class="answerLogic">Answer logic rules:</label>
                 <div id="answerLogicRules"></div>
           </div>
 

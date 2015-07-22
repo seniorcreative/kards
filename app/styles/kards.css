@@ -779,7 +779,7 @@ form h3 {
   color: #111111;
   margin: 4px 0 2px 0;
 }
-form label.timeLabel {
+form label.timeLabel, form label.answerLogic {
   font-style: italic;
   color: #333;
   font-size: 0.6em;

@@ -77,8 +77,8 @@ define(
                             attrs: {
                                 '.connection' : { 'stroke-width': 5, 'stroke-linecap': 'round', opacity:.5 }
                             }
-                        }),
-                        validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
+                        })
+                        /*validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
                             // Prevent linking from input ports.
                             if (magnetS && magnetS.getAttribute('type') === 'output') return false;
                             // Prevent linking from output ports to input ports within one element.
@@ -92,7 +92,7 @@ define(
                             return magnet.getAttribute('magnet') !== 'passive';
                         },
                         // Enable link snapping within 75px lookup radius
-                        snapLinks: { radius: 75 }
+                        snapLinks: { radius: 75 }*/
                     });
 
                     window.kardsModelCollection = Backbone.Collection.extend();
@@ -105,6 +105,15 @@ define(
                     window.selectedAnswer       = null;
                     window.selectedContent      = null;
                     window.selectedEndPoint      = null;
+
+
+                    //
+
+                    window.deletedLinks = [];
+
+                    // when i delete a link i want to store which links were deleted, so i can loop over any answers that may have these connected in their reverse connections arrays. I need to clear those out.
+
+                    //
 
                     //
                     // Set up a reference within this object scope of each model.
@@ -391,7 +400,8 @@ define(
                 },
 
                 routes: {
-                    "": "main"
+                    "": "main",
+                    "*actions": "defaultRoute"
                 },
 
                 main: function () {
@@ -932,6 +942,15 @@ define(
 
 
                         }
+                        else
+                        {
+
+                            // something is undefined - remove this link?
+
+                            console.log(sourcePort,sourceId,targetPort,targetId);
+
+
+                        }
                     });
 
 
@@ -952,6 +971,22 @@ define(
 
             //boot up the app:
             var appRouter = new AppRouter();
+
+            appRouter.on('route:defaultRoute', function(jsonFile) {
+
+                //alert(jsonFile);
+
+                //setTimeout(function(){
+                //    $('#reportJSON').val('charts/' + jsonFile + '.json');
+                //    $('#reportJSON').trigger('change');
+                //}, 2500);
+
+                //return false;
+
+
+            });
+
+
             Backbone.history.start();
         };
 

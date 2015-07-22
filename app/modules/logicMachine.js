@@ -660,7 +660,7 @@ define(
                 //
                 //}
 
-                //console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
+                console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
                 answerLinkRuleAttrObject = connectedInboundLinks[cl].attributes.attrs;
 

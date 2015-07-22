@@ -7,6 +7,7 @@ define(
             {
                 answerLabel: '',
                 answerValue: '',
+                answerValue2: '',
                 valueDataTypeTemplate: '',
                 answerValueDataTypeID: 1,
                 answerDatapointID: '',

@@ -53,19 +53,19 @@ define(
 
                     output += '<br><br><br>';
 
-                    output += "<strong>If question</strong>" + ': ' + individualisation[data].content + ' ' ;
+                    output += "<strong>if question</strong>" + ': ' + individualisation[data].content + ' ' ;
 
                 }
 
 
-                if (individualisation[data].type == 'answer')
+               /* if (individualisation[data].type == 'answer')
                 {
 
                     //output += '<br><br>';
 
                     output += "<strong> has this answer</strong>" + ': ' + individualisation[data].content + ' ' ;
 
-                }
+                }*/
 
                 if (individualisation[data].type == 'content')
                 {
@@ -79,8 +79,8 @@ define(
                 if (individualisation[data].type == 'answer')
                 {
 
-                    output += ', <strong>( answer value  </strong>: ' + individualisation[data].value + " )";
-                    if (individualisation[data].value2) output += ', <strong>Answer range high value</strong>: ' + individualisation[data].value2;
+                    output += '<strong>has this answer </strong>: ' + individualisation[data].value;
+                    if (individualisation[data].value2) output += ', <strong> and this answer range high value</strong>: ' + individualisation[data].value2;
 
                 }
 
@@ -96,7 +96,7 @@ define(
 
             }
 
-            return "<h3>Showing individualisation for "+ window.reportModel.reportTitle +"</h3>" + output;
+            return "<h3>Showing individualisation / preventative route for "+ window.reportModel.reportTitle +"</h3>" + output;
 
         };
 
