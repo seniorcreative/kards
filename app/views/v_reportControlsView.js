@@ -40,7 +40,8 @@ define(
                     'click #btnSaveReport': 'saveReport', // Doing these automatically now.
                     'keyup #reportTitle': 'reportUpdate',
                     'change #reportCategory': 'reportCategoryUpdate',
-                    'change #reportJSON': 'loadChartFromJSON'
+                    'change #reportJSON': 'loadChartFromJSON',
+                    'change #reportAutosave': 'toggleAutosave'
                 },
                 render: function () {
 
@@ -128,11 +129,11 @@ define(
                     setInterval(function(){
 
                         //this.saveReport();
-                        if (window.reportModel.mode == 'build') {
+                        if (window.reportModel.mode == 'build' && window.reportModel.autosave) {
                             $('#btnSaveReport').trigger('click');
                         }
 
-                    }, 1000 * 60);
+                    }, 1000 * 30);
 
                 },
                 reportUpdate: function (e) {
@@ -297,6 +298,14 @@ define(
 
                     }, 25);
 
+
+                },
+                toggleAutosave: function()
+                {
+
+                    this.model.autosave = this.$('#reportAutosave').is(':checked');
+
+                    //console.log('autosave mode', this.model.autosave);
 
                 }
             }

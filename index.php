@@ -81,6 +81,12 @@
               </select>
           </div>
 
+
+          <div class="form-controls  form-controls--width-full">
+              <label for="reportAutosave">Report auto save</label>
+              <input type="checkbox" id="reportAutosave" name="reportAutosave" checked="checked" >
+          </div>
+
           <div class="form-controls  form-controls--width-full" >
               <label id="reportTimeSaved" class="timeLabel" ></label>
           </div>
@@ -299,22 +305,27 @@
               <label for="answerDataPoint">CMS Condition / Symptom</label>
               <select class="" id="answerDataPoint" name="answerDataPoint" size="4">
                   <!-- populate this with data service (or work out nested handlebars templates .hbs looping) -->
+                  <optgroup label="Breast cancer symptoms">
+                      <option value="9">Breast lump</option>
+                      <option value="10">Unusual nipple discharge</option>
+                      <option value="11">Recent changes breast shape</option>
+                  </optgroup>
+                  <optgroup label="Menopause Symptoms">
+                      <option value="5">Vasomotor</option>
+                      <option value="6">Neuromuscular</option>
+                      <option value="7">Urogenital</option>
+                      <option value="8">Psychogenic</option>
+                  </optgroup>
                   <optgroup label="HRT Options">
                       <option value="1">E2</option>
                       <option value="2">E2 + P</option>
                       <option value="3">COC</option>
                       <option value="4">Tibolone</option>
                   </optgroup>
-                  <optgroup label="Menopausal Symptoms">
-                      <option value="5">Vasomotor</option>
-                      <option value="6">Neuromuscular</option>
-                      <option value="7">Urogenital</option>
-                      <option value="8">Psychogenic</option>
-                  </optgroup>
               </select>
           </div>
 
-          <div class="form-controls  form-controls--width-full">
+          <div class="form-controls  form-controls--width-full  hidden">
               <label for="answerInputNeeded">Dynamic input needed (start empty)</label>
               <input type="checkbox" id="answerInputNeeded" name="answerInputNeeded" >
           </div>
@@ -381,10 +392,7 @@
               <h3>Individualisation</h3>
 <!--              <a href="#" id="btnIndividualisationClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>-->
 
-              <div id="individualisation-output">
-
-
-              </div>
+              <div id="individualisation-output"></div>
 
 
               <div class="form-controls  form-controls--width-full" >

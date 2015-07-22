@@ -1,10 +1,3 @@
-//define(function(require, exports, module) {
-//  "use strict";
-//
-//  // The root path to run the application through.
-//  exports.root = "/";
-//});
-
 define(
     ['jquery',
         'backbone',
@@ -416,7 +409,7 @@ define(
                         //var selectedContent = _element;
 
                         //var paperRect = {x:0,y:0,width:window.innerWidth,height:window.innerHeight};
-                        var paperRect = {x:0,y:0,width:6000,height:6000};
+                        var paperRect = layout.stage.area.rect;
                         loopedElements = paper.findViewsInArea(paperRect);
 
                         // reset all looped elements (slightly different to resetElementStyles)
@@ -892,12 +885,51 @@ define(
                             var reversedConnectionTargets = graph.getCell(targetId).get('reversedConnectionTargets'); // when we drop a connection from something
                             var connectionTargets = graph.getCell(targetId).get('connectionTargets'); // when we drop a connection to something
 
-                            reversedConnectionTargets[targetPort] = sourceId;
-                            connectionTargets[sourcePort] = targetId;
+
+
+
+
+
+
+
+
+
+                            if (reversedConnectionTargets[targetPort] == undefined)
+                            {
+                                reversedConnectionTargets[targetPort] = [sourceId]
+
+                            }
+                            else {
+
+                                reversedConnectionTargets[targetPort].push(sourceId);
+
+                            }
+
+                            console.log('after reversedConnectionTargets[targetPort]', reversedConnectionTargets[targetPort]);
+
+
+                            if (connectionTargets[sourcePort] == undefined)
+                            {
+                                connectionTargets[sourcePort] = [targetId]
+
+                            }
+                            else {
+
+                                connectionTargets[sourcePort].push(targetId);
+
+                            }
+
+                            console.log('after connectionTargets[sourcePort]', connectionTargets[sourcePort]);
+
+
+
 
                             // target element
                             graph.getCell(targetId).set('reversedConnectionTargets', reversedConnectionTargets);
                             graph.getCell(sourceId).set('connectionTargets', connectionTargets);
+
+
+
 
                         }
                     });

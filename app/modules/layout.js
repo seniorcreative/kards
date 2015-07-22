@@ -48,7 +48,11 @@ define(['jquery','backbone'], function ($,Backbone) {
         stage:
         {
             centerX: parseInt(window.innerWidth / 2),
-            centerY: parseInt(window.innerHeight / 2)
+            centerY: parseInt(window.innerHeight / 2),
+            area:
+            {
+                rect: {x:0,y:0,width:6000,height:6000}
+            }
         },
         question: {
             '1': {

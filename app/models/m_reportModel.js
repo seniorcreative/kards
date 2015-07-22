@@ -11,7 +11,8 @@ define(
             {
                 reportTitle: 'Report ' + d.getDate() + '-' + months[d.getMonth()] + '-' + d.getFullYear(), // + ' ' + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()),
                 reportCategoryID: '',
-                mode: 'build'
+                mode: 'build',
+                autosave: true
             }
         );
 

@@ -732,140 +732,74 @@ define(
                     }
 
 
-                    var descendantCell          = graph.getCell(reverseCellConnections[answerLinkRuleAttrObject.rule.outport]);
+                    var reverseCellOutportConnectedLinks = reverseCellConnections[answerLinkRuleAttrObject.rule.outport];
 
-                    contentStream.addModel(descendantCell);
-
-                    if (descendantCell) {
-
-                        var descendantCellView = paper.findViewByModel(descendantCell);
-
-                        // Now we recurse.
-
-                        switch(descendantCellView.model.get('ktype')) {
+                    for (var descendantCellIndex = 0; descendantCellIndex < reverseCellOutportConnectedLinks.length; descendantCellIndex++) {
 
 
-                            case 'endpoint':
+                        var descendantCell = graph.getCell(reverseCellOutportConnectedLinks[descendantCellIndex]);
 
-                                attrs = descendantCell.get('attrs');
-                                attrs.rect['stroke-dasharray']  = style.endpoint.strokeDashArray.selected;
-                                attrs.rect['fill']              = style.endpoint.fill.normal;
-                                attrs.rect['fill-opacity']      = style.endpoint.fillOpacity.normal;
-                                attrs.rect['stroke-width']      = style.endpoint.strokeWidth.normal;
-                                attrs.rect['stroke']            = style.endpoint.stroke.normal;
-                                attrs.rect['stroke-opacity']    = style.endpoint.strokeOpacity.normal;
-                                attrs.text['fill']              = style.text.fill.normal;
+                        if (descendantCell) {
 
-                                descendantCell.set('attrs', attrs);
+                            contentStream.addModel(descendantCell);
 
-                                descendantCellView.render().el;
+                            var descendantCellView = paper.findViewByModel(descendantCell);
 
-                                contentStream.individualisationAppend({type: 'endpoint', content: descendantCell.get('endPointFull')});
+                            // Now we recurse.
 
-                                return;
-
-                                break;
-
-                            case 'contentwrapper':
+                            switch (descendantCellView.model.get('ktype')) {
 
 
-                                attrs = descendantCell.get('attrs');
-                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
-                                attrs.rect['fill']              = style.node.fill.normal;
-                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                                attrs.rect['stroke']            = style.node.stroke.normal;
-                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                                attrs.text['fill']              = style.text.fill.normal;
+                                case 'endpoint':
 
-                                descendantCell.set('attrs', attrs);
+                                    attrs = descendantCell.get('attrs');
+                                    attrs.rect['stroke-dasharray'] = style.endpoint.strokeDashArray.selected;
+                                    attrs.rect['fill'] = style.endpoint.fill.normal;
+                                    attrs.rect['fill-opacity'] = style.endpoint.fillOpacity.normal;
+                                    attrs.rect['stroke-width'] = style.endpoint.strokeWidth.normal;
+                                    attrs.rect['stroke'] = style.endpoint.stroke.normal;
+                                    attrs.rect['stroke-opacity'] = style.endpoint.strokeOpacity.normal;
+                                    attrs.text['fill'] = style.text.fill.normal;
 
-                                descendantCellView.render().el;
+                                    descendantCell.set('attrs', attrs);
 
+                                    descendantCellView.render().el;
 
+                                    contentStream.individualisationAppend({
+                                        type: 'endpoint',
+                                        content: descendantCell.get('endPointFull')
+                                    });
 
-                                // get content inside
+                                    return;
 
-                                //console.log('arrived at a contentwrapper');
+                                    break;
 
-                                // Need to add this block to the content HUD
-
-                                var descendantChildCell = descendantCell.getEmbeddedCells()[0];
-
-                                attrs = descendantChildCell.get('attrs');
-
-                                attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
-                                attrs.rect['fill'] = style.node.fill.normal;
-                                attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
-                                attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
-                                attrs.rect['stroke'] = style.node.stroke.normal;
-                                attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
-                                attrs.text['fill'] = style.text.fill.normal;
-
-                                descendantChildCell.set('attrs', attrs);
-
-                                var descendantChildCellView = paper.findViewByModel(descendantChildCell);
-                                descendantChildCellView.render().el;
-
-                                // Need to add things to 'content stream highlights' too
-
-                                var contentElements = window.hudModel.contentElements;
-
-                                if (contentElements.indexOf(descendantChildCell.id) == -1) {
-
-                                    contentElements.push(descendantChildCell.id);
-
-                                    var newContentElement = '<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>';
-
-                                    $('#content-nodes').append(newContentElement);
-
-                                    contentStream.individualisationAppend({type: 'content', content: descendantChildCell.get('contentFull')});
-
-                                }
-
-                                window.hudModel.contentElements = contentElements;
-
-                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
-
-                                //console.log(' going to now recurse from this contentwrapper we found linked to the reversedconnection above ', descendantCellView);
-
-                                setTimeout(calculateDescendants(descendantCellView), 250);
+                                case 'contentwrapper':
 
 
-                                break;
+                                    attrs = descendantCell.get('attrs');
+                                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                    attrs.rect['fill'] = style.node.fill.normal;
+                                    attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                    attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                    attrs.rect['stroke'] = style.node.stroke.normal;
+                                    attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                    attrs.text['fill'] = style.text.fill.normal;
 
-                            case 'logicwrapper':
+                                    descendantCell.set('attrs', attrs);
 
-
-
-                                //console.log('arrived at a logicwrapper - will highlight the question inside');
-
-
-                                attrs = descendantCell.get('attrs');
-                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
-                                attrs.rect['fill']              = style.node.fill.normal;
-                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                                attrs.rect['stroke']            = style.node.stroke.normal;
-                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                                attrs.text['fill']              = style.text.fill.normal;
-
-                                descendantCell.set('attrs', attrs);
-
-                                descendantCellView.render().el;
+                                    descendantCellView.render().el;
 
 
+                                    // get content inside
 
-                                helpers.showAlert("Please answer question Q" + descendantCell.get('questionNumber'), 2500);
+                                    //console.log('arrived at a contentwrapper');
 
+                                    // Need to add this block to the content HUD
 
+                                    var descendantChildCell = descendantCell.getEmbeddedCells()[0];
 
-
-                                var descendantChildCells = descendantCell.getEmbeddedCells();
-
-                                for (var d in descendantChildCells)
-                                {
-                                    attrs = descendantChildCells[d].get('attrs');
+                                    attrs = descendantChildCell.get('attrs');
 
                                     attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
                                     attrs.rect['fill'] = style.node.fill.normal;
@@ -875,51 +809,124 @@ define(
                                     attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
                                     attrs.text['fill'] = style.text.fill.normal;
 
-                                    descendantChildCells[d].set('attrs', attrs);
+                                    descendantChildCell.set('attrs', attrs);
 
-                                    var descendantChildCellView = paper.findViewByModel(descendantChildCells[d]);
+                                    var descendantChildCellView = paper.findViewByModel(descendantChildCell);
                                     descendantChildCellView.render().el;
 
-                                }
+                                    // Need to add things to 'content stream highlights' too
+
+                                    var contentElements = window.hudModel.contentElements;
+
+                                    if (contentElements.indexOf(descendantChildCell.id) == -1) {
+
+                                        contentElements.push(descendantChildCell.id);
+
+                                        var newContentElement = '<li><a href="#" data-index="' + descendantChildCell.get('contentNumber') + '" data-element="' + descendantChildCell.id + '">C' + descendantChildCell.get('contentNumber') + '</a></li>';
+
+                                        $('#content-nodes').append(newContentElement);
+
+                                        contentStream.individualisationAppend({
+                                            type: 'content',
+                                            content: descendantChildCell.get('contentFull')
+                                        });
+
+                                    }
+
+                                    window.hudModel.contentElements = contentElements;
+
+                                    reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                    //console.log(' going to now recurse from this contentwrapper we found linked to the reversedconnection above ', descendantCellView);
+
+                                    setTimeout(calculateDescendants(descendantCellView), 250);
 
 
-                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+                                    break;
 
-                                //console.log('going to recurse from default with ', descendantCellView);
-
-                                setTimeout(calculateDescendants(descendantCellView), 250);
-
-                                break;
+                                case 'logicwrapper':
 
 
-                            default:
+
+                                    //console.log('arrived at a logicwrapper - will highlight the question inside');
 
 
-                                attrs = descendantCell.get('attrs');
-                                attrs.rect['stroke-dasharray']  = style.node.strokeDashArray.selected;
-                                attrs.rect['fill']              = style.node.fill.normal;
-                                attrs.rect['fill-opacity']      = style.node.fillOpacity.normal;
-                                attrs.rect['stroke-width']      = style.node.strokeWidth.normal;
-                                attrs.rect['stroke']            = style.node.stroke.normal;
-                                attrs.rect['stroke-opacity']    = style.node.strokeOpacity.normal;
-                                attrs.text['fill']              = style.text.fill.normal;
+                                    attrs = descendantCell.get('attrs');
+                                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                    attrs.rect['fill'] = style.node.fill.normal;
+                                    attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                    attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                    attrs.rect['stroke'] = style.node.stroke.normal;
+                                    attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                    attrs.text['fill'] = style.text.fill.normal;
 
-                                descendantCell.set('attrs', attrs);
+                                    descendantCell.set('attrs', attrs);
 
-                                descendantCellView.render().el;
+                                    descendantCellView.render().el;
 
 
-                                reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+                                    helpers.showAlert("Please answer question Q" + descendantCell.get('questionNumber'), 2500);
 
-                                //console.log('going to recurse from default with ', descendantCellView);
 
-                                setTimeout(calculateDescendants(descendantCellView), 250);
+                                    var descendantChildCells = descendantCell.getEmbeddedCells();
 
-                            break;
+                                    for (var d in descendantChildCells) {
+                                        attrs = descendantChildCells[d].get('attrs');
+
+                                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                        attrs.rect['fill'] = style.node.fill.normal;
+                                        attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                        attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                        attrs.rect['stroke'] = style.node.stroke.normal;
+                                        attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                        attrs.text['fill'] = style.text.fill.normal;
+
+                                        descendantChildCells[d].set('attrs', attrs);
+
+                                        var descendantChildCellView = paper.findViewByModel(descendantChildCells[d]);
+                                        descendantChildCellView.render().el;
+
+                                    }
+
+
+                                    reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                    //console.log('going to recurse from default with ', descendantCellView);
+
+                                    setTimeout(calculateDescendants(descendantCellView), 250);
+
+                                    break;
+
+
+                                default:
+
+
+                                    attrs = descendantCell.get('attrs');
+                                    attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.selected;
+                                    attrs.rect['fill'] = style.node.fill.normal;
+                                    attrs.rect['fill-opacity'] = style.node.fillOpacity.normal;
+                                    attrs.rect['stroke-width'] = style.node.strokeWidth.normal;
+                                    attrs.rect['stroke'] = style.node.stroke.normal;
+                                    attrs.rect['stroke-opacity'] = style.node.strokeOpacity.normal;
+                                    attrs.text['fill'] = style.text.fill.normal;
+
+                                    descendantCell.set('attrs', attrs);
+
+                                    descendantCellView.render().el;
+
+
+                                    reverseCellConnections = cellView.model.get('reversedConnectionTargets');
+
+                                    //console.log('going to recurse from default with ', descendantCellView);
+
+                                    setTimeout(calculateDescendants(descendantCellView), 250);
+
+                                    break;
+
+                            }
+
 
                         }
-
-
 
                     }
 
