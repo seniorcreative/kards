@@ -915,7 +915,7 @@ define(
 
                             }
 
-                            console.log('after reversedConnectionTargets[targetPort]', reversedConnectionTargets[targetPort]);
+                            //console.log('after reversedConnectionTargets[targetPort]', reversedConnectionTargets[targetPort]);
 
 
                             if (connectionTargets[sourcePort] == undefined)
@@ -929,7 +929,7 @@ define(
 
                             }
 
-                            console.log('after connectionTargets[sourcePort]', connectionTargets[sourcePort]);
+                            //console.log('after connectionTargets[sourcePort]', connectionTargets[sourcePort]);
 
 
 
@@ -947,7 +947,7 @@ define(
 
                             // something is undefined - remove this link?
 
-                            console.log(sourcePort,sourceId,targetPort,targetId);
+                            //console.log(sourcePort,sourceId,targetPort,targetId);
 
 
                         }

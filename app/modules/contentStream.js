@@ -51,12 +51,11 @@ define(
                 if (individualisation[data].type == 'question')
                 {
 
-                    output += '<br><br><br>';
+                    output += '<br><br><br><br>';
 
-                    output += "<strong>if question</strong>" + ': ' + individualisation[data].content + ' ' ;
+                    output += "<strong>QUESTION</strong><br><br>" + individualisation[data].content + ' ' ;
 
                 }
-
 
                /* if (individualisation[data].type == 'answer')
                 {
@@ -72,15 +71,15 @@ define(
 
                     output += '<br><br>';
 
-                    output += "<strong> then show this information</strong>" + ': ' + individualisation[data].content + ' ' ;
+                    output += "<strong>Medical content information</strong>: " + individualisation[data].content + ' ' ;
 
                 }
 
                 if (individualisation[data].type == 'answer')
                 {
 
-                    output += '<strong>has this answer </strong>: ' + individualisation[data].value;
-                    if (individualisation[data].value2) output += ', <strong> and this answer range high value</strong>: ' + individualisation[data].value2;
+                    output += '<br><br><strong>Answer </strong>: ' + individualisation[data].value;
+                    if (individualisation[data].value2) output += ', <strong>Answer2 </strong>: ' + individualisation[data].value2;
 
                 }
 
@@ -89,14 +88,14 @@ define(
 
                     output += '<br><br>';
 
-                    output += "<strong> then go to this end point </strong>" + ': ' + individualisation[data].content + ' ' ;
+                    output += "<strong>Outcome</strong>: " + individualisation[data].content + ' ' ;
 
                 }
 
 
             }
 
-            return "<h3>Showing individualisation / preventative route for "+ window.reportModel.reportTitle +"</h3>" + output;
+            return "<h3>Showing individualisation for \""+ window.reportModel.reportTitle +"\"</h3>" + output;
 
         };
 

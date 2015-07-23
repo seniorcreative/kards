@@ -110,6 +110,7 @@ define(
                 var ruleSatisfied = false;
                 var actionOutportIdentifier = '';
                 var functionLogic = '';
+                var selectedValue = '';
 
                 var answerInputValues = window.answerModel.answerInputValues;
 
@@ -139,6 +140,7 @@ define(
 
                             switch (parseInt(prefixOperator.id)) {
 
+                                default:
                                 case 1:
                                     // IF
 
@@ -187,51 +189,42 @@ define(
 
                                 functionLogic += " ( ";
 
+
+                                // If we're using a custom value as part of the calculation block let's get that value and type and use if for the left-side operator
+
                                 if (calcObject.customValue != undefined && calcObject.customValue != '') {
 
-                                    // PLUS 5
-                                    //ruleOutput += customTypeOperator.label + " " + calcObject.customValue;
 
                                     switch (customTypeOperator.id) {
-
-                                        /*(object) ['id' => 2, 'label' => 'true or false'],
-                                         (object) ['id' => 3, 'label' => 'number'],
-                                         //        (object) ['id' => 4, 'label' => 'decimal number'],
-                                         (object) ['id' => 5, 'label' => 'date'],
-                                         //        (object) ['id' => 6, 'label' => 'word or letter'],
-                                         //        (object) ['id' => 8, 'label' => 'increase'],
-                                         //        (object) ['id' => 9, 'label' => 'decrease'],
-                                         //        (object) ['id' => 10, 'label' => 'no change'],
-                                         //        (object) ['id' => 11, 'label' => 'ehr data point'],
-                                         //        (object) ['id' => 12, 'label' => 'range'],
-                                         //        (object) ['id' => 13, 'label' => 'high'],
-                                         //        (object) ['id' => 14, 'label' => 'low'],
-                                         //        (object) ['id' => 15, 'label' => 'none of the above'],
-                                         (object) ['id' => 16, 'label' => 'years'],*/
 
                                         case 2:
                                             // TRUE OR FALSE
 
-                                            functionLogic += ""; // force a true condition check for checkbox
+                                            //functionLogic += "";
 
                                             break;
 
                                         case 3:
                                             // NUMBER
 
-                                            functionLogic += "";
+                                            //functionLogic += "";
 
                                             break;
+
+                                        case 6:
+                                            // WORD OR LETTER
+
+                                            //functionLogic += "";
 
                                         case 5:
                                             // DATE
 
-                                            functionLogic += "";
+                                            //functionLogic += "";
 
                                             break;
 
                                         case 16:
-                                            // YEARS
+                                            // YEARS, TIME FUNCTIONS WILL HAVE A SPECIAL OPERATOR FUNCTION
 
                                             functionLogic += " " +
                                             " (function(){" +
@@ -251,35 +244,11 @@ define(
                                 }
                                 else {
 
-                                    // Q1, Q2, Q3...
-                                    /*var qOp = [];
 
-                                     for (var qOperand in calcObject.questionOperand) {
-                                     qOp.push("Q" + calcObject.questionOperand[qOperand]);
-                                     }
-                                     ruleOutput += " " + qOp.join("&") + " ";*/
+                                    // Otherwise, I want to know the answer Value data type and the stored answer from the answerValues using the answer Key
 
-
-                                    // I want to know the answer Value data type and the stored answer from the answerValues using the answer Key
-
-                                    //console.log('data type of this questions answer ', cellView, cellView.model.get('answer_value_datatype_id'));
 
                                     switch (parseInt(cellView.model.get('answer_value_datatype_id'))) {
-
-                                        /*(object) ['id' => 2, 'label' => 'true or false'],
-                                         (object) ['id' => 3, 'label' => 'number'],
-                                         //        (object) ['id' => 4, 'label' => 'decimal number'],
-                                         (object) ['id' => 5, 'label' => 'date'],
-                                         //        (object) ['id' => 6, 'label' => 'word or letter'],
-                                         //        (object) ['id' => 8, 'label' => 'increase'],
-                                         //        (object) ['id' => 9, 'label' => 'decrease'],
-                                         //        (object) ['id' => 10, 'label' => 'no change'],
-                                         //        (object) ['id' => 11, 'label' => 'ehr data point'],
-                                         //        (object) ['id' => 12, 'label' => 'range'],
-                                         //        (object) ['id' => 13, 'label' => 'high'],
-                                         //        (object) ['id' => 14, 'label' => 'low'],
-                                         //        (object) ['id' => 15, 'label' => 'none of the above'],
-                                         (object) ['id' => 16, 'label' => 'years'],*/
 
                                         case 2:
                                             // TRUE OR FALSE
@@ -287,25 +256,57 @@ define(
                                         case 15:
                                             // None of the above
 
-                                            functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+                                            if (ruleObject.suffixAnswerOperands.length <= 1) {
 
+                                                functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+                                                functionLogic += " ) "; // close off the condition with a right parenthesis .
+
+                                            }
+                                            else {
+
+                                                //selectedValue = "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+
+                                                functionLogic += " function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
+
+                                            }
 
                                             break;
 
                                         case 3:
                                             // NUMBER
 
-                                            functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
+                                            if (ruleObject.suffixAnswerOperands.length <= 1) {
+
+                                                functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
+                                                functionLogic += " ) "; // close off the condition with a right parenthesis .
+
+                                            } else {
+
+                                                //selectedValue = answerInputValues[cellView.model.get('answerKey')][0];
+
+                                                functionLogic += " function() { var selectedValue = " + answerInputValues[cellView.model.get('answerKey')][0] + ";";
+
+                                            }
 
                                             break;
 
-
+                                        default:
                                         case 6:
                                             // Word or letter
 
                                             //functionLogic += "";
 
-                                            functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+                                            if (ruleObject.suffixAnswerOperands.length <= 1) {
+
+                                                functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+                                                functionLogic += " ) "; // close off the condition with a right parenthesis .
+
+                                            }
+                                            else {
+
+                                                functionLogic += " function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
+
+                                            }
 
                                             break;
 
@@ -323,16 +324,16 @@ define(
                                             "})() "; // make sure polarity is correct
 
 
+                                            functionLogic += " ) "; // close off the condition with a right parenthesis .
+
                                             break;
 
                                     }
 
-                                    //functionLogic +=
-
 
                                 }
 
-                                switch (parseInt(calcOperator.id)) {
+                                /*switch (parseInt(calcOperator.id)) {
 
 
                                     case 12:
@@ -380,10 +381,8 @@ define(
                                         break;
 
 
-                                }
+                                }*/
 
-
-                                functionLogic += " ) "; // close off the condition with a right parenthesis .
 
 
                             }
@@ -397,58 +396,74 @@ define(
                             var suffixValueType = helpers.getCustomValueTypeByID(ruleObject.suffixCustomValueType);
 
 
-                            switch (parseInt(suffixOperator.id)) {
+                            // Only use  operator here for single answer choices (need a different function otherwise)
+
+                            if (ruleObject.suffixAnswerOperands.length <= 1) {
+
+                                switch (parseInt(suffixOperator.id)) {
 
 
-                                case 12:
-                                    // IS EQUAL TO
+                                    case 12:
+                                        // IS EQUAL TO
 
-                                    functionLogic += " == ";
+                                        if (ruleObject.suffixAnswerOperands.length > 1) {
 
-                                    break;
+                                            // don't need to add operator for multiple choice multiple answers.
 
-                                case 27:
-                                    // VALUE OF ([VALUES])
+                                        }
+                                        else {
 
-                                    //functionLogic += " "; // may need to re-order and parse, to do indexOf
+                                            functionLogic += " == ";
 
-                                    break;
+                                        }
 
-                                case 13:
-                                    // IS NOT EQUAL TO
 
-                                    functionLogic += " != ";
+                                        break;
 
-                                    break;
+                                    case 27:
+                                        // VALUE OF ([VALUES])
 
-                                case 4:
-                                    // IS LESS THAN
+                                        //functionLogic += " "; // may need to re-order and parse, to do indexOf
 
-                                    functionLogic += " < ";
+                                        break;
 
-                                    break;
+                                    case 13:
+                                        // IS NOT EQUAL TO
 
-                                case 5:
-                                    // IS LESS THAN OR EQUAL TO
+                                        functionLogic += " != ";
 
-                                    functionLogic += " <= ";
+                                        break;
 
-                                    break;
+                                    case 4:
+                                        // IS LESS THAN
 
-                                case 6:
-                                    // IS GREATER THAN
+                                        functionLogic += " < ";
 
-                                    functionLogic += " > ";
+                                        break;
 
-                                    break;
+                                    case 5:
+                                        // IS LESS THAN OR EQUAL TO
 
-                                case 7:
-                                    // IS GREATER THAN OR EQUAL TO
+                                        functionLogic += " <= ";
 
-                                    functionLogic += " >= ";
+                                        break;
 
-                                    break;
+                                    case 6:
+                                        // IS GREATER THAN
 
+                                        functionLogic += " > ";
+
+                                        break;
+
+                                    case 7:
+                                        // IS GREATER THAN OR EQUAL TO
+
+                                        functionLogic += " >= ";
+
+                                        break;
+
+
+                                }
 
                             }
 
@@ -468,6 +483,7 @@ define(
                                         // none of the above
 
                                         functionLogic += "";
+                                        functionLogic += " )";
 
                                         break;
 
@@ -478,6 +494,7 @@ define(
                                         // NUMBER
 
                                         functionLogic += ruleObject.suffixCustomValue;
+                                        functionLogic += " )";
 
                                         break;
 
@@ -496,57 +513,105 @@ define(
                                         "   return offset;" +
                                         "})() "; // make sure polarity is correct (plus+minus makes a minus)
 
+                                        functionLogic += " )";
+
 
                                         break;
 
                                 }
 
 
+
+
                             }
                             else {
 
-                                /*var sOp = [];
-                                 var sOpSplit;
 
-                                 // Q1-A1, Q1-A2...
-                                 for (var sAOperand in ruleObject.suffixAnswerOperands) {
-                                 // Answer operand value has format 1_2 which means question one, answer two
-                                 sOpSplit = ruleObject.suffixAnswerOperands[sAOperand].split("_");
-                                 sOp.push("Q" + sOpSplit[0] + '-' + "A" + sOpSplit[1]);
-                                 }*/
 
-                                //ruleOutput += sOp.join(",") + " ";
+                                if (ruleObject.suffixAnswerOperands.length > 1)
+                                {
 
-                                // I'm only allowing for one answer here for now
+                                    var answerValues = [];
 
-                                if (ruleObject.suffixAnswerOperands[0] in answerInputValues) {
+                                    for (var answerKeyValue in ruleObject.suffixAnswerOperands ) {
 
-                                    functionLogic += " (function(){" +
-                                    "   var value = ";
 
-                                    if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]])) // add quotes around words / letters
-                                    {
+                                        if (ruleObject.suffixAnswerOperands[answerKeyValue] in answerInputValues) {
 
-                                        functionLogic += "\"";
+
+                                            var answerValue = "";
+
+                                            if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[answerKeyValue]][0])) // add quotes around words / letters
+                                            {
+
+                                                answerValue += "\"";
+
+                                            }
+
+                                            answerValue += answerInputValues[ruleObject.suffixAnswerOperands[answerKeyValue]][0];
+
+
+                                            if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[answerKeyValue]][0])) // add quotes around words / letters
+                                            {
+
+                                                answerValue += "\"";
+
+                                            }
+
+                                            answerValues.push(answerValue);
+
+
+                                        }
+
 
                                     }
 
-                                    functionLogic += answerInputValues[ruleObject.suffixAnswerOperands[0]][0];
+                                    functionLogic += "" +
+                                    "var valueArray = " + "[" + answerValues.join(",") + "];" +
+                                    "if (valueArray.indexOf(selectedValue) == -1) return false;" +
+                                    "else return true;" +
+                                    "})()) ";
 
-
-                                    if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]])) // add quotes around words / letters
-                                    {
-
-                                        functionLogic += "\"";
-
-                                    }
-
-                                    functionLogic += ";" +
-                                    "   return value;" +
-                                    "})() "; // make sure polarity is correct (plus+minus makes a minus)
 
                                 }
+                                else {
 
+
+
+                                    // I'm only allowing for one answer here - which is completely different function structure with operators and operands
+
+                                    if (ruleObject.suffixAnswerOperands[0] in answerInputValues) {
+
+                                        functionLogic += " (function(){" +
+                                        "   var value = ";
+
+                                        if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || parseInt(cellView.model.get('answer_value_datatype_id')) == 2 || parseInt(cellView.model.get('answer_value_datatype_id')) == 15 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]][0])) // add quotes around words / letters, or boolean values, or none of the above values
+                                        {
+
+                                            functionLogic += "\"";
+
+                                        }
+
+                                        functionLogic += answerInputValues[ruleObject.suffixAnswerOperands[0]][0];
+
+
+                                        if (parseInt(cellView.model.get('answer_value_datatype_id')) == 6 || parseInt(cellView.model.get('answer_value_datatype_id')) == 2 || parseInt(cellView.model.get('answer_value_datatype_id')) == 15 || isNaN(answerInputValues[ruleObject.suffixAnswerOperands[0]][0])) // add quotes around words / letters, or boolean values, or none of the above values
+                                        {
+
+                                            functionLogic += "\"";
+
+                                        }
+
+                                        functionLogic += ";" +
+                                        "   return value;" +
+                                        "})() "; // make sure polarity is correct (plus+minus makes a minus)
+
+                                    }
+
+                                    functionLogic += " ) ";
+
+
+                                }
 
                                 //console.log('added to your function ', functionLogic, answerInputValues, ruleObject.suffixAnswerOperands[0]);
 
@@ -555,7 +620,7 @@ define(
                             }
 
 
-                            functionLogic += " ) ";
+
 
 
                             break;

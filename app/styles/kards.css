@@ -767,6 +767,14 @@ form.formContentOptions a#btnContentControlsClose {
   right: 8px;
   top: 8px;
   text-decoration: none;
+  width: 16px;
+  height: 16px;
+}
+form.formContentOptions a#btnContentControlsClose.down {
+  background-image: url("/kards-v1/img/basic/down.png");
+}
+form.formContentOptions a#btnContentControlsClose.up {
+  background-image: url("/kards-v1/img/basic/up.png");
 }
 form.formEndPointOptions {
   display: block;

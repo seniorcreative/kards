@@ -246,8 +246,20 @@ define(
                 closeControlView: function (e)
                 {
 
-                    $('#content-nodes li a').removeClass('selected');
-                    $('.formContentOptions').animate({'bottom': -400}, 250);
+                    if ($('#btnContentControlsClose').hasClass('down'))
+                    {
+                        $('#content-nodes li a').removeClass('selected');
+                        $('.formContentOptions').animate({'bottom': -380}, 250);
+                        $('#btnContentControlsClose').addClass('up');
+                        $('#btnContentControlsClose').removeClass('down');
+                    }
+                    else
+                    {
+                        $('#content-nodes li a').removeClass('selected');
+                        $('.formContentOptions').animate({'bottom': 10}, 250);
+                        $('#btnContentControlsClose').addClass('down');
+                        $('#btnContentControlsClose').removeClass('up');
+                    }
 
                     return false;
 

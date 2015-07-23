@@ -185,6 +185,20 @@ form
             right: 8px;
             top: 8px;
             text-decoration: none;
+
+            width: 16px;
+            height: 16px;
+
+            &.down
+            {
+                background-image: url("/kards-v1/img/basic/down.png");
+            }
+
+            &.up
+            {
+                background-image: url("/kards-v1/img/basic/up.png");
+            }
+
         }
 
     }

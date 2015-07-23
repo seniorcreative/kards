@@ -379,6 +379,7 @@
 
           </div>
 
+
           <!-- preload the images -->
           <div style='display:none'>
               <img src='img/basic/close.png' alt='' />
@@ -396,7 +397,7 @@
 
 
               <div class="form-controls  form-controls--width-full" >
-                  <button type="button" id="btnResetContentStream" class="">Send to Watson</button>
+                  <button type="button" id="btnResetContentStream" class="" style="width:100%">Feed to Watson</button>
               </div>
 
           </div>
@@ -407,7 +408,7 @@
       <form method="" action="" class="formContentOptions  _faded">
 
           <h3>Add Content</h3>
-          <a href="#" id="btnContentControlsClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
+          <a href="#" id="btnContentControlsClose" class="down"></a>
 
           <div class="form-controls  form-controls--width-full  hidden">
               <label for="search-field-content">Search (autocomplete)</label>
