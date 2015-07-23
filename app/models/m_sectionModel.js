@@ -5,7 +5,7 @@ define(
 
         var sectionModel = Backbone.Model.extend(
             {
-                sectionTitle: 'New section *',
+                sectionTitle: 'Section 1',
                 sections: []
             }
         );

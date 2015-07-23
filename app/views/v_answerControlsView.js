@@ -177,10 +177,11 @@ define(
 
                     if (ruleOutput)
                     {
-
                         this.$el.find('#answerLogicRules').html(ruleOutput);
-
-
+                    }
+                    else
+                    {
+                        this.$el.find('#answerLogicRules').html("");
                     }
 
 
