@@ -110,9 +110,101 @@ define(
                 var ruleSatisfied = false;
                 var actionOutportIdentifier = '';
                 var functionLogic = '';
+                var logicScaffold = '';
                 var selectedValue = '';
 
                 var answerInputValues = window.answerModel.answerInputValues;
+
+
+
+
+
+
+
+
+                // Firstly - build a scaffold for the rules with placeholders for the conditions.
+
+
+                    //  ie
+                    //
+                    // if ([CONDITION-SET-1] && [CONDITION-SET-2]) { [ACTION-1] } else if ([CONDITION-SET-1]) {[ACTION-1]}
+
+                    for (rule in window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules']) {
+
+                        ruleObject = window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules'][rule];
+
+                        switch (ruleObject.type) {
+
+                            case 'rule':
+
+
+                                prefixOperator = helpers.getPrefixOperatorByID(ruleObject.prefixOperator);
+
+                                switch (parseInt(prefixOperator.id)) {
+
+                                    default:
+                                    case 1:
+                                        // IF
+
+                                        logicScaffold += " if ([CONDITION-SET-"+ rule +"]";
+
+                                        break;
+
+                                    case 2:
+                                        // AND
+
+                                        logicScaffold += " && [CONDITION-SET-"+ rule +"]";
+
+                                        break;
+
+                                    case 3:
+                                        // OR
+
+                                        logicScaffold += " || [CONDITION-SET-"+ rule +"]";
+
+                                        break;
+
+                                    case 19:
+                                        // ELSE
+
+                                        logicScaffold += ") else ([CONDITION-SET-"+ rule +"]";
+
+                                        break;
+
+                                    case 27:
+                                        // ELSE IF
+
+                                        logicScaffold += ") else if ([CONDITION-SET-"+ rule +"]";
+
+                                        break;
+
+                                }
+
+                                //functionLogic += ")";
+
+                            break;
+
+                            case 'action':
+
+
+                                logicScaffold += ") { [ACTION-"+rule+"] }";
+
+                            break;
+
+                        }
+
+
+                    }
+
+                    console.log('built your rule scaffold', logicScaffold);
+
+
+
+                /// Secondly - build the functions for calculations.
+
+
+
+
 
                 for (rule in window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules']) {
 

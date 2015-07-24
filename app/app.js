@@ -178,6 +178,14 @@ define(
                     });
 
 
+                    $('#toggleCheckBox').on('change', function() {
+
+                        if ($('#toggleCheckBox').is(':checked')) helpers.togglePanelsOut();
+                        else helpers.togglePanelsIn();
+
+                    });
+
+
                     hudControls = new hudControlsView(
                         {
                             model: window.hudModel,

@@ -651,6 +651,11 @@ body {
 
 header .testMode {
   position: fixed;
+  left: 230px;
+  top: 10px;
+}
+header .toggleMode {
+  position: fixed;
   left: 10px;
   top: 10px;
 }
@@ -771,10 +776,10 @@ form.formContentOptions a#btnContentControlsClose {
   height: 16px;
 }
 form.formContentOptions a#btnContentControlsClose.down {
-  background-image: url("/kards-v1/img/basic/down.png");
+  background-image: url("/img/basic/down.png");
 }
 form.formContentOptions a#btnContentControlsClose.up {
-  background-image: url("/kards-v1/img/basic/up.png");
+  background-image: url("/img/basic/up.png");
 }
 form.formEndPointOptions {
   display: block;

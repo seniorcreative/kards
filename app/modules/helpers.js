@@ -338,9 +338,37 @@ define(
             $('.formContentOptions').animate({'bottom': 10}, 250);
             $('.formEndPointOptions').animate({'right': 10}, 250);
             $('.formPanelControls').animate({'left': 10}, 250);
-            $('#HUD').animate({'bottom': -200}, 250);
+            $('#HUD').animate({'bottom': -240}, 250);
 
             $('#btnAddContent').show();
+
+        };
+
+        var togglePanelsOut = function()
+        {
+
+            $('.formReportOptions').animate({'left': -400}, 250);
+            $('.formSectionOptions').animate({'left': -400}, 250);
+            $('.formQuestionOptions').animate({'left': -400}, 250);
+            $('.formAnswerOptions').animate({'right': -400}, 250);
+            $('.formAnswerInputOptions').animate({'right': -400}, 250);
+            $('.formContentOptions').animate({'bottom': -500}, 250);
+            $('.formEndPointOptions').animate({'right': -400}, 250);
+            $('.formPanelControls').animate({'left': -400}, 250);
+
+        };
+
+        var togglePanelsIn = function()
+        {
+
+            $('.formReportOptions').animate({'left': 10}, 250);
+            $('.formSectionOptions').animate({'left': 10}, 250);
+            $('.formQuestionOptions').animate({'left': 10}, 250);
+            $('.formAnswerOptions').animate({'right': 10}, 250);
+            $('.formAnswerInputOptions').animate({'right': 10}, 250);
+            $('.formContentOptions').animate({'bottom': 10}, 250);
+            $('.formEndPointOptions').animate({'right': 10}, 250);
+            $('.formPanelControls').animate({'left': 10}, 250);
 
         };
 
@@ -356,7 +384,9 @@ define(
             getCustomValueTypeByID: getCustomValueTypeByID,
             showAlert: showAlert,
             panelsOut: panelsOut,
-            panelsIn: panelsIn
+            panelsIn: panelsIn,
+            togglePanelsOut: togglePanelsOut,
+            togglePanelsIn: togglePanelsIn
         }
 
 

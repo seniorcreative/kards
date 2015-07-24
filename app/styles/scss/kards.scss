@@ -29,6 +29,13 @@ header {
     .testMode
     {
         position: fixed;
+        left: 230px;
+        top: 10px;
+    }
+
+    .toggleMode
+    {
+        position: fixed;
         left: 10px;
         top: 10px;
     }
@@ -191,12 +198,12 @@ form
 
             &.down
             {
-                background-image: url("/kards-v1/img/basic/down.png");
+                background-image: url("/img/basic/down.png");
             }
 
             &.up
             {
-                background-image: url("/kards-v1/img/basic/up.png");
+                background-image: url("/img/basic/up.png");
             }
 
         }

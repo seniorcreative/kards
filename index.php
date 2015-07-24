@@ -29,8 +29,12 @@
       <!--// Controls for paper scale and grid scale etc.-->
 
       <header>
+          <label class="toggleMode" for="toggleCheckBox">
+              <input type="checkbox" id="toggleCheckBox" value="">Toggle control panels
+          </label>
           <label class="testMode" for="testCheckBox">
-              <input type="checkbox" id="testCheckBox" value="">Tick to use testing mode</label>
+              <input type="checkbox" id="testCheckBox" value="">Tick to use testing mode
+          </label>
           <h1 id="reportName"></h1>
           <h2>KARDS</h2>
       </header>
