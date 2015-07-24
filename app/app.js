@@ -156,11 +156,9 @@ define(
 
                             // test mode
                             window.reportModel.mode = "test";
-
                             helpers.panelsOut();
-
                             helpers.deselectElementStylesForTest();
-
+                            $('#toggleCheckBox').attr('disabled', 'disabled');
 
                         }
                         else
@@ -168,10 +166,9 @@ define(
 
                             // build mode
                             window.reportModel.mode = "build";
-
                             helpers.panelsIn();
-
                             helpers.clearSelections();
+                            $('#toggleCheckBox').removeAttr('disabled');
 
                         }
 
@@ -180,8 +177,16 @@ define(
 
                     $('#toggleCheckBox').on('change', function() {
 
-                        if ($('#toggleCheckBox').is(':checked')) helpers.togglePanelsOut();
-                        else helpers.togglePanelsIn();
+                        if ($('#toggleCheckBox').is(':checked'))
+                        {
+                            helpers.togglePanelsOut();
+                            $('#testCheckBox').attr('disabled', 'disabled');
+                        }
+                        else
+                        {
+                            helpers.togglePanelsIn();
+                            $('#testCheckBox').removeAttr('disabled');
+                        }
 
                     });
 
