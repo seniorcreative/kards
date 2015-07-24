@@ -35,6 +35,12 @@ define(
 
                 // Answer value is there, it's ok. Use this in calculations of what to do next.
 
+                // store this answer?
+
+                var questionNumber = parseInt(cellView.model.get('answerKey').split("_")[0]);
+
+                window.logicModel.questionChoices[questionNumber] = answerInputValues[cellView.model.get('answerKey')][0];
+
                 return true;
 
             }
@@ -109,7 +115,7 @@ define(
 
                 var ruleSatisfied = false;
                 var actionOutportIdentifier = '';
-                var functionLogic = '';
+
                 var logicScaffold = '';
                 var selectedValue = '';
 
@@ -163,24 +169,23 @@ define(
                                         logicScaffold += " || [CONDITION-SET-"+ rule +"]";
 
                                         break;
-
+/*
                                     case 19:
                                         // ELSE
 
-                                        logicScaffold += ") else ([CONDITION-SET-"+ rule +"]";
+                                        logicScaffold += " else { ([CONDITION-SET-"+ rule +"]";
 
-                                        break;
+                                        break;*/
 
                                     case 27:
                                         // ELSE IF
 
-                                        logicScaffold += ") else if ([CONDITION-SET-"+ rule +"]";
+                                        logicScaffold += " else if ([CONDITION-SET-"+ rule +"]";
 
                                         break;
 
                                 }
 
-                                //functionLogic += ")";
 
                             break;
 
@@ -208,7 +213,12 @@ define(
 
                 for (rule in window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules']) {
 
+
+                    var functionLogic = '';
+
                     ruleObject = window.logicModel.questionLogic[window.selectedQuestion.model.get('questionNumber')]['rules'][rule];
+
+                    console.log('inspection of ruleObject reveals ', ruleObject);
 
                     switch (ruleObject.type) {
 
@@ -217,52 +227,6 @@ define(
 
                             prefixOperator = helpers.getPrefixOperatorByID(ruleObject.prefixOperator);
 
-
-                            // IF
-                            //ruleOutput += prefixOperator.label + "<br>";
-
-
-                            // Condition based on prefix operator (we can
-
-                            /*(object) ['id' => '1','data-symbol' => 'IF','label' => 'IF', 'data-type' => '2'],
-                             (object) ['id' => '2','data-symbol' => '&&','label' => 'AND', 'data-type' => '2'],
-                             (object) ['id' => '3','data-symbol' => '||','label' => 'OR', 'data-type' => '2'],
-                             (object) ['id' => '19','data-symbol' => 'ELSE','label' => 'ELSE', 'data-type' => '2'],
-                             (object) ['id' => '27','data-symbol' => 'ELSE IF','label' => 'ELSE IF', 'data-type' => '2']*/
-
-                            switch (parseInt(prefixOperator.id)) {
-
-                                default:
-                                case 1:
-                                    // IF
-
-                                    functionLogic += " if (";
-
-                                    break;
-
-                                case 2:
-                                    // AND
-
-                                    break;
-
-                                case 3:
-                                    // OR
-
-                                    break;
-
-                                case 19:
-                                    // ELSE
-
-                                    break;
-
-                                case 27:
-                                    // ELSE IF
-
-                                    functionLogic += " else if (";
-
-                                    break;
-
-                            }
 
 
                             // Now loop calc blocks.
@@ -277,9 +241,6 @@ define(
 
                                 /// VALUE OF
                                 //ruleOutput += calcOperator.label + " ";
-
-
-                                functionLogic += " ( ";
 
 
                                 // If we're using a custom value as part of the calculation block let's get that value and type and use if for the left-side operator
@@ -350,7 +311,38 @@ define(
 
                                             if (ruleObject.suffixAnswerOperands.length <= 1) {
 
-                                                functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+                                                functionLogic += " ( ";
+
+
+                                                var answerQuestion              = parseInt(cellView.model.get('answerKey').split("_")[0]);
+
+                                                var suffixAnswerOperandQuestion =  parseInt(ruleObject.suffixAnswerOperands[0].split("_")[0]);
+
+
+                                                // Use the answer of this question in the calculation if that's the one intended in the suffix answer operand part of the rule.
+                                                // Otherwise use the answer input value from the answerInputValues object.
+                                                console.log("comparing q numbers", answerQuestion, suffixAnswerOperandQuestion);
+
+                                                if (suffixAnswerOperandQuestion !== answerQuestion)
+                                                {
+
+                                                    console.log("using answer of previous other question", ruleObject.suffixAnswerOperands[0]);
+
+                                                    // [ruleObject.suffixAnswerOperands[0]][0] // - this is the value of the answer option in a question not the chosen and stored answer
+                                                    functionLogic += "\"" + window.logicModel.questionChoices[suffixAnswerOperandQuestion] + "\"";
+
+                                                }
+                                                else
+                                                {
+
+                                                    console.log("using answer of this question", cellView.model.get('answerKey'));
+
+                                                    functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
+
+                                                }
+
+
+
                                                 functionLogic += " ) "; // close off the condition with a right parenthesis .
 
                                             }
@@ -369,6 +361,7 @@ define(
 
                                             if (ruleObject.suffixAnswerOperands.length <= 1) {
 
+                                                functionLogic += " ( ";
                                                 functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
                                                 functionLogic += " ) "; // close off the condition with a right parenthesis .
 
@@ -390,6 +383,7 @@ define(
 
                                             if (ruleObject.suffixAnswerOperands.length <= 1) {
 
+                                                functionLogic += " ( ";
                                                 functionLogic += "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
                                                 functionLogic += " ) "; // close off the condition with a right parenthesis .
 
@@ -416,64 +410,12 @@ define(
                                             "})() "; // make sure polarity is correct
 
 
-                                            functionLogic += " ) "; // close off the condition with a right parenthesis .
-
                                             break;
 
                                     }
 
 
                                 }
-
-                                /*switch (parseInt(calcOperator.id)) {
-
-
-                                    case 12:
-                                        // IS EQUAL TO
-
-                                        //functionLogic += " ( ";
-                                        functionLogic += " ";
-
-                                        break;
-
-                                    case 27:
-                                        // VALUE OF ([VALUES])
-
-
-                                        break;
-
-                                    case 13:
-                                        // IS NOT EQUAL TO
-
-
-                                        break;
-
-                                    case 4:
-                                        // IS LESS THAN
-
-
-                                        break;
-
-                                    case 5:
-                                        // IS LESS THAN OR EQUAL TO
-
-
-                                        break;
-
-                                    case 6:
-                                        // IS GREATER THAN
-
-
-                                        break;
-
-                                    case 7:
-                                        // IS GREATER THAN OR EQUAL TO
-
-
-                                        break;
-
-
-                                }*/
 
 
 
@@ -512,12 +454,12 @@ define(
 
                                         break;
 
-                                    case 27:
+/*                                    case 27:
                                         // VALUE OF ([VALUES])
 
                                         //functionLogic += " "; // may need to re-order and parse, to do indexOf
 
-                                        break;
+                                        break;*/
 
                                     case 13:
                                         // IS NOT EQUAL TO
@@ -605,8 +547,6 @@ define(
                                         "   return offset;" +
                                         "})() "; // make sure polarity is correct (plus+minus makes a minus)
 
-                                        functionLogic += " )";
-
 
                                         break;
 
@@ -662,7 +602,7 @@ define(
                                     "var valueArray = " + "[" + answerValues.join(",") + "];" +
                                     "if (valueArray.indexOf(selectedValue) == -1) return false;" +
                                     "else return true;" +
-                                    "})()) ";
+                                    "})() ";
 
 
                                 }
@@ -700,7 +640,6 @@ define(
 
                                     }
 
-                                    functionLogic += " ) ";
 
 
                                 }
@@ -711,8 +650,13 @@ define(
 
                             }
 
+                            console.log('adding this function', functionLogic);
 
+                            //console.log('splitting', logicScaffold, "[CONDITION-SET-" + rule + "]");
 
+                            logicScaffold = logicScaffold.replace("[CONDITION-SET-" + rule + "]", functionLogic);
+
+                            //console.log('been split', logicScaffold);
 
 
                             break;
@@ -723,27 +667,21 @@ define(
 
                             //ruleOutput += " THEN GO TO \"" + ruleObject.outportName + "\"";
 
-                            functionLogic += "{ return '" + ruleObject.outportName + "'; } ";
+                            //functionLogic += "{ return '" + ruleObject.outportName + "'; } ";
+
+                            logicScaffold = logicScaffold.replace("[ACTION-" + rule + "]", "return '" + ruleObject.outportName + "';");
 
                             break;
 
                     }
 
 
-                    //console.log(functionLogic);
-
-
-                    //return function
-                    //ruleOutput += "<br>";
-
-
                 }
 
-                //console.log('we made some pseudo code', ruleOutput, window.selectedQuestion, window.selectedAnswer); // ,window.selectedAnswer.model.get('answerParentQuestion'));
 
-                console.log('Your function logic is made: ', functionLogic);
+                console.log('Your function logic is made: ', logicScaffold);
 
-                evaluationFunction = new Function("eval", functionLogic);
+                evaluationFunction = new Function("eval", logicScaffold);
 
                 return evaluationFunction;
 

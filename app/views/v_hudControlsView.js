@@ -67,6 +67,7 @@ define(
                 window.hudModel.contentElements = [];
                 contentStream.reset();
                 helpers.deselectElementStylesForTest();
+                window.logicModel.questionChoices = {};
 
             },
             showIndividualisationHandler: function(e)
