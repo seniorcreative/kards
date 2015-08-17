@@ -645,7 +645,7 @@ define(
 
                     graph.trigger('change:position', newAnswer, pos);
 
-                    $('.formAnswerOptions h3').text('Edit Answer - A' + newAnswerNumber);
+                    $('.formAnswerOptions h3').text('Edit Answer - Q' + window.selectedQuestion.model.get('questionNumber') + ', A' + newAnswerNumber);
 
                     window.selectedAnswer =  paper.findViewByModel(newAnswer); // make so is selected straight away.
 

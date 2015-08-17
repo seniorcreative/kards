@@ -348,8 +348,12 @@
               <textarea id="answerLabel" name="answerLabel" rows="3"></textarea>
           </div>
 
-          <div class="form-controls  form-controls--width-full" >
+          <div class="form-controls  form-controls--width-full">
               <button type="button" id="btnClearAnswerValues" class="button-add">Clear answer values</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full">
+              <button type="button" id="btnDeleteAnswer" class="button-add">Delete answer</button>
           </div>
 
           <div class="form-controls  form-controls--width-full">

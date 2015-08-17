@@ -370,6 +370,9 @@ define(
             $('.formEndPointOptions').animate({'right': 10}, 250);
             $('.formPanelControls').animate({'left': 10}, 250);
 
+            $('#btnContentControlsClose').removeClass('up');
+            $('#btnContentControlsClose').addClass('down');
+
         };
 
         return {
