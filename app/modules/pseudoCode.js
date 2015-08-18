@@ -45,10 +45,10 @@ define(
 
                                 calcObject = ruleObject.calculationBlocks[calc];
 
-                                ruleOutput += helpers.getNormalOperatorByID(calcObject.calculationOperator).label + " ";
+                                ruleOutput += "&nbsp;&nbsp;&nbsp;" + helpers.getNormalOperatorByID(calcObject.calculationOperator).label + " ";
 
                                 if (calcObject.customValue != undefined && calcObject.customValue != '') {
-                                    ruleOutput += helpers.getCustomValueTypeByID(calcObject.customValueType).label + " " + calcObject.customValue;
+                                    ruleOutput += "&nbsp;&nbsp;&nbsp;" + helpers.getCustomValueTypeByID(calcObject.customValueType).label + " " + calcObject.customValue;
                                 }
                                 else {
 
@@ -64,10 +64,10 @@ define(
                             }
 
                             // Now append suffix.
-                            ruleOutput += "<br>" + helpers.getNormalOperatorByID(ruleObject.suffixOperator).label + " ";
+                            ruleOutput += "<br>" + "&nbsp;&nbsp;&nbsp;" + helpers.getNormalOperatorByID(ruleObject.suffixOperator).label + " ";
 
                             if (ruleObject.suffixCustomValue != undefined && ruleObject.suffixCustomValue != '') {
-                                ruleOutput += helpers.getCustomValueTypeByID(ruleObject.suffixCustomValueType).label + " " + ruleObject.suffixCustomValue;
+                                ruleOutput += "&nbsp;&nbsp;&nbsp;" + helpers.getCustomValueTypeByID(ruleObject.suffixCustomValueType).label + " " + ruleObject.suffixCustomValue;
                             }
                             else {
 

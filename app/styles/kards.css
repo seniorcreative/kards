@@ -758,6 +758,9 @@ form.formAnswerOptions {
   top: 60px;
   right: 10px;
 }
+form.formAnswerOptions div#answerLogicRules {
+  font-size: 0.65em;
+}
 form.formContentOptions {
   display: block;
   padding: 5px;

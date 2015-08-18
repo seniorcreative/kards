@@ -248,10 +248,15 @@ define(
                     var jsonSaveObject = "{";
 
                         if (window.selectedReport != null) jsonSaveObject += "\"reportTitle\": \""+ this.model.reportTitle +"\", \"selectedReport\": " + JSON.stringify(window.selectedReport.model) + ",";
+
                         if (window.selectedSection != null)         jsonSaveObject += "\"selectedSection\": " + JSON.stringify(window.selectedSection.model) + ",";
+
                         if (window.selectedQuestion != null)        jsonSaveObject += "\"selectedQuestion\": " + JSON.stringify(window.selectedQuestion.model) + ",";
+
                         if (window.selectedAnswer != null)          jsonSaveObject += "\"selectedAnswer\": " + JSON.stringify(window.selectedAnswer.model) + ",";
+
                         if (window.selectedContent != null)         jsonSaveObject += "\"selectedContent\": " + JSON.stringify(window.selectedContent.model) + ",";
+
                         if (window.selectedEndPoint != null)        jsonSaveObject += "\"selectedEndPoint\": " + JSON.stringify(window.selectedEndPoint.model) + ",";
 
                         jsonSaveObject += "\"questions\": " + JSON.stringify(window.questionModel.questions) + ",";
@@ -270,6 +275,9 @@ define(
 
                     jsonSaveObject += "}";
 
+                    //console.log('saving ', jsonSaveObject);
+
+
                     $('#reportJSON option').first().html("Saving...");
 
                     var reportTitle = this.model.reportTitle;
@@ -283,6 +291,8 @@ define(
                             data: "reportTitle=" + reportTitle + "&chartData=" + encodeURIComponent(jsonSaveObject), // make sure to encode those ampersands and other special chars. no need to decode when loading back in...
                             datatype:"json",
                             success: function (data) {
+
+                                //console.log("got back", data);
 
                                 var parsedData = $.parseJSON(data);
 
