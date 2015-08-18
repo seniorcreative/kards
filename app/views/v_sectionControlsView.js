@@ -31,11 +31,13 @@ define(
                         this.render()
                     }, this);
 
-                    this.addSection();
+                    this.addSection(); // Add first section.
+                    helpers.clearSelections(); // But then deselect first section.
 
                 },
                 events: {
                     'click #btnAddSection': 'addSection',
+                    'click #btnDeleteSection': 'deleteHandler',
                     'keyup #sectionTitle': 'sectionUpdate'
                     //'change #reportCategory': 'reportCategoryUpdate'
                 },
@@ -48,7 +50,9 @@ define(
                 },
                 addSection: function()
                 {
-                    var newSectionTitle = $('#sectionTitle').val() == '' ? this.model.sectionTitle : $('#sectionTitle').val();
+                    var sectionNumber = this.model.sections.length + 1;
+
+                    var newSectionTitle = $('#sectionTitle').val() == '' ? this.model.sectionTitle + ' ' + sectionNumber : $('#sectionTitle').val();
                     $('#sectionTitle').val(newSectionTitle);
 
                     helpers.resetElementStyles('section');
@@ -58,11 +62,12 @@ define(
                         height: layout.section.size.height
                     });
 
-                    var sectionNumber = this.model.sections.length + 1;
+                    // Add a new section in the middle except if it's the first default section which will be near the report root cell.
+                    var sectionPosition = (sectionNumber > 1) ?  { x: layout.stage.centerX - (layout.section.size.width / 2), y: layout.stage.centerY - (layout.section.size.height / 2)} : { x: parseInt(layout.stage.centerX + layout.section.startX), y: parseInt(layout.section.startY) };
 
                     var section = new joint.shapes.devs.Model({
                         ktype: 'section',
-                        position: { x: parseInt(layout.stage.centerX + layout.section.startX), y: parseInt(layout.section.startY) }, // layout.stage.centerX - (layout.section.size.width / 2), layout.stage.centerY - (layout.section.size.height / 2)
+                        position: sectionPosition,
                         size: { width: layout.section.size.width, height: layout.section.size.height },
                         attrs: {
                             '.label': { text: 'S ' + sectionNumber, 'ref-x': .1, 'ref-y': .1, 'font-size': style.text.fontSize.label },
@@ -149,6 +154,24 @@ define(
                         window.selectedSection.model.set('sectionFull', this.$(e.target).val());
                         window.selectedSection.render().el;
                     }
+                },
+                deleteHandler: function()
+                {
+
+                    if (window.selectedSection != null)
+                    {
+
+                        // Want to get the parent and the children of the question...
+
+                        var sectionCell = graph.getCell(window.selectedSection.model.get('id'));
+                        sectionCell.remove();
+
+                        // Now reset interface
+
+                        helpers.clearSelections();
+
+                    }
+
                 }
             }
         );

@@ -32,7 +32,7 @@ define(
                         this.render()
                     }, this);
 
-                    this.addReport();
+                    this.addReport(); // Add first report
 
                 },
                 events: {

@@ -2,6 +2,10 @@ define(
     ['jquery',
     'modules/helpers'],
 
+
+    // This module builds the pseudo code output which is shown in the answer panel when clicking on an answer, if the answer's question has
+    // been given rules.
+
     function($, helpers) {
 
         // Setter functions (accept that for global scope) - where 'that' should be

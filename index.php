@@ -115,6 +115,10 @@
               <button type="button" id="btnAddSection" class="button-add">Add section</button>
           </div>
 
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnDeleteSection" class="button-add">Delete</button>
+          </div>
+
       </form>
 
 
@@ -353,7 +357,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full">
-              <button type="button" id="btnDeleteAnswer" class="button-add">Delete answer</button>
+              <button type="button" id="btnDeleteAnswer" class="button-add">Delete</button>
           </div>
 
           <div class="form-controls  form-controls--width-full">

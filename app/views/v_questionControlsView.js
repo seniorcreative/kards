@@ -691,7 +691,7 @@ define(
                         // Want to get the parent and the children of the question...
 
                         var parentLogicWrapper = graph.getCell(window.selectedQuestion.model.get('parent'));
-                        parentLogicWrapper.remove(); // Yeay remove also remove embeds.
+                        parentLogicWrapper.remove(); // Very cool that remove also removes embeds.
 
                         var tmpArray = [];
 
