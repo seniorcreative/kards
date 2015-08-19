@@ -87,8 +87,8 @@
 
 
           <div class="form-controls  form-controls--width-full">
-              <label for="reportAutosave">Report auto save</label>
-              <input type="checkbox" id="reportAutosave" name="reportAutosave" checked="checked" >
+              <label for="reportAutosave" style="float: left">Report auto save</label>
+              <input type="checkbox" id="reportAutosave" name="reportAutosave" checked="checked" style="float: right" >
           </div>
 
           <div class="form-controls  form-controls--width-full" >
@@ -116,7 +116,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnDeleteSection" class="button-add">Delete</button>
+              <button type="button" id="btnDeleteSection" class="button-add  hidden">Delete</button>
           </div>
 
       </form>
@@ -523,6 +523,10 @@
 
           <div class="form-controls  form-controls--width-full" >
               <button type="button" id="btnAddEndPoint" class="button-add">Add end point</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnDeleteEndPoint" class="button-add  hidden">Delete</button>
           </div>
 
       </form>

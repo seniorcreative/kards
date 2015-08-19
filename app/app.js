@@ -672,6 +672,10 @@ define(
 
                                         $('.formQuestionOptions').css('opacity', 1);
                                         $('.formQuestionOptions').css('pointer-events', 'auto');
+
+
+                                        $('#btnDeleteSection').removeClass('hidden');
+
                                         $('#btnQuestionAdd').removeClass('hidden');
                                         $('#btnAddAnswer').addClass('hidden');
                                         $('#btnShowLogic').addClass('hidden');
@@ -861,6 +865,8 @@ define(
 
                                         $('.formEndPointOptions h3').text('Edit End Point - E' + window.selectedEndPoint.model.get('endPointNumber'));
 
+
+                                        $('#btnDeleteEndPoint').removeClass('hidden');
 
                                         $('#endPointTitle').focus();
                                         $('#endPointTitle').select();

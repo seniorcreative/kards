@@ -188,6 +188,8 @@ define(
             $('#btnShowLogic').addClass('hidden');
             $('#btnDeleteQuestion').addClass('hidden');
             $('#btnDeleteContent').addClass('hidden');
+            $('#btnDeleteSection').addClass('hidden');
+            $('#btnDeleteEndPoint').addClass('hidden');
 
             $('.formAnswerOptions').css('opacity', 0);
             $('.formAnswerOptions').css('pointer-events', 'none');

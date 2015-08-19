@@ -124,6 +124,8 @@ define(
 
                     }
 
+                    $('#btnDeleteSection').removeClass('hidden');
+
                     window.selectedSection = paper.findViewByModel(section); // Make so is the selected straight away.
 
                     $('.formQuestionOptions').css('opacity', 1);
@@ -165,6 +167,24 @@ define(
 
                         var sectionCell = graph.getCell(window.selectedSection.model.get('id'));
                         sectionCell.remove();
+
+                        // Purge from sections array
+
+                        var tmpArray = [];
+
+                        for (var s in this.model.sections)
+                        {
+
+
+                            if (this.model.sections[s]['element'] != window.selectedSection.model.id)
+                            {
+                                tmpArray.push(this.model.sections[s]);
+                            }
+                        }
+
+                        this.model.sections = tmpArray;
+
+                        //
 
                         // Now reset interface
 

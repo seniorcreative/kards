@@ -35,6 +35,7 @@ define(
                 },
                 events: {
                     'click #btnAddEndPoint': 'addEndPoint',
+                    'click #btnDeleteEndPoint': 'deleteHandler',
                     'keyup #endPointTitle': 'endPointUpdate',
                     'change #endPointTypeID': 'changeEndPointTypeDropdown'
                 },
@@ -98,6 +99,8 @@ define(
                     //endPointWrapper.set('outPorts', ['out']);
 
 
+                    $('#btnDeleteEndPoint').removeClass('hidden');
+
                     graph.addCells([endPoint]);
 
                     this.model.endPointArray.push({
@@ -149,6 +152,42 @@ define(
                                 'cms_endpoint_type_id': parseInt(this.$('#endPointTypeID option:selected').val())
                             }
                         )
+                    }
+
+                },
+                deleteHandler: function()
+                {
+
+                    if (window.selectedEndPoint != null)
+                    {
+
+                        // Want to get the parent and the children of the question...
+
+                        var endPointCell = graph.getCell(window.selectedEndPoint.model.get('id'));
+                        endPointCell.remove();
+
+
+                        // Purge from endPoint array
+
+                        var tmpArray = [];
+
+                        for (var e in this.model.endPointArray)
+                        {
+
+                            if (this.model.endPointArray[e]['element'] != window.selectedEndPoint.model.id)
+                            {
+                                tmpArray.push(this.model.endPointArray[e]);
+                            }
+                        }
+
+                        this.model.endPointArray = tmpArray;
+
+
+
+                        // Now reset interface
+
+                        helpers.clearSelections();
+
                     }
 
                 }
