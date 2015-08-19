@@ -74,8 +74,14 @@ define(
                         gridSize: layout.paper.defaults.gridSize.value,
                         defaultLink: new joint.dia.Link({
                             smooth: true,
+                            router: { name: style.link.outside.router },
+                            connector: { name: style.link.outside.connector },
                             attrs: {
-                                '.connection' : { 'stroke-width': 5, 'stroke-linecap': 'round', opacity:.5 }
+                                '.connection' : {
+                                    'stroke-width': style.link.outside.width,
+                                    'stroke-linecap': style.link.outside.cap,
+                                    'opacity': style.link.outside.opacity
+                                }
                             }
                         })
                         /*validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
@@ -187,6 +193,21 @@ define(
                             helpers.togglePanelsIn();
                             $('#testCheckBox').removeAttr('disabled');
                         }
+
+                    });
+
+
+                    $('#btnHelpOverlay').on('click', function(e){
+
+                        e.preventDefault();
+                        $('#help-modal').show();
+
+                    });
+
+                    $('.btnClose').on('click', function(e){
+
+                        e.preventDefault();
+                        $('#help-modal').hide();
 
                     });
 

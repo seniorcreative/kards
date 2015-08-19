@@ -83,8 +83,8 @@ define(['jquery','backbone'], function ($,Backbone) {
         },
         section: {
             size: {width: 140, height: 50},
-            startX: -250,
-            startY: 200
+            startX: -300,
+            startY: 240
         },
         endpoint: {
             size: {width: 140, height: 50}

@@ -24,7 +24,7 @@
 }
 
 
-#individualisation-modal {
+.modal {
     display:none;
     position: absolute;
     background-color: rgba(0,0,0,.4);
@@ -43,7 +43,7 @@
     }
 
 
-    a#btnIndividualisationClose
+    a.btnClose
     {
         display:inline-block;
         position: absolute;
@@ -52,10 +52,10 @@
         text-decoration: none;
     }
 
-    button
+    button.fullWidth
     {
 
-        //        width: 100%;
+        width: 100%;
         padding: 4px 10px;
         border-radius: 4px;
         border: none;
@@ -69,7 +69,7 @@
 
 }
 
-    #individualisation-output
+    .modal-output
     {
         h3
         {

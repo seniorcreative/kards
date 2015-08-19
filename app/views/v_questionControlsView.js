@@ -425,11 +425,21 @@ define(
                         };
 
 
-                        // Make so that links are not inbound to answer (from which downstream logic is calculated)
+                        // Make so that links from questions are not INBOUND to answer (from which downstream logic is calculated)
+                        // Must be OUTBOUND - ie from answer as the source TO the question
                         var link = new joint.dia.Link({
                             smooth: true,
                             source: { id: answer.id },
-                            target: { id: question.id }
+                            target: { id: question.id },
+                            /*router: { name: style.link.inside.router },
+                            connector: { name: style.link.inside.connector },*/
+                            attrs: {
+                                '.connection' : {
+                                    'stroke-width': style.link.inside.width,
+                                    'stroke-linecap': style.link.inside.cap,
+                                    'opacity': style.link.inside.opacity
+                                }
+                            }
                         });
 
                         graph.addCells(

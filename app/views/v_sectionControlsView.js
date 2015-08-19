@@ -117,6 +117,15 @@ define(
                             target: {
                                 id: window.selectedReport.model.get('id'),
                                 port: 'out'
+                            },
+                            router: { name: style.link.outside.router },
+                            connector: { name: style.link.outside.connector },
+                            attrs: {
+                                '.connection' : {
+                                    'stroke-width': style.link.outside.width,
+                                    'stroke-linecap': style.link.outside.cap,
+                                    'opacity': style.link.outside.opacity
+                                }
                             }
                         });
                         // Assume graph has the srcModel and dstModel with in and out ports.
@@ -183,8 +192,6 @@ define(
                         }
 
                         this.model.sections = tmpArray;
-
-                        //
 
                         // Now reset interface
 

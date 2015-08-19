@@ -150,6 +150,25 @@ function (Backbone) {
                 node: '11px',
                 question: '12px'
             }
+        },
+        link:
+        {
+            outside:
+            {
+                router: 'manhattan',
+                connector: 'rounded',
+                width: 5,
+                cap: 'round',
+                opacity:.3
+            },
+            inside:
+            {
+                router: 'orthogonal',
+                connector: 'normal',
+                width: 2,
+                cap: 'round',
+                opacity:.5
+            }
         }
     });
 

@@ -304,8 +304,14 @@ define(
                                                 },
                                                 target: {
                                                     id: elementAnswerIDArray[selectedElementAnswerID]
+                                                },
+                                                attrs: {
+                                                    '.connection' : {
+                                                        'stroke-width': style.link.outside.width,
+                                                        'stroke-linecap': style.link.outside.cap,
+                                                        'opacity': style.link.outside.opacity
+                                                    }
                                                 }
-
                                             });
 
                                             newLogicOutportAnswerLink.attr('rule', {rule: newActionNumber, action: (newOutports.length + 1) , outport: newOutportName });

@@ -247,6 +247,7 @@ define(
 
             $('#logic-modal').hide();
             $('#individualisation-modal').hide();
+            $('#help-modal').hide();
 
 
             switch(window.reportModel.mode) {

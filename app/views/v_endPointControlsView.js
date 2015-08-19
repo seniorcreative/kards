@@ -3,9 +3,10 @@ define(
         'backbone',
         'joint',
         'modules/style',
-        'modules/layout'],
+        'modules/layout',
+        'modules/helpers'],
 
-    function($, Backbone, joint, style, layout) {
+    function($, Backbone, joint, style, layout, helpers) {
 
         var that;
         var graph;
