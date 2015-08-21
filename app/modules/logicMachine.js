@@ -746,6 +746,14 @@ define(
                  */
 
 
+                //if (outPort == false) {
+                //
+                //
+                //
+                //
+                //    return;
+                //
+                //}
 
                 console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 
@@ -820,6 +828,8 @@ define(
 
 
                     var reverseCellOutportConnectedLinks = reverseCellConnections[answerLinkRuleAttrObject.rule.outport];
+
+                    console.log('reverseCellOutportConnectedLinks', reverseCellOutportConnectedLinks);
 
                     for (var descendantCellIndex = 0; descendantCellIndex < reverseCellOutportConnectedLinks.length; descendantCellIndex++) {
 

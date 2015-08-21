@@ -103,6 +103,9 @@ define(
 
                     var newContentText = $('#contentText').val() == '' ? this.model.defaultText : $('#contentText').val();
                     $('#contentText').val(newContentText);
+                    $('#contentText').focus();
+                    $('#contentText').select();
+
 
                     $('#contentNumber').val(contentNumber);
 

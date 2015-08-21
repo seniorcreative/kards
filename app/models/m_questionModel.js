@@ -15,7 +15,7 @@ define(
                 choicesAccepted: 1,
                 questions: [],
                 answerValues: {},
-                defaultValues: { boolean: ['yes', 'no']}
+                defaultValues: { boolean: ['yes', 'no'], gender: ['M', 'F']}
             }
         );
 

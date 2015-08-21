@@ -69,6 +69,16 @@ define(['jquery','backbone'], function ($,Backbone) {
                 qSize: {width: 200, height: 100},
                 aSize: {width: 150, height: 60},
                 answers: []
+            },
+            '4': {
+                qSize: {width: 200, height: 100},
+                aSize: {width: 150, height: 60},
+                answers: []
+            },
+            '5': {
+                qSize: {width: 200, height: 100},
+                aSize: {width: 150, height: 60},
+                answers: []
             }
         },
         content:

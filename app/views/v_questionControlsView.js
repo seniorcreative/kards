@@ -164,8 +164,6 @@ define(
                         case '1':
                             // boolean / true or false...
 
-                            //console.log('whats happened to our data types', this.model.get('valueDataTypes'));
-
                             questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
                             numAnswers = 2;
                             // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
@@ -297,6 +295,74 @@ define(
 
                                 window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0]];
                             }
+
+                            break;
+
+                        case '4':
+                            // gender - (boolean)
+
+                            questionObject.choices_accepted = 1; // by default boolean can only have 1 accepted answer
+                            numAnswers = 2;
+                            // Depending on the type of question and the number of answers being added, we can set up the answer_datatype_id.
+                            answerDataTypesProvider = [this.model.get('valueDataTypes')['word or letter'], this.model.get('valueDataTypes')['word or letter']]; // boolean (can also use layout.get('newQuestionTypeID') switch case here)
+                            answerValueProvider     = [['M'], ['F']]; // Note that the answer value can expect an array of 2 values
+                            answerLabelProvider     = [this.model.defaultValues.gender[0], this.model.defaultValues.gender[1]];
+
+                            answerInputValueProvider = [[true], [false]]; // We will prepopulate the answerInputValues for boolean questions
+
+
+                            // calculate the answer positions.
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
+
+
+                            for (mca = 0; mca < numAnswers; mca++)
+                            {
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin))); // WARNING - dynamic layout vars that were set with setter need to be got with getter
+                                layout.question[layout.get('newQuestionTypeID')].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+
+                                // pre-determine stored answer values.
+                                // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0]];
+
+                            }
+
+                            break;
+
+                        case '5':
+
+                            // Age
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+                            numAnswers = 1;
+
+                            // Initial loop
+                            for (mca = 0; mca < numAnswers; mca++) {
+
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['date']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca] = ['dd/mm/yyyy']; // Might as well be boolean
+                                answerLabelProvider[mca] = 'dd/mm/yyyy';
+
+                            }
+
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            // Then loop again
+                            for (mca = 0; mca < numAnswers; mca++) {
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin)));
+                                layout.question[layout.get('newQuestionTypeID')].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+
+                                // Don't predetermine stored answer value.
+                            }
+
 
                             break;
 
@@ -748,7 +814,6 @@ define(
                                 var reversedConnectionTargets = graph.getCell(graph.getCell(element).get('parent')).get('reversedConnectionTargets');
 
                                 //console.log('reversedConnectionTargets was ', reversedConnectionTargets);
-
 
                                 // Loop outports for those answers
 
