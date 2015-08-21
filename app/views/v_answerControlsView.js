@@ -515,26 +515,41 @@ define(
                         // Want to get the parent and the children of the question...
 
                         var answerCell = graph.getCell(window.selectedAnswer.model.get('id'));
-                        answerCell.remove(); // Yeay remove also remove embeds.
 
+                        var tmpObj;
 
-                        var tmpObj = {};
-
-                        for (var a in this.model.answerValues)
+                        for (var a in window.questionModel.answerValues)
                         {
 
-                            if (a != window.selectedQuestion.model.get('questionNumber'))
-                            {
-                                tmpObj[a] = this.model.answerValues[a];
-                            }
+                            console.log('deleting answer', a, window.questionModel.answerValues[a]);
+
+                            //if (a != window.selectedQuestion.model.get('questionNumber'))
+                            //{
+
+                                tmpObj = {};
+
+                                for (var aa in window.questionModel.answerValues[a])
+                                {
+
+                                    console.log('deleting answer', aa, window.questionModel.answerValues[a][aa]);
+
+                                    if (aa != window.selectedAnswer.model.get('answerNumber'))
+                                    {
+
+                                        tmpObj[aa] = window.questionModel.answerValues[a][aa];
+
+                                    }
+
+                                }
+
+                                window.questionModel.answerValues[a] = tmpObj;
+
+                            //}
                         }
 
-                        this.model.answerValues = tmpObj;
-
+                        answerCell.remove(); // Yeay remove also remove embeds.
 
                         // Now let's loop the deleted links
-
-                        //console.log('deleted links to loop', window.deletedLinks);
 
                         // Loop question keys in answerValues
                         for (var q in window.questionModel.answerValues)
@@ -545,11 +560,7 @@ define(
                             {
 
                                 var element = window.questionModel.answerValues[q][a].element;
-
                                 var reversedConnectionTargets = graph.getCell(graph.getCell(element).get('parent')).get('reversedConnectionTargets');
-
-                                //console.log('reversedConnectionTargets was ', reversedConnectionTargets);
-
 
                                 // Loop outports for those answers
 
@@ -562,13 +573,9 @@ define(
                                     for(var c in reversedConnectionTargets[outport])
                                     {
 
-                                        //console.log('looking for ', reversedConnectionTargets[outport][c], "in", window.deletedLinks);
-
                                         if (window.deletedLinks.indexOf(reversedConnectionTargets[outport][c]) == -1)
                                         {
-
                                             tmpArray.push(reversedConnectionTargets[outport][c]);
-
                                         }
 
                                     }
@@ -578,10 +585,8 @@ define(
 
                                 }
 
-
                                 graph.getCell(graph.getCell(element).get('parent')).set('reversedConnectionTargets', reversedConnectionTargets);
 
-                                //console.log('reversedConnectionTargets should now be ', reversedConnectionTargets, graph.getCell(graph.getCell(element).get('parent')).get('reversedConnectionTargets'));
                             }
 
                         }

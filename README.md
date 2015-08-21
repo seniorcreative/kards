@@ -113,6 +113,11 @@ LINKS
 Click on a horizontal or vertical part of a link between  
 
 
+TESTING
+
+Answering a question - exit testing mode and click ‘clear answer values’ on a selected answer to reset the stored input for this answer. Upon entering back into testing mode and selecting this answer again 
+
+
 
 
 
@@ -121,9 +126,9 @@ Click on a horizontal or vertical part of a link between
 
 Please note - the app is not complete. Every type of logical combination for conditional calculations based on the answer given to a question (and if that  takes into account earlier answers, or dynamic answers) will need to be carefully planned, and thoroughly tested, so that it is making the correct ‘javascript function’ on the fly to work out which “out port” to follow and therefore which question comes next.
 
-Built using a requireJS/backboneJS, jointJS, jQuery and using handlebars templates, grunt to compile preprocessed SCSS templates and php output JSON data from /data/dataProviders.php to load initially hardcoded DB values.
+Built using a hybrid of requireJS/backboneJS, jointJS, jQuery and using handlebars templates, grunt to compile preprocessed SCSS templates and php output JSON data from /data/dataProviders.php to load initially hardcode values that will eventually be dynamically fed from the Health& CMS database.
 
-There is provision from the original boilerplate for testing and task runners but none of this is hooked up.
+There is provision from the original boilerplate for testing frameworks and other task runners but a lot of this is not hooked up or used. There is also a known error in the grunt watcher which outputs ‘Loading "server.js" tasks...ERROR’
 
 
 
@@ -177,17 +182,19 @@ The app is currently static but plans to be connected to the Health& CMS to extr
 
 TO DO
 
-Deleting an answer (that is included in any logic rules / actions) needs to be removed from questionLogic / questionChoices
+Deleting an answer (that is included in any logic rules / actions) needs to be removed from answerValues / questionLogic / questionChoices
 
 Deleting an answer needs to redraw the logicWrapper box.
 
-Allow to delete End Point
+Add prebuilt questions - age, gender, height, weight… pre-fill with random bounded values.
 
-Test other logical combinations by finishing off adding in the Type 2 Diabetes chart.
+Test other logical combinations by finishing off adding in the Type 2 Diabetes chart / SNAP chart
 
-Connect to CMS - decide / discuss whether to try to create charts using the data model broken down into all separate normalized elements or to store the JSON as a block / file in the database as the structure all in one complex file. Given that this file could be broken down and generated from separate normalized elements.
+Connect to CMS - decide / discuss whether to try to create charts using the data model broken down into all separate normalized elements or to store the JSON as a block / file in the database as the structure all in one complex file. Given that this file could be broken down and generated from separate normalized elements. Domenico suggested that a noSQL database (mongoDB) could be really good for saving the large JSON structures. Bearing in mind we will still need to connect to and from the normal CMS SQL databased for AJAXing content in.
 
 Colouring of a stream that we have chosen to go down to make it stand out better.
 
 Plan how to automatically count and create content streams of all different outcomes - show number of different possible permutations. This is going to need random age generators for different age categories etc…
+
+Deeplinking to different charts / reports. I started this using the backbone router but had some issues with loading in properly behaving strangely. I was doing this with auto-selecting the dropdown based on the url hash.
 

@@ -89,6 +89,7 @@ define(
                         },
                         //report_category_id: this.$('#reportCategory option:selected').val(),
                         sectionFull: newSectionTitle,
+                        sectionNumber: sectionNumber,
                         interactive: true,
                         reversedConnectionTargets: {},
                         connectionTargets: {}

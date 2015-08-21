@@ -661,7 +661,7 @@ header .headerControls {
 header .headerControls li {
   display: block;
   float: left;
-  width: 150px;
+  width: 100px;
   margin: 0;
   padding: 0;
 }
@@ -838,6 +838,11 @@ form button {
   margin: 1px 0;
   font-family: "Varela Round", sans-serif;
   font-size: 1em;
+}
+form button.button-delete {
+  color: #ee2255;
+  border-color: #ee2255;
+  border: 1px dotted;
 }
 form label {
   display: block;

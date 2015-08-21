@@ -350,7 +350,7 @@ define(
 
                                                 //selectedValue = "\"" + answerInputValues[cellView.model.get('answerKey')][0] + "\"";
 
-                                                functionLogic += " function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
+                                                functionLogic += "( function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
 
                                             }
 
@@ -369,7 +369,7 @@ define(
 
                                                 //selectedValue = answerInputValues[cellView.model.get('answerKey')][0];
 
-                                                functionLogic += " function() { var selectedValue = " + answerInputValues[cellView.model.get('answerKey')][0] + ";";
+                                                functionLogic += "( function() { var selectedValue = " + answerInputValues[cellView.model.get('answerKey')][0] + ";";
 
                                             }
 
@@ -390,7 +390,7 @@ define(
                                             }
                                             else {
 
-                                                functionLogic += " function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
+                                                functionLogic += "( function() { var selectedValue = \"" + answerInputValues[cellView.model.get('answerKey')][0] + "\";";
 
                                             }
 
@@ -516,8 +516,8 @@ define(
                                     case 15:
                                         // none of the above
 
-                                        functionLogic += "";
-                                        functionLogic += " )";
+                                        //functionLogic += "";
+                                        //functionLogic += " )";
 
                                         break;
 
@@ -528,7 +528,7 @@ define(
                                         // NUMBER
 
                                         functionLogic += ruleObject.suffixCustomValue;
-                                        functionLogic += " )";
+                                        //functionLogic += " )";
 
                                         break;
 
@@ -746,14 +746,6 @@ define(
                  */
 
 
-                //if (outPort == false) {
-                //
-                //
-                //
-                //
-                //    return;
-                //
-                //}
 
                 console.log("Calculate descendents called getoutport and dynamically got you an outport ", outPort);
 

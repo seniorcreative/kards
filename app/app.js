@@ -156,6 +156,21 @@ define(
                     boundingLogicExpansion.init(graph, paper);
 
 
+                    $('#toggleCheckBox').on('change', function() {
+
+                        if (!$('#toggleCheckBox').is(':checked'))
+                        {
+                            helpers.togglePanelsOut();
+                            $('#testCheckBox').attr('disabled', 'disabled');
+                        }
+                        else
+                        {
+                            helpers.togglePanelsIn();
+                            $('#testCheckBox').removeAttr('disabled');
+                        }
+
+                    });
+
                     $('#testCheckBox').on('change', function() {
 
                         if ($('#testCheckBox').is(':checked')) {
@@ -179,23 +194,6 @@ define(
                         }
 
                     });
-
-
-                    $('#toggleCheckBox').on('change', function() {
-
-                        if ($('#toggleCheckBox').is(':checked'))
-                        {
-                            helpers.togglePanelsOut();
-                            $('#testCheckBox').attr('disabled', 'disabled');
-                        }
-                        else
-                        {
-                            helpers.togglePanelsIn();
-                            $('#testCheckBox').removeAttr('disabled');
-                        }
-
-                    });
-
 
                     $('#btnHelpOverlay').on('click', function(e){
 
@@ -668,6 +666,9 @@ define(
                                         $('#reportTitle').focus();
                                         $('#reportTitle').select();
 
+
+                                        $('.formReportOptions h3').text('Edit Report');
+
                                         break;
 
                                     case 'section':
@@ -703,6 +704,8 @@ define(
                                         $('#btnDeleteQuestion').addClass('hidden');
                                         $('#btnDeleteContent').addClass('hidden');
 
+
+                                        $('.formSectionOptions h3').text('Edit Section - S' + window.selectedSection.model.get('sectionNumber'));
 
                                         $('.formQuestionOptions h3').text('Add Question');
 

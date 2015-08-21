@@ -240,6 +240,7 @@ define(
             );
             window.endPointModel.trigger('change');
 
+            $('.formReportOptions h3').text('Report');
             $('.formSectionOptions h3').text('Add Section');
             $('.formQuestionOptions h3').text('Add Question');
             $('.formContentOptions h3').text('Add Content');

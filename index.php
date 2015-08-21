@@ -33,7 +33,7 @@
           <ul class="headerControls">
               <li>
                   <label for="toggleCheckBox">
-                      <input type="checkbox" id="toggleCheckBox" value="">Toggle Controls
+                      <input type="checkbox" id="toggleCheckBox" value="" checked="checked">Controls
                   </label>
               </li>
               <li>
@@ -42,7 +42,10 @@
                   </label>
               </li>
               <li>
-                 <a id="btnHelpOverlay" href="">Help</a>
+                 <a id="btnHelpOverlay" href="">Instructions</a>
+              </li>
+              <li>
+                 <a id="btnHelpOverlay" href="">Developers</a>
               </li>
           </ul>
 
@@ -53,27 +56,6 @@
       <form method="" action="" class="formReportOptions">
 
           <h3>Report</h3>
-
-          <div class="form-controls  form-controls--width-full" >
-                <label for="reportTitle">Report name</label>
-                <input type="text" class="reportTitle" id="reportTitle" placeholder="Enter report name">
-          </div>
-
-          <div class="form-controls  form-controls--width-full" >
-              <label for="reportCategory">Report category</label>
-              <select id="reportCategory" name="reportCategory" size="1">
-                  <option value="1">Women's Health</option>
-                  <option value="2">Fertility</option>
-              </select>
-          </div>
-
-          <div class="form-controls  form-controls--width-full  hidden" >
-              <button type="button" id="btnAddReport" class="button-add">Add report</button>
-          </div>
-
-          <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnSaveReport" class="button-add  hidden">Save report</button>
-          </div>
 
           <div class="form-controls  form-controls--width-full" >
               <label for="reportJSON">Load a saved report</label>
@@ -100,10 +82,32 @@
               </select>
           </div>
 
+          <div class="form-controls  form-controls--width-full" >
+                <label for="reportTitle">Report name</label>
+                <input type="text" class="reportTitle" id="reportTitle" placeholder="Enter report name">
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <label for="reportCategory">Report category</label>
+              <select id="reportCategory" name="reportCategory" size="1">
+                  <option value="1">Women's Health</option>
+                  <option value="2">Fertility</option>
+              </select>
+          </div>
+
+          <!--<div class="form-controls  form-controls--width-full  hidden" >
+              <button type="button" id="btnAddReport" class="button-add">Add report</button>
+          </div>-->
+
+
 
           <div class="form-controls  form-controls--width-full">
               <label for="reportAutosave" style="float: left">Report auto save</label>
               <input type="checkbox" id="reportAutosave" name="reportAutosave" checked="checked" style="float: right" >
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnSaveReport" class="button-add  hidden">Save report</button>
           </div>
 
           <div class="form-controls  form-controls--width-full" >
@@ -131,7 +135,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnDeleteSection" class="button-add  hidden">Delete</button>
+              <button type="button" id="btnDeleteSection" class="button-add  button-delete  hidden">Delete section</button>
           </div>
 
       </form>
@@ -240,20 +244,21 @@
               <textarea id="questionValue" name="questionValue" rows="5"></textarea>
           </div>
 
-          <div class="form-controls  form-controls--width-full" >
 
-              <div class="form-controls  form-controls--width-full" >
-                  <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
-              </div>
-              <div class="form-controls  form-controls--width-full" >
-                  <button type="button" id="btnAddAnswer" class="button-add  hidden">Add answer to question</button>
-              </div>
-              <div class="form-controls  form-controls--width-full" >
-                  <button type="button" id="btnShowLogic" class="button-add  hidden">Show logic</button>
-              </div>
-              <div class="form-controls  form-controls--width-full" >
-                  <button type="button" id="btnDeleteQuestion" class="button-add  hidden">Delete</button>
-              </div>
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnQuestionAdd" name="btnQuestionAdd" class="button-add">Add question</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnShowLogic" class="button-add  hidden">Show logic</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnAddAnswer" class="button-add  hidden">Add answer to question</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnDeleteQuestion" class="button-add  button-delete  hidden">Delete question</button>
           </div>
 
       </form>
@@ -421,7 +426,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full">
-              <button type="button" id="btnDeleteAnswer" class="button-add">Delete</button>
+              <button type="button" id="btnDeleteAnswer" class="button-add  button-delete">Delete answer</button>
           </div>
 
           <div class="form-controls  form-controls--width-full">
@@ -705,7 +710,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnDeleteContent" class="button-add  hidden">Delete</button>
+              <button type="button" id="btnDeleteContent" class="button-add  button-delete  hidden">Delete content</button>
           </div>
 
       </form>
@@ -767,7 +772,7 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnDeleteEndPoint" class="button-add  hidden">Delete</button>
+              <button type="button" id="btnDeleteEndPoint" class="button-add  button-delete  hidden">Delete end point</button>
           </div>
 
       </form>

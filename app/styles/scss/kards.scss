@@ -39,7 +39,7 @@ header {
         {
             display: block;
             float: left;
-            width: 150px;
+            width: 100px;
             margin: 0;
             padding: 0;
         }
@@ -300,6 +300,16 @@ form
 //            clear: right;
 //            margin: 3px 0 0 0;
         }
+
+        &.button-delete
+        {
+
+            color: #ee2255;
+            border-color: #ee2255;
+            border: 1px dotted;
+
+        }
+
     }
 
     label
