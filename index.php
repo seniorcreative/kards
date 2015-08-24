@@ -107,7 +107,11 @@
           </div>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnSaveReport" class="button-add  hidden">Save report</button>
+              <button type="button" id="btnSaveReport" class="button-add  hidden">Save</button>
+          </div>
+
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnNewReport" class="button-add">New</button>
           </div>
 
           <div class="form-controls  form-controls--width-full" >

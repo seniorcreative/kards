@@ -38,6 +38,7 @@ define(
                 events: {
                     //'click #btnAddReport': 'addReport',
                     'click #btnSaveReport': 'saveReport', // Doing these automatically now.
+                    'click #btnNewReport': 'newReport',
                     'keyup #reportTitle': 'reportUpdate',
                     'change #reportCategory': 'reportCategoryUpdate',
                     'change #reportJSON': 'loadChartFromJSON',
@@ -308,6 +309,16 @@ define(
 
                     }, 25);
 
+
+                },
+                newReport: function()
+                {
+
+                    if (confirm('Are you sure? Press \'Save\' first if you don\'t want to lose data.')) {
+
+                        window.location.reload();
+
+                    }
 
                 },
                 toggleAutosave: function()
