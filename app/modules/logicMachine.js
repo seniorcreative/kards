@@ -810,7 +810,7 @@ define(
 
                 answerLinkRuleAttrObject = connectedInboundLinks[cl].attributes.attrs;
 
-                //console.log("answerLinkRuleAttrObject", answerLinkRuleAttrObject);
+                console.log("answerLinkRuleAttrObject", answerLinkRuleAttrObject);
 
 
                 // Force a rule into the link so that the condition is satisfied for us to proceed into the statement

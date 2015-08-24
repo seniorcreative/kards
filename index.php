@@ -50,7 +50,7 @@
           </ul>
 
           <h1 id="reportName"></h1>
-          <h2>KARDS</h2>
+          <h2>KARDS V1</h2>
       </header>
 
       <form method="" action="" class="formReportOptions">
@@ -705,7 +705,7 @@
 
           <div class="form-controls  form-controls--width-full">
               <label for="contentText">Content text</label>
-              <textarea id="contentText" name="contentText" rows="12"></textarea>
+              <textarea id="contentText" name="contentText" rows="8"></textarea>
           </div>
 
 
