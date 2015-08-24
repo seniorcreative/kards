@@ -931,7 +931,7 @@ define(
                              '</b> of element with ID <b>' + targetId + '</b>'
                              ].join('');
 
-                            //console.log(m);
+                            console.log(link, m);
 
                             var reversedConnectionTargets = graph.getCell(targetId).get('reversedConnectionTargets'); // when we drop a connection from something
                             var connectionTargets = graph.getCell(targetId).get('connectionTargets'); // when we drop a connection to something

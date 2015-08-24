@@ -13,6 +13,8 @@ define(
         var graph;
         var paper;
 
+        var reloadMessage = 'Press \'Save\' first if you don\'t want to lose data.';
+
         var wraptext;
 
         var reportControlsView = Backbone.View.extend(
@@ -31,6 +33,12 @@ define(
                     this.model.on('change', function () {
                         this.render()
                     }, this);
+
+                    window.onbeforeunload = function() {
+
+                        return reloadMessage;
+
+                    };
 
                     this.addReport(); // Add first report
 
@@ -314,7 +322,7 @@ define(
                 newReport: function()
                 {
 
-                    if (confirm('Are you sure? Press \'Save\' first if you don\'t want to lose data.')) {
+                    if (confirm('Are you sure? ' + reloadMessage)) {
 
                         window.location.reload();
 
