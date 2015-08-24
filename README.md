@@ -180,7 +180,7 @@ smb://10.1.1.22/Sonoa/Sonoa/IT/Development/Schematic & Wireframe Documentation/K
 The app is currently static but plans to be connected to the Health& CMS to extract medical content from reports for creating the individualised / preventative streams.
 
 
-TO DO
+TO DO / THOUGHTS
 
 Deleting an answer (that is included in any logic rules / actions) needs to be removed from answerValues / questionLogic / questionChoices
 
@@ -197,4 +197,6 @@ Colouring of a stream that we have chosen to go down to make it stand out better
 Plan how to automatically count and create content streams of all different outcomes - show number of different possible permutations. This is going to need random age generators for different age categories etc…
 
 Deeplinking to different charts / reports. I started this using the backbone router but had some issues with loading in properly behaving strangely. I was doing this with auto-selecting the dropdown based on the url hash.
+
+Would be nice to auto-detect custom value data type based on input…
 

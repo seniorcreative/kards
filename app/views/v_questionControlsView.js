@@ -366,6 +366,72 @@ define(
 
                             break;
 
+                        case '6':
+
+                            // Age
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+                            numAnswers = 1;
+
+                            // Initial loop
+                            for (mca = 0; mca < numAnswers; mca++) {
+
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['number']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca] = [0]; // Might as well be boolean
+                                answerLabelProvider[mca] = 'Height (m)';
+
+                            }
+
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            // Then loop again
+                            for (mca = 0; mca < numAnswers; mca++) {
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin)));
+                                layout.question[layout.get('newQuestionTypeID')].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+
+                                // Don't predetermine stored answer value.
+                            }
+
+
+                            break;
+
+                        case '7':
+
+                            // Age
+
+                            questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
+                            numAnswers = 1;
+
+                            // Initial loop
+                            for (mca = 0; mca < numAnswers; mca++) {
+
+                                answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['number']; // string is the default for new multiple choice questions. (we can adjust the question after)
+                                answerValueProvider[mca] = [0]; // Might as well be boolean
+                                answerLabelProvider[mca] = 'Weight (kg)';
+
+                            }
+
+                            helpers.setTotalWidthAnswers(numAnswers, answerWidth);
+
+                            // Then loop again
+                            for (mca = 0; mca < numAnswers; mca++) {
+                                newX = parseInt(layout.get('startX') + (mca * (answerWidth + layout.answerMargin)));
+                                layout.question[layout.get('newQuestionTypeID')].answers[mca] = {
+                                    position: {x: newX, y: newY},
+                                    value: answerValueProvider[mca], // Blank string for now. Style the answer to indicate it needs an answer value to be set.
+                                    label: answerLabelProvider[mca]
+                                };
+
+                                // Don't predetermine stored answer value.
+                            }
+
+
+                            break;
+
                     }
 
                     // But I will need access to the answer datatypes object.

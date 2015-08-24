@@ -56,27 +56,37 @@ define(['jquery','backbone'], function ($,Backbone) {
         },
         question: {
             '1': {
-                qSize: {width: 200, height: 100},
+                qSize: {width: 200, height: 60},
                 aSize: {width: 150, height: 60},
                 answers: []
             },
             '2': {
-                qSize: {width: 200, height: 100},
+                qSize: {width: 200, height: 60},
                 aSize: {width: 150, height: 60},
                 answers: []
             },
             '3': {
-                qSize: {width: 200, height: 100},
+                qSize: {width: 200, height: 60},
                 aSize: {width: 150, height: 60},
                 answers: []
             },
             '4': {
-                qSize: {width: 200, height: 100},
+                qSize: {width: 200, height: 60},
                 aSize: {width: 150, height: 60},
                 answers: []
             },
             '5': {
-                qSize: {width: 200, height: 100},
+                qSize: {width: 200, height: 60},
+                aSize: {width: 150, height: 60},
+                answers: []
+            },
+            '6': {
+                qSize: {width: 200, height: 60},
+                aSize: {width: 150, height: 60},
+                answers: []
+            },
+            '7': {
+                qSize: {width: 200, height: 60},
                 aSize: {width: 150, height: 60},
                 answers: []
             }

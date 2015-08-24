@@ -8,7 +8,9 @@ $json = (object) [
         (object) ['id' => 2, 'label' => 'Multiple choice'],
         (object) ['id' => 3, 'label' => 'Numeric'],
         (object) ['id' => 4, 'label' => 'Gender'],
-        (object) ['id' => 5, 'label' => 'Age']
+        (object) ['id' => 5, 'label' => 'Age'],
+        (object) ['id' => 6, 'label' => 'Height'],
+        (object) ['id' => 7, 'label' => 'Weight']
     ],
     'questionVariableTypes' => [
         (object) ['id' => 1, 'label' => 'Medical constant'],
