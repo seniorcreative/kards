@@ -77,6 +77,7 @@ define(
 
             var prefixOperator;
             var calcOperator;
+            var calcSymbol;
             var customTypeOperator;
 
             var evaluationFunction;
@@ -235,8 +236,9 @@ define(
 
                                 calcObject = ruleObject.calculationBlocks[calc];
 
-                                calcOperator = helpers.getNormalOperatorByID(calcObject.calculationOperator);
-                                customTypeOperator = helpers.getCustomValueTypeByID(calcObject.customValueType);
+                                calcOperator        = helpers.getNormalOperatorByID(calcObject.calculationOperator);
+                                calcSymbol          = calcObject.calculationSymbol;
+                                customTypeOperator  = helpers.getCustomValueTypeByID(calcObject.customValueType);
 
 
                                 /// VALUE OF
@@ -261,6 +263,27 @@ define(
                                             // NUMBER
 
                                             //functionLogic += "";
+
+                                            switch(calcSymbol)
+                                            {
+
+                                                case "/":
+
+
+                                                    functionLogic += " / ";
+
+                                                    break;
+
+                                                case "*":
+
+
+                                                    functionLogic += " * ";
+
+                                                    break;
+
+                                            }
+
+                                            functionLogic += calcObject.customValue;
 
                                             break;
 
@@ -361,9 +384,37 @@ define(
 
                                             if (ruleObject.suffixAnswerOperands.length <= 1) {
 
+                                                //functionLogic += calcSymbol;
+
+                                                console.log('calc loop ', calcObject);
+
+                                                switch(calcSymbol)
+                                                {
+
+                                                    case "/":
+
+
+                                                        functionLogic += " / ";
+
+                                                    break;
+
+                                                    case "*":
+
+
+                                                        functionLogic += " * ";
+
+                                                    break;
+
+                                                }
+
+
                                                 functionLogic += " ( ";
-                                                functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
+                                                //functionLogic += answerInputValues[cellView.model.get('answerKey')][0];
+                                                functionLogic += window.logicModel.questionChoices[calcObject.questionOperand[0]];
                                                 functionLogic += " ) "; // close off the condition with a right parenthesis .
+
+                                                //console.log('build calc properly here', calcSymbol);
+
 
                                             } else {
 
@@ -829,7 +880,7 @@ define(
 
                     var reverseCellOutportConnectedLinks = reverseCellConnections[answerLinkRuleAttrObject.rule.outport];
 
-                    console.log('reverseCellOutportConnectedLinks', reverseCellOutportConnectedLinks);
+                    //console.log('reverseCellOutportConnectedLinks', reverseCellOutportConnectedLinks);
 
                     for (var descendantCellIndex = 0; descendantCellIndex < reverseCellOutportConnectedLinks.length; descendantCellIndex++) {
 

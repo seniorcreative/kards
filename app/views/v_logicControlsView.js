@@ -21,7 +21,7 @@ define(
         var ruleSortIndex, rulePrefixOperator, ruleSuffixOperator, ruleSuffixAnswerOperands, ruleSuffixCustomValueType, ruleSuffixCustomValue;
 
         // Calculation operator
-        var selectedCalculationOperator, selectedQuestionOperand, selectedCustomValueType, customValue;
+        var selectedCalculationOperator, selectedCalculationSymbol, selectedQuestionOperand, selectedCustomValueType, customValue;
 
 
 
@@ -228,7 +228,9 @@ define(
 
                                     // Go from question element
 
-                                    var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand option:selected').attr('data-parent');
+                                    //var elementLogicWrapperID = $('#rule_' + window.selectedRule + '_calculationblock_'+ window.selectedCalculation +'_questionoperand:first option:selected').attr('data-parent');
+
+                                    var elementLogicWrapperID = window.selectedQuestion.model.get('parent');
 
                                     // To answer element
                                     var elementAnswerIDArray = [];
@@ -252,7 +254,11 @@ define(
                                     });
 
                                     // if we haven't selected any individual answers
-                                    if (elementAnswerIDArray.length < 1) elementAnswerIDArray = elementAllAnswersArray;
+                                    if (elementAnswerIDArray.length < 1)
+                                    {
+                                        console.log('you have not selected an individual answer');
+                                        elementAnswerIDArray = elementAllAnswersArray;
+                                    }
 
                                     //
                                     if (elementLogicWrapperID && elementAnswerIDArray.length > 0) {
@@ -300,7 +306,7 @@ define(
                                             newLogicOutportAnswerLink = new joint.shapes.devs.Link({
                                                 source: {
                                                     id: elementLogicWrapperID,
-                                                    port: newOutportName // This is potentially one of many, so suffix with count of 1
+                                                    port: newOutportName // This is potentially one of many, so suffix with count
                                                 },
                                                 target: {
                                                     id: elementAnswerIDArray[selectedElementAnswerID]
@@ -323,7 +329,7 @@ define(
                                             );
 
                                         }
-                                        
+
 
 
                                         // Add this action into the main logic rules/actions model
@@ -685,8 +691,11 @@ define(
                                 window.selectedCalculation = $(e.target).attr('id').split('_')[3]; // only will work if id is like rule_1_calculation_2
 
                                 selectedCalculationOperator = this.$(e.target).find('option:selected').val();
+                                selectedCalculationSymbol   = this.$(e.target).find('option:selected').data('symbol');
 
                                 questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].calculationOperator = selectedCalculationOperator;
+
+                                questionLogic[selectedQuestionNumber].rules[window.selectedRule].calculationBlocks[window.selectedCalculation].calculationSymbol = selectedCalculationSymbol;
 
 
                                 break;

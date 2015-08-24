@@ -34,6 +34,7 @@ define(
                 'mouseover #content-nodes li a': 'overHandler',
                 'click #content-nodes li a': 'contentNodeClickHandler',
                 'click #btnResetContentStream': 'resetHandler',
+                'click #btnResetClearAnswers': 'resetClearAnswers',
                 'click #btnShowIndividualisation': 'showIndividualisationHandler',
                 'mouseout #content-nodes li a': 'outHandler'
             },
@@ -62,6 +63,22 @@ define(
             {
 
                 //
+
+                $('#content-nodes').html('');
+                window.hudModel.contentElements = [];
+                contentStream.reset();
+                helpers.deselectElementStylesForTest();
+                window.logicModel.questionChoices = {};
+
+            },
+            resetClearAnswers: function(e)
+            {
+
+                //
+
+                for (var iv in window.answerModel.answerInputValues) {
+                    window.answerModel.answerInputValues[iv] = ['', ''];
+                }
 
                 $('#content-nodes').html('');
                 window.hudModel.contentElements = [];

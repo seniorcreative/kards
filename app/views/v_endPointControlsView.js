@@ -99,6 +99,8 @@ define(
                     endPoint.set('inPorts', ['in']);
                     //endPointWrapper.set('outPorts', ['out']);
 
+                    $('#endPointTitle').focus();
+                    $('#endPointTitle').select();
 
                     $('#btnDeleteEndPoint').removeClass('hidden');
 

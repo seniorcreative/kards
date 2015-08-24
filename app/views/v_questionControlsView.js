@@ -327,7 +327,7 @@ define(
                                 // pre-determine stored answer values.
                                 // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
 
-                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0]];
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = [answerInputValueProvider[mca][0], answerInputValueProvider[mca][1]];
 
                             }
 
@@ -349,6 +349,9 @@ define(
 
                             }
 
+                            answerInputValueProvider = [['','']]; // We will prepopulate the answerInputValues for boolean questions
+
+
                             helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
                             // Then loop again
@@ -361,6 +364,11 @@ define(
                                 };
 
                                 // Don't predetermine stored answer value.
+
+                                // pre-determine stored answer values.
+                                // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = answerInputValueProvider[mca];
                             }
 
 
@@ -368,7 +376,7 @@ define(
 
                         case '6':
 
-                            // Age
+                            // Height (prepopulate a single choice question)
 
                             questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
                             numAnswers = 1;
@@ -377,10 +385,14 @@ define(
                             for (mca = 0; mca < numAnswers; mca++) {
 
                                 answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['number']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca] = [0]; // Might as well be boolean
+                                answerValueProvider[mca] = ['']; // Might as well be boolean
                                 answerLabelProvider[mca] = 'Height (m)';
 
                             }
+
+                            answerInputValueProvider = [['','']]; // We will prepopulate the answerInputValues for boolean questions
+
+
 
                             helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
@@ -394,6 +406,11 @@ define(
                                 };
 
                                 // Don't predetermine stored answer value.
+
+                                // pre-determine stored answer values.
+                                // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = answerInputValueProvider[mca];
                             }
 
 
@@ -401,7 +418,7 @@ define(
 
                         case '7':
 
-                            // Age
+                            // Weight (prepopulate a single choice question)
 
                             questionObject.choices_accepted = parseInt(this.$('#questionChoicesAccepted').val());
                             numAnswers = 1;
@@ -410,10 +427,13 @@ define(
                             for (mca = 0; mca < numAnswers; mca++) {
 
                                 answerDataTypesProvider[mca] = this.model.get('valueDataTypes')['number']; // string is the default for new multiple choice questions. (we can adjust the question after)
-                                answerValueProvider[mca] = [0]; // Might as well be boolean
+                                answerValueProvider[mca] = ['']; // Might as well be boolean
                                 answerLabelProvider[mca] = 'Weight (kg)';
 
                             }
+
+                            answerInputValueProvider = [['','']]; // We will prepopulate the answerInputValues for boolean questions
+
 
                             helpers.setTotalWidthAnswers(numAnswers, answerWidth);
 
@@ -427,6 +447,11 @@ define(
                                 };
 
                                 // Don't predetermine stored answer value.
+
+                                // pre-determine stored answer values.
+                                // NB going to store in a two dimensional array, reserving the second item for inputs that are a range
+
+                                window.answerModel.answerInputValues[questionNumber + "_" + (mca+1)] = answerInputValueProvider[mca];
                             }
 
 

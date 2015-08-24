@@ -162,8 +162,7 @@ define(
                 applyAnswer: function(e)
                 {
 
-
-
+                    helpers.hideAnswerInput();
 
                 }
             }

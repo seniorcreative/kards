@@ -544,9 +544,7 @@ define(
 
                             case 'test':
 
-                                $('.formAnswerInputOptions').css('opacity', 0);
-                                $('.formAnswerInputOptions').css('pointer-events', 'none');
-                                $('.formAnswerInputOptions').animate({'right': -400}, 250);
+                                helpers.hideAnswerInput();
 
                                 $('#individualisation-modal').hide();
 

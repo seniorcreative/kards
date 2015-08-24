@@ -743,8 +743,8 @@
               </label>
           </div>
 
-          <div class="form-controls  form-controls--width-full  hidden" >
-              <button type="button" id="btnAnswerInputConfirm" class="button-add">Confirm answer</button>
+          <div class="form-controls  form-controls--width-full" >
+              <button type="button" id="btnAnswerInputConfirm" class="button-add">OK</button>
           </div>
 
       </form>
@@ -790,7 +790,8 @@
           <h3>Content stream</h3>
 
           <div class="form-controls  form-controls--width-full" >
-              <button type="button" id="btnResetContentStream" class="">Reset</button>
+              <button type="button" id="btnResetClearAnswers" class="">Reset &amp clear answers</button>
+              <button type="button" id="btnResetContentStream" class="">Start over</button>
               <button type="button" id="btnShowIndividualisation" class="">Show individualisation</button>
           </div>
 

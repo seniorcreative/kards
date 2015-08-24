@@ -379,6 +379,15 @@ define(
 
         };
 
+        var hideAnswerInput = function()
+        {
+
+            $('.formAnswerInputOptions').css('opacity', 0);
+            $('.formAnswerInputOptions').css('pointer-events', 'none');
+            $('.formAnswerInputOptions').animate({'right': -400}, 250);
+
+        };
+
         return {
             init: init,
             setTotalWidthAnswers: setTotalWidthAnswers,
@@ -393,7 +402,8 @@ define(
             panelsOut: panelsOut,
             panelsIn: panelsIn,
             togglePanelsOut: togglePanelsOut,
-            togglePanelsIn: togglePanelsIn
+            togglePanelsIn: togglePanelsIn,
+            hideAnswerInput: hideAnswerInput
         }
 
 
