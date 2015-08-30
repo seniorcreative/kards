@@ -269,15 +269,25 @@ define(
 
                                                 case "/":
 
-
                                                     functionLogic += " / ";
 
                                                     break;
 
                                                 case "*":
 
-
                                                     functionLogic += " * ";
+
+                                                    break;
+
+                                                case "+":
+
+                                                    functionLogic += " + ";
+
+                                                    break;
+
+                                                case "-":
+
+                                                    functionLogic += " - ";
 
                                                     break;
 
@@ -393,15 +403,25 @@ define(
 
                                                     case "/":
 
-
                                                         functionLogic += " / ";
 
                                                     break;
 
                                                     case "*":
 
-
                                                         functionLogic += " * ";
+
+                                                    break;
+
+                                                    case "+":
+
+                                                        functionLogic += " + ";
+
+                                                    break;
+
+                                                    case "-":
+
+                                                        functionLogic += " - ";
 
                                                     break;
 

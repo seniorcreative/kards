@@ -102,11 +102,11 @@ define(
 
                         var answerKey = window.selectedAnswer.model.get('answerKey');
 
-                        //console.log('selected answer answer key', answerKey);
+                        var keyInput;
 
-                        //answerInputValues[answerKey] = '';
-
-                        //console.log('checking for answer value change of ', parseInt(this.$(e.target).data('type')));
+                        // When adding an answer in the input dialog, we should also set the input value in the object
+                        // that we used to loop over previously clicked answers, when testing.
+                        // see (A)
 
                         switch (parseInt(this.$(e.target).data('type'))) {
 
@@ -121,6 +121,11 @@ define(
                                 window.selectedAnswer.model.set({'answer_value': switchValue});
 
 
+                                // (A)
+
+                                window.logicModel.questionChoices[window.selectedQuestion.model.get('questionNumber')] = switchValue;
+
+
                                 break;
 
 
@@ -128,9 +133,15 @@ define(
                             case 3:
                                 // number
 
-                                answerInputValues[answerKey] = [parseInt(this.$(e.target).val())];
+                                keyInput = parseInt(this.$(e.target).val());
 
-                                window.selectedAnswer.model.set({'answer_value': parseInt(this.$(e.target).val())});
+                                answerInputValues[answerKey] = [keyInput];
+
+                                window.selectedAnswer.model.set({'answer_value': keyInput});
+
+                                // (A)
+
+                                window.logicModel.questionChoices[window.selectedQuestion.model.get('questionNumber')] = keyInput;
 
                                break;
 
@@ -142,9 +153,16 @@ define(
                             case 6:
                                 // string (word or letter)
 
-                                answerInputValues[answerKey] = [this.$(e.target).val()];
+                                keyInput = this.$(e.target).val();
 
-                                window.selectedAnswer.model.set({'answer_value': this.$(e.target).val()});
+                                answerInputValues[answerKey] = [keyInput];
+
+                                window.selectedAnswer.model.set({'answer_value': keyInput});
+
+                                // (A)
+
+                                window.logicModel.questionChoices[window.selectedQuestion.model.get('questionNumber')] = keyInput;
+
 
                                 break;
 
@@ -153,7 +171,7 @@ define(
 
                         window.answerModel.set('answerInputValues', answerInputValues);
 
-                        console.log('stored your input ', window.answerModel.get('answerInputValues'), window.answerModel.answerInputValues);
+                        console.log('stored your input ', window.answerModel.answerInputValues, window.logicModel.questionChoices);
 
                     //}
 

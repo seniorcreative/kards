@@ -322,7 +322,7 @@ define(
                 newReport: function()
                 {
 
-                    if (confirm('Are you sure? ' + reloadMessage)) {
+                    if (confirm('Are you sure? ' +  reloadMessage)) {
 
                         window.location.reload();
 
