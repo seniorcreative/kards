@@ -17,5 +17,8 @@
   },
   "devDependencies": {
     "layoutmanager": "~0.9.5"
+  },
+  "resolutions": {
+    "jointjs": "~0.9.3"
   }
 }
