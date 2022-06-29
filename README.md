@@ -65,9 +65,14 @@ Once a question has been added it will be selected by default. Click on the blue
 
 You select a question by clicking on the question cell, or any of its answers, or its ‘logic wrapper’ box. The logic wrapper box groups the question and all it’s answers. When you add logic it is metaphorically added to the logic wrapper. It is the logic wrapper that ends up with one in port and multiple out ports for connecting other cells to in a flowchart.
 
-When a question is highlighted you can delete it (be careful of what you have linked it to), as well as add another answer to it. By default, selecting a question will highlight it’s content text so you can just click on a question and start editing it’s text without clicking again in the panel’s ‘Question text’ field.
+When a question is highlighted you can delete it (be careful of what you have linked it to), as well as add another answer to it. By default, selecting a question will highlight its content text so you can just click on a question and start editing its text without clicking again in the panel’s ‘Question text’ field.
 
-Changing a selected question’s type after a won’t make any difference.
+Changing a selected question’s type after a won’t make any difference (at this stage).
+
+
+
+
+
 
 
 —

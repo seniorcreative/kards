@@ -14,6 +14,7 @@ define(
         var paper;
 
         var wraptext;
+        var attrs;
 
         var answerInputControlsView = Backbone.View.extend(
             {
@@ -173,7 +174,23 @@ define(
 
                         console.log('stored your input ', window.answerModel.answerInputValues, window.logicModel.questionChoices);
 
-                    //}
+                        //this.applyAnswer();
+
+                        // Want to deactivate an answer if we've changed the value of it so it needs to be clicked again in the TEST mode.
+
+                        attrs = window.selectedAnswer.model.get('attrs');
+
+                        attrs.rect['stroke-dasharray'] = style.node.strokeDashArray.testDeselected;
+                        attrs.rect['fill'] = style.node.fill.testInputChanged;
+                        attrs.rect['fill-opacity'] = style.node.fillOpacity.testDeselected;
+                        attrs.rect['stroke-width'] = style.node.strokeWidth.testDeselected;
+                        attrs.rect['stroke'] = style.node.stroke.testDeselected;
+                        attrs.rect['stroke-opacity'] = style.node.strokeOpacity.testDeselected;
+
+                        window.selectedAnswer.model.set({'attrs': attrs});
+                        window.selectedAnswer.render().el;
+
+                        //}
 
 
                 },

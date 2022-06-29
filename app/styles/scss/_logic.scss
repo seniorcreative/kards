@@ -69,38 +69,6 @@
 
 }
 
-    .modal-output
-    {
-        h3
-        {
-            min-width: auto;
-            color: #111;
-            padding: 0;
-            margin: 0;
-        }
-
-        background-color: white;
-        font-family: "Courier New", monospace;
-        font-style: italic;
-        color: #111;
-        font-size: 1em;
-        line-height: 0.9;
-        border-radius: 3px;
-        padding: 10px;
-        margin: 10px 0;
-
-       /*
-       Make full height
-       */
-        height: 90%;
-        bottom: 10px;
-        position: absolute;
-        top: 68px;
-        width: 98%;
-        overflow: scroll;
-
-
-    }
 
 
 /* Container */
@@ -131,10 +99,49 @@
         cursor: pointer;
     }
     h3 {
-        margin: 0 0 5px 0
+//        margin: 0 0 5px 0
     }
 
 
+    .modal-output
+    {
+        h3
+        {
+            min-width: auto;
+            color: #111;
+            padding: 0;
+            margin: 40px 0 0 0;
+        }
+
+        background-color: white;
+        font-family: "Courier New", monospace;
+        font-style: italic;
+        color: #111;
+        font-size: 1em;
+        line-height: 0.9;
+        border-radius: 3px;
+        padding: 10px;
+        margin: 10px 0;
+
+        /*
+        Make full height
+        */
+        height: 90%;
+        bottom: 10px;
+        position: absolute;
+        top: 68px;
+        width: 98%;
+        overflow: scroll;
+
+        ul
+        {
+            li
+            {
+                margin: 0 0 8px 0;
+            }
+        }
+
+    }
 
     ///
 
@@ -169,8 +176,8 @@
         }
 
         .btnRemove--calculation {
-            left: 668px;
-            margin-top: 126px;
+            left: 662px;
+            margin-top: 62px;
         }
 
     //

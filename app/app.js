@@ -202,10 +202,34 @@ define(
 
                     });
 
+                    $('#btnDevOverlay').on('click', function(e){
+
+                        e.preventDefault();
+                        $('#developers-modal').show();
+
+                    });
+
+                    $('#btnGlossOverlay').on('click', function(e){
+
+                        e.preventDefault();
+                        $('#glossary-modal').show();
+
+                    });
+
+                    $('#btnTodoOverlay').on('click', function(e){
+
+                        e.preventDefault();
+                        $('#todo-modal').show();
+
+                    });
+
                     $('.btnClose').on('click', function(e){
 
                         e.preventDefault();
                         $('#help-modal').hide();
+                        $('#developers-modal').hide();
+                        $('#glossary-modal').hide();
+                        $('#todo-modal').hide();
 
                     });
 
@@ -611,6 +635,8 @@ define(
                                         attrs.text['fill']              = style.text.fill.normal;
                                         cellView.model.set('attrs', attrs);
                                         cellView.render().el;
+
+
 
 
 

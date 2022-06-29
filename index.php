@@ -7,6 +7,8 @@
 
   <title>Kards v1</title>
 
+
+
   <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
   <!-- Application styles. -->
@@ -41,11 +43,17 @@
                       <input type="checkbox" id="testCheckBox" value="">Test
                   </label>
               </li>
-              <li>
+              <li style="width: 100px">
                  <a id="btnHelpOverlay" href="">Instructions</a>
               </li>
-              <li>
-                 <a id="btnHelpOverlay" href="">Developers</a>
+              <li style="width: 95px">
+                 <a id="btnDevOverlay" href="">Developers</a>
+              </li>
+              <li style="width: 75px">
+                 <a id="btnGlossOverlay" href="">Glossary</a>
+              </li>
+              <li style="width: 70px">
+                 <a id="btnTodoOverlay" href="">To do</a>
               </li>
           </ul>
 
@@ -103,7 +111,7 @@
 
           <div class="form-controls  form-controls--width-full">
               <label for="reportAutosave" style="float: left">Report auto save</label>
-              <input type="checkbox" id="reportAutosave" name="reportAutosave" checked="checked" style="float: right" >
+              <input type="checkbox" id="reportAutosave" name="reportAutosave" style="float: right" >
           </div>
 
           <div class="form-controls  form-controls--width-full" >
@@ -495,170 +503,318 @@
               <a href="#" class="btnClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
 
               <div id="help-output" class="modal-output">
-                  KARDS
 
-                  Online access
-                  http://test-kards.sonoahealth.com/
-                  Username: sonoahealth
-                  Password: sonoa@demo
 
 
-                  Instructions
 
-                  Please refer to the interface diagram fig 1.
+                  <h3>Report panel</h3>
 
-                  —
+                  <p>Selecting an option will load a saved report from the drop down menu in this panel.
+                      Whilst making changes, the report will save every 30 seconds if the auto-save option is checked (developer - see /app/views/v_reportControlsView.js)</p>
+                  <p>This button is not checked by default.</p>
 
-                  Report panel
+                  <p>Report category is not being used yet - this is for database connection.</p>
 
-                  Selecting an option will load a saved report from the drop down menu in this panel.
-                  Whilst making changes, the report will save every 30 seconds if the auto-save option is checked (see /app/views/v_reportControlsView.js)
+                  <p>Typing the report name will also change the heading on the app page.</p>
 
-                  Report category is not being used yet - this is for database connection.
+                  <p>By default when loading the KARDS app you will receive a default report with today&rsquo;s date and one root section joined to that report.</p>
+                  <p>From here you can start adding questions.</p>
 
-                  Typing the report name will also change the heading on the app page.
 
-                  By default when loading the KARDS app you will receive a default report with today’s date and one root section joined to that report. From here you can start adding questions.
-                  —
-                  Section panel
 
-                  This is for larger reports where lots of questions need to be divided up. There is provision for this in the data model for when things are hooked up to the data base. Any sections added will need to be up linked to the final out port or out ports of the preceding section.
+                  <h3>Section panel</h3>
 
-                  When adding a new section - the section name field will be used as the section name.
+                  <p>This is for larger reports where lots of questions need to be divided up into manageable chunks.
+                      There is provision for this in the data model for when things are hooked up to the database.
+                      Any sections added will need to be up linked to the final out port or out ports of the preceding section.</p>
 
-                  Click on a section and start typing to change the section name. Or click or paste into the section name field.
-                  —
-                  Question panel
+                  <p>When adding a new section - the section name field will be used as the section name.</p>
 
-                  Question variable type is just a placeholder until database is hooked up. The value options for this dropdown come from the static data/dataProviders.php JSON output which is AJAX’ed in on app initialisation.
+                  <p>Click on a section and start typing to change the section name. Or click or paste into the section name field.</p>
 
-                  Again, question options come from the static data providers. Toggling between true/false (boolean) questions and multiple choice or numeric questions toggles the display of an additional slide down panel with extra options for number of questions, answer numeric step value, and number of accepted answers.
 
 
-                  If you want a multiple choice question with 3 answers just add 3 to ’Number of answers’.
+                  <h3>Question panel</h3>
 
-                  If you want a numeric step question counting up in increments of 5, say 5-10-15-20-25, then do this by entering 5 answers and 5 for numeric step and it will count up for you when it adds the answers.
 
-                  Ticking ‘Include unknown answer’ will add an additional boolean answer on top of the selected number of answers already requested.
+                  <p>When adding a new question, by default the question cell shows default question value text, or you can paste one in before adding.</p>
 
-                  ’Number of accepted answers’ is not functional yet, only listing static options from data providers.
+                  <p>The &lsquo;question variable type&rsquo; dropdown is just a placeholder until database is hooked up.</p>
 
-                  ‘Data point’ is not functional yet, only listing static options from data providers - however this drop down has grouping so will be echoed into the PHP directly, not via Handlebars template like all the other dropdown. I have not found a good way to do grouped dropdown in Handlebars though it is supported.
+                  <p>Again, question options come from the static data/dataProviders.php. Toggling between true/false (boolean) questions and multiple choice or numeric questions toggles the display of an additional slide down panel with extra options for number of questions, answer numeric step value, and number of accepted answers.</p>
 
-                  Default question text value is given, or you can paste one in before adding.
+                  <p>If you want a multiple choice question with 3 answers just add 3 to &rsquo;Number of answers&rsquo;.</p>
 
-                  Once a question has been added it will be selected by default. Click on the blue background, off and outside of any boxes and you will deselect any currently highlighted cells.
+                  <p>If you want a numeric step question counting up in increments of 5, say 5-10-15-20-25, then do this by entering 5 answers and 5 for numeric step and it will count up for you when it adds the answers.</p>
 
-                  You select a question by clicking on the question cell, or any of its answers, or its ‘logic wrapper’ box. The logic wrapper box groups the question and all it’s answers. When you add logic it is metaphorically added to the logic wrapper. It is the logic wrapper that ends up with one in port and multiple out ports for connecting other cells to in a flowchart.
+                  <p>Ticking &lsquo;Include unknown answer&rsquo; will add an additional boolean answer on top of the selected number of answers already requested.</p>
 
-                  When a question is highlighted you can delete it (be careful of what you have linked it to), as well as add another answer to it. By default, selecting a question will highlight it’s content text so you can just click on a question and start editing it’s text without clicking again in the panel’s ‘Question text’ field.
+                  <p>This only works when adding in a new question, but to do this after a question has been added is possible by clicking &ldquo;Add answer to question&rdquo;, and then setting up the answer accordingly.</p>
 
-                  Changing a selected question’s type after a won’t make any difference.
+                  <p>&rsquo;Number of accepted answers&rsquo; is not functional yet.</p>
 
+                  <p>&lsquo;Data point&rsquo; is not functional yet, this select input is only listing static options from the data/dataProviders.php JSON output - however this drop down has grouping so will be echoed into the PHP directly, not via Handlebars template like all the other dropdown. I have not yet integrated a good way to do grouped dropdown in Handlebars but I know it is supported.</p>
 
-                  —
-                  Answer panel
+                  <p>Once a question has been added it will be selected by default. Click on the blue background, off and outside of any boxes and you will deselect any currently highlighted cells.</p>
 
+                  <p>You select a question by clicking on the question cell, or any of its answers, or its &lsquo;logic wrapper&rsquo; box. The logic wrapper box groups the question and all it&rsquo;s answers. When you add logic it is metaphorically added to the logic wrapper. It is the logic wrapper that ends up with one in port and multiple out ports for connecting other cells to in a flowchart.</p>
 
-                  —
-                  Content panel
+                  <p>When a question is highlighted you can delete it (be careful of what you have linked it to), as well as add another answer to it. By default, selecting a question will highlight its content text so you can just click on a question and start editing its text without clicking again in the panel&rsquo;s &lsquo;Question text&rsquo; field.</p>
 
+                  <p>Changing a selected question&rsquo;s type after a won&rsquo;t make any difference (at this stage).</p>
 
-                  —
-                  End Point panel
+                  <p>The question&rsquo;s logic wrapper always has one &lsquo;in port&rsquo; only.</p>
 
 
-                  —
-                  Toggles
+                  <h3>Logic overlay</h3>
 
-                  Toggle control panels
-                  Toggle testing mode
-                  —
-                  Testing Heads-up display
-                  Reset button
-                  Individualisation overlay
+                  <p>Logic overlay is quite complicated but is a bit like a calculator. You can add rules which are made up of calculation blocks and then set what they are supposed to satisfy, and then add an action to perform if this rule is satisfied / scenario occurs.</p>
 
+                  <p>Adding actions creates the outport to which we can drag and connect the content, question or end point cells which come next. Only by dropping the in port of a logic or content wrapper or end point do we tell the KARDS system the pathways it can follow next according to the value of answer.</p>
 
-                  Notes
+                  <p>You can open the rule and change rules after &ldquo;actions&rdquo; have been added to the logic overlay.</p>
 
 
-                  Use the reset button if you want to test starting again higher up in a question stream. The system does not limit you to starting at any question or going back to a different question higher up. It does not and I believe should not have the smarts to reset what has been highlighted further down a stream automatically based on what has been clicked so far. Not only is this exceptionally difficult to code - it applies an unnecessary limit around putting content streams together and testing those.
+                  <h3>Answer panel</h3>
 
+                  <p>In the answer panel you can set up what the type of answer value is. This is crucial for the logic calculations to take place.</p>
 
+                  <p>Options, and corresponding data-types are:</p>
 
 
+                  <p>&lsquo;true or false&rsquo; (boolean),<br>
+                      number (integer),<br>
+                      word or letter (string),<br>
+                      date, years (both are converted to date types for date comparisons),<br>
+                      and &lsquo;none of the above&rsquo; which is reserved for future use for &lsquo;multiple choice&rsquo; types of questions</p>
 
+                  <p>CMS condition / symptom is reserved for future use - I believe there will be a scenario where not just the question but also the answer will need to be tied to a health record CEHR.</p>
 
+                  <p?Answer value 1 is where the main value of an answer can be set in this panel , before we go into testing mode. This will be pre-generated in some cases. Changing the &lsquo;Value data type&rsquo; of the answer will change what sort of input can be set here and also in the popup &lsquo;Answer input panel&rsquo; in TEST mode for data validity. For example setting to true or false changes the input text field to a checkbox.</div>
 
+              <p>As some single answers may need to represent a range of values or a matrix, there is &lsquo;Answer value 2&rsquo; representing the upper limit of this range. I have not made any flow charts making use of this yet and therefore the logicMachine function creation has not been written.</p>
 
+              <p>&lsquo;Clear answer values&rsquo; clears an answer&rsquo;s stored value. This can also be done for all answers in TEST mode by clicking &lsquo;Reset & clear answers&rsquo;.</p>
 
 
-                  Please note - the app is not complete. Every type of logical combination for conditional calculations based on the answer given to a question (and if that  takes into account earlier answers, or dynamic answers) will need to be carefully planned, and thoroughly tested, so that it is making the correct ‘javascript function’ on the fly to work out which “out port” to follow and therefore which question comes next.
+              <h4>Answer Logic Rules</h4>
 
-                  Built using a requireJS/backboneJS, jointJS, jQuery and using handlebars templates, grunt to compile preprocessed SCSS templates and php output JSON data from /data/dataProviders.php to load initially hardcoded DB values.
+              <p>To help make sense KARDS shows a summary of a selected answer&rsquo;s parent question&rsquo;s logical rule conditions & action outcomes as a &lsquo;pseudo-code&rsquo; statement. This is a very simplified version of what gets generated on the fly by the code to process an answer value and work out which outport to follow.</p>
 
-                  There is provision from the original boilerplate for testing and task runners but none of this is hooked up.
 
+              <h3>Answer input panel</h3>
 
+              <p>During TEST mode, if the answer to a question is selected and does not have any values stored against it, the Answer input panel will appear.</p>
 
+              <p>When any input is added or changed this will change the selected answer&rsquo;s colour and means it needs to be clicked again to continue onward.</p>
 
-                  Terminal commands
+              <p>Clicking off or outside of the Answer input panel is the same as clicking the OK button to enter the value.</p>
 
-                  —
 
-                  Go to root:
 
-                  cd /Applications/MAMP/htdocs/kards-v1
 
-                  —
+              <h3>Content panel</h3>
 
-                  Run grunt to compress and watch for SCSS changes:
+              <p>Note that the full content shown in the actual panel is cropped and abbreviated where shown in the content cell inside the content wrapper.</p>
 
-                  grunt
+              <p>Content wrappers always have one in port and one out port, by default. This is never changed.</p>
 
-                  —
+              <p>When in TEST mode, representations of content cells will build up in a line in the testing HUD. Selecting these will bring up the content panel so that the content can be edited. This needs to be integrated back into the CMS.</p>
 
-                  Crunch handlebars templates:
 
-                  handlebars --amd app/templates/*.hbs -f app/compiled-templates.js
 
+              <h3>End Point panel</h3>
 
+              <p>End points are placeholders which represent the final outcome of a KARDS algorithm question and answer stream.</p>
 
+              <p>The list of &lsquo;end point types&rsquo; comes from data/dataProviders.php and is just placeholder content at time of writing.</p>
 
+              <p>The plan is to eventually integrate end points to the Health& account so that for example following a question and answer session tied to a KARDS algorithm when a particular endpoint is reached we might set up a system alert to go and get a medical check on a particular date, relating to two years after the user&rsquo;s date of birth or a given
+                  user date relating to a previous medical event.</p>
 
-                  GIT
+              <p>End points always have one in port only by default, as have no ongoing connections.</p>
 
-                  Git repository lives at
 
-                  http://git.sonoahealth.com/apps-sonoa/kards.git
 
 
+              <h3>Toggles</h3>
 
+              <h4>Toggle control panels</h4>
 
-                  INTERACTIVE WIREFRAME PROTOTYPE
+              <p>If the panels are getting in the way during the build of a KARDS algorithm then they can be hidden.</p>
 
-                  Original prototype demo lives at http://dev.onlinemd.com/KARDS/#p=kards
+              <h4>Toggle testing mode</h4>
 
+              <p>There is a big difference between BUILD mode and TEST mode. Use this tick button to toggle between the two.
+                  Only in TEST mode can we click on the answers, input needed parameters for testing if required, and calculate what to do next.</p>
 
-                  DATABASE CONNECTION
 
 
-                  Data model has been designed and lives on server at
-                  smb://10.1.1.22/Sonoa/Sonoa/IT/Development/Schematic & Wireframe Documentation/KARDS v2
 
-                  The app is currently static but plans to be connected to the Health& CMS to extract medical content from reports for creating the individualised / preventative streams.
 
+              <h3>Testing heads-up display (HUD)</h3>
 
-                  TO DO
+              <h4>Reset &amp; clear answers button</h4>
+              <h4>Start over button</h4>
 
-                  Deleting an answer needs to redraw the logicWrapper box.
+              <p>Answering a question - exit testing mode and click &lsquo;clear answer values&rsquo; on a selected answer to reset the stored input for this answer. Upon entering back into testing mode and selecting this answer again.
+                  Alternatively, a new "Reset &amp; clear answers" button was added to the Testing HUD which does this in one go. Otherwise just select "Start over" to clear the highlighted selections only and keep user input values.</p>
 
-                  Allow to delete End Point
+              <p>Use the "Start over" button if you want to test starting again higher up in a question stream. The system does not limit you to starting at any question or going back to a different question higher up. It does not and should not have the smarts to reset what has been highlighted/selected further down a stream automatically based on what has been clicked so far. Not only is this exceptionally difficult to code - it applies a counterintuitive limit around putting content streams together and testing those.</p>
 
-                  Test other logical combinations by finishing off adding in the Type 2 Diabetes chart.
+              <h4>Show individualisation</h4>
 
-                  Connect to CMS - decide / discuss whether to try to create charts using the data model broken down into all separate normalized elements or to store the JSON as a block / file in the database as the structure all in one complex file. Given that this file could be broken down and generated from separate normalized elements.
+              <p>At the end of a testing session, a linear, dynamically generated read-out of the questions and answers and the associated content will be shown in an overlay when clicking "Show individualisation".</p>
 
+              <p>In theory - this is a rule set which can be fed into an AI machine to teach it how to learn.</p>
+
+              <p>Therefore, once the algorithm is built into KARDs once and is deemed to be correct according to the logic extracted from a medical expert, the KARDs system could programatically calculate, count and generate ALL possible
+                  permutations for the entire bounds of data sets it could be given, in one go.</p>
+
+              <p>Also it could automatically create individualised reports on the fly for different real users attached to the consumer electronic health record (CEHR) providing all the data buckets that are called upon in the algorithm are full and supplied. We will be able to swap different people in and out of the beginning of a KARDS algorithm and seeing different paths and content light up each time.</p>
+
+              <p>Please note that each block of content that is passed through during testing will be added to the Testing heads-up display (HUD) so that it can then be seen in a more logical story-like sequence. This &lsquo;content stream&rsquo; can be read by moving the mouse over the Content numbers in the HUD which will bring up the full content and highlight the cell in the flowchart. One of the main and original requirements of KARDS is that this content can be checked in detail to be medically accurate and in accordance with the exact sequence of answers that have been given. This content can be edited in the Content panel and will be integrated with the CMS so that changes are saved back in where necessary.</p>
+
+              </div>
+
+          </div>
+      </div>
+      <div class="simplemodal-container">
+          <div id="developers-modal" class="modal">
+
+              <h3>KARDS Developer notes</h3>
+              <a href="#" class="btnClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
+
+              <div id="developers-output" class="modal-output">
+
+                  <p>Built using a hybrid of requireJS/backboneJS, jointJS, jQuery and using handlebars templates, grunt to compile preprocessed SCSS templates and php output JSON data from /data/dataProviders.php to load initially hardcode values that will eventually be dynamically fed from the Health& CMS database.</p>
+
+                  <p?Please note - the app is not complete. Every type of logical combination for conditional calculations based on the answer given to a question (and if that takes into account earlier answers, or dynamic answers) will need to be carefully planned, and thoroughly tested, so that it is making the correct &lsquo;javascript function&rsquo; on the fly to work out which &ldquo;out port&rdquo; to follow and therefore which question comes next. This coding is done within the app/logicMachine.js script. Currently the system is at a stage where it can handle putting calculations together using only basic arithmetic and parentheses combinations. More complex parentheses combinations, and more advanced mathematical functions - like working out the standard deviation value of answers for questions 1, 5 and 10 for example - are yet to be built.</div>
+
+                  <p>There is provision from the original boilerplate for testing frameworks and other task runners but a lot of this is not hooked up or used. There is also a known error in the grunt watcher which outputs &lsquo;Loading "server.js" tasks...ERROR&rsquo;</p>
+
+                  <p>For styling and display attributes, there are external javascript modules in app/modules called style.js and layout.js.</p>
+
+
+
+                  <h3>Terminal commands</h3>
+
+
+                  <p>Go to root:</p>
+
+                  <p>cd /Applications/MAMP/htdocs/kards-v1</p>
+
+                    <p>--</p>
+
+                    <p>Run grunt to compress and watch for SCSS changes:<p>
+
+                    <p>grunt</p>
+
+                    <p>—-</p>
+
+                  <p>Crunch handlebars templates:</p>
+
+                  <p>handlebars --amd app/templates/*.hbs -f app/compiled-templates.js</p>
+
+
+
+
+
+                  <h3>GIT</h3>
+
+                  <p>Git repository lives at</p>
+
+                  <p>http://git.sonoahealth.com/apps-sonoa/kards.git</p>
+
+
+
+                  <h3>Interactive wireframe prototype</h3>
+
+                  <p>Original prototype demo lives at http://dev.onlinemd.com/KARDS/#p=kards</p>
+
+
+
+                  <h3>Database model</h3>
+
+                  <p>Data model has been designed and lives on server at<br>
+                  smb://10.1.1.22/Sonoa/Sonoa/IT/Development/Schematic & Wireframe Documentation/KARDS v2</p>
+
+                  <p>The app is currently static but plans to be connected to the Health& CMS to extract medical content from reports for creating the individualised / preventative streams.</p>
+
+                  <p>Additionally, rather than using the data model and a SQL database it is probably better to decide / discuss whether to try to create charts using the data model broken down into all separate normalized elements or to store the JSON as a block / file in the database as the structure all in one complex file. Given that this file could be broken down and generated from separate normalized elements. Domenico suggested that a noSQL database (mongoDB) could be really good for saving the large JSON structures. Bearing in mind we will still need to connect to and from the normal CMS SQL databased for AJAXing content in.</p>
+
+
+                  <h3>Dynamic templates</h3>
+
+                  <p>The value options for the question types and other dropdowns come from the static data/dataProviders.php JSON output which is AJAX&rsquo;ed in on app initialisation.</p>
+
+
+              </div>
+
+          </div>
+      </div>
+      <div class="simplemodal-container">
+          <div id="glossary-modal" class="modal">
+
+              <h3>KARDS Glossary</h3>
+              <a href="#" class="btnClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
+
+              <div id="glossary-output" class="modal-output">
+
+                  <h3>CELL</h3>
+
+                  <p>Cells are any report, section, question, answer, content or end point rectangles.</p>
+
+
+                  <h3>LINK</h3>
+
+                  <p>"Outside" links join content to 'in' and 'out' ports and in general join things together.</p>
+
+                  <p>"Inside" links show joins between 'answers' and 'questions', and answers to out ports that will be generated based on logic rules and subsequent actions set up for the answers of a question.</p>
+
+                  <p>Click on a horizontal or vertical part of a link between joined "cells" to move to a better desired position.</p>
+
+                  <h3>STREAM</h3>
+
+                  <p>Each question and answer diagram is ultimately for joining blocks of content that build up following the individual&rsquo;s unique route through the flowchart and reaching a final outcome.</p>
+                  <p>KARDS has been built so that it can make any type of typical chart that has a beginning and an end. However - due to the non-linear nature of questioning regarding more complex topics (such as those involving complex medical situations involving multiple factors), there is no rule around where to begin and end a STREAM when clicking on answers to the question in TEST mode.</p>
+
+                  <p>So therefore a STREAM is a sequence in which answers are clicked and cells, wrappers and paths are highlighted in the user interface in TEST mode. And a CONTENT stream is the build up, or story which accumulates made up of all the content that is passed through whilst following this stream.</p>
+
+                  <h3>WRAPPER</h3>
+
+                  <p>Wrappers surround questions and their answers, and content cells. These are called the logic wrapper and the content wrapper.</p>
+
+
+              </div>
+
+          </div>
+      </div>
+      <div class="simplemodal-container">
+          <div id="todo-modal" class="modal">
+
+              <h3>KARDS To do / thoughts</h3>
+              <a href="#" class="btnClose"><img src='img/basic/close.png' width="16" height="16" alt=''></a>
+
+              <div id="todo-output" class="modal-output">
+
+                  <ul>
+                      <li>Deleting an answer (that is included in any logic rules / actions) needs to be removed from answerValues / questionLogic / questionChoices</li>
+
+                      <li>Deleting an answer needs to redraw the logicWrapper box.</li>
+
+                      <li>Add prebuilt questions - age, gender, height, weight (these are now added)… pre-fill with random bounded values.</li>
+
+                      <li>Test other logical combinations by finishing off adding in the Type 2 Diabetes chart / SNAP chart</li>
+
+                      <li>Colouring of a stream that we have chosen to go down to make it stand out better.</li>
+
+                      <li>Plan how to automatically count and create content streams of all different outcomes - show number of different possible permutations. This is going to need random age generators for different age categories etc.</li>
+
+                      <li>Deeplinking to different charts / reports. I started this using the backbone router but had some issues with loading in properly behaving strangely. I was doing this with auto-selecting the dropdown based on the url hash.</li>
+
+                      <li>Would be nice to auto-detect custom value data type based on input...</li>
+                  </ul>
 
               </div>
 

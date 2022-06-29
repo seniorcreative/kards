@@ -17,7 +17,8 @@ function (Backbone) {
             {
                 normal: 'rgb(255,255,255)',
                 test: 'rgb(202,247,255)',
-                testDeselected: 'rgba(255,255,255)'
+                testDeselected: 'rgb(255,255,255)',
+                testInputChanged: 'rgb(150,255,40)'
             },
             fillOpacity:
             {

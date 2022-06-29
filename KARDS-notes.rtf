@@ -1,0 +1,416 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf140
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww32880\viewh23140\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\b\fs38 \cf0 Kards v1
+\b0\fs24 \
+--------\
+\
+An app for extracting medical algorithms\
+from the minds of medical experts \
+into a question and answer flow\
+that provides individualised information.\
+ \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b\fs34 \cf0 Online access
+\b0\fs24 \
+http://test-kards.sonoahealth.com/\
+Username: sonoahealth\
+Password: sonoa@demo\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+
+\b\fs34 INSTRUCTIONS / HELP
+\b0\fs24 \
+\
+\
+\'97\
+\
+
+\b Report panel
+\b0 \
+\
+Selecting an option will load a saved report from the drop down menu in this panel. \
+Whilst making changes, the report will save every 30 seconds if the auto-save option is checked (developer - see /app/views/v_reportControlsView.js)\
+This button is not checked by default.\
+\
+Report category is not being used yet - this is for database connection.\
+\
+Typing the report name will also change the heading on the app page.\
+\
+By default when loading the KARDS app you will receive a default report with today\'92s date and one root section joined to that report. \
+From here you can start adding questions.\
+\
+\
+\'97\
+
+\b Section panel
+\b0 \
+\
+This is for larger reports where lots of questions need to be divided up into manageable chunks. \
+There is provision for this in the data model for when things are hooked up to the database. \
+Any sections added will need to be up linked to the final out port or out ports of the preceding section.\
+\
+When adding a new section - the section name field will be used as the section name.\
+\
+Click on a section and start typing to change the section name. Or click or paste into the section name field.\
+\
+\
+\'97\
+
+\b Question panel\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 When adding a new question, by default the question cell shows default question value text, or you can paste one in before adding.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+The \'91question variable type\'92 dropdown is just a placeholder until database is hooked up. \
+\
+Again, question options come from the static data/dataProviders.php. Toggling between true/false (boolean) questions and multiple choice or numeric questions toggles the display of an additional slide down panel with extra options for number of questions, answer numeric step value, and number of accepted answers.\
+\
+If you want a 
+\i multiple choice
+\i0  question with 3 answers just add 3 to \'92Number of answers\'92.\
+\
+If you want a 
+\i numeric step 
+\i0 question counting up in increments of 5, say 5-10-15-20-25, then do this by entering 5 answers and 5 for numeric step and it will count up for you when it adds the answers.\
+\
+Ticking \'91Include unknown answer\'92 will add an additional 
+\i boolean
+\i0  answer on top of the selected number of answers already requested.\
+This only works when adding in a new question, but to do this after a question has been added is possible by clicking \'93Add answer to question\'94,\
+and then setting up the answer accordingly. \
+\
+\'92Number of accepted answers\'92 is not functional yet.\
+\
+\'91Data point\'92 is not functional yet, this select input is only listing static options from the data/dataProviders.php JSON output - however this drop down has grouping so will be echoed into the PHP directly, not via Handlebars template like all the other dropdown. I have not yet integrated a good way to do grouped dropdown in Handlebars but I know it is supported.\
+\
+Once a question has been added it will be selected by default. Click on the blue background, off and outside of any boxes and you will deselect any currently highlighted cells.\
+\
+You select a question by clicking on the question cell, or any of its answers, or its \'91logic wrapper\'92 box. The logic wrapper box groups the question and all it\'92s answers. When you add logic it is metaphorically added to the logic wrapper. It is the logic wrapper that ends up with one in port and multiple out ports for connecting other cells to in a flowchart.\
+\
+When a question is highlighted you can delete it (be careful of what you have linked it to), as well as add another answer to it. By default, selecting a question will highlight its content text so you can just click on a question and start editing its text without clicking again in the panel\'92s \'91Question text\'92 field.\
+\
+Changing a selected question\'92s type after a won\'92t make any difference (at this stage).\
+\
+The question\'92s logic wrapper always has one \'91in port\'92 only.\
+\
+\
+	
+\b Logic Overlay.
+\b0 \
+\
+	Logic overlay is quite complicated but is a bit like a calculator. You can add rules which are made up of calculation blocks and then set what they are supposed to satisfy, and then add an action to perform if this rule is satisfied / scenario occurs.\
+\
+	Adding actions creates the outport to which we can drag and connect the content, question or end point cells which come next. Only by dropping the in port of a logic or content wrapper or end point do we tell the KARDS system the pathways it can follow next according to the value of answer.\
+\
+	You can open the rule and change rules after \'93actions\'94 have been added to the logic overlay. \
+\
+	\
+\
+\
+\
+\
+\
+\
+\
+\'97\
+
+\b Answer panel\
+
+\b0 \
+In the answer panel you can set up what the type of answer value is. This is crucial for the logic calculations to take place.\
+\
+Options, and corresponding programmatic data-types are:\
+	\
+\'91true or false\'92 (boolean), \
+number (integer), \
+word or lettter (string), \
+date, years (both are converted to date types for date comparisons), \
+and \'91none of the above\'92 which is reserved for future use for \'91multiple choice\'92 types of questions\
+\
+CMS condition / symptom is reserved for future use - I believe there will be a scenario where not just the question but also the answer will need to be tied to a health record CEHR.\
+\
+Answer value 1 is where the main value of an answer can be set in this panel , before we go into testing mode. This will be pre-generated in some cases. Changing the \'91Value data type\'92 of the\
+answer will change what sort of input can be set here and also in the popup \'91Answer input panel\'92 in TEST mode for data validity. For example setting to true or false changes the input text field to a checkbox.\
+\
+As some single answers may need to represent a range of values or a matrix, there is \'91Answer value 2\'92 representing the upper limit of this range. I have not made any flow charts making use of this yet and therefore the logicMachine\
+function creation has not been written.\
+\
+\'91Clear answer values\'92 clears an answer\'92s stored value. This can also be done for all answers in TEST mode by clicking \'91Reset & clear answers\'92.\
+\
+\
+
+\b 	Answer Logic Rules\
+
+\b0 \
+	To help make sense KARDS shows a summary of a selected answer\'92s parent question\'92s logical rule conditions & action outcomes as a \'91pseudo-code\'92 statement. This is a very simplified version of what gets generated on the fly by the code to process an answer value and work out which outport to follow.\
+\
+\
+\'97\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Answer input panel\
+
+\b0 \
+During TEST mode, if the answer to a question is selected and does not have any values stored against it, the Answer input panel will appear.\
+\
+When any input is added or changed this will change the selected answer\'92s colour and means it needs to be clicked again to continue onward.\
+\
+Clicking off or outside of the Answer input panel is the same as clicking the OK button to enter the value.
+\b \
+
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\
+\'97\
+
+\b Content panel\
+
+\b0 \
+Note that the full content shown in the actual panel is cropped and abbreviated where shown in the content cell inside the content wrapper.\
+\
+Content wrappers always have one in port and one out port, by default. This is never changed.\
+\
+When in TEST mode, representations of content cells will build up in a line in the testing HUD. Selecting these will bring up the content panel so that the content can be edited. This needs to be integrated back into the CMS.\
+\
+\
+\'97\
+
+\b End Point panel
+\b0 \
+\
+End points are placeholders which represent the final outcome of a KARDS algorithm question and answer stream.\
+\
+The list of \'91end point types\'92 comes from data/dataProviders.php and is just placeholder content at time of writing.\
+\
+The plan is to eventually integrate end points to the Health& account so that for example following a question and answer session tied to a KARDS algorithm when a\
+particular endpoint is reached we might set up a system alert to go and get a medical check on a particular date, relating to two years after the user\'92s date of birth or a given \
+user date relating to a previous medical event.\
+\
+End points always have one in port only by default, as have no ongoing connections.\
+\
+\
+\'97\
+\
+
+\b\fs34 Toggles
+\fs24 \
+\
+Toggle control panels\
+
+\b0 \
+If the panels are getting in the way during the build of a KARDS algorithm then they can be hidden.\
+
+\b \
+Toggle testing mode\
+
+\b0 \
+There is a big difference between BUILD mode and TEST mode. Use this tick button to toggle between the two.\
+Only in TEST mode can we click on the answers, input needed parameters for testing if required, and calculate what to do next.
+\b \
+\
+\
+\'97\
+\
+\
+\
+
+\fs34 Testing heads-up display (HUD)
+\fs24 \
+\
+Reset & clear answers button\
+Start over button\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 Answering a question - exit testing mode and click \'91clear answer values\'92 on a selected answer to reset the stored input for this answer. Upon entering back into testing mode and selecting this answer again.\
+Alternatively, a new \'93Reset & clear answers\'94 button was added to the Testing HUD which does this in one go. Otherwise just select \'93Start over\'94 to clear the highlighted selections only and keep user input values.\
+\
+Use the \'93Start over\'94 button if you want to test starting again higher up in a question stream. The system does not limit you to starting at any question or going back to a different question higher up. It does not and should not have the smarts to reset what has been highlighted/selected further down a stream automatically based on what has been clicked so far. Not only is this exceptionally difficult to code - it applies a counterintuitive limit around putting content streams together and testing those.\
+
+\b \
+Show individualisation\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 At the end of a testing session, a linear , dynamically generated read out of the questions and answers and the associated content will be shown in an overlay when clicking \'93Show individualisation\'94. \
+\
+In theory - this is a rule set which can be fed into an AI machine.\
+\
+Therefore, once the algorithm is built into KARDs once and is deemed to be correct according to the logic extracted from a medical expert, the KARDs system could programatically calculate, count and generate ALL possible\
+permutations for the entire bounds of data sets it could be given, in one go.\
+\
+Also it could automatically create individualised reports on the fly for different real users attached to the consumer electronic health record (CEHR) providing all the data buckets that are called upon in the algorithm are full and supplied. We will be able to swap different people in and out of the beginning of a KARDS algorithm and seeing different paths and content light up each time.\
+\
+Please note that each block of content that is passed through during testing will be added to the Testing heads-up display (HUD) so that it can then be seen in a more logical story-like sequence. This \'91content stream\'92 can be read by moving the mouse over the Content numbers in the HUD which will bring up the full content and highlight the cell in the flowchart. One of the main and original requirements of KARDS is that this content can be checked in detail to be medically accurate and in accordance with the exact sequence of answers that have been given. This content can be edited in the Content panel and will be integrated with the CMS so that changes are saved back in where necessary.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\
+\'97\
+\
+\
+
+\b\fs34 GLOSSARY
+\b0\fs24 \
+\
+\
+\ul CELLS\ulnone \
+\
+Cells are any report, section, question, answer, content or end point rectangles.\
+\
+\
+\ul WRAPPERS\ulnone \
+\
+Wrappers surround questions and their answers, and content cells. These are called the logic wrapper and the content wrapper.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \ul \ulc0 LINKS\ulnone \
+\
+\'93Outside\'94 links join content to \'91in\'92 and \'91out\'92 ports and in general join things together. \
+\
+\'93Inside\'94 links show joins between \'91answers\'92 and \'91questions\'92, and answers to out ports that will be generated based on logic rules and subsequent actions set up for the answers of a question.\
+\
+Click on a horizontal or vertical part of a link between joined \'93cells\'94 to move to a better desired position.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\ul \
+STREAM\
+\ulnone \
+Each question and answer diagram is ultimately for joining blocks of content that build up following the individual\'92s unique route through the flowchart and reaching a final outcome.\
+KARDS has been built so that it can make any type of typical chart that has a beginning and an end. However - due to the non-linear nature of questioning regarding more complex\
+topics (such as those involving complex medical situations involving multiple factors), there is no rule around where to begin and end a STREAM when clicking on answers to the question in TEST mode.\
+\
+So therefore a STREAM is a sequence in which answers are clicked and cells, wrappers and paths are highlighted in the user interface in TEST mode. And a CONTENT stream is the build up, or story\
+which accumulates made up of all the content that is passed through whilst following this stream.\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b\fs34 \cf0 TECHNICAL NOTES
+\b0\fs24 \
+\
+Built using a hybrid of requireJS/backboneJS, jointJS, jQuery and using handlebars templates, grunt to compile preprocessed SCSS templates and php output JSON data from /data/dataProviders.php to load initially hardcode values that will eventually be dynamically fed from the Health& CMS database.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+Please note - the app is not complete. Every type of logical combination for conditional calculations based on the answer given to a question (and if that takes into account earlier answers, or dynamic answers) will need to be carefully planned, and thoroughly tested, so that it is making the correct \'91javascript function\'92 on the fly to work out which \'93out port\'94 to follow and therefore which question comes next. This coding is done within the app/logicMachine.js script. Currently the system is at a stage where it can handle putting calculations together using only basic arithmetic and parentheses combinations. More complex parentheses combinations, and more advanced mathematical functions - like working out the standard deviation value of answers for questions 1 , 5 and 10 for example - are yet to be built.\
+\
+There is provision from the original boilerplate for testing frameworks and other task runners but a lot of this is not hooked up or used. There is also a known error in the grunt watcher which outputs \'91Loading "server.js" tasks...ERROR\'92\
+\
+For styling and display attributes, there are external javascript modules in app/modules called style.js and layout.js.\
+\
+\
+
+\b\fs30 \
+Terminal commands
+\b0\fs24 \
+\
+\'97\
+\
+Go to root:\
+\
+cd /Applications/MAMP/htdocs/kards-v1 \
+\
+\'97\
+\
+Run grunt to compress and watch for SCSS changes:\
+\
+grunt\
+\
+\'97\
+\
+Crunch handlebars templates:\
+\
+handlebars --amd app/templates/*.hbs -f app/compiled-templates.js\
+\
+\
+
+\b \
+
+\fs32 GIT
+\b0 \
+
+\fs24 \
+Git repository lives at \
+\
+http://git.sonoahealth.com/apps-sonoa/kards.git\
+\
+\
+
+\fs30 \
+
+\b Interactive wireframe prototype
+\b0 \
+
+\fs24 \
+Original prototype demo lives at http://dev.onlinemd.com/KARDS/#p=kards\
+\
+\
+
+\fs30 \
+
+\b Database model
+\b0\fs24 \
+\
+Data model has been designed and lives on server at\
+smb://10.1.1.22/Sonoa/Sonoa/IT/Development/Schematic & Wireframe Documentation/KARDS v2\
+\
+The app is currently static but plans to be connected to the Health& CMS to extract medical content from reports for creating the individualised / preventative streams.\
+\
+Additionally, rather than using the data model and a SQL database it is probably better to decide / discuss whether to try to create charts using the data model broken down into all separate normalized elements or to store the JSON as a block / file in the database as the structure all in one complex file. Given that this file could be broken down and generated from separate normalized elements. Domenico suggested that a noSQL database (mongoDB) could be really good for saving the large JSON structures. Bearing in mind we will still need to connect to and from the normal CMS SQL databased for AJAXing content in.\
+\
+\
+
+\b\fs30 Dynamic templates
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 The value options for the question types and other dropdowns come from the static data/dataProviders.php JSON output which is AJAX\'92ed in on app initialisation.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\
+\
+\
+\
+\'97\'97\
+\
+
+\b\fs30 TO DO / THOUGHTS
+\fs24 \
+
+\b0 \
+Deleting an answer (that is included in any logic rules / actions) needs to be removed from answerValues / questionLogic / questionChoices\
+\
+Deleting an answer needs to redraw the logicWrapper box.\
+\
+Add prebuilt questions - age, gender, height, weight (these are now added)\'85 pre-fill with random bounded values.\
+\
+Test other logical combinations by finishing off adding in the Type 2 Diabetes chart / SNAP chart\
+\
+Colouring of a stream that we have chosen to go down to make it stand out better.\
+\
+Plan how to automatically count and create content streams of all different outcomes - show number of different possible permutations. This is going to need random age generators for different age categories etc\'85\
+\
+Deeplinking to different charts / reports. I started this using the backbone router but had some issues with loading in properly behaving strangely. I was doing this with auto-selecting the dropdown based on the url hash.\
+\
+Would be nice to auto-detect custom value data type based on input\'85\
+\
+}

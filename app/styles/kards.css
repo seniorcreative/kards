@@ -247,33 +247,6 @@ textarea:focus {
   font-size: 1em;
 }
 
-.modal-output {
-  background-color: white;
-  font-family: "Courier New", monospace;
-  font-style: italic;
-  color: #111;
-  font-size: 1em;
-  line-height: 0.9;
-  border-radius: 3px;
-  padding: 10px;
-  margin: 10px 0;
-  /*
-  Make full height
-  */
-  height: 90%;
-  bottom: 10px;
-  position: absolute;
-  top: 68px;
-  width: 98%;
-  overflow: scroll;
-}
-.modal-output h3 {
-  min-width: auto;
-  color: #111;
-  padding: 0;
-  margin: 0;
-}
-
 /* Container */
 .simplemodal-container {
   height: 75%;
@@ -298,8 +271,34 @@ textarea:focus {
   right: 5px;
   cursor: pointer;
 }
-.simplemodal-container h3 {
-  margin: 0 0 5px 0;
+.simplemodal-container .modal-output {
+  background-color: white;
+  font-family: "Courier New", monospace;
+  font-style: italic;
+  color: #111;
+  font-size: 1em;
+  line-height: 0.9;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+  /*
+  Make full height
+  */
+  height: 90%;
+  bottom: 10px;
+  position: absolute;
+  top: 68px;
+  width: 98%;
+  overflow: scroll;
+}
+.simplemodal-container .modal-output h3 {
+  min-width: auto;
+  color: #111;
+  padding: 0;
+  margin: 40px 0 0 0;
+}
+.simplemodal-container .modal-output ul li {
+  margin: 0 0 8px 0;
 }
 .simplemodal-container .logic-header-buttons {
   text-align: center;
@@ -323,8 +322,8 @@ textarea:focus {
   margin-top: 5px;
 }
 .simplemodal-container .btnRemove--calculation {
-  left: 668px;
-  margin-top: 126px;
+  left: 662px;
+  margin-top: 62px;
 }
 .simplemodal-container input {
   width: 80px;
