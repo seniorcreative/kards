@@ -5,8 +5,7 @@
 
 This project is from 2014. It uses some old practises like PHP running on MAMP to provide back-end static data. The front-end uses handlebars templates, amd module format, and there's a grunt file which watches scss changes. The original boilerplate is backbone. It still works. 
 
-- Use node v0.12.18
-- 
+- Use Node v0.12.18
 
 ## TECHNICAL NOTES
 
@@ -180,9 +179,6 @@ user date relating to a previous medical event.
 
 - There is a big difference between BUILD mode and TEST mode. Use this tick button to toggle between the two.
 Only in TEST mode can we click on the answers, input needed parameters for testing if required, and calculate what to do next.
-
-
-#
 
 - Testing heads-up display (HUD)
 
